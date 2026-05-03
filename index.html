@@ -207,10 +207,9 @@ body::after {
   font-size:clamp(20px,3vw,26px); letter-spacing:0.4em; color:#b8860b; font-style:normal;
 }
 .story-note {
-  display:block; margin-top:8px;
-  font-size:9px; letter-spacing:2px;
-  color:rgba(58,32,8,0.42); text-transform:uppercase; font-style:normal;
-  word-spacing:2px;
+  display:block; margin-top:14px;
+  font-size:10px; letter-spacing:3px;
+  color:rgba(58,32,8,0.55); text-transform:uppercase; font-style:normal;
 }
 
 /* STATS */
@@ -237,12 +236,12 @@ body::after {
 /* FOOTER */
 .foot-line {
   position:relative; z-index:2;
-  padding:14px 24px;
-  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:16px;
+  padding:14px 24px 10px;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
   border-top:1px solid rgba(139,94,0,0.18);
   text-align:center;
 }
-.foot-line p { font-size:8px; letter-spacing:2px; color:rgba(58,32,8,0.38); text-transform:uppercase; text-align:center; }
+.foot-line p { font-size:8px; letter-spacing:2px; color:rgba(58,32,8,0.38); text-transform:uppercase; text-align:center; line-height:1.5; }
 .foot-end { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.3em; color:#b8860b; }
 
 /* ANIMATIONS */
@@ -293,7 +292,7 @@ body::after {
   .story { padding:0 20px 28px; }
   .story-title { font-size:28px; }
   .story-text { font-size:16px; line-height:1.85; }
-  .story-note { font-size:11px; letter-spacing:2px; }
+  .story-note { font-size:12px; letter-spacing:2px; margin-top:16px; }
 
   .stat { min-width:50%; padding:14px 16px; }
   .stat-last { min-width:100%; border-right:none!important; border-bottom:none!important; }
@@ -301,7 +300,7 @@ body::after {
   .stat-l { font-size:10px; letter-spacing:3px; }
 
   .foot-line { flex-direction:column; align-items:center; text-align:center; padding:12px 20px; gap:4px; }
-  .foot-line p { font-size:10px; letter-spacing:1.5px; }
+  .foot-line p { font-size:10px; letter-spacing:1px; }
   .foot-end { font-size:17px; }
 }
 </style>
@@ -362,8 +361,7 @@ body::after {
     Energy travels at the speed of light.<br/>
     So why does it take days to reach Africa, Asia, the Americas?<br/>
     Built on one idea: <em>free energy should mean free money.</em><br/>
-    No banks. No borders.<br/>
-    Zapped instantly to anyone, anywhere on Earth.<br/>
+    No banks. No borders. Zapped instantly to anyone, anywhere on Earth.<br/>
     Tesla understood this a century ago.<br/>
     The code was always there, hidden in plain sight.
     <span class="story-note" style="margin-top:14px;">One frequency. One signal. One world.</span>
@@ -378,7 +376,7 @@ body::after {
   <div class="stat"><span class="stat-n">0%</span><span class="stat-l">Tax</span></div>
   <div class="stat"><span class="stat-n">BURNED</span><span class="stat-l">Liquidity</span></div>
   <div class="stat"><span class="stat-n">99%</span><span class="stat-l">Buy Ratio</span></div>
-  <div class="stat stat-last"><span class="stat-n" style="font-family:Georgia,serif;">&#x221E;</span><span class="stat-l">Frequency</span></div>
+  <div class="stat stat-last"><span class="stat-n" style="font-family:Georgia,serif;font-size:clamp(26px,5vw,38px);">&#x221E;</span><span class="stat-l">Frequency</span></div>
 </div>
 
 <div class="foot-line">
