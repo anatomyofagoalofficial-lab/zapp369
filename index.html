@@ -304,6 +304,13 @@ body::after {
   .foot-line p { font-size:10px; letter-spacing:1.5px; }
   .foot-end { font-size:17px; }
 }
+
+.buy-drop { position:relative; display:inline-block; }
+.buy-drop .buy-menu { display:none; position:absolute; top:100%; left:0; min-width:100%; background:#3d2200; border:1px solid #b8860b; z-index:999; border-radius:4px; overflow:hidden; }
+.buy-drop:hover .buy-menu { display:block; }
+.buy-menu a { display:block; padding:13px 20px; color:#f0e8d0; text-decoration:none; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; white-space:nowrap; }
+.buy-menu a:first-child { border-bottom:1px solid rgba(184,134,11,0.3); }
+.buy-menu a:hover { background:rgba(212,168,67,0.15); }
 </style>
 </head>
 <body>
@@ -334,11 +341,11 @@ body::after {
   <p class="hero-attr">— Nikola Tesla</p>
 
   <div class="cta-row">
-    <div style="position:relative;display:inline-block;">
-      <button class="btn btn-gold" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'" style="cursor:pointer;border:none;">Buy ⚡ZAPP ▾</button>
-      <div style="display:none;position:absolute;top:calc(100% + 2px);left:0;min-width:100%;background:#3d2200;border:1px solid #b8860b;z-index:999;border-radius:4px;overflow:hidden;">
-        <a href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.3);white-space:nowrap;" onmousedown="window.open(this.href,'_blank');return false;">🪐 Jupiter</a>
-        <a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;white-space:nowrap;" onmousedown="window.open(this.href,'_blank');return false;">⚡ pump.fun</a>
+    <div class="buy-drop">
+      <a class="btn btn-gold">Buy ⚡ZAPP ▾</a>
+      <div class="buy-menu">
+        <a href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank">🪐 Jupiter</a>
+        <a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank">⚡ pump.fun</a>
       </div>
     </div>
     <a href="https://t.me/ZAPP369" target="_blank" class="btn btn-ghost">Telegram</a>
