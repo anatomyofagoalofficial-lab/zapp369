@@ -90,13 +90,13 @@ body::after {
 /* TAGLINE */
 .mystery-line {
   font-family:'IM Fell English',serif; font-style:italic;
-  font-size:clamp(14px,2vw,18px); color:#5a3800;
+  font-size:28px; color:#5a3800;
   letter-spacing:0.08em; margin-bottom:2px;
   opacity:0; animation:rise 1s ease 0.72s forwards;
 }
 .infinity-mark {
   font-family:'Bebas Neue',sans-serif;
-  font-size:18px; color:rgba(139,94,0,0.60);
+  font-size:24px; color:rgba(139,94,0,0.80);
   margin-bottom:12px;
   opacity:0; animation:rise 1s ease 0.82s forwards;
 }
@@ -112,7 +112,7 @@ body::after {
 /* QUOTE */
 .hero-quote {
   font-family:'IM Fell English',serif; font-style:italic;
-  font-size:clamp(13px,1.7vw,16px); color:#3b2008;
+  font-size:26px; color:#3b2008;
   max-width:500px; line-height:1.7;
   opacity:0; animation:rise 1s ease 0.94s forwards;
 }
@@ -150,7 +150,7 @@ body::after {
 /* FREQ LINE */
 .freq-line {
   font-family:'IM Fell English',serif; font-style:italic;
-  font-size:clamp(11px,1.4vw,13px);
+  font-size:22px;
   color:rgba(58,32,8,0.50); margin-bottom:14px;
   opacity:0; animation:rise 1s ease 1.12s forwards;
 }
@@ -199,7 +199,7 @@ body::after {
 }
 .story-text {
   font-family:'IM Fell English',serif; font-style:italic;
-  font-size:clamp(13px,1.6vw,15px); color:#4a2e0a; line-height:1.9;
+  font-size:24px; color:#4a2e0a; line-height:1.9;
 }
 .story-signal {
   display:block; margin-top:18px;
@@ -229,7 +229,7 @@ body::after {
 .stat:last-child { border-right:none; }
 .stat-n {
   font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(18px,3.2vw,28px);
+  font-size:34px;
   letter-spacing:0.06em; color:#3b2008; line-height:1.1; text-align:center;
 }
 .stat-l { font-size:8px; letter-spacing:4px; text-transform:uppercase; color:rgba(58,32,8,0.45); }
@@ -272,17 +272,17 @@ body::after {
   .mascot-wrap img { width:clamp(90px,28vw,120px); }
   .hero-title { font-size:clamp(76px,23vw,100px); margin-bottom:2px; }
   .bolt { font-size:clamp(50px,15vw,68px); }
-  .mystery-line { font-size:17px; }
+  .mystery-line { font-size:22px; }
   .infinity-mark { font-size:18px; margin-bottom:8px; }
   .rule { margin:0 auto 12px; }
-  .hero-quote { font-size:16px; padding:0 8px; line-height:1.75; }
+  .hero-quote { font-size:20px; padding:0 8px; line-height:1.75; }
   .hero-attr { font-size:10px; margin-bottom:16px; letter-spacing:5px; }
 
   .cta-row { flex-direction:column; align-items:center; gap:9px; margin-bottom:16px; }
   .btn { width:260px; justify-content:center; padding:15px 0; font-size:12px; letter-spacing:3px; }
   .btn-gold { box-shadow:0 2px 12px rgba(139,94,0,0.32); }
 
-  .freq-line { font-size:13px; margin-bottom:12px; }
+  .freq-line { font-size:18px; margin-bottom:12px; }
 
   .ca-wrap { padding:14px 20px 12px; width:calc(100% - 40px); }
   .ca-label { font-size:10px; letter-spacing:4px; }
@@ -292,7 +292,7 @@ body::after {
 
   .story { padding:0 20px 28px; }
   .story-title { font-size:28px; }
-  .story-text { font-size:16px; line-height:1.85; }
+  .story-text { font-size:20px; line-height:1.85; }
   .story-note { font-size:11px; letter-spacing:2px; }
 
   .stat { min-width:50%; padding:14px 16px; }
@@ -304,13 +304,6 @@ body::after {
   .foot-line p { font-size:10px; letter-spacing:1.5px; }
   .foot-end { font-size:17px; }
 }
-
-.buy-drop { position:relative; display:inline-block; }
-.buy-drop .buy-menu { display:none; position:absolute; top:100%; left:0; min-width:100%; background:#3d2200; border:1px solid #b8860b; z-index:999; border-radius:4px; overflow:hidden; }
-.buy-drop:hover .buy-menu { display:block; }
-.buy-menu a { display:block; padding:13px 20px; color:#f0e8d0; text-decoration:none; font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; white-space:nowrap; }
-.buy-menu a:first-child { border-bottom:1px solid rgba(184,134,11,0.3); }
-.buy-menu a:hover { background:rgba(212,168,67,0.15); }
 </style>
 </head>
 <body>
@@ -341,11 +334,12 @@ body::after {
   <p class="hero-attr">— Nikola Tesla</p>
 
   <div class="cta-row">
-    <div class="buy-drop">
-      <a class="btn btn-gold">Buy ⚡ZAPP ▾</a>
-      <div class="buy-menu">
-        <a href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank">🪐 Jupiter</a>
-        <a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank">⚡ pump.fun</a>
+    <div style="position:relative;display:inline-block;">
+      <button class="btn btn-gold" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'" style="cursor:pointer;border:none;">Buy ⚡ZAPP ▾</button>
+      <div style="display:none;position:absolute;top:calc(100% + 2px);left:0;min-width:100%;background:#3d2200;border:1px solid #b8860b;z-index:999;border-radius:4px;overflow:hidden;">
+        <a href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.3);white-space:nowrap;" onmousedown="window.open(this.href,'_blank');return false;">🪐 Jupiter</a>
+        <a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.3);white-space:nowrap;" onmousedown="window.open(this.href,'_blank');return false;">⚡ pump.fun</a>
+        <a href="https://dexscreener.com/solana/awguynxlmr7kohfqs9cdmatckvnhxbrg1gmukftpywfr" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;white-space:nowrap;" onmousedown="window.open(this.href,'_blank');return false;">📊 DEXScreener</a>
       </div>
     </div>
     <a href="https://t.me/ZAPP369" target="_blank" class="btn btn-ghost">Telegram</a>
@@ -385,7 +379,7 @@ body::after {
 
 <div class="stats">
   <div class="stat">
-    <span class="stat-n" style="font-size:clamp(11px,1.8vw,15px);padding-top:3px;">Everyone<br/>is Welcome</span>
+    <span class="stat-n" style="font-size:clamp(18px,3vw,28px);padding-top:3px;">Everyone<br/>is Welcome</span>
     <span class="stat-l">&nbsp;</span>
   </div>
   <div class="stat"><span class="stat-n">0%</span><span class="stat-l">Tax</span></div>
