@@ -335,17 +335,31 @@ body::after {
   <p class="hero-attr">— Nikola Tesla</p>
 
   <div class="cta-row">
-    <div style="position:relative;display:inline-block;" id="buyWrap">
-      <button class="btn btn-gold" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'" style="cursor:pointer;border:none;">Buy ⚡ZAPP ▾</button>
-      <div id="buyMenu" style="display:none;position:absolute;top:calc(100% + 2px);left:0;min-width:100%;background:#3d2200;border:1px solid #b8860b;z-index:999;border-radius:4px;overflow:hidden;">
-        <a href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.3);white-space:nowrap;" onclick="window.open(this.href,'_blank');document.getElementById('buyMenu').style.display='none';return false;">🪐 Jupiter</a>
-        <a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.3);white-space:nowrap;" onclick="window.open(this.href,'_blank');document.getElementById('buyMenu').style.display='none';return false;">⚡ pump.fun</a>
 
+    <!-- BUY ZAPP dropdown -->
+    <div style="position:relative;display:inline-block;" id="buyWrap">
+      <button class="btn btn-gold" onclick="toggleMenu('buyMenu');closeMenu('communityMenu');" style="cursor:pointer;border:none;">⚡ Buy ZAPP ▾</button>
+      <div id="buyMenu" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);min-width:180px;background:#3d2200;border:1px solid #b8860b;z-index:999;border-radius:6px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+        <a href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" style="display:block;padding:13px 20px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.3);white-space:nowrap;" onclick="closeMenu('buyMenu');">🪐 Jupiter</a>
       </div>
     </div>
-    <a href="https://t.me/ZAPP369" target="_blank" class="btn btn-ghost">Telegram</a>
-    <a href="https://x.com/ZAPPonSOL" target="_blank" class="btn btn-ghost">𝕏 / Twitter</a>
+
+    <!-- HOW TO BUY -->
+    <a href="https://zapp369.energy/how-to-buy" target="_blank" class="btn btn-ghost">How to Buy</a>
+
+    <!-- COMMUNITY dropdown -->
+    <div style="position:relative;display:inline-block;" id="communityWrap">
+      <button class="btn btn-ghost" onclick="toggleMenu('communityMenu');closeMenu('buyMenu');" style="cursor:pointer;">Community ▾</button>
+      <div id="communityMenu" style="display:none;position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);min-width:180px;background:#1a1200;border:1px solid rgba(184,134,11,0.4);z-index:999;border-radius:6px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+        <a href="https://t.me/ZAPP369" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 18px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.2);white-space:nowrap;" onclick="closeMenu('communityMenu');">✈️ Telegram</a>
+        <a href="https://x.com/ZAPPonSOL" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 18px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;border-bottom:1px solid rgba(184,134,11,0.2);white-space:nowrap;" onclick="closeMenu('communityMenu');">𝕏 Twitter</a>
+        <a href="https://www.instagram.com/zapp369.energy/" target="_blank" style="display:flex;align-items:center;gap:10px;padding:12px 18px;color:#f0e8d0;text-decoration:none;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;white-space:nowrap;" onclick="closeMenu('communityMenu');">📸 Instagram</a>
+      </div>
+    </div>
+
+    <!-- WHITEPAPER -->
     <a href="https://zapp369.energy/ZAPP_Whitepaper_369.pdf" target="_blank" class="btn btn-ghost">⚡ Whitepaper</a>
+
   </div>
 
   <p class="freq-line">— The Frequency They Tried To Silence —</p>
@@ -357,7 +371,7 @@ body::after {
       <button class="ca-copy-btn" id="copyBtn" onclick="copyCA()">Copy</button>
     </div>
     <span class="ca-hint" id="caHint">click to copy full address</span>
-    <a href="https://dexscreener.com/solana/gnnkakwk2pxb4ekcshro2xspjpde6b1pzxbk2h6pqpgx" target="_blank" style="display:inline-block;margin-top:14px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(139,94,0,0.7);text-decoration:none;border:1px solid rgba(139,94,0,0.3);padding:8px 20px;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(139,94,0,0.8)';this.style.color='rgba(139,94,0,1)'" onmouseout="this.style.borderColor='rgba(139,94,0,0.3)';this.style.color='rgba(139,94,0,0.7)'">∞ VIEW ON DEXSCREENER ∞</a>
+    <a href="https://dexscreener.com/solana/awguynxlmr7kohfqs9cdmatckvnhxbrg1gmukftpywfr" target="_blank" style="display:inline-block;margin-top:14px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(139,94,0,0.7);text-decoration:none;border:1px solid rgba(139,94,0,0.3);padding:8px 20px;transition:all 0.3s;" onmouseover="this.style.borderColor='rgba(139,94,0,0.8)';this.style.color='rgba(139,94,0,1)'" onmouseout="this.style.borderColor='rgba(139,94,0,0.3)';this.style.color='rgba(139,94,0,0.7)'">∞ VIEW ON DEXSCREENER ∞</a>
   </div>
 </section>
 
@@ -419,6 +433,20 @@ function copyCA() {
     }, 2500);
   });
 }
+</script>
+
+<script>
+function toggleMenu(id){
+  var m=document.getElementById(id);
+  m.style.display=m.style.display==='block'?'none':'block';
+}
+function closeMenu(id){
+  document.getElementById(id).style.display='none';
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#buyWrap'))closeMenu('buyMenu');
+  if(!e.target.closest('#communityWrap'))closeMenu('communityMenu');
+});
 </script>
 </body>
 </html>
