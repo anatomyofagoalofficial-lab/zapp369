@@ -172,6 +172,68 @@ button:focus:not(:focus-visible){outline:none}
 
 /* tiny pill press feedback */
 .pill:active{transform:translateY(0) scale(0.96)}
+
+/* ============================================
+   MOBILE STYLES (≤ 600px) — 2026 chat-app feel
+   ============================================ */
+@media (max-width: 600px) {
+  /* TOP BAR — compact, drop the long subtitle */
+  .top{padding:9px 12px}
+  .av-ring{width:38px;height:38px}
+  .brand{gap:9px;flex:1;min-width:0}
+  .brand-name{font-size:12.5px}
+  .brand-sub{display:none} /* "Money that moves..." too long for mobile */
+  .top-btns{gap:5px;flex-shrink:0}
+  .tbtn{font-size:8.5px;padding:7px 8px;letter-spacing:0.06em;white-space:nowrap}
+  .tbtn.buy{font-size:9.5px;padding:7px 10px}
+
+  /* RISK BANNER — let it wrap so the disclaimer isn't cut off */
+  .risk-banner{
+    white-space:normal;
+    overflow:visible;
+    text-overflow:clip;
+    font-size:9.5px;
+    line-height:1.45;
+    padding:6px 14px;
+  }
+
+  /* FEED — tighter to fit more on screen */
+  .feed{padding:14px 11px;gap:13px}
+
+  /* CHAT BUBBLES — snugger line height, wider on small screens */
+  .bub{padding:11px 14px;font-size:14.5px;line-height:1.62}
+  .row.zapp{max-width:92%}
+  .row.me{max-width:88%}
+
+  /* PILLS — bigger taps + fade hint that you can scroll for more */
+  .pills{
+    padding:8px 14px 4px;gap:6px;
+    -webkit-mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 28px),transparent 100%);
+    mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 28px),transparent 100%);
+  }
+  .pill{font-size:10px;padding:10px 14px;letter-spacing:0.06em}
+
+  /* INPUT BAR — slightly tighter */
+  .bar{padding:10px 11px;gap:7px}
+  .ibox{padding:9px 13px;font-size:14.5px;min-height:40px}
+  .sbtn{width:40px;height:40px;font-size:17px}
+
+  /* LANG FLAGS — Apple's 44px tap target minimum */
+  #lang-en,#lang-es,#lang-ro,#lang-it,#lang-fr,#lang-zh{
+    width:42px !important;height:42px !important
+  }
+
+  /* Reduce divider/THE SIGNAL letter-spacing for mobile */
+  .divider{font-size:8.5px;letter-spacing:0.16em}
+}
+
+/* Even tighter on very small phones (iPhone SE, etc.) */
+@media (max-width: 380px) {
+  .tbtn{font-size:8px;padding:6px 7px}
+  .tbtn.buy{font-size:9px;padding:6px 9px}
+  .brand-name{font-size:11.5px}
+  .av-ring{width:34px;height:34px}
+}
 </style>
 </head>
 <body>
