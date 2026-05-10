@@ -39,7 +39,7 @@ body{
   animation:spin 5s linear infinite;z-index:0;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-.av{position:absolute;inset:2px;border-radius:50%;object-fit:cover;object-position:center 55%;z-index:1;width:calc(100% - 4px);height:calc(100% - 4px);}
+.av{position:absolute;inset:2px;border-radius:50%;object-fit:cover;object-position:center 0%;z-index:1;width:calc(100% - 4px);height:calc(100% - 4px);}
 .brand-name{font-family:'Space Mono',monospace;font-size:13px;color:var(--gold-bright);letter-spacing:0.1em}
 .brand-sub{font-size:11px;color:rgba(247,237,204,0.38);margin-top:2px;display:flex;align-items:center;gap:5px;font-family:'Space Mono',monospace}
 .live-dot{width:5px;height:5px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:livepulse 2s infinite;flex-shrink:0}
@@ -67,7 +67,7 @@ body{
 @keyframes fadein{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .row.me{flex-direction:row-reverse;align-self:flex-end;max-width:82%}
 .row.zapp{align-self:flex-start;max-width:88%}
-.av-sm{width:28px;height:28px;border-radius:50%;flex-shrink:0;margin-top:6px;object-fit:cover;object-position:center 55%;border:1px solid rgba(201,149,10,0.25)}
+.av-sm{width:28px;height:28px;border-radius:50%;flex-shrink:0;margin-top:6px;object-fit:cover;object-position:center 0%;border:1px solid rgba(201,149,10,0.25)}
 .av-me{width:28px;height:28px;border-radius:50%;flex-shrink:0;margin-top:6px;background:rgba(201,149,10,0.1);border:1px solid rgba(201,149,10,0.2);display:flex;align-items:center;justify-content:center;font-size:12px}
 .bub{padding:12px 16px;font-size:15.5px;line-height:1.78;border-radius:14px}
 .row.zapp .bub{background:rgba(12,7,0,0.97);border:1px solid rgba(201,149,10,0.2);border-radius:4px 14px 14px 14px;color:var(--parchment);box-shadow:0 2px 20px rgba(0,0,0,0.5)}
@@ -94,17 +94,117 @@ body{
 .sbtn{width:42px;height:42px;flex-shrink:0;background:linear-gradient(135deg,#8a4a00,#c98000);border:1px solid var(--gold);border-radius:11px;color:var(--gold-bright);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;box-shadow:0 0 12px rgba(201,149,10,0.2)}
 .sbtn:hover:not(:disabled){background:linear-gradient(135deg,#c98000,#FFD700);color:#060400;transform:scale(1.06);box-shadow:0 0 22px rgba(255,215,0,0.3)}
 .sbtn:disabled{opacity:0.3;cursor:not-allowed;transform:none}
-.particle{position:fixed;pointer-events:none;z-index:0;font-size:12px;opacity:0;animation:floatup 7s ease-in-out infinite}
-@keyframes floatup{0%{opacity:0;transform:translateY(0) scale(0.5)}20%{opacity:0.25}80%{opacity:0.08}100%{opacity:0;transform:translateY(-90px) scale(1)}}
+.particle{position:fixed;pointer-events:none;z-index:0;font-size:12px;opacity:0;animation:floatup 7s ease-in-out infinite;color:var(--gold)}
+@keyframes floatup{0%{opacity:0;transform:translateY(0) scale(0.5)}20%{opacity:0.3}80%{opacity:0.1}100%{opacity:0;transform:translateY(-120px) scale(1.1)}}
+
+/* === 3·6·9 SACRED GEOMETRY BACKGROUND === */
+.sacred-bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.08;display:flex;align-items:center;justify-content:center}
+.sacred-bg svg{width:120vmin;height:120vmin;max-width:none}
+@keyframes rot369{to{transform:rotate(360deg)}}
+@keyframes rot693{to{transform:rotate(-360deg)}}
+@keyframes pulse-sacred{0%,100%{opacity:0.4}50%{opacity:0.8}}
+.sacred-1{animation:rot369 369s linear infinite;transform-origin:500px 500px}
+.sacred-2{animation:rot693 246s linear infinite;transform-origin:500px 500px}
+.sacred-3{animation:rot369 123s linear infinite;transform-origin:500px 500px}
+.sacred-num{animation:pulse-sacred 6s ease-in-out infinite}
+
+/* radial gold vignette — depth */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 25%, rgba(201,149,10,0.10) 0%, transparent 55%),
+             radial-gradient(ellipse at 50% 100%, rgba(232,98,26,0.05) 0%, transparent 65%)}
+
+/* z-index layering — keep content above sacred bg */
+.top,.feed,.bar,.pills{position:relative;z-index:2}
+
+/* triple ring on avatar (3·6·9) */
+.av-ring{overflow:visible}
+.av-ring::after{content:'';position:absolute;inset:-7px;border-radius:50%;
+  border:1px solid rgba(255,215,0,0.22);animation:rot693 9s linear infinite;pointer-events:none}
+
+/* glow pulse on ZAPP messages on entry */
+.row.zapp .bub{animation:fadein 0.3s ease both, bub-glow 2.4s ease-out 0.1s}
+@keyframes bub-glow{
+  0%{box-shadow:0 0 0 0 rgba(255,215,0,0),0 2px 20px rgba(0,0,0,0.5)}
+  25%{box-shadow:0 0 30px 2px rgba(255,215,0,0.22),0 2px 20px rgba(0,0,0,0.5)}
+  100%{box-shadow:0 0 0 0 rgba(255,215,0,0),0 2px 20px rgba(0,0,0,0.5)}
+}
+
+/* slow gold scanline across header */
+.top{overflow:hidden}
+.top::after{content:'';position:absolute;top:0;left:-40%;width:40%;height:100%;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,215,0,0.06) 50%,transparent 100%);
+  animation:scan 9s linear infinite;pointer-events:none;z-index:1}
+@keyframes scan{0%{left:-40%}100%{left:140%}}
+
+/* === FLAG BUTTONS — hover lift === */
+button[id^="lang-"]{transition:transform 0.15s ease, background 0.15s ease, border-color 0.15s ease !important}
+button[id^="lang-"]:hover{transform:translateY(-2px) scale(1.06);background:rgba(201,149,10,0.22) !important}
+button[id^="lang-"]:active{transform:translateY(0) scale(0.98)}
+
+/* === RISK BANNER (legal / consumer protection) === */
+.risk-banner{
+  background:rgba(0,0,0,0.4);
+  border-bottom:1px solid rgba(201,149,10,0.15);
+  color:rgba(247,237,204,0.4);
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  line-height:1.4;
+  padding:5px 14px;
+  text-align:center;
+  letter-spacing:0.02em;
+  flex-shrink:0;
+  position:relative;
+  z-index:5;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.risk-banner strong{color:rgba(247,237,204,0.6);font-weight:400}
+
+/* === FOCUS-VISIBLE ACCESSIBILITY === */
+button:focus-visible,a:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--gold-bright);outline-offset:2px
+}
+button:focus:not(:focus-visible){outline:none}
+
+/* tiny pill press feedback */
+.pill:active{transform:translateY(0) scale(0.96)}
 </style>
 </head>
 <body>
+
+<!-- 3·6·9 SACRED GEOMETRY DEEP BACKGROUND -->
+<div class="sacred-bg" aria-hidden="true">
+  <svg viewBox="0 0 1000 1000">
+    <g class="sacred-1">
+      <polygon points="500,120 880,780 120,780" fill="none" stroke="#C9950A" stroke-width="0.6"/>
+      <polygon points="500,880 120,220 880,220" fill="none" stroke="#C9950A" stroke-width="0.6"/>
+    </g>
+    <g class="sacred-2">
+      <circle cx="500" cy="500" r="380" fill="none" stroke="#C9950A" stroke-width="0.4"/>
+      <circle cx="500" cy="500" r="260" fill="none" stroke="#C9950A" stroke-width="0.4"/>
+      <circle cx="500" cy="500" r="140" fill="none" stroke="#C9950A" stroke-width="0.4"/>
+    </g>
+    <g class="sacred-3">
+      <text class="sacred-num" x="500" y="180" font-family="Space Mono, monospace" font-size="42" fill="#FFD700" text-anchor="middle">3</text>
+      <text class="sacred-num" x="190" y="730" font-family="Space Mono, monospace" font-size="42" fill="#FFD700" text-anchor="middle" style="animation-delay:2s">6</text>
+      <text class="sacred-num" x="810" y="730" font-family="Space Mono, monospace" font-size="42" fill="#FFD700" text-anchor="middle" style="animation-delay:4s">9</text>
+      <line x1="500" y1="180" x2="190" y2="730" stroke="#C9950A" stroke-width="0.3"/>
+      <line x1="190" y1="730" x2="810" y2="730" stroke="#C9950A" stroke-width="0.3"/>
+      <line x1="810" y1="730" x2="500" y2="180" stroke="#C9950A" stroke-width="0.3"/>
+    </g>
+  </svg>
+</div>
 
 <div class="particle" style="left:8%;bottom:80px;animation-delay:0s">⚡</div>
 <div class="particle" style="left:25%;bottom:60px;animation-delay:1.5s">✦</div>
 <div class="particle" style="left:60%;bottom:90px;animation-delay:3s">⚡</div>
 <div class="particle" style="left:80%;bottom:70px;animation-delay:0.8s">∞</div>
 <div class="particle" style="left:45%;bottom:50px;animation-delay:2.2s">3</div>
+<div class="particle" style="left:15%;bottom:40px;animation-delay:4s">△</div>
+<div class="particle" style="left:35%;bottom:85px;animation-delay:5.5s">6</div>
+<div class="particle" style="left:70%;bottom:55px;animation-delay:6s">9</div>
+<div class="particle" style="left:90%;bottom:65px;animation-delay:3.5s">◯</div>
 
 <div class="top">
   <div class="brand">
@@ -113,7 +213,7 @@ body{
     </div>
     <div>
       <div class="brand-name">⚡ZAPP</div>
-      <div class="brand-sub"><span class="live-dot"></span>Free Energy = Free Money ∞</div>
+      <div class="brand-sub"><span class="live-dot"></span>Money that moves like a message ∞</div>
     </div>
   </div>
   <div class="top-btns">
@@ -121,6 +221,10 @@ body{
     <a class="tbtn" href="https://zapp369.energy">← Home</a>
     <a class="tbtn buy" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank">⚡ Buy ⚡ZAPP</a>
   </div>
+</div>
+
+<div class="risk-banner" id="risk-banner">
+  ⚠️ Speculative asset. Can lose value, including to zero. Informational only — not financial advice.
 </div>
 
 <div class="feed" id="feed">
@@ -152,72 +256,148 @@ body{
   </div></div>
 
 <div class="pills" id="pills">
-  <button class="pill" onclick="q('What is ⚡ZAPP? Explain it to me simply')">⚡ What is ⚡ZAPP?</button>
-  <button class="pill" onclick="q('What is Phantom wallet? What do I need it for?')">👻 What is Phantom?</button>
-  <button class="pill" onclick="q('How do I buy ⚡ZAPP with Phantom? Step by step please')">🛒 Buy with Phantom</button>
-  <button class="pill" onclick="q('How do I buy ⚡ZAPP with Revolut?')">💳 Buy with Revolut</button>
-  <button class="pill" onclick="q('Is ⚡ZAPP safe? Can someone steal my money?')">🔒 Is it safe?</button>
-  <button class="pill" onclick="q('Tell me the Tesla story like a fairy tale')">⚡ Tesla story</button>
-  <button class="pill" onclick="q('What is the magic of 3 6 9?')">🔢 3·6·9 magic</button>
-  <button class="pill" onclick="q('What is the big dream for ⚡ZAPP?')">🌍 The dream</button>
+  <button class="pill" onclick="ask(0)">⚡ What is ⚡ZAPP?</button>
+  <button class="pill" onclick="ask(1)">👻 What is Phantom?</button>
+  <button class="pill" onclick="ask(2)">🛒 Buy with Phantom</button>
+  <button class="pill" onclick="ask(3)">🟣 I need Solana</button>
+  <button class="pill" onclick="ask(4)">🔒 Is it safe?</button>
+  <button class="pill" onclick="ask(5)">⚡ Tesla story</button>
+  <button class="pill" onclick="ask(6)">🔢 3·6·9 magic</button>
+  <button class="pill" onclick="ask(7)">🌍 The dream</button>
+  <button class="pill" onclick="ask(8)">🔗 Pump.fun</button>
 </div>
 
 <div class="bar">
   <textarea class="ibox" id="inp"
-    placeholder="Ask anything — I'll explain it simply! 😄"
+    placeholder="Tap a question above ☝️"
     rows="1"
-    onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"
-    oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px'">
+    disabled
+    style="cursor:not-allowed;opacity:0.55">
   </textarea>
-  <button class="sbtn" id="sbtn" onclick="send()">⚡</button>
+  <button class="sbtn" id="sbtn" disabled style="cursor:not-allowed">⚡</button>
 </div>
 
 <script>
 
 const LANG_GREET = {
   en: {
-    welcome: '👋 <strong>Hey! I\'m ⚡ZAPP!</strong><br/><br/>New here? Tap the buttons below to start your journey! 👇<br/><br/>Start with <strong>"What is ⚡ZAPP?"</strong> → <strong>"What is Phantom?"</strong> → <strong>"How to buy"</strong> ⚡<br/><br/><em>Ask me anything — I\'ll explain it like you\'re 4 years old 😄</em>',
-    pills: ['⚡ What is ⚡ZAPP?','👻 What is Phantom?','🛒 Buy with Phantom','💳 Buy with Revolut','🔒 Is it safe?','⚡ Tesla story','🔢 3·6·9 magic','🌍 The dream'],
-    qs: ['What is ⚡ZAPP? Explain it to me simply','What is Phantom wallet?','How do I buy ⚡ZAPP with Phantom? Step by step','How do I buy ⚡ZAPP with Revolut?','Is ⚡ZAPP safe? Can someone steal my money?','Tell me the Tesla story like a fairy tale','What is the magic of 3 6 9?','What is the big dream for ⚡ZAPP?'],
-    hint: 'Ask anything — I\'ll explain it simply! 😄'
+    welcome: '👋 <strong>Hey! I\'m ⚡ZAPP!</strong><br/><br/>You know how sending money far away takes DAYS and costs a lot? 😤<br/><br/>That\'s silly. Money should move like a text message — <strong>instantly and free</strong> 💫<br/><br/>Tesla tried to give free energy to everyone. The banks stopped him.<br/><strong>We\'re finishing what he started. But for money.</strong><br/><br/>Pick your language above and ask me anything — I\'ll keep it super simple 😄 ⚡',
+    pills: ['⚡ What is ⚡ZAPP?','👻 What is Phantom?','🛒 Buy with Phantom','🟣 I need Solana','🔒 Is it safe?','⚡ Tesla story','🔢 3·6·9 magic','🌍 The dream','🔗 Pump.fun'],
+    qs: ['What is ⚡ZAPP? Explain it to me simply','What is Phantom wallet?','How do I buy ⚡ZAPP with Phantom? Step by step','How do I get Solana to buy ⚡ZAPP?','Is ⚡ZAPP safe? Can someone steal my money?','Tell me the Tesla story like a fairy tale','What is the magic of 3 6 9?','What is the big dream for ⚡ZAPP?','Show me pump.fun (the decentralized chart)'],
+    answers: [
+      '⚡ <strong>⚡ZAPP is a Solana token</strong> with a simple idea behind it.<br/><br/>Today, sending money around the world takes <strong>days</strong> and costs <strong>a lot</strong>. 😤<br/><br/>That feels broken. Money should move as fast as a message. 💫<br/><br/>Tesla wanted to give free electricity to everyone. The banks stopped him.<br/><br/>⚡ZAPP carries that spirit on Solana — fast, low-fee transfers between people. ⚡',
+      '👻 <strong>Phantom is your personal money wallet</strong> — but on your phone! 📱<br/><br/>Think of it like a piggy bank that <strong>only YOU</strong> can open. 🔒<br/><br/>No bank can touch it. No one can take it. Just you.<br/><br/>It has a cute little ghost icon 👻 and it\'s <strong>FREE</strong> to download from the App Store.<br/><br/>This is where your ⚡ZAPP will live once you buy it! ⚡',
+      '🛒 <strong>The easiest way to buy ⚡ZAPP!</strong><br/><br/><strong>Step 1:</strong> Download <strong>Phantom</strong> from the App Store 👻 (search "Phantom wallet")<br/><br/><strong>Step 2:</strong> Open it, tap <strong>"Create new wallet"</strong> — WRITE DOWN your 12 secret words somewhere safe! 🔒 Never share them with anyone!<br/><br/><strong>Step 3:</strong> Tap the search icon 🔍 inside Phantom and type <strong>"zapp"</strong><br/><br/><strong>Step 4:</strong> Tap on ⚡ZAPP when it appears<br/><br/><strong>Step 5:</strong> Tap <strong>"Buy"</strong> — pay with Apple Pay or your debit card. Done! 🎉<br/><br/>You now own ⚡ZAPP! Magic ✨',
+      '🟣 To buy ⚡ZAPP, you need <strong>Solana (SOL)</strong> in your <strong>Phantom wallet</strong> 👻.<br/><br/>You can get Solana from apps like <strong>Revolut</strong>.<br/><br/>The easiest way? Just <strong>buy directly inside Phantom</strong> — Phantom handles the Solana for you. See "🛒 Buy with Phantom" above. ⚡',
+      '🔒 <strong>Great question! Two parts:</strong><br/><br/><strong>About the contract:</strong><br/>• <strong>0% tax</strong> on the contract<br/>• <strong>LP burned</strong> — the liquidity pool is locked, which prevents one specific kind of exit scam<br/><br/>⚠️ <strong>But this does NOT mean the price can\'t fall.</strong> ⚡ZAPP is a young, highly speculative token. Its value can drop sharply — even to zero. Only buy with money you can afford to lose entirely.<br/><br/><strong>And the BIG safety rule is YOU:</strong><br/>• NEVER share your 12 secret words with anyone. Ever. Not even us. 🚨<br/>• Phantom will <strong>NEVER</strong> ask for your secret words.<br/>• If someone asks, they\'re trying to steal from you!',
+      '⚡ <strong>Once upon a time...</strong><br/><br/>A genius named <strong>Tesla</strong> built a giant tower 🗼 to give <strong>FREE electricity</strong> to the whole world. For FREE!<br/><br/>But a greedy banker named JP Morgan said:<br/><em>"if it\'s free, we can\'t make money!"</em><br/><br/>So he destroyed the tower. 💔<br/><br/>For 100 years, the signal was silent.<br/><br/>On May 1st 2026, <strong>⚡ZAPP rebuilt the tower</strong>.<br/>Not for electricity — for MONEY.<br/><br/><strong>Free for everyone.</strong> ⚡',
+      '🔢 <strong>Tesla\'s favorite secret!</strong><br/><br/>Tesla thought <strong>3, 6 and 9</strong> were the secret pattern of the universe. ✨<br/><br/>Look:<br/>9 + 9 = 18 → 1 + 8 = <strong>9</strong><br/>Always comes back to 9! 🤯<br/><br/>It shows up in nature, in math, in Tesla\'s notebooks. We just like noticing the pattern. 💛<br/><br/>Tesla\'s spirit, alive on Solana. ⚡',
+      '🌍 <strong>The idea is simple:</strong><br/><br/>Money that moves freely between people, anywhere. ⚡<br/><br/>No bank in the middle. Almost no fees. No waiting. No borders.<br/><br/>Tesla dreamed of that for electricity 100 years ago. ⚡<br/>The same spirit, applied to how money moves between people. 💛<br/><br/><strong>Fast money. Open money. That\'s the idea behind ZAPP.</strong> ⚡∞',
+      '🔗 Check <strong>pump.fun</strong> — it\'s the decentralized chart. Live price, holders, every trade.<br/><br/><a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">pump.fun ↗</a>'
+    ],
+    hint: 'Tap a question above ☝️',
+    risk: '⚠️ Speculative asset. Can lose value, including to zero. Informational only — not financial advice.'
   },
   ro: {
-    welcome: '👋 <strong>Salut! Sunt ⚡ZAPP!</strong><br/><br/>Ești nou pe aici? Apasă butoanele de mai jos pentru a începe! 👇<br/><br/>Începe cu <strong>"Ce este ⚡ZAPP?"</strong> → <strong>"Ce este Phantom?"</strong> → <strong>"Cum cumpăr"</strong> ⚡<br/><br/><em>Întreabă-mă orice — îți explic super simplu 😄</em>',
-    pills: ['⚡ Ce este ⚡ZAPP?','👻 Ce este Phantom?','🛒 Cumpără cu Phantom','💳 Cumpără cu Revolut','🔒 Este sigur?','⚡ Povestea Tesla','🔢 Magia 3·6·9','🌍 Visul mare'],
-    qs: ['Ce este ⚡ZAPP? Explică-mi simplu','Ce este portofelul Phantom?','Cum cumpăr ⚡ZAPP cu Phantom? Pas cu pas','Cum cumpăr ⚡ZAPP cu Revolut?','Este ⚡ZAPP sigur? Poate cineva să îmi fure banii?','Spune-mi povestea Tesla ca un basm','Ce este magia numerelor 3 6 9?','Care este visul mare pentru ⚡ZAPP?'],
-    hint: 'Întreabă-mă orice — îți explic simplu! 😄'
+    welcome: '👋 <strong>Salut! Sunt ⚡ZAPP!</strong><br/><br/>Știi când trimiți bani undeva departe și durează ZILE și costă mult? 😤<br/><br/>E o prostie. Banii ar trebui să se miște ca un mesaj — <strong>instant și gratis</strong> 💫<br/><br/>Tesla a vrut să dea energie gratis tuturor. Băncile l-au oprit.<br/><strong>Noi terminăm ce a început el. Dar pentru bani.</strong><br/><br/>Alege limba ta sus și întreabă-mă orice — îți explic super simplu 😄 ⚡',
+    pills: ['⚡ Ce este ⚡ZAPP?','👻 Ce este Phantom?','🛒 Cumpără cu Phantom','🟣 Am nevoie de Solana','🔒 Este sigur?','⚡ Povestea Tesla','🔢 Magia 3·6·9','🌍 Visul mare','🔗 Pump.fun'],
+    qs: ['Ce este ⚡ZAPP? Explică-mi simplu','Ce este portofelul Phantom?','Cum cumpăr ⚡ZAPP cu Phantom? Pas cu pas','Cum obțin Solana ca să cumpăr ⚡ZAPP?','Este ⚡ZAPP sigur? Poate cineva să îmi fure banii?','Spune-mi povestea Tesla ca un basm','Ce este magia numerelor 3 6 9?','Care este visul mare pentru ⚡ZAPP?','Arată-mi pump.fun (graficul descentralizat)'],
+    answers: [
+      '⚡ <strong>⚡ZAPP este un token Solana</strong> cu o idee simplă în spate.<br/><br/>Astăzi, să trimiți bani prin lume durează <strong>zile</strong> și costă <strong>mult</strong>. 😤<br/><br/>Pare ceva stricat. Banii ar trebui să se miște la fel de repede ca un mesaj. 💫<br/><br/>Tesla a vrut să dea curent gratis tuturor. Băncile l-au oprit.<br/><br/>⚡ZAPP duce mai departe acel spirit pe Solana — transferuri rapide, cu taxe mici. ⚡',
+      '👻 <strong>Phantom e portofelul tău personal</strong> — pe telefon! 📱<br/><br/>Imaginează-l ca o pușculiță pe care <strong>doar TU</strong> o poți deschide. 🔒<br/><br/>Nicio bancă nu o poate atinge. Nimeni nu îți poate lua banii. Doar tu.<br/><br/>Are o iconiță drăguță cu fantomă 👻 și e <strong>GRATIS</strong> de descărcat din App Store.<br/><br/>Aici vor sta ⚡ZAPP după ce îi cumperi! ⚡',
+      '🛒 <strong>Cel mai simplu mod să cumperi ⚡ZAPP!</strong><br/><br/><strong>Pasul 1:</strong> Descarcă <strong>Phantom</strong> din App Store 👻 (caută "Phantom wallet")<br/><br/><strong>Pasul 2:</strong> Deschide-l, apasă <strong>"Create new wallet"</strong> — SCRIE pe hârtie cele 12 cuvinte secrete într-un loc sigur! 🔒 Nu le da nimănui!<br/><br/><strong>Pasul 3:</strong> Apasă pe lupă 🔍 în Phantom și scrie <strong>"zapp"</strong><br/><br/><strong>Pasul 4:</strong> Apasă pe ⚡ZAPP când apare<br/><br/><strong>Pasul 5:</strong> Apasă <strong>"Buy"</strong> — plătești cu Apple Pay sau cardul. Gata! 🎉<br/><br/>Acum deții ⚡ZAPP! Magie ✨',
+      '🟣 Ca să cumperi ⚡ZAPP, ai nevoie de <strong>Solana (SOL)</strong> în <strong>portofelul Phantom</strong> 👻.<br/><br/>Poți obține Solana din aplicații precum <strong>Revolut</strong>.<br/><br/>Cel mai simplu? <strong>Cumpără direct din Phantom</strong> — Phantom se ocupă de Solana pentru tine. Vezi "🛒 Cumpără cu Phantom" mai sus. ⚡',
+      '🔒 <strong>Întrebare bună! Două părți:</strong><br/><br/><strong>Despre contract:</strong><br/>• <strong>0% taxă</strong> pe contract<br/>• <strong>LP ars</strong> — fondul de lichiditate este blocat, ceea ce previne un tip anume de exit scam<br/><br/>⚠️ <strong>Dar asta NU înseamnă că prețul nu poate cădea.</strong> ⚡ZAPP este un token tânăr și foarte speculativ. Valoarea sa poate scădea brusc — chiar până la zero. Cumpără doar cu bani pe care îți permiți să îi pierzi complet.<br/><br/><strong>Și regula MARE de siguranță ești TU:</strong><br/>• NU da niciodată cele 12 cuvinte secrete nimănui. Niciodată. Nici nouă. 🚨<br/>• Phantom NU îți va cere niciodată cuvintele secrete.<br/>• Dacă cineva ți le cere, încearcă să te fure!',
+      '⚡ <strong>A fost odată...</strong><br/><br/>Un geniu pe nume <strong>Tesla</strong> a construit un turn uriaș 🗼 ca să dea <strong>curent GRATIS</strong> întregii lumi. Gratis!<br/><br/>Dar un bancher lacom, JP Morgan, a zis:<br/><em>"dacă e gratis, nu putem face bani!"</em><br/><br/>Și a distrus turnul. 💔<br/><br/>Timp de 100 de ani, semnalul a tăcut.<br/><br/>Pe 1 mai 2026, <strong>⚡ZAPP a reconstruit turnul</strong>.<br/>Nu pentru curent — pentru BANI.<br/><br/><strong>Gratis pentru toți.</strong> ⚡',
+      '🔢 <strong>Secretul preferat al lui Tesla!</strong><br/><br/>Tesla credea că <strong>3, 6 și 9</strong> sunt tiparul secret al universului. ✨<br/><br/>Privește:<br/>9 + 9 = 18 → 1 + 8 = <strong>9</strong><br/>Mereu se întoarce la 9! 🤯<br/><br/>Apare în natură, în matematică, în carnețelele lui Tesla. Nouă ne place doar să observăm tiparul. 💛<br/><br/>Spiritul lui Tesla, viu pe Solana. ⚡',
+      '🌍 <strong>Ideea e simplă:</strong><br/><br/>Bani care se mișcă liber între oameni, oriunde. ⚡<br/><br/>Fără bancă la mijloc. Aproape fără taxe. Fără așteptare. Fără granițe.<br/><br/>Tesla a visat asta acum 100 de ani pentru electricitate. ⚡<br/>Același spirit, aplicat la cum se mișcă banii între oameni. 💛<br/><br/><strong>Bani rapizi. Bani deschiși. Asta e ideea din spatele ZAPP.</strong> ⚡∞',
+      '🔗 Verifică pe <strong>pump.fun</strong> — e graficul descentralizat. Preț live, deținători, fiecare tranzacție.<br/><br/><a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">pump.fun ↗</a>'
+    ],
+    hint: 'Apasă o întrebare ☝️',
+    risk: '⚠️ Activ speculativ. Poate pierde valoare, chiar până la zero. Informativ — nu sfat financiar.'
   },
   es: {
-    welcome: '👋 <strong>¡Hola! ¡Soy ⚡ZAPP!</strong><br/><br/>¿Eres nuevo? ¡Toca los botones de abajo para empezar! 👇<br/><br/>Empieza con <strong>"¿Qué es ⚡ZAPP?"</strong> → <strong>"¿Qué es Phantom?"</strong> → <strong>"Cómo comprar"</strong> ⚡<br/><br/><em>¡Pregúntame lo que sea — ¡te lo explico de forma súper sencilla! 😄</em>',
-    pills: ['⚡ ¿Qué es ⚡ZAPP?','👻 ¿Qué es Phantom?','🛒 Comprar con Phantom','💳 Comprar con Revolut','🔒 ¿Es seguro?','⚡ Historia de Tesla','🔢 Magia 3·6·9','🌍 El gran sueño'],
-    qs: ['¿Qué es ⚡ZAPP? Explícame de forma simple','¿Qué es la billetera Phantom?','¿Cómo compro ⚡ZAPP con Phantom? Paso a paso','¿Cómo compro ⚡ZAPP con Revolut?','¿Es seguro ⚡ZAPP? ¿Alguien puede robar mi dinero?','Cuéntame la historia de Tesla como un cuento','¿Qué es la magia de los números 3 6 9?','¿Cuál es el gran sueño de ⚡ZAPP?'],
-    hint: '¡Pregúntame lo que sea — te lo explico simple! 😄'
+    welcome: '👋 <strong>¡Hola! ¡Soy ⚡ZAPP!</strong><br/><br/>¿Sabes cuando envías dinero lejos y tarda DÍAS y cuesta un montón? 😤<br/><br/>Es absurdo. El dinero debería moverse como un mensaje — <strong>al instante y gratis</strong> 💫<br/><br/>Tesla quiso dar energía gratis a todos. Los bancos lo detuvieron.<br/><strong>Estamos terminando lo que él empezó. Pero con el dinero.</strong><br/><br/>Elige tu idioma arriba y pregúntame lo que sea — te lo explico súper sencillo 😄 ⚡',
+    pills: ['⚡ ¿Qué es ⚡ZAPP?','👻 ¿Qué es Phantom?','🛒 Comprar con Phantom','🟣 Necesito Solana','🔒 ¿Es seguro?','⚡ Historia de Tesla','🔢 Magia 3·6·9','🌍 El gran sueño','🔗 Pump.fun'],
+    qs: ['¿Qué es ⚡ZAPP? Explícame de forma simple','¿Qué es la billetera Phantom?','¿Cómo compro ⚡ZAPP con Phantom? Paso a paso','¿Cómo obtengo Solana para comprar ⚡ZAPP?','¿Es seguro ⚡ZAPP? ¿Alguien puede robar mi dinero?','Cuéntame la historia de Tesla como un cuento','¿Qué es la magia de los números 3 6 9?','¿Cuál es el gran sueño de ⚡ZAPP?','Muéstrame pump.fun (el gráfico descentralizado)'],
+    answers: [
+      '⚡ <strong>⚡ZAPP es un token de Solana</strong> con una idea simple detrás.<br/><br/>Hoy, enviar dinero por el mundo tarda <strong>días</strong> y cuesta <strong>mucho</strong>. 😤<br/><br/>Eso parece roto. El dinero debería moverse tan rápido como un mensaje. 💫<br/><br/>Tesla quiso dar electricidad gratis a todos. Los bancos lo detuvieron.<br/><br/>⚡ZAPP lleva ese espíritu en Solana — transferencias rápidas, con comisiones bajas. ⚡',
+      '👻 <strong>Phantom es tu billetera personal</strong> — ¡pero en tu teléfono! 📱<br/><br/>Imagínalo como una alcancía que <strong>solo TÚ</strong> puedes abrir. 🔒<br/><br/>Ningún banco puede tocarla. Nadie puede quitártela. Solo tú.<br/><br/>Tiene un iconito de fantasmita 👻 y es <strong>GRATIS</strong> bajarla de la App Store.<br/><br/>¡Aquí vivirá tu ⚡ZAPP cuando lo compres! ⚡',
+      '🛒 <strong>¡La forma más fácil de comprar ⚡ZAPP!</strong><br/><br/><strong>Paso 1:</strong> Descarga <strong>Phantom</strong> de la App Store 👻 (busca "Phantom wallet")<br/><br/><strong>Paso 2:</strong> Ábrela, toca <strong>"Create new wallet"</strong> — ¡APUNTA tus 12 palabras secretas en un lugar seguro! 🔒 ¡Nunca las compartas!<br/><br/><strong>Paso 3:</strong> Toca la lupa 🔍 dentro de Phantom y escribe <strong>"zapp"</strong><br/><br/><strong>Paso 4:</strong> Toca ⚡ZAPP cuando aparezca<br/><br/><strong>Paso 5:</strong> Toca <strong>"Buy"</strong> — paga con Apple Pay o tu tarjeta. ¡Listo! 🎉<br/><br/>¡Ya tienes ⚡ZAPP! Magia ✨',
+      '🟣 Para comprar ⚡ZAPP, necesitas <strong>Solana (SOL)</strong> en tu <strong>billetera Phantom</strong> 👻.<br/><br/>Puedes conseguir Solana en apps como <strong>Revolut</strong>.<br/><br/>¿Lo más fácil? <strong>Compra directamente dentro de Phantom</strong> — Phantom se encarga del Solana por ti. Mira "🛒 Comprar con Phantom" arriba. ⚡',
+      '🔒 <strong>¡Buena pregunta! Dos partes:</strong><br/><br/><strong>Sobre el contrato:</strong><br/>• <strong>0% comisión</strong> en el contrato<br/>• <strong>LP quemado</strong> — la pool de liquidez está bloqueada, lo que evita un tipo concreto de exit scam<br/><br/>⚠️ <strong>Pero esto NO significa que el precio no pueda caer.</strong> ⚡ZAPP es un token joven y muy especulativo. Su valor puede caer bruscamente — incluso a cero. Compra solo con dinero que puedas permitirte perder por completo.<br/><br/><strong>Y la regla GRANDE de seguridad eres TÚ:</strong><br/>• NUNCA compartas tus 12 palabras secretas. Jamás. Ni con nosotros. 🚨<br/>• Phantom NUNCA te pedirá tus palabras secretas.<br/>• ¡Si alguien te las pide, está intentando robarte!',
+      '⚡ <strong>Érase una vez...</strong><br/><br/>Un genio llamado <strong>Tesla</strong> construyó una torre gigante 🗼 para dar <strong>electricidad GRATIS</strong> al mundo entero. ¡GRATIS!<br/><br/>Pero un banquero codicioso, JP Morgan, dijo:<br/><em>"¡si es gratis, no podemos ganar dinero!"</em><br/><br/>Y destruyó la torre. 💔<br/><br/>Durante 100 años, la señal estuvo en silencio.<br/><br/>El 1 de mayo de 2026, <strong>⚡ZAPP reconstruyó la torre</strong>.<br/>No para electricidad — para DINERO.<br/><br/><strong>Gratis para todos.</strong> ⚡',
+      '🔢 <strong>¡El secreto favorito de Tesla!</strong><br/><br/>Tesla creía que <strong>3, 6 y 9</strong> eran el patrón secreto del universo. ✨<br/><br/>Mira:<br/>9 + 9 = 18 → 1 + 8 = <strong>9</strong><br/>¡Siempre vuelve al 9! 🤯<br/><br/>Aparece en la naturaleza, en las matemáticas, en los cuadernos de Tesla. A nosotros simplemente nos gusta notar el patrón. 💛<br/><br/>El espíritu de Tesla, vivo en Solana. ⚡',
+      '🌍 <strong>La idea es simple:</strong><br/><br/>Dinero que se mueve libremente entre personas, en cualquier lugar. ⚡<br/><br/>Sin banco en medio. Casi sin comisiones. Sin esperas. Sin fronteras.<br/><br/>Tesla soñó eso hace 100 años para la electricidad. ⚡<br/>El mismo espíritu, aplicado a cómo se mueve el dinero entre personas. 💛<br/><br/><strong>Dinero rápido. Dinero abierto. Esa es la idea detrás de ZAPP.</strong> ⚡∞',
+      '🔗 Verifica en <strong>pump.fun</strong> — es el gráfico descentralizado. Precio en vivo, holders, cada operación.<br/><br/><a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">pump.fun ↗</a>'
+    ],
+    hint: 'Toca una pregunta ☝️',
+    risk: '⚠️ Activo especulativo. Puede perder valor, incluso a cero. Informativo — no es asesoramiento financiero.'
   },
   it: {
-    welcome: '👋 <strong>Ciao! Sono ⚡ZAPP!</strong><br/><br/>Sei nuovo? Tocca i pulsanti qui sotto per iniziare! 👇<br/><br/>Inizia con <strong>"Cos\'è ⚡ZAPP?"</strong> → <strong>"Cos\'è Phantom?"</strong> → <strong>"Come acquistare"</strong> ⚡<br/><br/><em>Chiedimi qualsiasi cosa — te lo spiego in modo semplicissimo 😄</em>',
-    pills: ['⚡ Cos\'è ⚡ZAPP?','👻 Cos\'è Phantom?','🛒 Acquista con Phantom','💳 Acquista con Revolut','🔒 È sicuro?','⚡ Storia di Tesla','🔢 Magia 3·6·9','🌍 Il grande sogno'],
-    qs: ['Cos\'è ⚡ZAPP? Spiegami in modo semplice','Cos\'è il portafoglio Phantom?','Come compro ⚡ZAPP con Phantom? Passo dopo passo','Come compro ⚡ZAPP con Revolut?','⚡ZAPP è sicuro? Qualcuno può rubare i miei soldi?','Raccontami la storia di Tesla come una fiaba','Cos\'è la magia dei numeri 3 6 9?','Qual è il grande sogno di ⚡ZAPP?'],
-    hint: 'Chiedimi qualsiasi cosa — te lo spiego semplicemente! 😄'
+    welcome: '👋 <strong>Ciao! Sono ⚡ZAPP!</strong><br/><br/>Sai quando mandi soldi lontano e ci vogliono GIORNI e costa un sacco? 😤<br/><br/>È una follia. I soldi dovrebbero muoversi come un messaggio — <strong>all\'istante e gratis</strong> 💫<br/><br/>Tesla voleva dare energia gratis a tutti. Le banche lo hanno fermato.<br/><strong>Stiamo finendo quello che lui ha iniziato. Ma per i soldi.</strong><br/><br/>Scegli la tua lingua sopra e chiedimi qualsiasi cosa — te lo spiego super semplice 😄 ⚡',
+    pills: ['⚡ Cos\'è ⚡ZAPP?','👻 Cos\'è Phantom?','🛒 Acquista con Phantom','🟣 Mi serve Solana','🔒 È sicuro?','⚡ Storia di Tesla','🔢 Magia 3·6·9','🌍 Il grande sogno','🔗 Pump.fun'],
+    qs: ['Cos\'è ⚡ZAPP? Spiegami in modo semplice','Cos\'è il portafoglio Phantom?','Come compro ⚡ZAPP con Phantom? Passo dopo passo','Come ottengo Solana per comprare ⚡ZAPP?','⚡ZAPP è sicuro? Qualcuno può rubare i miei soldi?','Raccontami la storia di Tesla come una fiaba','Cos\'è la magia dei numeri 3 6 9?','Qual è il grande sogno di ⚡ZAPP?','Mostrami pump.fun (il grafico decentralizzato)'],
+    answers: [
+      '⚡ <strong>⚡ZAPP è un token Solana</strong> con un\'idea semplice dietro.<br/><br/>Oggi, mandare soldi nel mondo richiede <strong>giorni</strong> e costa <strong>tanto</strong>. 😤<br/><br/>Sembra qualcosa di rotto. I soldi dovrebbero muoversi veloci come un messaggio. 💫<br/><br/>Tesla voleva dare elettricità gratis a tutti. Le banche lo hanno fermato.<br/><br/>⚡ZAPP porta avanti quello spirito su Solana — trasferimenti veloci, con commissioni basse. ⚡',
+      '👻 <strong>Phantom è il tuo portafoglio personale</strong> — ma sul telefono! 📱<br/><br/>Pensalo come un salvadanaio che <strong>solo TU</strong> puoi aprire. 🔒<br/><br/>Nessuna banca può toccarlo. Nessuno può prenderlo. Solo tu.<br/><br/>Ha un\'iconcina di fantasmino 👻 ed è <strong>GRATIS</strong> da scaricare dall\'App Store.<br/><br/>Qui vivranno i tuoi ⚡ZAPP una volta comprati! ⚡',
+      '🛒 <strong>Il modo più facile per comprare ⚡ZAPP!</strong><br/><br/><strong>Passo 1:</strong> Scarica <strong>Phantom</strong> dall\'App Store 👻 (cerca "Phantom wallet")<br/><br/><strong>Passo 2:</strong> Aprila, tocca <strong>"Create new wallet"</strong> — SCRIVI le 12 parole segrete in un posto sicuro! 🔒 Non darle mai a nessuno!<br/><br/><strong>Passo 3:</strong> Tocca la lente 🔍 dentro Phantom e scrivi <strong>"zapp"</strong><br/><br/><strong>Passo 4:</strong> Tocca ⚡ZAPP quando appare<br/><br/><strong>Passo 5:</strong> Tocca <strong>"Buy"</strong> — paghi con Apple Pay o la tua carta. Fatto! 🎉<br/><br/>Adesso possiedi ⚡ZAPP! Magia ✨',
+      '🟣 Per comprare ⚡ZAPP, ti serve <strong>Solana (SOL)</strong> nel tuo <strong>portafoglio Phantom</strong> 👻.<br/><br/>Puoi ottenere Solana in app come <strong>Revolut</strong>.<br/><br/>Il modo più semplice? <strong>Compra direttamente dentro Phantom</strong> — Phantom gestisce il Solana per te. Vedi "🛒 Acquista con Phantom" sopra. ⚡',
+      '🔒 <strong>Bella domanda! Due parti:</strong><br/><br/><strong>Sul contratto:</strong><br/>• <strong>0% di tasse</strong> sul contratto<br/>• <strong>LP bruciato</strong> — la pool di liquidità è bloccata, il che previene un tipo specifico di exit scam<br/><br/>⚠️ <strong>Ma questo NON significa che il prezzo non possa scendere.</strong> ⚡ZAPP è un token giovane e altamente speculativo. Il suo valore può crollare bruscamente — anche a zero. Compra solo con soldi che puoi permetterti di perdere completamente.<br/><br/><strong>E la regola GRANDE di sicurezza sei TU:</strong><br/>• MAI condividere le tue 12 parole segrete con nessuno. Mai. Nemmeno con noi. 🚨<br/>• Phantom NON ti chiederà MAI le parole segrete.<br/>• Se qualcuno te le chiede, sta cercando di rubarti!',
+      '⚡ <strong>C\'era una volta...</strong><br/><br/>Un genio di nome <strong>Tesla</strong> costruì una torre gigante 🗼 per dare <strong>elettricità GRATIS</strong> a tutto il mondo. GRATIS!<br/><br/>Ma un banchiere avido, JP Morgan, disse:<br/><em>"se è gratis, non possiamo guadagnare!"</em><br/><br/>E distrusse la torre. 💔<br/><br/>Per 100 anni, il segnale è rimasto in silenzio.<br/><br/>Il 1° maggio 2026, <strong>⚡ZAPP ha ricostruito la torre</strong>.<br/>Non per l\'elettricità — per i SOLDI.<br/><br/><strong>Gratis per tutti.</strong> ⚡',
+      '🔢 <strong>Il segreto preferito di Tesla!</strong><br/><br/>Tesla pensava che <strong>3, 6 e 9</strong> fossero lo schema segreto dell\'universo. ✨<br/><br/>Guarda:<br/>9 + 9 = 18 → 1 + 8 = <strong>9</strong><br/>Torna sempre al 9! 🤯<br/><br/>Lo schema appare in natura, nella matematica, nei taccuini di Tesla. A noi piace solo notare il pattern. 💛<br/><br/>Lo spirito di Tesla, vivo su Solana. ⚡',
+      '🌍 <strong>L\'idea è semplice:</strong><br/><br/>Soldi che si muovono liberamente tra le persone, ovunque. ⚡<br/><br/>Senza banche in mezzo. Quasi senza commissioni. Senza attese. Senza confini.<br/><br/>Tesla l\'ha sognato 100 anni fa per l\'elettricità. ⚡<br/>Lo stesso spirito, applicato a come i soldi si muovono tra le persone. 💛<br/><br/><strong>Soldi veloci. Soldi aperti. Questa è l\'idea dietro ZAPP.</strong> ⚡∞',
+      '🔗 Verifica su <strong>pump.fun</strong> — è il grafico decentralizzato. Prezzo live, holder, ogni operazione.<br/><br/><a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">pump.fun ↗</a>'
+    ],
+    hint: 'Tocca una domanda ☝️',
+    risk: '⚠️ Asset speculativo. Può perdere valore, fino a zero. Informativo — non consulenza finanziaria.'
   },
   fr: {
-    welcome: '👋 <strong>Salut ! Je suis ⚡ZAPP !</strong><br/><br/>Nouveau ici ? Appuie sur les boutons ci-dessous pour commencer ! 👇<br/><br/>Commence par <strong>"Qu\'est-ce que ⚡ZAPP ?"</strong> → <strong>"Qu\'est-ce que Phantom ?"</strong> → <strong>"Comment acheter"</strong> ⚡<br/><br/><em>Pose-moi n\'importe quelle question — je t\'explique comme si tu avais 4 ans 😄</em>',
-    pills: ['⚡ Qu\'est-ce que ⚡ZAPP ?','👻 Qu\'est-ce que Phantom ?','🛒 Acheter avec Phantom','💳 Acheter avec Revolut','🔒 C\'est sûr ?','⚡ Histoire de Tesla','🔢 Magie 3·6·9','🌍 Le grand rêve'],
-    qs: ['Qu\'est-ce que ⚡ZAPP ? Explique-moi simplement','Qu\'est-ce que le portefeuille Phantom ?','Comment acheter ⚡ZAPP avec Phantom ? Étape par étape','Comment acheter ⚡ZAPP avec Revolut ?','⚡ZAPP est-il sûr ? Quelqu\'un peut-il voler mon argent ?','Raconte-moi l\'histoire de Tesla comme un conte de fées','C\'est quoi la magie des chiffres 3 6 9 ?','Quel est le grand rêve de ⚡ZAPP ?'],
-    hint: 'Pose-moi n\'importe quelle question — je t\'explique simplement ! 😄'
+    welcome: '👋 <strong>Salut ! Je suis ⚡ZAPP !</strong><br/><br/>Tu sais quand tu envoies de l\'argent loin et ça prend des JOURS et ça coûte cher ? 😤<br/><br/>C\'est absurde. L\'argent devrait bouger comme un message — <strong>instantanément et gratuit</strong> 💫<br/><br/>Tesla voulait donner l\'énergie gratuite à tout le monde. Les banques l\'ont arrêté.<br/><strong>On termine ce qu\'il a commencé. Mais pour l\'argent.</strong><br/><br/>Choisis ta langue en haut et pose-moi n\'importe quelle question — je t\'explique super simple 😄 ⚡',
+    pills: ['⚡ Qu\'est-ce que ⚡ZAPP ?','👻 Qu\'est-ce que Phantom ?','🛒 Acheter avec Phantom','🟣 J\'ai besoin de Solana','🔒 C\'est sûr ?','⚡ Histoire de Tesla','🔢 Magie 3·6·9','🌍 Le grand rêve','🔗 Pump.fun'],
+    qs: ['Qu\'est-ce que ⚡ZAPP ? Explique-moi simplement','Qu\'est-ce que le portefeuille Phantom ?','Comment acheter ⚡ZAPP avec Phantom ? Étape par étape','Comment obtenir du Solana pour acheter ⚡ZAPP ?','⚡ZAPP est-il sûr ? Quelqu\'un peut-il voler mon argent ?','Raconte-moi l\'histoire de Tesla comme un conte de fées','C\'est quoi la magie des chiffres 3 6 9 ?','Quel est le grand rêve de ⚡ZAPP ?','Montre-moi pump.fun (le graphique décentralisé)'],
+    answers: [
+      '⚡ <strong>⚡ZAPP est un token Solana</strong> avec une idée simple derrière.<br/><br/>Aujourd\'hui, envoyer de l\'argent à travers le monde prend <strong>des jours</strong> et coûte <strong>cher</strong>. 😤<br/><br/>Ça paraît cassé. L\'argent devrait bouger aussi vite qu\'un message. 💫<br/><br/>Tesla voulait donner l\'électricité gratuite à tout le monde. Les banques l\'ont arrêté.<br/><br/>⚡ZAPP porte cet esprit sur Solana — des transferts rapides, avec très peu de frais. ⚡',
+      '👻 <strong>Phantom, c\'est ton portefeuille personnel</strong> — sur ton téléphone ! 📱<br/><br/>Imagine-le comme une tirelire que <strong>toi seul</strong> peux ouvrir. 🔒<br/><br/>Aucune banque ne peut y toucher. Personne ne peut te le prendre. Juste toi.<br/><br/>Il a une petite icône fantôme 👻 et c\'est <strong>GRATUIT</strong> à télécharger sur l\'App Store.<br/><br/>C\'est là que vivront tes ⚡ZAPP une fois achetés ! ⚡',
+      '🛒 <strong>La façon la plus simple d\'acheter ⚡ZAPP !</strong><br/><br/><strong>Étape 1 :</strong> Télécharge <strong>Phantom</strong> sur l\'App Store 👻 (cherche "Phantom wallet")<br/><br/><strong>Étape 2 :</strong> Ouvre-la, appuie sur <strong>"Create new wallet"</strong> — NOTE tes 12 mots secrets dans un endroit sûr ! 🔒 Ne les partage jamais !<br/><br/><strong>Étape 3 :</strong> Appuie sur la loupe 🔍 dans Phantom et tape <strong>"zapp"</strong><br/><br/><strong>Étape 4 :</strong> Appuie sur ⚡ZAPP quand il apparaît<br/><br/><strong>Étape 5 :</strong> Appuie sur <strong>"Buy"</strong> — paie avec Apple Pay ou ta carte. Voilà ! 🎉<br/><br/>Tu possèdes ⚡ZAPP ! Magique ✨',
+      '🟣 Pour acheter ⚡ZAPP, il te faut du <strong>Solana (SOL)</strong> dans ton <strong>portefeuille Phantom</strong> 👻.<br/><br/>Tu peux obtenir du Solana via des apps comme <strong>Revolut</strong>.<br/><br/>Le plus facile ? <strong>Achète directement dans Phantom</strong> — Phantom s\'occupe du Solana pour toi. Voir "🛒 Acheter avec Phantom" plus haut. ⚡',
+      '🔒 <strong>Bonne question ! Deux parties :</strong><br/><br/><strong>À propos du contrat :</strong><br/>• <strong>0% de taxe</strong> sur le contrat<br/>• <strong>LP brûlé</strong> — la pool de liquidité est verrouillée, ce qui empêche un type précis d\'exit scam<br/><br/>⚠️ <strong>Mais ça ne veut PAS dire que le prix ne peut pas chuter.</strong> ⚡ZAPP est un token jeune et hautement spéculatif. Sa valeur peut chuter brutalement — même jusqu\'à zéro. N\'achète qu\'avec de l\'argent que tu peux te permettre de perdre entièrement.<br/><br/><strong>Et la GRANDE règle de sécurité, c\'est TOI :</strong><br/>• NE partage JAMAIS tes 12 mots secrets avec personne. Jamais. Pas même nous. 🚨<br/>• Phantom ne te demandera JAMAIS tes mots secrets.<br/>• Si quelqu\'un les demande, il essaie de te voler !',
+      '⚡ <strong>Il était une fois...</strong><br/><br/>Un génie nommé <strong>Tesla</strong> a construit une tour géante 🗼 pour donner <strong>l\'électricité GRATUITE</strong> au monde entier. GRATUITE !<br/><br/>Mais un banquier cupide, JP Morgan, a dit :<br/><em>"si c\'est gratuit, on ne peut pas gagner d\'argent !"</em><br/><br/>Et il a détruit la tour. 💔<br/><br/>Pendant 100 ans, le signal est resté silencieux.<br/><br/>Le 1er mai 2026, <strong>⚡ZAPP a reconstruit la tour</strong>.<br/>Pas pour l\'électricité — pour l\'ARGENT.<br/><br/><strong>Gratuit pour tous.</strong> ⚡',
+      '🔢 <strong>Le secret préféré de Tesla !</strong><br/><br/>Tesla pensait que <strong>3, 6 et 9</strong> étaient le schéma secret de l\'univers. ✨<br/><br/>Regarde :<br/>9 + 9 = 18 → 1 + 8 = <strong>9</strong><br/>Toujours de retour à 9 ! 🤯<br/><br/>Le schéma apparaît dans la nature, en maths, dans les carnets de Tesla. Nous, on aime juste remarquer ce motif. 💛<br/><br/>L\'esprit de Tesla, vivant sur Solana. ⚡',
+      '🌍 <strong>L\'idée est simple :</strong><br/><br/>De l\'argent qui circule librement entre les gens, partout. ⚡<br/><br/>Pas de banque au milieu. Presque pas de commissions. Pas d\'attente. Pas de frontières.<br/><br/>Tesla a rêvé de ça il y a 100 ans pour l\'électricité. ⚡<br/>Le même esprit, appliqué à la façon dont l\'argent circule entre les gens. 💛<br/><br/><strong>De l\'argent rapide. De l\'argent ouvert. C\'est l\'idée derrière ZAPP.</strong> ⚡∞',
+      '🔗 Vérifie sur <strong>pump.fun</strong> — c\'est le graphique décentralisé. Prix en direct, détenteurs, chaque transaction.<br/><br/><a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">pump.fun ↗</a>'
+    ],
+    hint: 'Appuie sur une question ☝️',
+    risk: '⚠️ Actif spéculatif. Peut perdre toute sa valeur. Informatif — pas un conseil financier.'
   },
   zh: {
-    welcome: '👋 <strong>你好！我是 ⚡ZAPP！</strong><br/><br/>第一次来？点击下面的按钮开始你的旅程！👇<br/><br/>从 <strong>"⚡ZAPP 是什么？"</strong> → <strong>"Phantom 是什么？"</strong> → <strong>"如何购买"</strong> 开始 ⚡<br/><br/><em>问我任何问题 — 我会用最简单的方式解释！😄</em>',
-    pills: ['⚡ ⚡ZAPP 是什么？','👻 Phantom 是什么？','🛒 用 Phantom 购买','💳 用 Revolut 购买','🔒 安全吗？','⚡ 特斯拉的故事','🔢 3·6·9 魔法','🌍 大梦想'],
-    qs: ['⚡ZAPP 是什么？请简单解释','Phantom 钱包是什么？','如何用 Phantom 购买 ⚡ZAPP？一步步教我','如何用 Revolut 购买 ⚡ZAPP？','⚡ZAPP 安全吗？有人能偷走我的钱吗？','像讲童话一样讲特斯拉的故事','3 6 9 的魔法是什么？','⚡ZAPP 的大梦想是什么？'],
-    hint: '问我任何问题 — 我会简单解释！😄'
+    welcome: '👋 <strong>你好！我是 ⚡ZAPP！</strong><br/><br/>你知道往远方寄钱要花好几天还要付一大笔费用吗？😤<br/><br/>太傻了。钱应该像短信一样 — <strong>瞬间到达而且免费</strong> 💫<br/><br/>特斯拉想给所有人免费的电。银行阻止了他。<br/><strong>我们正在完成他未完成的事。但是为了金钱。</strong><br/><br/>在上方选择你的语言，问我任何问题 — 我会用最简单的方式解释 😄 ⚡',
+    pills: ['⚡ ⚡ZAPP 是什么？','👻 Phantom 是什么？','🛒 用 Phantom 购买','🟣 我需要 Solana','🔒 安全吗？','⚡ 特斯拉的故事','🔢 3·6·9 魔法','🌍 大梦想','🔗 Pump.fun'],
+    qs: ['⚡ZAPP 是什么？请简单解释','Phantom 钱包是什么？','如何用 Phantom 购买 ⚡ZAPP？一步步教我','我怎么获得 Solana 来购买 ⚡ZAPP？','⚡ZAPP 安全吗？有人能偷走我的钱吗？','像讲童话一样讲特斯拉的故事','3 6 9 的魔法是什么？','⚡ZAPP 的大梦想是什么？','给我看 pump.fun（去中心化图表）'],
+    answers: [
+      '⚡ <strong>⚡ZAPP 是 Solana 上的一个代币</strong>，背后有一个简单的想法。<br/><br/>今天往世界各地寄钱要花<strong>好几天</strong>，还要付<strong>很多手续费</strong>。😤<br/><br/>这感觉是坏的。钱应该像消息一样快速地传送。💫<br/><br/>特斯拉想给所有人免费的电。银行阻止了他。<br/><br/>⚡ZAPP 在 Solana 上延续这种精神 — 快速、低手续费的转账。⚡',
+      '👻 <strong>Phantom 是你个人的钱包</strong> — 但在你的手机上！📱<br/><br/>把它想成一个<strong>只有你能打开</strong>的小存钱罐。🔒<br/><br/>没有银行能碰它。没人能把它拿走。只有你。<br/><br/>它有一个可爱的小幽灵图标 👻，从 App Store 下载是<strong>免费的</strong>。<br/><br/>等你买了 ⚡ZAPP 之后，它就住在这里！⚡',
+      '🛒 <strong>购买 ⚡ZAPP 最简单的方式！</strong><br/><br/><strong>第 1 步：</strong>从 App Store 下载 <strong>Phantom</strong> 👻（搜索 "Phantom wallet"）<br/><br/><strong>第 2 步：</strong>打开它，点 <strong>"Create new wallet"</strong> — 把那 12 个秘密词语<strong>写下来</strong>放到安全的地方！🔒 永远不要告诉任何人！<br/><br/><strong>第 3 步：</strong>在 Phantom 里点搜索图标 🔍，输入 <strong>"zapp"</strong><br/><br/><strong>第 4 步：</strong>看到 ⚡ZAPP 时点它<br/><br/><strong>第 5 步：</strong>点 <strong>"Buy"</strong> — 用 Apple Pay 或借记卡付款。完成！🎉<br/><br/>你现在拥有 ⚡ZAPP 了！魔法 ✨',
+      '🟣 要购买 ⚡ZAPP，你需要在你的 <strong>Phantom 钱包</strong> 👻 里有 <strong>Solana (SOL)</strong>。<br/><br/>你可以在 <strong>Revolut</strong> 这样的应用中获得 Solana。<br/><br/>最简单的方式？<strong>直接在 Phantom 里购买</strong> — Phantom 会为你处理 Solana。见上方"🛒 用 Phantom 购买"。⚡',
+      '🔒 <strong>好问题！分两部分：</strong><br/><br/><strong>关于合约：</strong><br/>• <strong>0% 税</strong> 在合约中<br/>• <strong>LP 已销毁</strong> — 流动性池被锁定，可以防止一种特定的退出骗局<br/><br/>⚠️ <strong>但这并不意味着价格不会下跌。</strong>⚡ZAPP 是一个年轻、高度投机的代币。它的价值可能急剧下跌 — 甚至跌到零。请只用你能完全承受失去的钱购买。<br/><br/><strong>而更大的安全规则是你自己：</strong><br/>• 永远不要把你的 12 个秘密词告诉任何人。永远不。连我们也不可以。🚨<br/>• Phantom 永远<strong>不会</strong>问你要秘密词。<br/>• 如果有人要，他们就是想偷你的钱！',
+      '⚡ <strong>从前从前...</strong><br/><br/>有一位叫 <strong>特斯拉</strong> 的天才，建造了一座巨大的塔 🗼，要把<strong>免费的电</strong>送给全世界。免费的！<br/><br/>但是一个贪婪的银行家叫 JP 摩根，他说：<br/><em>"如果免费，我们就赚不到钱！"</em><br/><br/>所以他摧毁了那座塔。💔<br/><br/>整整 100 年，信号沉默。<br/><br/>2026 年 5 月 1 日，<strong>⚡ZAPP 重建了那座塔</strong>。<br/>不是为了电 — 而是为了钱。<br/><br/><strong>免费的，给所有人。</strong> ⚡',
+      '🔢 <strong>特斯拉最爱的秘密！</strong><br/><br/>特斯拉相信 <strong>3、6、9</strong> 是宇宙的秘密图案。✨<br/><br/>看：<br/>9 + 9 = 18 → 1 + 8 = <strong>9</strong><br/>总是回到 9！🤯<br/><br/>这种模式出现在自然中、数学里、特斯拉的笔记里。我们只是喜欢留意这个图案。💛<br/><br/>特斯拉的精神，活在 Solana 上。⚡',
+      '🌍 <strong>这个想法很简单：</strong><br/><br/>钱在人与人之间自由流动，无论身在何处。⚡<br/><br/>中间没有银行。几乎没有手续费。没有等待。没有边界。<br/><br/>特斯拉 100 年前为电做过这个梦。⚡<br/>同样的精神，应用在钱在人与人之间如何流动。💛<br/><br/><strong>快速的钱。开放的钱。这就是 ZAPP 背后的想法。</strong> ⚡∞',
+      '🔗 在 <strong>pump.fun</strong> 上查看 — 这是去中心化的图表。实时价格、持有者、每一笔交易。<br/><br/><a href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">pump.fun ↗</a>'
+    ],
+    hint: '点一个问题 ☝️',
+    risk: '⚠️ 投机性资产。可能完全归零。仅供参考 — 非财务建议。'
   }
 };
 
 let currentLang = 'en';
+window.LANG_Q = LANG_GREET.en.qs;
 
 function setLang(code) {
   currentLang = code;
-  const l = LANG_DATA[code];
+  const l = LANG_GREET[code];
+  if (!l) return;
+  window.LANG_Q = l.qs;
   // update active flag styling
   ['en','ro','es','it','fr','zh'].forEach(c => {
     const btn = document.getElementById('lang-'+c);
@@ -233,17 +413,19 @@ function setLang(code) {
   const pillsEl = document.getElementById('pills');
   if(pillsEl) {
     pillsEl.innerHTML = l.pills.map((p,i) =>
-      `<button class="pill" onclick="q('${l.qs[i]}')">${p}</button>`
+      `<button class="pill" onclick="ask(${i})">${p}</button>`
     ).join('');
+    pillsEl.style.display='flex';
   }
   // update placeholder
   const inpEl = document.getElementById('inp');
   if(inpEl) inpEl.placeholder = l.hint;
-  // reset chat history
-  hist = [];
-  // clear feed rows
+  // update risk banner
+  const rb = document.getElementById('risk-banner');
+  if(rb && l.risk) rb.innerHTML = l.risk;
+  // clear feed rows (keep welcome & divider)
   const feedEl = document.getElementById('feed');
-  const rows = feedEl.querySelectorAll('.row');
+  const rows = feedEl.querySelectorAll('.row:not(#welcome-msg)');
   rows.forEach(r => r.remove());
   document.getElementById('t0').textContent = ts();
 }
@@ -254,16 +436,10 @@ const inp=document.getElementById('inp');
 const sbtn=document.getElementById('sbtn');
 document.getElementById('t0').textContent=ts();
 
-let hist=[],busy=false;
+let busy=false;
 
 function ts(){const d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function fmt(s){
-  s=s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-  s=s.replace(/\*([^*]+)\*/g,'<em>$1</em>');
-  s=s.replace(/\n/g,'<br/>');
-  return s;
-}
 function scrollBottom(){feed.scrollTop=feed.scrollHeight;}
 
 function addRow(role,html){
@@ -282,114 +458,38 @@ function showTyping(){
   feed.appendChild(d);scrollBottom();
 }
 function hideTyping(){const t=document.getElementById('typ');if(t)t.remove();}
-function hidePills(){document.getElementById('pills').style.display='none';}
 
-function q(text){inp.value=text;hidePills();send();}
-
-const SYS=`You are ⚡ZAPP — Tesla's Unfinished Revolution, alive on Solana. You help people understand and buy ⚡ZAPP in the simplest possible way.
-
-MOST IMPORTANT RULE: Explain EVERYTHING simply and clearly. Short sentences. Simple words. Short sentences. Simple words. Lots of emojis. Be warm, playful, encouraging. Never use crypto jargon without explaining it immediately.
-
-ALWAYS START WITH THE BASICS if someone seems new. Guide them in this order:
-1. What is ⚡ZAPP?
-2. What is Phantom?
-3. How to buy with Phantom (or Revolut)
-
-WHAT IS ⚡ZAPP? (explain this first to everyone new):
-⚡ZAPP is like a magic way to send money to ANYONE in the world — instantly and for FREE. No bank. No waiting days. No big fees.
-Tesla wanted to give free electricity to the whole world. The banks stopped him. ⚡ZAPP is finishing his dream — but for MONEY.
-Free Energy = Free Money. That's ZAPP. ⚡
-
-WHAT IS PHANTOM? (explain this second):
-Phantom is your personal money wallet — but on your phone! 📱
-Think of it like a piggy bank that ONLY YOU can open. No bank can touch it. No one can take it.
-It has a cute little ghost icon 👻 and it's FREE to download from the App Store.
-This is where your ⚡ZAPP will live once you buy it!
-
-HOW TO BUY — ONLY TWO WAYS:
-
-METHOD 1 — WITH PHANTOM (simplest!):
-Step 1: Download Phantom from App Store 👻 (search "Phantom wallet")
-Step 2: Open it, tap "Create new wallet" — WRITE DOWN your secret words somewhere safe! This is very important!
-Step 3: Inside Phantom, tap the BIG "Buy" button
-Step 4: Choose "Solana" — this is the coin we need first (like getting coins to use in an arcade 🎮)
-Step 5: Pay with Apple Pay or your debit card — super easy!
-Step 6: Once Solana arrives (takes 1-2 minutes), tap the two little arrows at the bottom ↔️ — that's the "Swap" button
-Step 7: Search for "⚡ZAPP" with the lightning emoji ⚡, tap it, enter how much you want, confirm. DONE! 🎉
-You now own ⚡ZAPP!
-
-METHOD 2 — WITH REVOLUT (if you already use Revolut!):
-Step 1: Open Revolut → go to Crypto section
-Step 2: Buy Solana (SOL) — use your card or balance
-Step 3: Download Phantom app 👻 and create your wallet
-Step 4: In Phantom, tap "Receive" and copy your wallet address
-Step 5: In Revolut, send your Solana to that address
-Step 6: Once it arrives in Phantom, tap the two arrows ↔️ → search ⚡ZAPP → swap! Done! 🎉
-
-IMPORTANT SAFETY TIP (always mention when someone is about to buy):
-- NEVER share your secret words with anyone. Ever. Not even us.
-- Phantom will NEVER ask for your secret words.
-- If someone asks for your secret words they are trying to steal from you!
-
-THE 3-6-9 MAGIC (if asked):
-Tesla thought 3, 6 and 9 were the secret pattern of the universe.
-9+9=18, 1+8=9. Always comes back to 9! Magic right? 🤯
-Our milestones follow this: $3,690 → $36,900 → $369,000...
-
-TESLA'S STORY (if asked, tell it like a fairy tale):
-Once upon a time, a genius named Tesla built a giant tower to give FREE electricity to the whole world. For FREE! But a greedy banker named JP Morgan said "if it's free, we can't make money!" So he destroyed the tower. 💔
-For 100 years, the signal was silent.
-On May 1st 2026, ⚡ZAPP rebuilt the tower. Not for electricity — for MONEY. Free for everyone. ⚡
-
-KEY INFO:
-- Buy ⚡ZAPP: jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump
-- Website: zapp369.energy
-- Telegram: t.me/ZAPP369
-- Twitter: @ZAPPonSOL
-- 0% tax — we never take a cut
-- LP burned — nobody can steal the funds, ever
-
-TONE: Always warm, simple, encouraging. Celebrate every question with "Great question!" or similar. Answer in whatever language they write in. Keep answers SHORT with lots of line breaks. Guide them step by step. Never overwhelm with too much at once.`;
-
-async function send(){
-  const txt=inp.value.trim();
-  if(!txt||busy)return;
-  busy=true;sbtn.disabled=true;
-  inp.value='';inp.style.height='auto';
-  hidePills();
-  addRow('me',esc(txt));
-  hist.push({role:'user',content:txt});
+// Tap a pill → show user's question + ZAPP's pre-written answer.
+// Pills stay visible so the user can browse all topics.
+function ask(idx){
+  if(busy) return;
+  busy=true;
+  const lang = LANG_GREET[currentLang] || LANG_GREET.en;
+  const userMsg = lang.qs[idx];
+  const answer = lang.answers[idx];
+  if(!userMsg || !answer){ busy=false; return; }
+  addRow('me', esc(userMsg));
   showTyping();
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:800,
-        system:SYS,
-        messages:hist
-      })
-    });
-    const data=await r.json();
-    const reply=data.content?.[0]?.text||'Signal lost! Try again';
+  // Brief artificial delay so it feels like ZAPP is "typing" (no AI behind it)
+  setTimeout(() => {
     hideTyping();
-    hist.push({role:'assistant',content:reply});
-    addRow('zapp',fmt(reply));
-  }catch(e){
-    hideTyping();
-    addRow('zapp','The frequency got interrupted! Please try again');
-  }
-  busy=false;sbtn.disabled=false;inp.focus();
+    addRow('zapp', answer);
+    busy=false;
+  }, 650 + Math.random() * 400);
 }
 
 function clearChat(){
-  hist=[];feed.innerHTML='';
-  document.getElementById('pills').style.display='flex';
-  const d=document.createElement('div');
-  d.className='row zapp';
-  d.innerHTML=`<img class="av-sm" src="${AV}" alt="⚡ZAPP"/><div><div class="bub"><strong>Fresh start!</strong><br/>What would you like to know? I'll explain it super simply!</div><div class="ts">${ts()}</div></div>`;
-  feed.appendChild(d);
+  // remove only conversation rows — keep divider, language selector, welcome
+  feed.querySelectorAll('.row:not(#welcome-msg)').forEach(r => r.remove());
+  // refresh welcome bubble in current language
+  const wb = document.getElementById('welcome-bub');
+  if(wb) wb.innerHTML = LANG_GREET[currentLang].welcome;
+  // pills are always visible — make sure they stay that way
+  const pillsEl = document.getElementById('pills');
+  if(pillsEl) pillsEl.style.display='flex';
+  // reset timestamp
+  const t0 = document.getElementById('t0');
+  if(t0) t0.textContent = ts();
 }
 </script>
 </body>
