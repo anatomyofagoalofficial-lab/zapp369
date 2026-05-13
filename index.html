@@ -72,6 +72,122 @@ body::after {
   animation:float 7s ease-in-out infinite;
 }
 
+/* WORLD CLOCK */
+.world-clock {
+  position:relative; z-index:2;
+  padding: 0 32px 36px;
+  max-width:980px; margin:0 auto;
+  text-align:center;
+}
+.world-sub {
+  font-family:'Space Mono', monospace;
+  font-size:13px; letter-spacing:5px;
+  text-transform:uppercase;
+  color:#6a3a00; opacity:0.85;
+  margin-bottom:8px;
+  white-space:nowrap;
+}
+@media (max-width: 600px) {
+  .world-sub { font-size:10px; letter-spacing:3px; }
+}
+.clock-grid {
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+.clock-card {
+  position:relative;
+  background:rgba(58,30,0,0.04);
+  border:1px solid rgba(80,45,0,0.18);
+  border-radius:4px;
+  padding:14px 12px 12px;
+  text-align:left;
+  cursor:pointer;
+  transition:all 0.25s ease;
+  overflow:hidden;
+}
+.clock-card::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg, transparent 0%, rgba(201,136,10,0.0) 100%);
+  transition:background 0.4s ease;
+  pointer-events:none;
+}
+.clock-card:hover {
+  transform:translateY(-2px);
+  border-color:rgba(201,136,10,0.55);
+  box-shadow:0 6px 22px rgba(80,40,0,0.18);
+}
+.clock-card:hover::before {
+  background:linear-gradient(135deg, rgba(255,220,140,0.18) 0%, rgba(201,136,10,0.05) 100%);
+}
+.clock-card.day { background:rgba(255,210,120,0.10); }
+.clock-card.night { background:rgba(20,15,40,0.05); }
+.clock-flag {
+  font-size:18px; margin-bottom:4px;
+}
+.clock-city {
+  font-family:'Bebas Neue', sans-serif;
+  font-size:18px; letter-spacing:2px;
+  color:#3b1800;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.clock-icon { font-size:14px; opacity:0.75; }
+.clock-time {
+  font-family:'Space Mono', monospace;
+  font-size:22px; font-weight:700;
+  color:#1a0f00;
+  margin-top:4px;
+  font-variant-numeric:tabular-nums;
+}
+.clock-state {
+  font-family:'Space Mono', monospace;
+  font-size:9px; letter-spacing:2px;
+  text-transform:uppercase;
+  margin-top:3px;
+  color:#6a3a00; opacity:0.7;
+}
+.clock-card.pulse-on .clock-state::after {
+  content:' • ⚡zapped';
+  color:#c9880a; font-weight:700;
+  animation:zapFade 1.8s ease forwards;
+}
+@keyframes zapFade {
+  0% { opacity:0; }
+  20% { opacity:1; }
+  80% { opacity:1; }
+  100% { opacity:0; }
+}
+.world-foot {
+  font-family:'IM Fell English', serif;
+  font-style:italic;
+  font-size:18px;
+  color:#5a2e00; opacity:0.85;
+  min-height:1.4em;
+  transition:opacity 0.4s ease;
+  margin-top:6px;
+}
+
+@media (max-width: 768px) {
+  .world-clock { padding:0 16px 28px; }
+  .clock-grid { gap:8px; margin-bottom:16px; }
+  .clock-card { padding:10px 8px 9px; border-radius:3px; }
+  .clock-city { font-size:13px; letter-spacing:1px; gap:4px; }
+  .clock-flag { font-size:13px; }
+  .clock-icon { font-size:11px; }
+  .clock-time { font-size:16px; margin-top:3px; }
+  .clock-state { font-size:7px; letter-spacing:1px; margin-top:2px; }
+  .world-foot { font-size:14px; padding:0 8px; margin-top:8px; }
+}
+
+@media (max-width: 380px) {
+  .clock-card { padding:8px 6px 7px; }
+  .clock-city { font-size:11px; letter-spacing:0.5px; }
+  .clock-flag { font-size:11px; }
+  .clock-time { font-size:14px; }
+  .clock-state { font-size:6px; }
+}
+
 /* TITLE */
 .hero-title {
   font-family:'Bebas Neue',sans-serif;
@@ -185,7 +301,7 @@ body::after {
 .story {
   position:relative; z-index:2;
   max-width:580px; margin:0 auto;
-  padding:0 28px 32px; text-align:center;
+  padding:0 28px 14px; text-align:center;
   opacity:0; animation:rise 1s ease 1.32s forwards;
 }
 .story::before {
@@ -291,7 +407,7 @@ body::after {
   .ca-copy-btn { font-size:11px; padding:9px 18px; }
   .ca-hint { font-size:9px; }
 
-  .story { padding:0 20px 28px; }
+  .story { padding:0 20px 12px; }
   .story-title { font-size:28px; }
   .story-text { font-size:20px; line-height:1.85; }
   .story-note { font-size:11px; letter-spacing:2px; }
@@ -388,8 +504,15 @@ body::after {
     Zapped instantly to anyone, anywhere on Earth.<br/>
     Tesla understood this a century ago.<br/>
     The code was always there, hidden in plain sight.
-    <span class="story-note" style="margin-top:14px;">One frequency. One signal. One world.</span>
   </p>
+  <p class="world-sub" style="margin-top:14px; margin-bottom:22px;">One frequency · one signal · one world</p>
+</section>
+
+<section class="world-clock">
+  <div class="clock-grid" id="clockGrid">
+    <!-- populated by JS -->
+  </div>
+  <p class="world-foot" id="worldFoot">⚡ Somewhere on Earth, someone just ⚡zapped.</p>
 </section>
 
 <div class="stats">
@@ -409,15 +532,17 @@ body::after {
 </div>
 
 <script>
-function toggleBuy(e) {
-  e.stopPropagation();
-  var m = document.getElementById('buyMenu');
-  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+function toggleMenu(id){
+  var m=document.getElementById(id);
+  m.style.display=m.style.display==='block'?'none':'block';
 }
-document.addEventListener('click', function(e) {
-  var wrap = document.getElementById('buyWrap');
-  if (wrap && !wrap.contains(e.target))
-    document.getElementById('buyMenu').style.display = 'none';
+function closeMenu(id){
+  var m=document.getElementById(id);
+  if(m) m.style.display='none';
+}
+document.addEventListener('click',function(e){
+  if(!e.target.closest('#buyWrap')) closeMenu('buyMenu');
+  if(!e.target.closest('#socialWrap')) closeMenu('socialMenu');
 });
 function copyCA() {
   navigator.clipboard.writeText('Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump').then(() => {
@@ -431,19 +556,123 @@ function copyCA() {
     }, 2500);
   });
 }
-</script>
 
-<script>
-function toggleMenu(id){
-  var m=document.getElementById(id);
-  m.style.display=m.style.display==='block'?'none':'block';
+/* WORLD CLOCK */
+const CITIES = [
+  { city:'Los Angeles', flag:'🌴', tz:'America/Los_Angeles' },
+  { city:'New York',    flag:'🗽', tz:'America/New_York' },
+  { city:'São Paulo',   flag:'🇧🇷', tz:'America/Sao_Paulo' },
+  { city:'Barcelona',   flag:'🇪🇸', tz:'Europe/Madrid' },
+  { city:'Bucharest',   flag:'🇷🇴', tz:'Europe/Bucharest' },
+  { city:'Dubai',        flag:'🇦🇪', tz:'Asia/Dubai' },
+  { city:'Shanghai',    flag:'🇨🇳', tz:'Asia/Shanghai' },
+  { city:'Tokyo',       flag:'🗾', tz:'Asia/Tokyo' },
+  { city:'Sydney',      flag:'🦘', tz:'Australia/Sydney' }
+];
+const FOOT_MESSAGES = [
+  '⚡ Somewhere on Earth, someone just ⚡zapped.',
+  '⚡ The current is flowing in {city}.',
+  '⚡ While {city} sleeps, {city2} buys the dip.',
+  '⚡ Tesla\'s frequency reaches every time zone.',
+  '⚡ No banks. No borders. No off-switch.',
+  '⚡ {city} is awake. The signal continues.',
+  '⚡ Sunrise in {city}. The grid never dimmed.'
+];
+
+function getTimeParts(tz) {
+  const fmt = new Intl.DateTimeFormat('en-GB', {
+    timeZone: tz, hour12:false,
+    hour:'2-digit', minute:'2-digit', second:'2-digit'
+  });
+  const parts = fmt.formatToParts(new Date());
+  const get = t => parts.find(p=>p.type===t).value;
+  return { h:get('hour'), m:get('minute'), s:get('second') };
 }
-function closeMenu(id){
-  document.getElementById(id).style.display='none';
+
+function isDaytime(hour) {
+  const h = parseInt(hour, 10);
+  return h >= 6 && h < 19;
 }
-document.addEventListener('click',function(e){
-  if(!e.target.closest('#buyWrap'))closeMenu('buyMenu');
-  if(!e.target.closest('#communityWrap'))closeMenu('communityMenu');
+
+function stateLabel(hour) {
+  const h = parseInt(hour, 10);
+  if (h >= 5 && h < 8)   return 'Sunrise';
+  if (h >= 8 && h < 12)  return 'Morning';
+  if (h >= 12 && h < 14) return 'Midday';
+  if (h >= 14 && h < 18) return 'Afternoon';
+  if (h >= 18 && h < 21) return 'Sunset';
+  if (h >= 21 || h < 1)  return 'Night';
+  return 'Late Night';
+}
+
+function buildClocks() {
+  const grid = document.getElementById('clockGrid');
+  if (!grid) return;
+  grid.innerHTML = CITIES.map((c, i) => `
+    <div class="clock-card" data-i="${i}" data-tz="${c.tz}" data-city="${c.city}">
+      <div class="clock-city">
+        <span>${c.flag} ${c.city}</span>
+        <span class="clock-icon" data-icon></span>
+      </div>
+      <div class="clock-time" data-time>--:--:--</div>
+      <div class="clock-state" data-state>—</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.clock-card').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.add('pulse-on');
+      setTimeout(()=>card.classList.remove('pulse-on'), 1800);
+      const city = card.dataset.city;
+      const foot = document.getElementById('worldFoot');
+      if (foot) {
+        foot.textContent = `⚡ ${city} just ⚡zapped. The current is flowing.`;
+        foot.style.opacity = 0;
+        setTimeout(()=>{ foot.style.opacity = 1; }, 50);
+      }
+    });
+  });
+}
+
+function tickClocks() {
+  document.querySelectorAll('.clock-card').forEach(card => {
+    const { h, m, s } = getTimeParts(card.dataset.tz);
+    card.querySelector('[data-time]').textContent = `${h}:${m}:${s}`;
+    card.querySelector('[data-state]').textContent = stateLabel(h);
+    const day = isDaytime(h);
+    card.classList.toggle('day', day);
+    card.classList.toggle('night', !day);
+    card.querySelector('[data-icon]').textContent = day ? '☀' : '☾';
+  });
+}
+
+function rotateFootMessage() {
+  const foot = document.getElementById('worldFoot');
+  if (!foot) return;
+  // pick a city that's awake (daytime)
+  const awake = CITIES.filter(c => {
+    const { h } = getTimeParts(c.tz);
+    return isDaytime(h);
+  });
+  const asleep = CITIES.filter(c => {
+    const { h } = getTimeParts(c.tz);
+    return !isDaytime(h);
+  });
+  const pickAwake = awake.length ? awake[Math.floor(Math.random()*awake.length)].city : CITIES[0].city;
+  const pickAsleep = asleep.length ? asleep[Math.floor(Math.random()*asleep.length)].city : CITIES[1].city;
+  const tmpl = FOOT_MESSAGES[Math.floor(Math.random()*FOOT_MESSAGES.length)];
+  const msg = tmpl.replace('{city2}', pickAwake).replace('{city}', pickAsleep);
+  foot.style.opacity = 0;
+  setTimeout(()=>{
+    foot.textContent = msg;
+    foot.style.opacity = 1;
+  }, 400);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildClocks();
+  tickClocks();
+  setInterval(tickClocks, 1000);
+  setInterval(rotateFootMessage, 6000);
 });
 </script>
 </body>
