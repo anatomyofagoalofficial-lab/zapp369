@@ -559,24 +559,24 @@ function copyCA() {
 
 /* WORLD CLOCK */
 const CITIES = [
-  { city:'Los Angeles', flag:'🌴', tz:'America/Los_Angeles' },
-  { city:'New York',    flag:'🗽', tz:'America/New_York' },
-  { city:'São Paulo',   flag:'🇧🇷', tz:'America/Sao_Paulo' },
-  { city:'Barcelona',   flag:'🇪🇸', tz:'Europe/Madrid' },
-  { city:'Bucharest',   flag:'🇷🇴', tz:'Europe/Bucharest' },
-  { city:'Dubai',        flag:'🇦🇪', tz:'Asia/Dubai' },
-  { city:'Shanghai',    flag:'🇨🇳', tz:'Asia/Shanghai' },
-  { city:'Tokyo',       flag:'🗾', tz:'Asia/Tokyo' },
-  { city:'Sydney',      flag:'🦘', tz:'Australia/Sydney' }
+  { city:'New York',     flag:'🇺🇸🗽', tz:'America/New_York' },
+  { city:'São Paulo',    flag:'🇧🇷⚽', tz:'America/Sao_Paulo' },
+  { city:'London',       flag:'🇬🇧🎡', tz:'Europe/London' },
+  { city:'Barcelona',    flag:'🇪🇸🏖️', tz:'Europe/Madrid' },
+  { city:'Cluj-Napoca',  flag:'🇷🇴🦇', tz:'Europe/Bucharest' },
+  { city:'Dubai',        flag:'🇦🇪🐪', tz:'Asia/Dubai' },
+  { city:'Mumbai',       flag:'🇮🇳🕌', tz:'Asia/Kolkata' },
+  { city:'Shanghai',     flag:'🇨🇳🐉', tz:'Asia/Shanghai' },
+  { city:'Tokyo',        flag:'🇯🇵🥷', tz:'Asia/Tokyo' }
 ];
 const FOOT_MESSAGES = [
   '⚡ Somewhere on Earth, someone just ⚡zapped.',
-  '⚡ The current is flowing in {city}.',
-  '⚡ While {city} sleeps, {city2} buys the dip.',
+  '⚡ The current is flowing in {awake}.',
+  '⚡ While {asleep} sleeps, {awake} buys the dip.',
   '⚡ Tesla\'s frequency reaches every time zone.',
-  '⚡ No banks. No borders. No off-switch.',
-  '⚡ {city} is awake. The signal continues.',
-  '⚡ Sunrise in {city}. The grid never dimmed.'
+  '⚡ No banks. No borders. No middleman.',
+  '⚡ {awake} is awake. The signal continues.',
+  '⚡ Sunrise in {awake}. The grid never dimmed.'
 ];
 
 function getTimeParts(tz) {
@@ -657,10 +657,12 @@ function rotateFootMessage() {
     const { h } = getTimeParts(c.tz);
     return !isDaytime(h);
   });
-  const pickAwake = awake.length ? awake[Math.floor(Math.random()*awake.length)].city : CITIES[0].city;
+  const pickAwake  = awake.length  ? awake[Math.floor(Math.random()*awake.length)].city   : CITIES[0].city;
   const pickAsleep = asleep.length ? asleep[Math.floor(Math.random()*asleep.length)].city : CITIES[1].city;
   const tmpl = FOOT_MESSAGES[Math.floor(Math.random()*FOOT_MESSAGES.length)];
-  const msg = tmpl.replace('{city2}', pickAwake).replace('{city}', pickAsleep);
+  const msg = tmpl
+    .replace('{awake}',  pickAwake)
+    .replace('{asleep}', pickAsleep);
   foot.style.opacity = 0;
   setTimeout(()=>{
     foot.textContent = msg;
