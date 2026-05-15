@@ -13,9 +13,9 @@
 <meta property="og:url" content="https://zapp369.energy/how-to-buy.html"/>
 <meta property="og:title" content="Talk to ⚡ZAPP · Money that moves like a message"/>
 <meta property="og:description" content="A small Solana token with a big story. Inspired by Nikola Tesla, carried by a community that actually shows up. 3·6·9 ∞"/>
-<meta property="og:image" content="https://zapp369.energy/zapp-social-preview.jpg"/>
-<meta property="og:image:width" content="1024"/>
-<meta property="og:image:height" content="1280"/>
+<meta property="og:image" content="https://zapp369.energy/zapp-social-preview-x.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
 <meta property="og:image:alt" content="⚡ZAPP — Why ZAPP isn't just another memecoin"/>
 <meta property="og:site_name" content="⚡ZAPP"/>
 
@@ -24,7 +24,7 @@
 <meta name="twitter:site" content="@ZAPPonSOL"/>
 <meta name="twitter:title" content="Why ⚡ZAPP isn't just another memecoin"/>
 <meta name="twitter:description" content="A small Solana token with a big story. Inspired by Nikola Tesla. 3·6·9 ∞"/>
-<meta name="twitter:image" content="https://zapp369.energy/zapp-social-preview.jpg"/>
+<meta name="twitter:image" content="https://zapp369.energy/zapp-social-preview-x.jpg"/>
 <meta name="twitter:image:alt" content="⚡ZAPP — Why ZAPP isn't just another memecoin"/>
 
 <link rel="icon" type="image/x-icon" href="zapp.ico"/>
@@ -296,7 +296,17 @@ button:focus:not(:focus-visible){outline:none}
   .tbtn{font-size:10px;padding:8px 10px;letter-spacing:0.05em;white-space:nowrap;min-height:34px;display:inline-flex;align-items:center}
   .tbtn.buy{font-size:11.5px;padding:9px 13px;letter-spacing:0.04em;font-weight:500}
   /* Hide "Home" link on mobile - they came from home, save space */
-  .top-btns a[href="https://zapp369.energy"]{display:none}
+  /* Home button on mobile: compact arrow only, no text */
+  .top-btns a[href="https://zapp369.energy"]{
+    font-size:0; /* hide text */
+    padding:8px 10px;
+    min-width:34px;
+  }
+  .top-btns a[href="https://zapp369.energy"]::before{
+    content:'←';
+    font-size:14px;
+    color:var(--gold);
+  }
 
   /* RISK FOOTER. let it wrap on mobile since one line won't fit */
   .risk-footer{
@@ -462,7 +472,7 @@ button:focus:not(:focus-visible){outline:none}
   <div class="top-btns">
     <button class="tbtn" onclick="clearChat()">✕ Clear</button>
     <a class="tbtn" href="https://zapp369.energy">← Home</a>
-    <a class="tbtn buy" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank">⚡ Buy ⚡ZAPP</a>
+    <a class="tbtn buy" href="https://phantom.com/tokens/solana/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump?referralId=k31pepyasnt" target="_blank">⚡ Buy ⚡ZAPP</a>
   </div>
 </div>
 
