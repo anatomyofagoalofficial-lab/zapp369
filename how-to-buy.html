@@ -95,7 +95,7 @@ body{
 .feed::-webkit-scrollbar-thumb{background:rgba(201,149,10,0.3);border-radius:2px}
 .divider{text-align:center;font-family:'Space Mono',monospace;font-size:9px;color:rgba(247,237,204,0.18);letter-spacing:0.2em;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.row{display:flex;gap:10px;animation:fadein 0.5s cubic-bezier(0.2,0.8,0.2,1) both;align-items:flex-start;scroll-margin-top:24px;scroll-margin-bottom:80px}
+.row{display:flex;gap:10px;animation:fadein 0.5s cubic-bezier(0.2,0.8,0.2,1) both;align-items:flex-start;scroll-margin-top:68px;scroll-margin-bottom:80px}
 .row.zapp{animation:zappReveal 0.65s cubic-bezier(0.16,0.84,0.32,1) both}
 @keyframes fadein{from{opacity:0;transform:translateY(14px) scale(0.99)}to{opacity:1;transform:none}}
 @keyframes zappReveal{
@@ -122,6 +122,8 @@ body{
 .dot:nth-child(2){animation-delay:0.15s}
 .dot:nth-child(3){animation-delay:0.3s}
 @keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-8px);opacity:1}}
+/* Pills wrap container - hosts the scroll arrow indicator on mobile */
+.pills-wrap{position:relative;flex-shrink:0;max-width:780px;width:100%;margin:0 auto;box-sizing:border-box}
 .pills{padding:10px 20px 8px;display:flex;gap:7px;flex-wrap:wrap;justify-content:center;flex-shrink:0;max-width:780px;width:100%;margin:0 auto;box-sizing:border-box}
 .pills::-webkit-scrollbar{display:none}
 .pill{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:0.05em;padding:7px 13px;border:1px solid rgba(201,149,10,0.22);border-radius:18px;color:rgba(247,237,204,0.65);background:rgba(201,149,10,0.04);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all 0.18s ease;scroll-snap-align:start;font-weight:400}
@@ -215,14 +217,18 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{
 }
 button:focus:not(:focus-visible){outline:none}
 
-/* LANGUAGE FLAGS. single row, never wraps, mobile-scales naturally */
+/* LANGUAGE FLAGS. sticky at top, single row, never wraps */
 .lang-row{
   display:flex;
   gap:8px;
   justify-content:center;
   align-items:center;
-  padding:6px 0;
+  padding:8px 14px 10px;
   flex-wrap:nowrap;
+  position:sticky;top:0;z-index:6;
+  background:linear-gradient(to bottom,rgba(10,6,0,0.96) 0%,rgba(10,6,0,0.92) 75%,rgba(10,6,0,0) 100%);
+  backdrop-filter:blur(8px);
+  margin:0 -14px 4px;
 }
 .lang-flag{
   font-size:20px;
@@ -284,11 +290,15 @@ button:focus:not(:focus-visible){outline:none}
   }
 
   /* FEED. comfortable mobile breathing */
-  .feed{padding:18px 12px;gap:16px}
+  .feed{padding:10px 12px 14px;gap:10px}
+
+  /* Hide divider on mobile to save vertical space */
+  .divider{display:none}
 
   /* CHAT BUBBLES. readable phone size with better breathing */
-  .bub{padding:14px 16px;font-size:15px;line-height:1.7;border-radius:12px}
-  .row{gap:8px;scroll-margin-top:20px}
+  .bub{padding:13px 15px;font-size:14.5px;line-height:1.6;border-radius:12px}
+  .bub br{line-height:0.5} /* tighter paragraph gaps so welcome fits */
+  .row{gap:8px;scroll-margin-top:56px}
   .row.zapp{max-width:94%}
   .row.zapp .bub{border-radius:4px 14px 14px 14px}
   .row.me{max-width:82%}
@@ -305,9 +315,23 @@ button:focus:not(:focus-visible){outline:none}
     scrollbar-width:none;
     -webkit-overflow-scrolling:touch;
     scroll-snap-type:x mandatory;
-    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 14px,#000 calc(100% - 28px),transparent 100%);
-    mask-image:linear-gradient(to right,transparent 0,#000 14px,#000 calc(100% - 28px),transparent 100%);
+    position:relative;
   }
+  /* Visible right-edge scroll affordance — arrow ▸ hint */
+  .pills-wrap{position:relative}
+  .pills-wrap::after{
+    content:'▸';
+    position:absolute;
+    right:6px;top:50%;
+    transform:translateY(-50%);
+    color:var(--gold);
+    font-size:13px;
+    pointer-events:none;
+    text-shadow:0 0 8px var(--bg),0 0 4px var(--bg),0 0 12px var(--bg);
+    animation:nudge 2.4s ease-in-out infinite;
+    z-index:5;
+  }
+  @keyframes nudge{0%,100%{transform:translateY(-50%) translateX(0);opacity:0.65}50%{transform:translateY(-50%) translateX(3px);opacity:1}}
   .pills::-webkit-scrollbar{display:none}
   .pill{font-size:12px;padding:10px 15px;letter-spacing:0.04em;min-height:40px;display:inline-flex;align-items:center;font-weight:400;scroll-snap-align:start}
 
@@ -317,16 +341,16 @@ button:focus:not(:focus-visible){outline:none}
   .sbtn{width:44px;height:44px;font-size:19px;border-radius:50%}
 
   /* LANGUAGE FLAGS. keep all 9 on one row by scaling down */
-  .lang-row{gap:6px;padding:6px 0 8px}
+  .lang-row{gap:6px;padding:5px 14px 7px;margin-bottom:0}
   .lang-flag{
-    width:33px;height:33px;min-width:33px;
-    font-size:18px;
+    width:31px;height:31px;min-width:31px;
+    font-size:16px;
     border-width:1.5px;
   }
   .lang-flag.lang-active{box-shadow:0 0 12px rgba(201,149,10,0.3)}
 
   /* Reduce divider/THE SIGNAL letter-spacing for mobile */
-  .divider{font-size:9px;letter-spacing:0.14em;padding:8px 0 4px}
+  .divider{font-size:9px;letter-spacing:0.12em;padding:6px 0 2px;margin-bottom:0}
 
   /* SACRED GEOMETRY. slightly dimmer on mobile so text is more readable */
   .sacred-bg{opacity:0.05}
@@ -427,14 +451,14 @@ button:focus:not(:focus-visible){outline:none}
 
   <!-- LANG SELECTOR -->
   <div class="lang-row">
-    <button onclick="setLang('en')" id="lang-en" class="lang-flag lang-active" title="English">🇬🇧</button>
     <button onclick="setLang('es')" id="lang-es" class="lang-flag" title="Español">🇪🇸</button>
-    <button onclick="setLang('ro')" id="lang-ro" class="lang-flag" title="Română">🇷🇴</button>
-    <button onclick="setLang('it')" id="lang-it" class="lang-flag" title="Italiano">🇮🇹</button>
+    <button onclick="setLang('en')" id="lang-en" class="lang-flag lang-active" title="English">🇬🇧</button>
     <button onclick="setLang('fr')" id="lang-fr" class="lang-flag" title="Français">🇫🇷</button>
-    <button onclick="setLang('zh')" id="lang-zh" class="lang-flag" title="中文">🇨🇳</button>
+    <button onclick="setLang('it')" id="lang-it" class="lang-flag" title="Italiano">🇮🇹</button>
     <button onclick="setLang('de')" id="lang-de" class="lang-flag" title="Deutsch">🇩🇪</button>
+    <button onclick="setLang('ro')" id="lang-ro" class="lang-flag" title="Română">🇷🇴</button>
     <button onclick="setLang('ar')" id="lang-ar" class="lang-flag" title="العربية">🇸🇦</button>
+    <button onclick="setLang('zh')" id="lang-zh" class="lang-flag" title="中文">🇨🇳</button>
     <button onclick="setLang('ja')" id="lang-ja" class="lang-flag" title="日本語">🇯🇵</button>
   </div>
 
@@ -443,14 +467,15 @@ button:focus:not(:focus-visible){outline:none}
     <div>
       <div class="bub" id="welcome-bub">
         👋 <strong>Hi. I'm ⚡ZAPP.</strong><br/><br/>
-        A small Solana token with a big story. Inspired by Nikola Tesla, built by a community that actually shows up.<br/><br/>
-        The dream is simple: make money easier to move between people, as easy as sending a message. We're not there yet. Today we're a token. Tomorrow we'll see.<br/><br/>
+        A small Solana token with a big story. Inspired by Nikola Tesla, carried by a community that actually shows up.<br/><br/>
+        The dream is simple: money that moves between people as easily as a message. Anywhere on Earth, anytime. We're not there yet. Today we're a token. Tomorrow, we'll see.<br/><br/>
         Pick a language above and ask me anything. ⚡
       </div>
       <div class="ts" id="t0"></div>
     </div>
   </div></div>
 
+<div class="pills-wrap">
 <div class="pills" id="pills">
   <button class="pill" onclick="ask(0)">⚡ What is ⚡ZAPP?</button>
   <button class="pill" onclick="ask(1)">👻 What is Phantom?</button>
@@ -461,6 +486,7 @@ button:focus:not(:focus-visible){outline:none}
   <button class="pill" onclick="ask(6)">🔢 3·6·9 magic</button>
   <button class="pill" onclick="ask(7)">🌍 The dream</button>
   <button class="pill" onclick="ask(8)">🔗 Pump.fun</button>
+</div>
 </div>
 
 <div class="bar">
@@ -658,7 +684,7 @@ function setLang(code) {
   // RTL support for Arabic
   document.documentElement.dir = (code === 'ar') ? 'rtl' : 'ltr';
   // update active flag styling using clean class toggle
-  ['en','ro','es','it','fr','zh','de','ar','ja'].forEach(c => {
+  ['es','en','fr','it','de','ro','ar','zh','ja'].forEach(c => {
     const btn = document.getElementById('lang-'+c);
     if(btn) btn.classList.toggle('lang-active', c === code);
   });
@@ -716,6 +742,25 @@ function showTyping(){
 }
 function hideTyping(){const t=document.getElementById('typ');if(t)t.remove();}
 
+// Buttery-smooth custom scroll with cinematic easing.
+// Slower and more deliberate than native smooth-scroll. Feels like the answer "arrives".
+function smoothScrollTo(container, targetTop, duration){
+  duration = duration || 600;
+  const start = container.scrollTop;
+  const distance = targetTop - start;
+  if(Math.abs(distance) < 4) return;
+  const startTime = performance.now();
+  // Ease-out-cubic: fast start, gentle landing
+  function ease(t){ return 1 - Math.pow(1 - t, 3); }
+  function step(now){
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    container.scrollTop = start + distance * ease(t);
+    if(t < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 // Tap a pill → show user's question + ZAPP's pre-written answer.
 // Pills stay visible so the user can browse all topics.
 function ask(idx){
@@ -736,17 +781,17 @@ function ask(idx){
     hideTyping();
     const answerRow = addRow('zapp', answer);
     busy=false;
-    // Smooth-scroll the answer's top into view, with a small top offset
-    // so the title doesn't tuck under the header (iOS Safari friendly)
+    // Cinematic smooth-scroll: answer's title aligns just below the sticky lang-row.
     if(answerRow){
-      setTimeout(() => {
+      requestAnimationFrame(() => {
+        // Wait for layout, then scroll using custom easing
         const feedEl = document.getElementById('feed');
-        const rowTop = answerRow.offsetTop;
-        feedEl.scrollTo({
-          top: Math.max(0, rowTop - 12),
-          behavior: 'smooth'
-        });
-      }, 40);
+        // Calculate target: row's position minus space for sticky lang-row
+        const isMobile = window.innerWidth <= 600;
+        const stickyOffset = isMobile ? 56 : 68;
+        const targetTop = answerRow.offsetTop - stickyOffset;
+        smoothScrollTo(feedEl, targetTop, 650);
+      });
     }
   }, 650 + Math.random() * 400);
 }
