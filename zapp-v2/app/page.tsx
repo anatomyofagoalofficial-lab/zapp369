@@ -10,6 +10,7 @@ import { IntroScene } from "@/components/IntroScene";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { Marquee } from "@/components/Marquee";
 import { ElectricArcs } from "@/components/ElectricArcs";
+import { EnterGate } from "@/components/EnterGate";
 import { ERAS, SLOGANS } from "@/lib/constants";
 
 /**
@@ -19,6 +20,9 @@ import { ERAS, SLOGANS } from "@/lib/constants";
 export default function Home() {
   return (
     <main className="relative">
+        {/* The threshold: tower far away → tap to rush inside */}
+        <EnterGate />
+
         {/* Cinematic cosmos field behind the whole home page (warm nebula +
             receding grid), fully visible behind a legibility wash. */}
         <div className="pointer-events-none fixed inset-0 z-0">
