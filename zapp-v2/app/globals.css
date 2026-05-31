@@ -131,6 +131,66 @@ body::after {
   }
 }
 
+/* ── PAST · an old photograph ──────────────────────────────────────────
+   A vintage treatment: warm sepia wash, heavy edge vignette, a slow flicker
+   like aged film running through a projector. Sits above the page art. */
+.era-past::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 90% 80% at 50% 45%, transparent 55%, rgba(20, 10, 4, 0.55) 100%),
+    linear-gradient(rgba(120, 78, 30, 0.12), rgba(60, 36, 14, 0.18));
+  mix-blend-mode: multiply;
+  animation: past-flicker 5s steps(1) infinite;
+}
+@keyframes past-flicker {
+  0%, 97%, 100% { opacity: 1; }
+  98% { opacity: 0.93; }
+  99% { opacity: 0.97; }
+}
+
+/* ── FUTURE · super-futuristic ─────────────────────────────────────────
+   Fine CRT scanlines + a bright scan sweep gliding down the screen, like a
+   holographic display booting. Sits above the page art. */
+.era-future::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 229, 255, 0.05) 0px,
+    rgba(0, 229, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.6;
+}
+.era-future::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 41;
+  pointer-events: none;
+  height: 30vh;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 229, 255, 0.07) 50%,
+    rgba(123, 47, 255, 0.05) 70%,
+    transparent
+  );
+  animation: future-scan 6s linear infinite;
+}
+@keyframes future-scan {
+  0% { transform: translateY(-30vh); }
+  100% { transform: translateY(100vh); }
+}
+
 /* Long-form reading style for the whitepaper — no typography plugin needed. */
 @layer components {
   .prose-zapp {

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function PastPage() {
   return (
-    <main className="relative min-h-screen bg-[#0a0604] text-[#f4e8d0]">
+    <main className="era-past relative min-h-screen bg-[#0a0604] text-[#f4e8d0]">
       {/* The cinematic WebGL world IS the page: backlit monument, golden-hour
           god-rays, drifting desert haze, the 3·6·9 sacred geometry. Fixed, full
           screen, fully visible (no opaque background covering it). */}

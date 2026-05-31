@@ -68,7 +68,7 @@ function BranchingLight() {
 
 export default function FuturePage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#05060a] text-future-white">
+    <main className="era-future relative min-h-screen overflow-hidden bg-[#05060a] text-future-white">
       {/* The cinematic WebGL world IS the page: infinite energy grid flying to a
           radiant horizon sun (futurefx), fully visible behind a legibility wash. */}
       <div className="pointer-events-none fixed inset-0 z-0">
