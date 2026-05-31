@@ -8,6 +8,7 @@ import { WorldClock } from "@/components/WorldClock";
 import { MascotHero } from "@/components/MascotHero";
 import { BurnRitual } from "@/components/BurnRitual";
 import { Numeral3D } from "@/components/Numeral3D";
+import { Parallax } from "@/components/Parallax";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -91,10 +92,12 @@ export default function FuturePage() {
         {/* The monument: branching light rising above the mascot, who stands
             small at its base on purpose, signalling the scale of the network. */}
         <div className="relative my-12 w-full max-w-md">
-          <div className="absolute left-1/2 top-[-6rem] h-80 w-72 -translate-x-1/2 opacity-70">
+          <Parallax speed={90} className="absolute left-1/2 top-[-6rem] h-80 w-72 -translate-x-1/2 opacity-70">
             <BranchingLight />
-          </div>
-          <MascotHero era="future" priority className="relative" />
+          </Parallax>
+          <Parallax speed={-50} className="relative">
+            <MascotHero era="future" priority />
+          </Parallax>
         </div>
 
         <p className="relative max-w-reading text-pretty font-serif text-xl leading-relaxed text-future-white/70">

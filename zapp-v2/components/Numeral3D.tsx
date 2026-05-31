@@ -5,6 +5,7 @@ import {
   motion,
   useMotionValue,
   useReducedMotion,
+  useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
@@ -72,6 +73,21 @@ export function Numeral3D({
     damping: 18,
   });
 
+  // Scroll-driven motion: the numeral drifts and slowly turns as the page
+  // scrolls — real motion tied to scroll position, not a static layer.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const scrollY = useSpring(useTransform(scrollYProgress, [0, 1], [90, -90]), {
+    stiffness: 80,
+    damping: 30,
+  });
+  const scrollSpin = useSpring(useTransform(scrollYProgress, [0, 1], [-12, 12]), {
+    stiffness: 80,
+    damping: 30,
+  });
+
   function onMove(e: React.PointerEvent) {
     if (reduce) return;
     const el = ref.current;
@@ -110,11 +126,11 @@ export function Numeral3D({
       style={{ ...style, perspective: 900 }}
     >
       <motion.div
-        animate={{ y: [0, -14, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         style={{
           rotateX: rotX,
           rotateY: rotY,
+          rotateZ: scrollSpin,
+          y: scrollY,
           transformStyle: "preserve-3d",
           position: "relative",
           lineHeight: 1,

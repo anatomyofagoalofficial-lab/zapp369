@@ -8,6 +8,7 @@ import { LiveChart } from "@/components/LiveChart";
 import { Calculator } from "@/components/Calculator";
 import { MascotHero } from "@/components/MascotHero";
 import { Numeral3D } from "@/components/Numeral3D";
+import { Parallax } from "@/components/Parallax";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
@@ -100,10 +101,12 @@ export default async function PresentPage() {
 
           {/* The mascot at the centre of the network — the instrument is on. */}
           <div className="relative mx-auto w-full max-w-sm">
-            <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 opacity-60">
+            <Parallax speed={70} className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 opacity-60">
               <NetworkMotif />
-            </div>
-            <MascotHero era="present" priority className="relative" />
+            </Parallax>
+            <Parallax speed={-40} className="relative">
+              <MascotHero era="present" priority />
+            </Parallax>
           </div>
         </div>
       </section>
