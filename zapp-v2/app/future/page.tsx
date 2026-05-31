@@ -4,6 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { BrandMark } from "@/components/BrandMark";
+import { WorldClock } from "@/components/WorldClock";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -90,6 +91,24 @@ export default function FuturePage() {
           carried at the speed of light to anyone with a phone, anywhere on this
           planet.
         </p>
+      </section>
+
+      {/* ── One world · live time zones (carried over from v1) ── */}
+      <section className="relative px-6 py-24">
+        <Reveal className="mx-auto max-w-5xl text-center">
+          <p className="font-mono text-xs uppercase tracking-ritual text-future-cyan">
+            One frequency · One signal · One world
+          </p>
+          <h2 className="mt-4 text-balance font-serif text-3xl leading-tight sm:text-4xl">
+            No banks. No borders. Zapped to anyone, anywhere on Earth.
+          </h2>
+          <div className="mt-10">
+            <WorldClock />
+          </div>
+          <p className="mt-10 font-serif text-lg italic text-future-white/60">
+            ⚡ Tesla&rsquo;s frequency reaches every time zone.
+          </p>
+        </Reveal>
       </section>
 
       {/* ── The Direction (Whitepaper VII) ── */}
