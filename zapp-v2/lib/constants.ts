@@ -50,14 +50,25 @@ export const LINKS = {
 } as const;
 
 /** Live chart — the ⚡ZAPP/SOL pool on the Pump.fun AMM (PumpSwap).
- *  Primary embed = GeckoTerminal (loads reliably for fresh Solana pools).
- *  Fallback link = DexScreener. */
+ *
+ *  ⚡ EASY TO EDIT: the chart on the site is whatever URL is in `embedUrl` below.
+ *  To change the chart, just swap `embedUrl` to one of the options.
+ *  (Note: pump.fun's OWN chart page can't be embedded — it blocks iframes with
+ *   X-Frame-Options — so we embed GeckoTerminal/DexScreener of the SAME pool,
+ *   and the "Trade on Pump.fun" button sends people to pump.fun to actually buy.)
+ *
+ *  OPTION A — GeckoTerminal (current, most reliable for new Solana pools):
+ *    https://www.geckoterminal.com/solana/pools/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&info=0&swaps=0
+ *  OPTION B — DexScreener:
+ *    https://dexscreener.com/solana/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&theme=dark&trades=0&info=0
+ *  OPTION C — GeckoTerminal by TOKEN (if the pool address ever changes):
+ *    https://www.geckoterminal.com/solana/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump?embed=1&info=0&swaps=0
+ */
 export const CHART = {
   pairAddress: "GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx",
-  // GeckoTerminal embeddable widget (dark, no header noise)
+  // 👇 change this one line to swap the chart shown on the site
   embedUrl:
-    "https://www.geckoterminal.com/solana/pools/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=15m",
-  // DexScreener as the alternate full chart
+    "https://www.geckoterminal.com/solana/pools/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&info=0&swaps=0",
   dexEmbedUrl:
     "https://dexscreener.com/solana/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&theme=dark&trades=0&info=0",
 } as const;
