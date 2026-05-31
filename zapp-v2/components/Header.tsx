@@ -15,13 +15,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      {/* Legibility scrim — keeps nav readable over light + dark pages. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 to-transparent"
-      />
-
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-present-black/70 backdrop-blur-md">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" aria-label="⚡ZAPP home">
           <BrandMark

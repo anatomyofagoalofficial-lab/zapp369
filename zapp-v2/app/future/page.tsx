@@ -7,6 +7,7 @@ import { BrandMark } from "@/components/BrandMark";
 import { WorldClock } from "@/components/WorldClock";
 import { MascotHero } from "@/components/MascotHero";
 import { BurnRitual } from "@/components/BurnRitual";
+import { Numeral3D } from "@/components/Numeral3D";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -73,31 +74,30 @@ export default function FuturePage() {
 
       {/* ── Hero ── */}
       <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center overflow-hidden px-6 py-32 text-center">
-        <span
-          aria-hidden="true"
-          className="ghost-number font-serif text-future-crown/[0.08]"
-          style={{ fontSize: "clamp(18rem, 44vw, 38rem)", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
-        >
-          9
-        </span>
-        <p className="font-mono text-xs uppercase tracking-ritual text-future-crown">
+        <Numeral3D
+          era="future"
+          value="9"
+          className="ghost-number font-serif opacity-[0.55]"
+          style={{ fontSize: "clamp(16rem, 40vw, 34rem)", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        />
+        <p className="relative font-mono text-xs uppercase tracking-ritual text-future-crown">
           9 · Future · The Network
         </p>
 
-        {/* The monument: branching light rising behind the mascot, who stands
-            on his plinth at its base — small against the structure on purpose,
-            signalling the magnitude of the network behind him. */}
-        <div className="relative my-10 w-full max-w-md">
-          <div className="absolute left-1/2 top-0 h-80 w-72 -translate-x-1/2 opacity-80">
-            <BranchingLight />
-          </div>
-          <MascotHero era="future" priority className="relative pt-20" />
-        </div>
-
-        <h1 className="max-w-3xl text-balance font-serif text-5xl font-semibold leading-tight sm:text-7xl">
+        <h1 className="relative mt-6 max-w-3xl text-balance font-serif text-5xl font-semibold leading-tight sm:text-7xl">
           When the signal belongs to everyone.
         </h1>
-        <p className="mt-8 max-w-reading text-pretty font-serif text-xl leading-relaxed text-future-white/70">
+
+        {/* The monument: branching light rising above the mascot, who stands
+            small at its base on purpose, signalling the scale of the network. */}
+        <div className="relative my-12 w-full max-w-md">
+          <div className="absolute left-1/2 top-[-6rem] h-80 w-72 -translate-x-1/2 opacity-70">
+            <BranchingLight />
+          </div>
+          <MascotHero era="future" priority className="relative" />
+        </div>
+
+        <p className="relative max-w-reading text-pretty font-serif text-xl leading-relaxed text-future-white/70">
           Free money. Free energy. No gatekeepers. The revolution Tesla started,
           carried at the speed of light to anyone with a phone, anywhere on this
           planet.
@@ -105,7 +105,7 @@ export default function FuturePage() {
       </section>
 
       {/* ── One world · live time zones (carried over from v1) ── */}
-      <section className="relative px-6 py-24">
+      <section className="relative scroll-mt-24 px-6 pb-24 pt-12">
         <Reveal className="mx-auto max-w-5xl text-center">
           <p className="font-mono text-xs uppercase tracking-ritual text-future-cyan">
             One frequency · One signal · One world

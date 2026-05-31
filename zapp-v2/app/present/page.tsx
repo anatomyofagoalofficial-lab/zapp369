@@ -7,6 +7,7 @@ import { LiveStat } from "@/components/LiveStat";
 import { LiveChart } from "@/components/LiveChart";
 import { Calculator } from "@/components/Calculator";
 import { MascotHero } from "@/components/MascotHero";
+import { Numeral3D } from "@/components/Numeral3D";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
@@ -74,13 +75,12 @@ export default async function PresentPage() {
 
       {/* ── Hero ── */}
       <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
-        <span
-          aria-hidden="true"
-          className="ghost-number font-serif text-present-blue/[0.07]"
-          style={{ fontSize: "clamp(16rem, 40vw, 34rem)", bottom: "-4rem", right: "-2rem" }}
-        >
-          6
-        </span>
+        <Numeral3D
+          era="present"
+          value="6"
+          className="ghost-number font-serif opacity-50"
+          style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", right: "-1rem" }}
+        />
         <div className="relative grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
           <div>
             <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">

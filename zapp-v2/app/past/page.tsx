@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
+import { Numeral3D } from "@/components/Numeral3D";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -51,13 +52,12 @@ export default function PastPage() {
 
       {/* ── Hero ── */}
       <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
-        <span
-          aria-hidden="true"
-          className="ghost-number font-serif text-past-root/[0.06]"
-          style={{ fontSize: "clamp(16rem, 40vw, 34rem)", bottom: "-4rem", left: "-2rem" }}
-        >
-          3
-        </span>
+        <Numeral3D
+          era="past"
+          value="3"
+          className="ghost-number font-serif opacity-50"
+          style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", left: "-1rem" }}
+        />
         <div className="relative grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
           <div>
             <p className="font-mono text-xs uppercase tracking-ritual text-past-root">
@@ -79,11 +79,10 @@ export default function PastPage() {
             </blockquote>
           </div>
 
-          {/* The mascot at the foot of the tower, on his plinth, reaching toward
-              the descending arc — the Michelangelo gesture. The schematic sits
-              behind him as a Da Vinci notebook study. */}
+          {/* The mascot in his shaft of light. The tower schematic rises tall
+              behind him as a frameless Da Vinci notebook study (ink on paper). */}
           <div className="relative mx-auto w-full max-w-sm">
-            <div className="absolute left-1/2 top-0 h-[22rem] w-48 -translate-x-1/2 rounded-xl border border-past-ink/15 bg-[#efe2c6]/50 p-5 opacity-80 shadow-[0_2px_30px_-12px_rgba(26,20,16,0.4)]">
+            <div className="absolute left-1/2 top-[-3rem] h-[32rem] w-60 -translate-x-1/2 opacity-[0.22]">
               <TowerSchematic />
             </div>
             <MascotHero era="past" priority className="relative" />
