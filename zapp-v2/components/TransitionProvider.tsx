@@ -8,69 +8,95 @@ type NavFn = (href: string) => void;
 const TransitionCtx = createContext<NavFn>(() => {});
 export const useTransitionNav = () => useContext(TransitionCtx);
 
-/** Era tint for the wormhole, inferred from the destination route. */
-function eraOf(href: string): { core: string; ring: string; star: string } {
+/**
+ * Per-destination colours for the portal. Always ⚡ZAPP's own palette — gold is
+ * the constant spark ring, the core takes the destination era's accent.
+ */
+function eraOf(href: string): { core: string; spark: string; rim: string } {
   if (href.startsWith("/past"))
-    return { core: "#E8B547", ring: "rgba(122,46,46,0.7)", star: "#F4E8D0" };
+    return { core: "#E8B547", spark: "#FFD700", rim: "#7A2E2E" };
   if (href.startsWith("/present"))
-    return { core: "#3B82F6", ring: "rgba(34,211,238,0.7)", star: "#F9FAFB" };
+    return { core: "#3B82F6", spark: "#FFD700", rim: "#22D3EE" };
   if (href.startsWith("/future"))
-    return { core: "#9D4EDD", ring: "rgba(34,211,238,0.7)", star: "#F9F9FF" };
-  return { core: "#FFD700", ring: "rgba(255,215,0,0.6)", star: "#FFFFFF" };
+    return { core: "#9D4EDD", spark: "#FFD700", rim: "#22D3EE" };
+  return { core: "#FFD700", spark: "#FFD700", rim: "#FFD700" };
 }
 
-// Deterministic star-streak angles (no Math.random → no hydration issues).
-const STREAKS = Array.from({ length: 28 }, (_, i) => (360 / 28) * i);
+// Deterministic spark positions around the ring (no Math.random → SSR-safe).
+const SPARKS = Array.from({ length: 48 }, (_, i) => (360 / 48) * i);
 
+/**
+ * A Dr-Strange-inspired portal — a spinning circle drawn in flying sparks and
+ * embers — rendered entirely in ⚡ZAPP gold + the destination era's accent.
+ * Inspired by the *idea* of a fiery threshold; original artwork, our colours.
+ */
 function PortalOverlay({ href }: { href: string }) {
   const c = eraOf(href);
+
   return (
     <motion.div
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-black"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.4, ease: "easeInOut" }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
     >
-      {/* hyperspace star streaks rushing outward */}
-      {STREAKS.map((deg, i) => (
-        <motion.span
-          key={i}
-          className="absolute left-1/2 top-1/2 origin-left"
+      {/* The spinning spark-ring (the portal's burning edge) */}
+      <motion.div
+        className="absolute"
+        style={{ width: "70vmin", height: "70vmin" }}
+        initial={{ scale: 0.2, opacity: 0, rotate: 0 }}
+        animate={{ scale: [0.2, 1, 1.15], opacity: [0, 1, 0], rotate: [0, 200] }}
+        transition={{ duration: 1.15, ease: [0.6, 0, 0.3, 1] }}
+      >
+        {SPARKS.map((deg, i) => (
+          <span
+            key={i}
+            className="absolute left-1/2 top-1/2"
+            style={{
+              width: i % 3 === 0 ? 6 : 3,
+              height: i % 3 === 0 ? 6 : 3,
+              borderRadius: "50%",
+              background: i % 4 === 0 ? c.rim : c.spark,
+              boxShadow: `0 0 8px ${c.spark}`,
+              transform: `rotate(${deg}deg) translateY(-35vmin)`,
+            }}
+          />
+        ))}
+        {/* inner glowing rim of the opening */}
+        <div
+          className="absolute inset-[6%] rounded-full"
           style={{
-            height: 2,
-            background: `linear-gradient(to right, transparent, ${c.star})`,
-            rotate: `${deg}deg`,
+            border: `2px solid ${c.spark}`,
+            boxShadow: `0 0 40px ${c.spark}, inset 0 0 40px ${c.spark}`,
+            opacity: 0.5,
           }}
-          initial={{ width: 0, x: 0, opacity: 0 }}
-          animate={{ width: ["0px", "60vmax"], x: ["0vmax", "50vmax"], opacity: [0, 1, 0] }}
-          transition={{ duration: 0.9, ease: "easeIn", delay: (i % 7) * 0.02 }}
         />
-      ))}
+      </motion.div>
 
-      {/* wormhole rings collapsing inward then bursting */}
-      {[0, 0.1, 0.2, 0.3].map((d, i) => (
+      {/* Mandala shimmer — concentric sigil rings flaring out */}
+      {[0, 0.08, 0.16].map((d, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full"
-          style={{ border: `2px solid ${c.ring}` }}
-          initial={{ width: "120vmax", height: "120vmax", opacity: 0 }}
-          animate={{ width: 0, height: 0, opacity: [0, 0.9, 0] }}
-          transition={{ duration: 0.8, ease: "easeIn", delay: d }}
+          style={{ border: `1px solid ${c.spark}`, opacity: 0.4 }}
+          initial={{ width: "10vmin", height: "10vmin", opacity: 0 }}
+          animate={{ width: "120vmin", height: "120vmin", opacity: [0, 0.5, 0] }}
+          transition={{ duration: 1, ease: "easeOut", delay: d }}
         />
       ))}
 
-      {/* central singularity flash */}
+      {/* The opening itself — destination era's colour pouring through */}
       <motion.div
         className="absolute rounded-full blur-2xl"
         style={{ background: `radial-gradient(circle, ${c.core}, transparent 70%)` }}
         initial={{ width: 0, height: 0, opacity: 0 }}
         animate={{
-          width: ["0vmax", "10vmax", "160vmax"],
-          height: ["0vmax", "10vmax", "160vmax"],
+          width: ["0vmax", "8vmax", "150vmax"],
+          height: ["0vmax", "8vmax", "150vmax"],
           opacity: [0, 1, 0],
         }}
-        transition={{ duration: 1.1, ease: [0.7, 0, 0.3, 1] }}
+        transition={{ duration: 1.15, ease: [0.7, 0, 0.3, 1] }}
       />
     </motion.div>
   );
@@ -78,9 +104,8 @@ function PortalOverlay({ href }: { href: string }) {
 
 /**
  * Wraps the app and turns internal navigation into a passage through space and
- * time: clicking an era link plays a full-screen hyperspace/wormhole cover,
- * THEN loads the destination underneath, then clears — so you feel like you
- * travelled, not just swapped pages. Reduced-motion → instant navigation.
+ * time: a full-screen ⚡ZAPP portal opens, the destination loads beneath it,
+ * then the veil lifts. Reduced-motion → instant navigation.
  */
 export function TransitionProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -94,9 +119,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
         return;
       }
       setTarget(href);
-      // cover the screen, then navigate beneath it
       window.setTimeout(() => router.push(href), 600);
-      // lift the veil once the new page has rendered
       window.setTimeout(() => setTarget(null), 1300);
     },
     [router, reduce],

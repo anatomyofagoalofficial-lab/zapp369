@@ -9,6 +9,7 @@ import { Calculator } from "@/components/Calculator";
 import { MascotHero } from "@/components/MascotHero";
 import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
+import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
@@ -198,6 +199,8 @@ export default async function PresentPage() {
           </Link>
         </div>
       </section>
+
+      <ScrollTeleport to="/future" />
     </main>
   );
 }

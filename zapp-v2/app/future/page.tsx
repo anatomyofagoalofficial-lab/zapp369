@@ -9,6 +9,7 @@ import { MascotHero } from "@/components/MascotHero";
 import { BurnRitual } from "@/components/BurnRitual";
 import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
+import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -208,6 +209,8 @@ export default function FuturePage() {
           </div>
         </Reveal>
       </section>
+
+      <ScrollTeleport to="/past" />
     </main>
   );
 }

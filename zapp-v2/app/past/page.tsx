@@ -6,6 +6,8 @@ import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
 import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
+import { ScrollTeleport } from "@/components/ScrollTeleport";
+import { WardenclyffeTower } from "@/components/WardenclyffeTower";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -83,14 +85,14 @@ export default function PastPage() {
           {/* The mascot in his shaft of light. The tower schematic rises tall
               behind him as a frameless Da Vinci notebook study (ink on paper). */}
           <div className="relative mx-auto w-full max-w-sm">
-            <Parallax speed={70} className="absolute left-1/2 top-[-3rem] h-[32rem] w-60 -translate-x-1/2 opacity-[0.22]">
-              <TowerSchematic />
+            <Parallax speed={80} className="absolute left-1/2 top-[-5rem] h-[40rem] w-72 -translate-x-1/2">
+              <WardenclyffeTower className="h-full w-full drop-shadow-[0_20px_40px_rgba(122,46,46,0.25)]" />
             </Parallax>
             <Parallax speed={-40} className="relative">
               <MascotHero era="past" priority />
             </Parallax>
             <p className="mt-2 text-center font-mono text-[0.65rem] uppercase tracking-ritual text-past-ink/40">
-              Fig. I · wireless transmission
+              Fig. I · the tower at Wardenclyffe
             </p>
           </div>
         </div>
@@ -170,6 +172,8 @@ export default function PastPage() {
           </Link>
         </div>
       </section>
+
+      <ScrollTeleport to="/present" />
     </main>
   );
 }
