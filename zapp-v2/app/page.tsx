@@ -5,7 +5,6 @@ import { EraDoorway } from "@/components/EraDoorway";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
-import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { Marquee } from "@/components/Marquee";
 import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
@@ -17,12 +16,20 @@ import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
  */
 export default function Home() {
   return (
-    <main className="relative bg-[#04050a]">
-      {/* One quiet cinematic field, heavily dimmed — depth, not noise */}
-      <div className="pointer-events-none fixed inset-0 z-0">
-        <ShaderCanvas shader="cosmos" className="h-full w-full" />
-        <div className="absolute inset-0 bg-[#04050a]/80" />
-      </div>
+    <main className="relative bg-black">
+      {/* Clean black-and-white field: a faint monochrome grid + soft vignette.
+          Solana's properties (calm depth), our palette stays gold on accents. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+          WebkitMaskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+        }}
+      />
 
       <div className="relative z-10">
         {/* ── Hero ── */}
