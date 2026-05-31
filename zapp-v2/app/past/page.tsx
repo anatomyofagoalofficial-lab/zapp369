@@ -7,8 +7,8 @@ import { MascotHero } from "@/components/MascotHero";
 import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
-import { WardenclyffeTower } from "@/components/WardenclyffeTower";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
+import { TeslaTower3D } from "@/components/TeslaTower3D";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -87,15 +87,13 @@ export default function PastPage() {
             </blockquote>
           </div>
 
-          {/* The mascot in his shaft of light. The tower schematic rises tall
-              behind him as a frameless Da Vinci notebook study (ink on paper). */}
-          <div className="relative mx-auto w-full max-w-sm">
-            <Parallax speed={80} className="absolute left-1/2 top-[-5rem] h-[40rem] w-72 -translate-x-1/2">
-              <WardenclyffeTower className="h-full w-full drop-shadow-[0_20px_40px_rgba(122,46,46,0.25)]" />
-            </Parallax>
-            <Parallax speed={-40} className="relative">
+          {/* The REAL cinematic 3D Wardenclyffe tower (ported from v1 tesla3d).
+              The mascot stands at its foot. */}
+          <div className="relative mx-auto w-full max-w-md">
+            <TeslaTower3D className="mx-auto h-[34rem] w-full sm:h-[40rem]" />
+            <div className="relative -mt-28">
               <MascotHero era="past" priority />
-            </Parallax>
+            </div>
             <p className="mt-2 text-center font-mono text-[0.65rem] uppercase tracking-ritual text-past-ink/40">
               Fig. I · the tower at Wardenclyffe
             </p>
