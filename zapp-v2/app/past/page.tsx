@@ -5,6 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { Numeral3D } from "@/components/Numeral3D";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
+import { TeslaPhotoHero } from "@/components/TeslaPhotoHero";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
