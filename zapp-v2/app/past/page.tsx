@@ -5,7 +5,6 @@ import { Reveal } from "@/components/Reveal";
 import { Numeral3D } from "@/components/Numeral3D";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
-import { ElectricArcs } from "@/components/ElectricArcs";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -25,8 +24,6 @@ export default function PastPage() {
         {/* retro Brâncuși grade: sepia-brown → black, white-hot highlights */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f04]/70 via-[#0a0604]/45 to-[#050301]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0604]/85 via-[#0a0604]/35 to-transparent" />
-        {/* electricity everywhere */}
-        <ElectricArcs tone="gold" className="absolute inset-0 h-full w-full opacity-25" />
       </div>
 
       {/* ── Hero ── */}
