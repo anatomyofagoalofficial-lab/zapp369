@@ -15,19 +15,27 @@ export const metadata: Metadata = {
 
 export default function PastPage() {
   return (
-    <main className="era-past relative min-h-screen bg-[#0a0604] text-white">
-      {/* The cinematic WebGL world IS the page: backlit monument, golden-hour
-          god-rays, drifting desert haze, the 3·6·9 sacred geometry. Fixed, full
-          screen, fully visible (no opaque background covering it). */}
-      <div className="pointer-events-none fixed inset-0 z-0">
-        {/* WebGL world underneath (shows if the photo is missing) */}
-        <ShaderCanvas shader="past" className="h-full w-full" />
-        {/* the REAL Tesla-beside-his-machinery photo, with arcs that flash */}
-        <TeslaPhotoHero src="/tesla-lab.jpg" />
-        {/* retro Brâncuși grade: sepia-brown → black, white-hot highlights */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f04]/70 via-[#0a0604]/45 to-[#050301]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0604]/85 via-[#0a0604]/35 to-transparent" />
+    <main className="relative min-h-screen bg-black text-white">
+      {/* Clean black field: monochrome grid + falling on-chain numbers + a gold
+          shaft of light. Crisp black + white + ⚡ZAPP gold — no muddy sepia. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+          WebkitMaskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+        }}
+      />
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.20]">
+        <DigitalRain className="h-full w-full" density={1} />
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[70vh] bg-[radial-gradient(ellipse_45%_60%_at_50%_0%,rgba(255,215,0,0.14),transparent_70%)]"
+      />
 
       {/* ── Hero ── */}
       <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
