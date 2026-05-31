@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { MathTexture } from "./MathTexture";
+import { TransitionLink } from "./TransitionLink";
 import { cn } from "@/lib/utils";
 
 type EraDoorwayProps = {
@@ -57,7 +57,7 @@ export function EraDoorway({ era }: EraDoorwayProps) {
   const s = STYLES[era.key];
 
   return (
-    <Link
+    <TransitionLink
       href={era.href}
       aria-label={`Enter ${era.title}, ${era.name}`}
       className={cn(
@@ -106,6 +106,6 @@ export function EraDoorway({ era }: EraDoorwayProps) {
           </span>
         </div>
       </div>
-    </Link>
+    </TransitionLink>
   );
 }
