@@ -65,6 +65,27 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Future-era glowing grid floor (sci-fi grammar, in ⚡ZAPP cyan). */
+.hud-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.18) 1px, transparent 1px);
+  background-size: 44px 44px;
+  transform: perspective(420px) rotateX(62deg);
+  transform-origin: bottom center;
+  -webkit-mask-image: linear-gradient(to top, black, transparent 75%);
+  mask-image: linear-gradient(to top, black, transparent 75%);
+  animation: hud-grid-drift 8s linear infinite;
+}
+@keyframes hud-grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 44px;
+  }
+}
+
 /* Long-form reading style for the whitepaper — no typography plugin needed. */
 @layer components {
   .prose-zapp {
