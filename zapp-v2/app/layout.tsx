@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { TransitionProvider } from "@/components/TransitionProvider";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { EnergyCursor } from "@/components/EnergyCursor";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -68,6 +69,7 @@ export default function RootLayout({
     >
       <body className="min-h-screen bg-present-black font-sans text-present-white antialiased">
         <SmoothScroll>
+          <EnergyCursor />
           <ScrollProgress />
           <TransitionProvider>
             <Header />
