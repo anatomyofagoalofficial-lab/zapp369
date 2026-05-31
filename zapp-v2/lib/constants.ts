@@ -47,10 +47,16 @@ export const LINKS = {
   email: "mailto:team@zapp369.energy",
 } as const;
 
-/** Live chart — the ⚡ZAPP/SOL pair on the Pump.fun AMM (PumpSwap), via DexScreener's embeddable widget. */
+/** Live chart — the ⚡ZAPP/SOL pool on the Pump.fun AMM (PumpSwap).
+ *  Primary embed = GeckoTerminal (loads reliably for fresh Solana pools).
+ *  Fallback link = DexScreener. */
 export const CHART = {
   pairAddress: "GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx",
+  // GeckoTerminal embeddable widget (dark, no header noise)
   embedUrl:
+    "https://www.geckoterminal.com/solana/pools/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=price&resolution=15m",
+  // DexScreener as the alternate full chart
+  dexEmbedUrl:
     "https://dexscreener.com/solana/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&theme=dark&trades=0&info=0",
 } as const;
 
