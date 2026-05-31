@@ -6,6 +6,7 @@ import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
 import { Marquee } from "@/components/Marquee";
+import { DigitalRain } from "@/components/DigitalRain";
 import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 /**
@@ -17,8 +18,7 @@ import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 export default function Home() {
   return (
     <main className="relative bg-black">
-      {/* Clean black-and-white field: a faint monochrome grid + soft vignette.
-          Solana's properties (calm depth), our palette stays gold on accents. */}
+      {/* Clean black-and-white field: a faint monochrome grid + soft vignette. */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0"
@@ -30,6 +30,11 @@ export default function Home() {
           WebkitMaskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
         }}
       />
+
+      {/* Falling on-chain numbers (3·6·9 + hex) — small, crisp, in the back */}
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.22]">
+        <DigitalRain className="h-full w-full" density={1} />
+      </div>
 
       <div className="relative z-10">
         {/* ── Hero ── */}
