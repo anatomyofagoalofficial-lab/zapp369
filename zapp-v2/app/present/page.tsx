@@ -5,174 +5,182 @@ import { Reveal } from "@/components/Reveal";
 import { LiveStat } from "@/components/LiveStat";
 import { LiveChart } from "@/components/LiveChart";
 import { Calculator } from "@/components/Calculator";
-import { MascotHero } from "@/components/MascotHero";
-import { Numeral3D } from "@/components/Numeral3D";
-import { Parallax } from "@/components/Parallax";
+import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { DigitalRain } from "@/components/DigitalRain";
-import { VerifiedPanel } from "@/components/VerifiedPanel";
+import {
+  IllustratedScene, SceneCopy, SceneKicker, SceneTitle, SceneBody,
+} from "@/components/IllustratedScene";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
 import { SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Present · The Current",
-  description:
-    "May 2026. The chain is live, the community is plugged in. Verified on-chain: mint revoked, freeze revoked, LP burned, 0% tax.",
+  description: "⚡ZAPP is live on Solana. 0% tax. LP burned. The answer Tesla never got to give.",
 };
-
-// Revalidate the live market data every 5 minutes.
 export const revalidate = 300;
-
-/** A simple node-network motif (original line art). */
-function NetworkMotif() {
-  const nodes = [
-    { x: 100, y: 60 },
-    { x: 40, y: 110 },
-    { x: 160, y: 110 },
-    { x: 60, y: 175 },
-    { x: 140, y: 175 },
-    { x: 100, y: 120 },
-  ];
-  return (
-    <svg
-      viewBox="0 0 200 230"
-      aria-hidden="true"
-      className="h-full w-full"
-    >
-      {nodes.map((n, i) =>
-        nodes.slice(i + 1).map((m, j) => (
-          <line
-            key={`${i}-${j}`}
-            x1={n.x}
-            y1={n.y}
-            x2={m.x}
-            y2={m.y}
-            stroke="#3B82F6"
-            strokeOpacity="0.25"
-            strokeWidth="0.75"
-          />
-        )),
-      )}
-      {nodes.map((n, i) => (
-        <circle
-          key={i}
-          cx={n.x}
-          cy={n.y}
-          r={i === 5 ? 7 : 4}
-          fill={i === 5 ? "#FFD700" : "#E8B547"}
-          fillOpacity={i === 5 ? 1 : 0.7}
-        />
-      ))}
-    </svg>
-  );
-}
 
 export default async function PresentPage() {
   const stats = await getStats();
-
   return (
-    <main className="relative min-h-screen bg-black text-white">
-      {/* Clean black field: monochrome grid + falling on-chain numbers + gold
-          shaft. Crisp black + white + ⚡ZAPP gold, unified across the site. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-0"
+    <main className="relative bg-black text-white">
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
           maskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
           WebkitMaskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
-        }}
-      />
-      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.20]">
+        }} />
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.15]">
         <DigitalRain className="h-full w-full" density={1} />
       </div>
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[70vh] bg-[radial-gradient(ellipse_45%_60%_at_50%_0%,rgba(255,215,0,0.12),transparent_70%)]"
-      />
 
-      {/* ── Hero ── */}
-      <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
-        <Numeral3D
-          era="present"
-          value="6"
-          className="ghost-number font-serif opacity-40"
-          style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", right: "-1rem" }}
-        />
-        <div className="relative max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
-            6 · Present · The Current
-          </p>
-          <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-white/40">
-            Solana · May 2026 · live now
-          </p>
-          <h1 className="mt-8 text-balance font-serif text-5xl font-semibold leading-[1.05] text-glow-gold sm:text-7xl">
-            The instrument is on.
-          </h1>
-          <p className="mt-6 max-w-reading text-pretty text-lg leading-relaxed text-white/75">
-            ⚡ZAPP is real, it is live, and the community exists. The frequency
-            is transmitting. Verifiable, on-chain, owned by no one.
-          </p>
-          <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-white/40">
-            ↓ Read the frequency
-          </p>
-        </div>
-      </section>
+      {/* WHY NOT JUST ANOTHER MEMECOIN */}
+      <IllustratedScene src="/illustrations/not-just-memecoin.jpg"
+        alt="Why ⚡ZAPP isn't just another memecoin — mascot with Doge and Pepe coins"
+        position="center 35%" veil="light">
+        <SceneCopy>
+          <SceneKicker>6 · Present · The Difference</SceneKicker>
+          <SceneTitle>Not just<br />
+            <em className="italic text-present-yellow">another memecoin</em>.
+          </SceneTitle>
+          <SceneBody>Doge had the meme. Pepe had the cult. ⚡ZAPP has the story —
+            a century of suppressed technology, a real on-chain structure, and
+            a frequency that was always there.</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      {/* ── Live instrument panel ── */}
-      <section className="relative z-10 border-t border-white/5 px-6 py-24">
+      {/* THE PROBLEM */}
+      <IllustratedScene src="/illustrations/chains.jpg"
+        alt="World map with chains — the broken banking system"
+        position="center 40%" veil="dark">
+        <SceneCopy>
+          <SceneKicker>Present · The Problem</SceneKicker>
+          <SceneTitle>The system isn&rsquo;t broken.<br />
+            <em className="italic text-present-yellow">It&rsquo;s working as designed.</em>
+          </SceneTitle>
+          <SceneBody>1.4 billion people unbanked. $45 to send $200 internationally.
+            1–5 days for a wire transfer. Built to extract — from you. Every time.</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* RUNNING — the answer */}
+      <IllustratedScene src="/illustrations/running-lightning.jpg"
+        alt="⚡ZAPP mascot running through the city with a lightning energy ball"
+        position="center 30%" veil="default">
+        <SceneCopy>
+          <SceneKicker>Present · The Answer · Solana 2026</SceneKicker>
+          <SceneTitle>The signal is<br />
+            <em className="italic text-present-yellow">already running</em>.
+          </SceneTitle>
+          <SceneBody>⚡ZAPP is live on Solana. The frequency is transmitting —
+            verifiable, on-chain, owned by no one.
+            65,000 transactions per second. Average fee: $0.00025.</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* SOLANA GLOBE */}
+      <IllustratedScene src="/illustrations/solana-globe.jpg"
+        alt="⚡ZAPP mascot with Solana globe and world network"
+        position="center 35%" veil="default">
+        <SceneCopy>
+          <SceneKicker>Present · Built on Solana</SceneKicker>
+          <SceneTitle>One network.<br />
+            <em className="italic text-present-yellow">Every corner of Earth</em>.
+          </SceneTitle>
+          <SceneBody>No bank. No border. No permission required.
+            ⚡ZAPP reaches anyone with a phone, anywhere on this planet — instantly.</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+
+      {/* LIVE STATS */}
+      <section className="relative z-10 border-t border-white/5 px-6 py-20">
         <Reveal className="mx-auto mb-10 max-w-2xl text-center">
           <p className="font-mono text-xs uppercase tracking-ritual text-white/40">
-            Instrument panel
+            Instrument panel — live on Solana
           </p>
-          <h2 className="mt-4 font-serif text-4xl sm:text-5xl">
-            Read the frequency
-          </h2>
+          <h2 className="mt-4 font-serif text-4xl sm:text-5xl">Read the frequency</h2>
         </Reveal>
-
         <div className="mx-auto grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <LiveStat
-            label="Holders"
-            value={`${formatNumber(stats.holders)}+`}
-            sub="wallets"
-          />
-          <LiveStat
-            label="Market cap"
-            value={formatUsd(stats.marketCap)}
-            sub={stats.live ? "live" : "·"}
-          />
-          <LiveStat
-            label="24h volume"
-            value={formatUsd(stats.volume24h)}
-            sub={stats.live ? "live" : "·"}
-          />
-          <LiveStat
-            label="Telegram"
-            value={`${formatNumber(stats.telegramMembers)}+`}
-            sub="members"
-          />
+          <LiveStat label="Holders" value={`${formatNumber(stats.holders)}+`} sub="wallets" />
+          <LiveStat label="Market cap" value={formatUsd(stats.marketCap)} sub={stats.live ? "live" : "·"} />
+          <LiveStat label="24h volume" value={formatUsd(stats.volume24h)} sub={stats.live ? "live" : "·"} />
+          <LiveStat label="Telegram" value={`${formatNumber(stats.telegramMembers)}+`} sub="members" />
         </div>
-
-        <p className="mx-auto mt-6 max-w-3xl text-center font-mono text-[0.7rem] uppercase tracking-wider text-white/30">
-          Market data live from Solana, refreshed every few minutes. Holder and
-          member counts shown as last verified. Falls back to known values if a
-          source is unreachable.
-        </p>
       </section>
 
-      {/* ── The chart: live Pump.fun AMM chart ── */}
       <LiveChart />
-
-      {/* ── Holdings value calculator ── */}
       <Calculator />
+      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      {/* ── Verified on-chain ── */}
+      {/* HALL OF FAME — context */}
+      <IllustratedScene src="/illustrations/hall-of-fame.jpg"
+        alt="Pump.fun Hall of Fame — the six that made it out: Fartcoin $2.15B, PNUT $1.8B, GOAT $1.3B. ⚡ZAPP: hidden in plain sight. 3·6·9∞"
+        position="center 50%" veil="light" minHeight="80vh">
+        <SceneCopy>
+          <SceneKicker>Present · Context · Pump.fun Graduates</SceneKicker>
+          <SceneTitle>The ones who<br />
+            <em className="italic text-present-yellow">made it out</em>.
+          </SceneTitle>
+          <SceneBody>Fartcoin. PNUT. GOAT. They all started like this — small,
+            dismissed, then suddenly everywhere. ⚡ZAPP has something none of
+            them had: a real story. Hidden in plain sight. 3 · 6 · 9 ∞</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* 0% TAX */}
+      <IllustratedScene src="/illustrations/zero-tax.jpg"
+        alt="⚡ZAPP mascot leaning on 0% — zero tax, world network"
+        position="center 40%" veil="default">
+        <SceneCopy>
+          <SceneKicker>Present · Zero Tax · No Hidden Fees</SceneKicker>
+          <SceneTitle><em className="italic text-present-yellow">0%</em> tax.<br />
+            100% reaches you.
+          </SceneTitle>
+          <SceneBody>No buy tax. No sell tax. No hidden fees.
+            ⚡ZAPP transaction fee on Solana: $0.00025.
+            JP Morgan&rsquo;s meter doesn&rsquo;t exist here.</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+      {/* VAULT */}
+      <IllustratedScene src="/illustrations/vault-v2.jpg"
+        alt="⚡ZAPP mascot protecting the vault — liquidity locked"
+        position="center 35%" veil="dark">
+        <SceneCopy>
+          <SceneKicker>Present · Trust On-Chain · May 2026</SceneKicker>
+          <SceneTitle>Nobody touches<br />
+            the <em className="italic text-present-yellow">liquidity</em>.
+          </SceneTitle>
+          <SceneBody>LP permanently burned. Mint revoked. Freeze revoked. 0% tax.
+            The vault is sealed — not even the founders can open it.
+            Verified on Solscan.</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+
       <VerifiedPanel />
 
-      {/* ── The Movement (Whitepaper VI) ── */}
+      {/* 369 CARDS */}
+      <IllustratedScene src="/illustrations/369-cards.jpg"
+        alt="⚡ZAPP mascot with golden 3·6·9 frequency cards"
+        position="center 35%" veil="light">
+        <SceneCopy>
+          <SceneKicker>Present · The Frequency · 3 · 6 · 9</SceneKicker>
+          <SceneTitle>The cards are<br />
+            <em className="italic text-present-yellow">always gold</em>.
+          </SceneTitle>
+          <SceneBody>Liquidity locked. Protected by the curve. Nobody touches it.
+            Not even us. The frequency is sealed — 3 · 6 · 9 ∞</SceneBody>
+        </SceneCopy>
+      </IllustratedScene>
+
+      {/* MOVEMENT */}
       <section className="relative z-10 border-t border-white/5 bg-black/30 px-6 py-28 backdrop-blur-sm">
         <Reveal className="mx-auto max-w-reading">
           <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
@@ -183,29 +191,24 @@ export default async function PresentPage() {
             community in real time. In a single day, 1,438 people joined the
             Telegram. Just people who recognised the signal.&rdquo;
           </blockquote>
-          <p className="mt-8 text-pretty text-lg leading-relaxed text-white/70">
-            No paid promotion. No manipulation. The frequency keeps reaching new
-            ears, every day, organically. Community owned. No corporation, no
-            VC, no bank.
+          <p className="mt-8 font-sans text-lg leading-relaxed text-white/70">
+            No paid promotion. No manipulation. Community owned.
+            No corporation, no VC, no bank.
           </p>
         </Reveal>
       </section>
 
-      {/* ── Onward ── */}
+      {/* ONWARD */}
       <section className="relative z-10 px-6 py-24">
         <div className="mx-auto flex max-w-reading flex-col items-start gap-4">
           <p className="font-mono text-xs uppercase tracking-ritual text-white/40">
             {SLOGANS.numerology}
           </p>
-          <Link
-            href="/future"
-            className="group inline-flex items-center gap-2 font-serif text-2xl text-white transition-colors hover:text-present-yellow"
-          >
+          <Link href="/future"
+            className="group inline-flex items-center gap-2 font-serif text-2xl
+                       text-white transition-colors hover:text-present-yellow">
             See where the signal is going
-            <ArrowRight
-              size={22}
-              className="transition-transform group-hover:translate-x-1"
-            />
+            <ArrowRight size={22} className="transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </section>
