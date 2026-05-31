@@ -6,6 +6,8 @@ import { EraDoorway } from "@/components/EraDoorway";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
+import { ScrollScene } from "@/components/ScrollScene";
+import { IntroScene } from "@/components/IntroScene";
 import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 /**
@@ -15,7 +17,12 @@ import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 export default function Home() {
   return (
     <main>
-        {/* ── Masthead (full viewport) ── */}
+        {/* ── Scroll-pinned cinematic opener (Solana technique, ⚡ZAPP-themed) ── */}
+        <ScrollScene heightVh={260} className="relative">
+          {(progress) => <IntroScene progress={progress} />}
+        </ScrollScene>
+
+        {/* ── Masthead (the settled hero) ── */}
         <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-24 text-center">
           {/* Light pouring from above */}
           <div
