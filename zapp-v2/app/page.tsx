@@ -8,6 +8,7 @@ import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
 import { IntroScene } from "@/components/IntroScene";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
+import { Marquee } from "@/components/Marquee";
 import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 /**
@@ -29,52 +30,52 @@ export default function Home() {
         <IntroScene />
 
         {/* ── Masthead (the settled hero) ── */}
-        <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 py-24 text-center">
-          {/* Light pouring from above */}
+        <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pb-16 pt-28 text-center">
+          {/* Light pouring from above onto the mascot */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_-10%,rgba(255,215,0,0.12),transparent_60%)]"
+            className="absolute inset-0 bg-[radial-gradient(ellipse_50%_45%_at_50%_38%,rgba(255,215,0,0.16),transparent_65%)]"
           />
-          <MathTexture era="home" className="opacity-[0.05]" />
 
-          <div className="relative flex max-w-3xl flex-col items-center gap-8">
+          <div className="relative flex flex-col items-center">
+            {/* The mascot, standing in a shaft of light */}
+            <div className="relative">
+              <div
+                aria-hidden="true"
+                className="absolute left-1/2 top-0 h-[120%] w-[60%] -translate-x-1/2 bg-[radial-gradient(ellipse_50%_60%_at_50%_30%,rgba(255,215,0,0.22),transparent_70%)] blur-2xl"
+              />
+              <MascotHero era="home" priority className="relative w-[clamp(9rem,22vw,15rem)]" />
+            </div>
+
+            {/* Monumental wordmark, overlapping up under the mascot */}
             <BrandMark
               as="h1"
               boltClassName="text-present-yellow animate-glow-pulse"
-              className="text-glow-gold text-[clamp(4rem,15vw,10rem)] font-semibold leading-none tracking-tight text-present-white"
+              className="text-glow-gold -mt-4 text-[clamp(4.5rem,17vw,12rem)] font-semibold leading-[0.85] tracking-tight text-present-white"
             />
 
-            <div className="flex w-full items-center justify-center gap-4 text-present-white/50">
-              <span className="h-px w-12 bg-present-white/20" />
-              <span className="font-mono text-xs uppercase tracking-ritual">
-                Tesla&rsquo;s Unfinished Revolution
-              </span>
-              <span className="h-px w-12 bg-present-white/20" />
-            </div>
-
-            <blockquote className="max-w-reading text-pretty font-serif text-2xl italic leading-relaxed text-present-white/85 sm:text-3xl">
-              &ldquo;{TESLA_QUOTES.magnificence}&rdquo;
-              <cite className="mt-4 block font-sans text-sm not-italic tracking-ritual text-present-white/45">
-                Nikola Tesla
-              </cite>
-            </blockquote>
-
-            <p className="font-mono text-sm uppercase tracking-ritual text-present-yellow">
-              {SLOGANS.freeEnergy}
+            <p className="mt-6 font-serif text-2xl italic text-present-white/85 sm:text-3xl">
+              Free Energy = Free Money <span className="text-present-yellow">∞</span>
             </p>
 
-            <MascotHero era="home" priority className="mt-4 max-w-[14rem]" />
+            <div className="mt-5 flex items-center justify-center gap-4 text-present-white/45">
+              <span className="h-px w-10 bg-present-yellow/30" />
+              <span className="font-mono text-[0.7rem] uppercase tracking-[0.3em]">
+                Tesla&rsquo;s Unfinished Revolution
+              </span>
+              <span className="h-px w-10 bg-present-yellow/30" />
+            </div>
 
-            <div className="mt-2 flex flex-col items-center gap-4 sm:flex-row">
+            <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row">
               <a
                 href="#doorways"
-                className="rounded-full border border-present-yellow/70 px-8 py-3 font-sans text-sm uppercase tracking-wider text-present-yellow transition-colors duration-300 hover:bg-present-yellow hover:text-present-black"
+                className="rounded-full bg-present-yellow px-9 py-3.5 font-sans text-sm uppercase tracking-wider text-present-black shadow-[0_0_50px_-12px_rgba(255,215,0,0.8)] transition-all duration-300 hover:scale-[1.03]"
               >
                 Enter the signal
               </a>
               <Link
                 href="/whitepaper"
-                className="px-4 py-3 font-sans text-sm uppercase tracking-wider text-present-white/60 underline-offset-4 transition-colors duration-300 hover:text-present-white hover:underline"
+                className="rounded-full border border-present-white/25 px-8 py-3.5 font-sans text-sm uppercase tracking-wider text-present-white/70 transition-colors duration-300 hover:border-present-white hover:text-present-white"
               >
                 Read the whitepaper
               </Link>
@@ -84,11 +85,14 @@ export default function Home() {
           <a
             href="#doorways"
             aria-label="Scroll to the three eras"
-            className="absolute bottom-8 text-present-white/40 transition-colors hover:text-present-white/80"
+            className="absolute bottom-6 text-present-white/40 transition-colors hover:text-present-white/80"
           >
             <ChevronDown size={24} className="animate-bounce" />
           </a>
         </section>
+
+        {/* ── The signal ticker — always transmitting ── */}
+        <Marquee />
 
         {/* ── The three doorways ── */}
         <section id="doorways" className="tech-grid relative scroll-mt-20 px-6 py-24 sm:py-32">
