@@ -10,6 +10,7 @@ import { MascotHero } from "@/components/MascotHero";
 import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
+import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
@@ -73,6 +74,10 @@ export default async function PresentPage() {
 
   return (
     <main className="relative min-h-screen bg-present-navy text-present-white">
+      {/* Real WebGL world (ported from v1 frequencyfx): 9 strands of light */}
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-60">
+        <ShaderCanvas shader="frequency" />
+      </div>
       <MathTexture era="present" />
 
       {/* ── Hero ── */}

@@ -11,6 +11,7 @@ import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { FutureHUD } from "@/components/FutureHUD";
+import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -68,6 +69,10 @@ function BranchingLight() {
 export default function FuturePage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-future-black text-future-white">
+      {/* Real WebGL world (ported from v1 futurefx): infinite energy grid */}
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-80">
+        <ShaderCanvas shader="future" />
+      </div>
       <MathTexture era="future" />
       {/* light pouring from somewhere unseen */}
       <div

@@ -85,7 +85,7 @@ export default function Home() {
         </section>
 
         {/* ── The three doorways ── */}
-        <section id="doorways" className="relative scroll-mt-20 px-6 py-24 sm:py-32">
+        <section id="doorways" className="tech-grid relative scroll-mt-20 px-6 py-24 sm:py-32">
           <Reveal className="mx-auto mb-14 max-w-2xl text-center">
             <p className="font-mono text-xs uppercase tracking-ritual text-present-white/40">
               Three eras · One signal

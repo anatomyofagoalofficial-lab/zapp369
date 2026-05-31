@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
 /** The four verified-on-chain trust receipts, each linking to its proof. */
 export function VerifiedPanel() {
   return (
-    <section className="relative border-t border-white/5 px-6 py-24 sm:py-28">
+    <section className="tech-grid relative border-t border-white/5 px-6 py-24 sm:py-28">
       <Reveal className="mx-auto mb-12 max-w-2xl text-center">
         <p className="font-mono text-xs uppercase tracking-ritual text-present-white/40">
           Verified on-chain

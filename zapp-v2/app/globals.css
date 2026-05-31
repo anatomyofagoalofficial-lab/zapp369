@@ -84,6 +84,32 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Blueprint grid backdrop — the "tech-premium" signal used by Stripe / Linear
+   / Vercel. Faint, fixed-feel, fades out at the edges. Place on a section as a
+   class; it sits behind content. */
+.tech-grid {
+  position: relative;
+}
+.tech-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 80%);
+}
+/* Light-page variant (Past) — ink lines on cream. */
+.tech-grid-ink::before {
+  background-image:
+    linear-gradient(rgba(26, 20, 16, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 20, 16, 0.05) 1px, transparent 1px);
+}
+
 /* Future-era glowing grid floor (sci-fi grammar, in ⚡ZAPP cyan). */
 .hud-grid {
   background-image:

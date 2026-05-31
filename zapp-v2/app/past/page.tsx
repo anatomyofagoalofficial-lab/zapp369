@@ -8,6 +8,7 @@ import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { WardenclyffeTower } from "@/components/WardenclyffeTower";
+import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -51,6 +52,10 @@ function TowerSchematic() {
 export default function PastPage() {
   return (
     <main className="relative min-h-screen bg-past-cream text-past-ink">
+      {/* Real WebGL world (ported from v1 pastfx): backlit monument, godrays */}
+      <div className="pointer-events-none fixed inset-0 -z-10 opacity-90">
+        <ShaderCanvas shader="past" />
+      </div>
       <MathTexture era="past" />
 
       {/* ── Hero ── */}
