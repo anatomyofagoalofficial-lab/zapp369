@@ -1,78 +1,94 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
 import type { ReactNode } from "react";
 
-/* ── Fallback gradient themes per scene ── */
-const THEMES: Record<string, { a: string; b: string; c: string }> = {
-  pyramid:     { a: "#3D2B1F", b: "#1A0F08", c: "#C9A878" },
-  babylon:     { a: "#2B3318", b: "#0F150A", c: "#A8B870" },
-  chains:      { a: "#0F1729", b: "#060D1A", c: "#3B82F6" },
-  tesla:       { a: "#1A1208", b: "#090600", c: "#FFD700" },
-  torch:       { a: "#1A0800", b: "#0A0400", c: "#FF7A00" },
-  tribute:     { a: "#1A1005", b: "#0A0800", c: "#FFD700" },
-  silent:      { a: "#0C0C14", b: "#06060C", c: "#6B7280" },
-  "then-now":  { a: "#0F1729", b: "#1A0A2E", c: "#FFD700" },
-  "why-zapp":  { a: "#1A1208", b: "#0A0A0A", c: "#FFD700" },
-  running:     { a: "#0B1220", b: "#020A14", c: "#22D3EE" },
-  future:      { a: "#1A0A2E", b: "#02020A", c: "#9D4EDD" },
-  speed:       { a: "#0A0F1A", b: "#02050A", c: "#FFD700" },
+const THEMES: Record<string, { bg: string; glow: string; accent: string }> = {
+  pyramid:    { bg: "#1A0F06", glow: "#C9A87840", accent: "#C9A878" },
+  babylon:    { bg: "#0F150A", glow: "#7A9B4040", accent: "#A8C870" },
+  chains:     { bg: "#060D1A", glow: "#3B82F640", accent: "#3B82F6" },
+  tesla:      { bg: "#0A0800", glow: "#FFD70040", accent: "#FFD700" },
+  "369":      { bg: "#0A0800", glow: "#FFD70050", accent: "#FFD700" },
+  speed:      { bg: "#050810", glow: "#FFD70030", accent: "#FFD700" },
+  torch:      { bg: "#0A0400", glow: "#FF7A0050", accent: "#FF7A00" },
+  tribute:    { bg: "#0A0800", glow: "#FFD70035", accent: "#FFD700" },
+  silent:     { bg: "#06060C", glow: "#6B728030", accent: "#9CA3AF" },
+  "then-now": { bg: "#080A14", glow: "#FFD70030", accent: "#FFD700" },
+  "why-zapp": { bg: "#0A0800", glow: "#FFD70040", accent: "#FFD700" },
+  running:    { bg: "#020A14", glow: "#22D3EE40", accent: "#22D3EE" },
+  future:     { bg: "#06020E", glow: "#9D4EDD40", accent: "#9D4EDD" },
 };
 
 function themeFor(src: string) {
   for (const [key, val] of Object.entries(THEMES)) {
     if (src.includes(key)) return val;
   }
-  return { a: "#0A0A0A", b: "#02020A", c: "#FFD700" };
+  return { bg: "#07070D", glow: "#FFD70030", accent: "#FFD700" };
 }
 
-/* ── Animated gradient fallback (shows when image 404s or as base layer) ── */
-function SceneFallback({ src }: { src: string }) {
+function AnimatedFallback({ src }: { src: string }) {
   const t = themeFor(src);
   return (
-    <div
-      className="absolute inset-0"
-      style={{
-        background: `radial-gradient(ellipse 80% 60% at 50% 35%, ${t.c}22, transparent 70%), linear-gradient(180deg, ${t.a}, ${t.b})`,
-      }}
-    >
-      {/* Pulsing glow orb */}
+    <div className="absolute inset-0 overflow-hidden" style={{ background: t.bg }}>
+      {/* Central glow */}
       <motion.div
+        className="absolute"
+        style={{
+          inset: 0,
+          background: `radial-gradient(ellipse 70% 55% at 50% 40%, ${t.glow}, transparent 70%)`,
+        }}
+        animate={{ opacity: [0.6, 1, 0.6], scale: [1, 1.05, 1] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Secondary shimmer */}
+      <motion.div
+        className="absolute"
+        style={{
+          inset: 0,
+          background: `radial-gradient(ellipse 40% 30% at 50% 50%, ${t.accent}15, transparent 60%)`,
+        }}
+        animate={{ opacity: [0, 0.8, 0], x: ["-10%", "10%", "-10%"] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* Fine grid */}
+      <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(ellipse 40% 40% at 50% 40%, ${t.c}1A, transparent 65%)`,
+          backgroundImage: `linear-gradient(${t.accent}12 1px, transparent 1px), linear-gradient(90deg, ${t.accent}12 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
         }}
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       />
-      {/* Grid */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
+      {/* Scanline sweep */}
+      <motion.div
+        className="absolute inset-x-0 h-32 pointer-events-none"
         style={{
-          backgroundImage: `linear-gradient(${t.c}90 1px, transparent 1px), linear-gradient(90deg, ${t.c}90 1px, transparent 1px)`,
-          backgroundSize: "48px 48px",
+          background: `linear-gradient(to bottom, transparent, ${t.accent}08, transparent)`,
         }}
+        animate={{ y: ["-8rem", "120vh"] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "linear", repeatDelay: 2 }}
       />
-      {/* 3·6·9 watermark */}
+      {/* Big 3·6·9 */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span
-          className="select-none font-mono font-bold leading-none"
+        <motion.span
+          className="select-none font-mono font-bold"
           style={{
-            fontSize: "clamp(4rem, 15vw, 12rem)",
-            color: t.c,
-            opacity: 0.04,
+            fontSize: "clamp(5rem, 18vw, 14rem)",
+            color: t.accent,
+            opacity: 0.05,
+            letterSpacing: "-0.02em",
           }}
+          animate={{ opacity: [0.03, 0.07, 0.03] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         >
           3·6·9
-        </span>
+        </motion.span>
       </div>
     </div>
   );
 }
 
-/* ── Main component ── */
 export function IllustratedScene({
   src,
   alt,
@@ -92,44 +108,31 @@ export function IllustratedScene({
 }) {
   const reduce = useReducedMotion();
   const [imgError, setImgError] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
 
   const veils: Record<string, string> = {
-    default:
-      "linear-gradient(0deg, rgba(7,7,13,.88) 0%, rgba(7,7,13,.25) 45%, rgba(7,7,13,.4) 100%)",
-    dark: "linear-gradient(0deg, rgba(7,7,13,.92) 0%, rgba(7,7,13,.5) 60%)",
-    light: "linear-gradient(0deg, rgba(7,7,13,.65) 0%, rgba(7,7,13,.08) 55%)",
-    top: "linear-gradient(180deg, rgba(7,7,13,.75) 0%, rgba(7,7,13,.12) 55%)",
-    sides:
-      "linear-gradient(0deg, rgba(7,7,13,.8) 0%, rgba(7,7,13,.35) 40%, rgba(7,7,13,.8) 100%)",
+    default: "linear-gradient(0deg, rgba(7,7,13,.90) 0%, rgba(7,7,13,.20) 45%, rgba(7,7,13,.38) 100%)",
+    dark:    "linear-gradient(0deg, rgba(7,7,13,.93) 0%, rgba(7,7,13,.52) 60%)",
+    light:   "linear-gradient(0deg, rgba(7,7,13,.60) 0%, rgba(7,7,13,.06) 55%)",
+    top:     "linear-gradient(180deg, rgba(7,7,13,.78) 0%, rgba(7,7,13,.10) 55%)",
+    sides:   "linear-gradient(0deg, rgba(7,7,13,.82) 0%, rgba(7,7,13,.32) 40%, rgba(7,7,13,.82) 100%)",
   };
-
-  const t = themeFor(src);
 
   return (
     <section
-      ref={sectionRef}
       className={`relative flex items-end justify-start overflow-hidden ${className}`}
       style={{ minHeight }}
     >
-      {/* Always-present gradient base */}
-      <SceneFallback src={src} />
+      {/* Animated fallback — always present as base */}
+      <AnimatedFallback src={src} />
 
-      {/* Real illustration — Ken Burns + parallax */}
+      {/* Real illustration with Ken Burns — no parallax (performance) */}
       {!imgError && (
         <motion.div
           className="absolute inset-0 z-[1]"
           initial={reduce ? {} : { scale: 1.0 }}
-          whileInView={reduce ? {} : { scale: 1.06 }}
+          whileInView={reduce ? {} : { scale: 1.05 }}
           viewport={{ once: true }}
-          transition={{ duration: 16, ease: "easeOut" }}
-          style={reduce ? {} : { y: imageY }}
+          transition={{ duration: 14, ease: "easeOut" }}
         >
           <Image
             src={src}
@@ -137,7 +140,7 @@ export function IllustratedScene({
             fill
             className="object-cover"
             style={{ objectPosition: position }}
-            quality={90}
+            quality={88}
             sizes="100vw"
             onError={() => setImgError(true)}
           />
@@ -145,22 +148,11 @@ export function IllustratedScene({
       )}
 
       {/* Veil */}
-      <div
-        className="absolute inset-0 z-[2]"
-        style={{ background: veils[veil] ?? veils.default }}
-      />
-
-      {/* Bottom color bleed — warm glow that bleeds into next section */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-[3] h-40 pointer-events-none"
-        style={{
-          background: `linear-gradient(to bottom, transparent, ${t.c}0A, rgba(7,7,13,0.97))`,
-        }}
-      />
+      <div className="absolute inset-0 z-[2]" style={{ background: veils[veil] ?? veils.default }} />
 
       {/* Content */}
       {children && (
-        <div className="relative z-[4] w-full max-w-6xl mx-auto px-8 pb-16 pt-28 lg:pb-24">
+        <div className="relative z-[3] w-full max-w-6xl mx-auto px-8 pb-16 pt-28 lg:pb-24">
           {children}
         </div>
       )}
@@ -168,17 +160,15 @@ export function IllustratedScene({
   );
 }
 
-/* ── Copy sub-components ── */
-
 export function SceneCopy({ children }: { children: ReactNode }) {
   const reduce = useReducedMotion();
   return (
     <motion.div
       className="flex flex-col items-start gap-4 max-w-2xl"
-      initial={reduce ? {} : { opacity: 0, y: 40 }}
+      initial={reduce ? {} : { opacity: 0, y: 36 }}
       whileInView={reduce ? {} : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>
