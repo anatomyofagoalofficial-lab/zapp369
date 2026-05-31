@@ -47,6 +47,13 @@ export const LINKS = {
   email: "mailto:team@zapp369.energy",
 } as const;
 
+/** Live chart — the ⚡ZAPP/SOL pair on the Pump.fun AMM (PumpSwap), via DexScreener's embeddable widget. */
+export const CHART = {
+  pairAddress: "GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx",
+  embedUrl:
+    "https://dexscreener.com/solana/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&theme=dark&trades=0&info=0",
+} as const;
+
 /** Slogans — use verbatim, never paraphrase. */
 export const SLOGANS = {
   revolution: "Tesla's unfinished revolution",

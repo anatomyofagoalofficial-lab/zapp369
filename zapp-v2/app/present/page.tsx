@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { LiveStat } from "@/components/LiveStat";
+import { LiveChart } from "@/components/LiveChart";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
@@ -137,6 +138,9 @@ export default async function PresentPage() {
           source is unreachable.
         </p>
       </section>
+
+      {/* ── Live chart (Pump.fun AMM via DexScreener) ── */}
+      <LiveChart />
 
       {/* ── Verified on-chain ── */}
       <VerifiedPanel />
