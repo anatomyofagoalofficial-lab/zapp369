@@ -237,9 +237,12 @@ export function PastHero() {
             <Image
               src="/mascot-tower.png"
               alt="The ⚡ZAPP mascot before the Wardenclyffe tower"
-              width={596}
-              height={980}
+              width={1193}
+              height={1962}
+              quality={100}
               priority
+              sizes="(max-width: 920px) 70vw, 34vw"
+              style={{ height: "100%", width: "auto" }}
               className="ph-mascot-img"
             />
           </div>
@@ -343,7 +346,7 @@ const styles = `
     transition:transform .4s cubic-bezier(.16,1,.3,1);
     filter:drop-shadow(-26px 10px 30px rgba(0,0,0,.62)) drop-shadow(16px -8px 34px rgba(232,181,71,.22))}
   @media(max-width:920px){.ph-mascot{margin-bottom:54px}}
-  .ph-mascot-img{height:100%!important;width:auto!important;display:block}
+  .ph-mascot-img{display:block;max-width:none}
   .ph-keylight{position:absolute;z-index:3;top:2%;right:14%;width:64%;height:74%;pointer-events:none;
     mix-blend-mode:screen;background:radial-gradient(circle at 72% 22%, rgba(244,232,208,.4), transparent 58%)}
   .ph-fillshadow{position:absolute;z-index:5;bottom:60px;left:14%;width:50%;height:60%;pointer-events:none;
