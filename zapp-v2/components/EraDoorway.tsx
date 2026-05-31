@@ -76,7 +76,7 @@ export function EraDoorway({ era }: EraDoorwayProps) {
         </p>
         <span
           className={cn(
-            "mt-2 block font-serif leading-none transition-transform duration-500 ease-reverent group-hover:scale-105",
+            "mt-2 block font-serif leading-none transition-all duration-500 ease-reverent group-hover:scale-110 group-hover:-rotate-2",
             s.number,
           )}
           style={{ fontSize: "clamp(7rem, 13vw, 11rem)" }}
