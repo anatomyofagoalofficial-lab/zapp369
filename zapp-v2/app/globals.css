@@ -11,6 +11,25 @@
 
   body {
     font-feature-settings: "kern", "liga";
+    /* Depth instead of flat black: a faint vignette + cool radial lift so dark
+       pages read as a lit room, not a void. */
+    background-color: #07070d;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(255, 215, 0, 0.05), transparent 60%),
+      radial-gradient(ellipse 70% 70% at 50% 120%, rgba(157, 78, 221, 0.06), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Display headings: tighter tracking, optical weight, balanced wrap. */
+  h1,
+  h2 {
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  /* Richer link/selection feel already set below; large serif gets ligatures. */
+  .font-serif {
+    font-feature-settings: "kern", "liga", "dlig";
   }
 
   /* Keyboard focus — visible, on-brand, never removed (a11y). */
