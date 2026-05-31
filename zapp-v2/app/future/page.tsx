@@ -6,6 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { BrandMark } from "@/components/BrandMark";
 import { WorldClock } from "@/components/WorldClock";
 import { MascotHero } from "@/components/MascotHero";
+import { BurnRitual } from "@/components/BurnRitual";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -151,6 +152,9 @@ export default function FuturePage() {
           </p>
         </Reveal>
       </section>
+
+      {/* ── The burn ritual (3 · 6 · 9) ── */}
+      <BurnRitual />
 
       {/* ── Closing poetry ── */}
       <section className="relative border-y border-white/5 px-6 py-32">

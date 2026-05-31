@@ -5,6 +5,7 @@ import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { LiveStat } from "@/components/LiveStat";
 import { LiveChart } from "@/components/LiveChart";
+import { Calculator } from "@/components/Calculator";
 import { MascotHero } from "@/components/MascotHero";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
@@ -141,8 +142,11 @@ export default async function PresentPage() {
         </p>
       </section>
 
-      {/* ── The chart: bespoke ⚡ZAPP candlesticks (Pump.fun AMM data) ── */}
+      {/* ── The chart: live Pump.fun AMM chart ── */}
       <LiveChart />
+
+      {/* ── Holdings value calculator ── */}
+      <Calculator />
 
       {/* ── Verified on-chain ── */}
       <VerifiedPanel />

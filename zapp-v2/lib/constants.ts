@@ -54,6 +54,19 @@ export const CHART = {
     "https://dexscreener.com/solana/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx?embed=1&theme=dark&trades=0&info=0",
 } as const;
 
+/**
+ * The community burn ritual, on the 3 · 6 · 9 cadence. Anchored to launch.
+ * A small burn every 9 days when the community can; a great burn every 369 days.
+ * Burns are done by the community and always verifiable on Solscan. The site
+ * never connects a wallet — members burn their own tokens from their own wallet.
+ */
+export const BURN = {
+  anchorISO: "2026-05-01T00:00:00Z", // launch day
+  smallCycleDays: 9,
+  largeCycleDays: 369,
+  verifyUrl: LINKS.solscan,
+} as const;
+
 /** Slogans — use verbatim, never paraphrase. */
 export const SLOGANS = {
   revolution: "Tesla's unfinished revolution",
