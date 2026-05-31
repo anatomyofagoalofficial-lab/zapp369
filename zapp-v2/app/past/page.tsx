@@ -8,7 +8,7 @@ import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
-import { TeslaTower3D } from "@/components/TeslaTower3D";
+import { WardenclyffeTower } from "@/components/WardenclyffeTower";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -87,11 +87,13 @@ export default function PastPage() {
             </blockquote>
           </div>
 
-          {/* The REAL cinematic 3D Wardenclyffe tower (ported from v1 tesla3d).
-              The mascot stands at its foot. */}
+          {/* The tower (SVG) rises behind the mascot. The real WebGL 3D tower
+              is parked in TeslaTower3D.tsx pending a green build. */}
           <div className="relative mx-auto w-full max-w-md">
-            <TeslaTower3D className="mx-auto h-[34rem] w-full sm:h-[40rem]" />
-            <div className="relative -mt-28">
+            <Parallax speed={80} className="absolute left-1/2 top-[-5rem] h-[40rem] w-72 -translate-x-1/2">
+              <WardenclyffeTower className="h-full w-full" />
+            </Parallax>
+            <div className="relative">
               <MascotHero era="past" priority />
             </div>
             <p className="mt-2 text-center font-mono text-[0.65rem] uppercase tracking-ritual text-past-ink/40">
