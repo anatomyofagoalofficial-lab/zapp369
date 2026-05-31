@@ -7,6 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
 import { Marquee } from "@/components/Marquee";
 import { DigitalRain } from "@/components/DigitalRain";
+import { AskTesla } from "@/components/AskTesla";
 import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 /**
@@ -128,6 +129,9 @@ export default function Home() {
             ))}
           </div>
         </section>
+
+        {/* ── Interactive: Ask ⚡ZAPP (tap-to-learn buttons + mascot) ── */}
+        <AskTesla />
 
         {/* ── Verified on-chain ── */}
         <VerifiedPanel />
