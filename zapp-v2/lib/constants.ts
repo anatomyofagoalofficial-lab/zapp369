@@ -39,6 +39,8 @@ export const STATS_FALLBACK = {
 export const LINKS = {
   pumpfun: "https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump",
   jupiter: "https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump",
+  phantom:
+    "https://phantom.com/tokens/solana/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump?referralId=k31pepyasnt",
   solscan: "https://solscan.io/token/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump",
   dexscreener:
     "https://dexscreener.com/solana/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump",

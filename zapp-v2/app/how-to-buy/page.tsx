@@ -88,12 +88,20 @@ export default function HowToBuyPage() {
         </div>
 
         {/* Buy buttons */}
-        <Reveal className="mt-16 flex flex-col gap-4 sm:flex-row">
+        <Reveal className="mt-16 grid gap-4 sm:grid-cols-3">
+          <a
+            href={LINKS.phantom}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#ab9ff2] px-6 py-4 font-sans text-sm uppercase tracking-wider text-[#1a1133] transition-all hover:scale-[1.02] hover:opacity-90"
+          >
+            Buy on Phantom <ArrowUpRight size={16} />
+          </a>
           <a
             href={LINKS.jupiter}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-present-yellow px-8 py-4 font-sans text-sm uppercase tracking-wider text-present-black transition-all hover:scale-[1.02] hover:opacity-90"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-present-yellow px-6 py-4 font-sans text-sm uppercase tracking-wider text-present-black transition-all hover:scale-[1.02] hover:opacity-90"
           >
             Buy on Jupiter <ArrowUpRight size={16} />
           </a>
@@ -101,7 +109,7 @@ export default function HowToBuyPage() {
             href={LINKS.pumpfun}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-present-yellow/60 px-8 py-4 font-sans text-sm uppercase tracking-wider text-present-yellow transition-colors hover:bg-present-yellow hover:text-present-black"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-present-yellow/60 px-6 py-4 font-sans text-sm uppercase tracking-wider text-present-yellow transition-colors hover:bg-present-yellow hover:text-present-black"
           >
             Buy on Pump.fun <ArrowUpRight size={16} />
           </a>
