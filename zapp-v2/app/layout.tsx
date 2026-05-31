@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { TransitionProvider } from "@/components/TransitionProvider";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -66,12 +67,14 @@ export default function RootLayout({
       className={`${cormorant.variable} ${inter.variable} ${jetbrains.variable}`}
     >
       <body className="min-h-screen bg-present-black font-sans text-present-white antialiased">
-        <ScrollProgress />
-        <TransitionProvider>
-          <Header />
-          {children}
-          <Footer />
-        </TransitionProvider>
+        <SmoothScroll>
+          <ScrollProgress />
+          <TransitionProvider>
+            <Header />
+            {children}
+            <Footer />
+          </TransitionProvider>
+        </SmoothScroll>
       </body>
     </html>
   );
