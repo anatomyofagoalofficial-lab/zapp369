@@ -68,57 +68,43 @@ function BranchingLight() {
 
 export default function FuturePage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-future-black text-future-white">
-      {/* Real WebGL world (ported from v1 futurefx): infinite energy grid */}
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-80">
-        <ShaderCanvas shader="future" />
+    <main className="relative min-h-screen overflow-hidden bg-[#05060a] text-future-white">
+      {/* The cinematic WebGL world IS the page: infinite energy grid flying to a
+          radiant horizon sun (futurefx), fully visible behind a legibility wash. */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <ShaderCanvas shader="future" className="h-full w-full" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05060a]/75 via-[#05060a]/55 to-[#05060a]/90" />
       </div>
-      <MathTexture era="future" />
-      {/* light pouring from somewhere unseen */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_0%,rgba(157,78,221,0.18),transparent_60%)]"
-      />
 
       {/* ── Hero ── */}
-      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center overflow-hidden px-6 py-32 text-center">
+      <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center overflow-hidden px-6 py-32 text-center">
         <Numeral3D
           era="future"
           value="9"
-          className="ghost-number font-serif opacity-[0.55]"
+          className="ghost-number font-serif opacity-40"
           style={{ fontSize: "clamp(16rem, 40vw, 34rem)", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
         />
         <p className="relative font-mono text-xs uppercase tracking-ritual text-future-crown">
           9 · Future · The Network
         </p>
 
-        <h1 className="relative mt-6 max-w-3xl text-balance font-serif text-5xl font-semibold leading-tight sm:text-7xl">
+        <h1 className="relative mt-6 max-w-3xl text-balance font-serif text-6xl font-semibold leading-[1.05] text-glow-gold sm:text-8xl">
           When the signal belongs to everyone.
         </h1>
 
-        {/* The monument inside a holographic HUD, standing on a glowing grid
-            floor — the mascot small at its base, signalling the scale ahead. */}
-        <div className="relative my-12 w-full max-w-md">
-          {/* Tron-grammar glowing grid floor */}
-          <div className="hud-grid absolute inset-x-[-30%] bottom-0 h-56" />
-          <FutureHUD className="z-0" />
-          <Parallax speed={90} className="absolute left-1/2 top-[-6rem] h-80 w-72 -translate-x-1/2 opacity-70">
-            <BranchingLight />
-          </Parallax>
-          <Parallax speed={-50} className="relative z-10">
-            <MascotHero era="future" priority />
-          </Parallax>
-        </div>
-
-        <p className="relative max-w-reading text-pretty font-serif text-xl leading-relaxed text-future-white/70">
+        <p className="relative mt-10 max-w-reading text-pretty font-serif text-xl leading-relaxed text-future-white/80">
           Free money. Free energy. No gatekeepers. The revolution Tesla started,
           carried at the speed of light to anyone with a phone, anywhere on this
           planet.
         </p>
+
+        <p className="relative mt-10 font-mono text-xs uppercase tracking-ritual text-future-white/40">
+          ↓ Enter the network
+        </p>
       </section>
 
       {/* ── One world · live time zones (carried over from v1) ── */}
-      <section className="relative scroll-mt-24 px-6 pb-24 pt-12">
+      <section className="relative z-10 scroll-mt-24 px-6 pb-24 pt-12">
         <Reveal className="mx-auto max-w-5xl text-center">
           <p className="font-mono text-xs uppercase tracking-ritual text-future-cyan">
             One frequency · One signal · One world
@@ -136,7 +122,7 @@ export default function FuturePage() {
       </section>
 
       {/* ── The Direction (Whitepaper VII) ── */}
-      <section className="relative px-6 py-28">
+      <section className="relative z-10 bg-black/30 px-6 py-28 backdrop-blur-sm">
         <Reveal className="mx-auto max-w-reading">
           <p className="font-mono text-xs uppercase tracking-ritual text-future-cyan">
             From the Whitepaper · VII. The Roadmap
@@ -177,7 +163,7 @@ export default function FuturePage() {
       <BurnRitual />
 
       {/* ── Closing poetry ── */}
-      <section className="relative border-y border-white/5 px-6 py-32">
+      <section className="relative z-10 border-y border-white/5 px-6 py-32">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="text-balance font-serif text-3xl leading-relaxed sm:text-4xl">
             <BrandMark className="text-future-white" boltClassName="text-future-gold" />{" "}
@@ -197,7 +183,7 @@ export default function FuturePage() {
       </section>
 
       {/* ── Final invitation ── */}
-      <section className="relative px-6 py-28">
+      <section className="relative z-10 px-6 py-28">
         <Reveal className="mx-auto flex max-w-2xl flex-col items-center gap-8 text-center">
           <h2 className="font-serif text-4xl sm:text-5xl">Join the frequency</h2>
           <div className="flex flex-col gap-4 sm:flex-row">

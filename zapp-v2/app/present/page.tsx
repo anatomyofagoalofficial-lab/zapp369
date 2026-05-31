@@ -73,52 +73,44 @@ export default async function PresentPage() {
   const stats = await getStats();
 
   return (
-    <main className="relative min-h-screen bg-present-navy text-present-white">
-      {/* Real WebGL world (ported from v1 frequencyfx): 9 strands of light */}
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-60">
-        <ShaderCanvas shader="frequency" />
+    <main className="relative min-h-screen bg-[#04070f] text-present-white">
+      {/* The cinematic WebGL world IS the page: flight through 9 spiralling
+          strands of light (frequencyfx), fully visible behind a legibility wash. */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <ShaderCanvas shader="frequency" className="h-full w-full" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#04070f]/70 via-[#04070f]/55 to-[#04070f]/85" />
       </div>
-      <MathTexture era="present" />
 
       {/* ── Hero ── */}
-      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
+      <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
         <Numeral3D
           era="present"
           value="6"
-          className="ghost-number font-serif opacity-50"
+          className="ghost-number font-serif opacity-40"
           style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", right: "-1rem" }}
         />
-        <div className="relative grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">
-              6 · Present · The Current
-            </p>
-            <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-present-white/40">
-              Solana · May 2026 · live now
-            </p>
-            <h1 className="mt-8 max-w-reading text-balance font-serif text-5xl font-semibold leading-tight sm:text-6xl">
-              The instrument is on.
-            </h1>
-            <p className="mt-6 max-w-reading text-pretty text-lg leading-relaxed text-present-white/70">
-              ⚡ZAPP is real, it is live, and the community exists. The frequency
-              is transmitting. Verifiable, on-chain, owned by no one.
-            </p>
-          </div>
-
-          {/* The mascot at the centre of the network — the instrument is on. */}
-          <div className="relative mx-auto w-full max-w-sm">
-            <Parallax speed={70} className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 opacity-60">
-              <NetworkMotif />
-            </Parallax>
-            <Parallax speed={-40} className="relative">
-              <MascotHero era="present" priority />
-            </Parallax>
-          </div>
+        <div className="relative max-w-2xl">
+          <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">
+            6 · Present · The Current
+          </p>
+          <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-present-white/40">
+            Solana · May 2026 · live now
+          </p>
+          <h1 className="mt-8 text-balance font-serif text-5xl font-semibold leading-[1.05] text-glow-gold sm:text-7xl">
+            The instrument is on.
+          </h1>
+          <p className="mt-6 max-w-reading text-pretty text-lg leading-relaxed text-present-white/75">
+            ⚡ZAPP is real, it is live, and the community exists. The frequency
+            is transmitting. Verifiable, on-chain, owned by no one.
+          </p>
+          <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-present-white/40">
+            ↓ Read the frequency
+          </p>
         </div>
       </section>
 
       {/* ── Live instrument panel ── */}
-      <section className="relative border-t border-white/5 px-6 py-24">
+      <section className="relative z-10 border-t border-white/5 px-6 py-24">
         <Reveal className="mx-auto mb-10 max-w-2xl text-center">
           <p className="font-mono text-xs uppercase tracking-ritual text-present-white/40">
             Instrument panel
@@ -168,7 +160,7 @@ export default async function PresentPage() {
       <VerifiedPanel />
 
       {/* ── The Movement (Whitepaper VI) ── */}
-      <section className="relative border-t border-white/5 px-6 py-28">
+      <section className="relative z-10 border-t border-white/5 bg-black/30 px-6 py-28 backdrop-blur-sm">
         <Reveal className="mx-auto max-w-reading">
           <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">
             From the Whitepaper · VI. The Movement
@@ -187,7 +179,7 @@ export default async function PresentPage() {
       </section>
 
       {/* ── Onward ── */}
-      <section className="px-6 py-24">
+      <section className="relative z-10 px-6 py-24">
         <div className="mx-auto flex max-w-reading flex-col items-start gap-4">
           <p className="font-mono text-xs uppercase tracking-ritual text-present-white/40">
             {SLOGANS.numerology}
