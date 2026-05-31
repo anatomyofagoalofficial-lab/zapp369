@@ -9,7 +9,7 @@ import { MascotHero } from "@/components/MascotHero";
 import { IntroScene } from "@/components/IntroScene";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { Marquee } from "@/components/Marquee";
-import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
+import { ERAS, SLOGANS } from "@/lib/constants";
 
 /**
  * Home — the foyer. Deliberately small. Sets the frame, then invites the
