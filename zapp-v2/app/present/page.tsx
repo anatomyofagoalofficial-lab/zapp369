@@ -73,8 +73,15 @@ export default async function PresentPage() {
       <MathTexture era="present" />
 
       {/* ── Hero ── */}
-      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-32">
-        <div className="grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
+      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
+        <span
+          aria-hidden="true"
+          className="ghost-number font-serif text-present-blue/[0.07]"
+          style={{ fontSize: "clamp(16rem, 40vw, 34rem)", bottom: "-4rem", right: "-2rem" }}
+        >
+          6
+        </span>
+        <div className="relative grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
           <div>
             <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">
               6 · Present · The Current

@@ -27,8 +27,8 @@ export default function Home() {
           <div className="relative flex max-w-3xl flex-col items-center gap-8">
             <BrandMark
               as="h1"
-              boltClassName="text-present-yellow"
-              className="text-[clamp(4rem,15vw,10rem)] font-semibold leading-none tracking-tight text-present-white"
+              boltClassName="text-present-yellow animate-glow-pulse"
+              className="text-glow-gold text-[clamp(4rem,15vw,10rem)] font-semibold leading-none tracking-tight text-present-white"
             />
 
             <div className="flex w-full items-center justify-center gap-4 text-present-white/50">

@@ -72,7 +72,14 @@ export default function FuturePage() {
       />
 
       {/* ── Hero ── */}
-      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 py-32 text-center">
+      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center overflow-hidden px-6 py-32 text-center">
+        <span
+          aria-hidden="true"
+          className="ghost-number font-serif text-future-crown/[0.08]"
+          style={{ fontSize: "clamp(18rem, 44vw, 38rem)", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        >
+          9
+        </span>
         <p className="font-mono text-xs uppercase tracking-ritual text-future-crown">
           9 · Future · The Network
         </p>

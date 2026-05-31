@@ -50,8 +50,15 @@ export default function PastPage() {
       <MathTexture era="past" />
 
       {/* ── Hero ── */}
-      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center px-6 py-32">
-        <div className="grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
+      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
+        <span
+          aria-hidden="true"
+          className="ghost-number font-serif text-past-root/[0.06]"
+          style={{ fontSize: "clamp(16rem, 40vw, 34rem)", bottom: "-4rem", left: "-2rem" }}
+        >
+          3
+        </span>
+        <div className="relative grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
           <div>
             <p className="font-mono text-xs uppercase tracking-ritual text-past-root">
               3 · Past · The Tower
