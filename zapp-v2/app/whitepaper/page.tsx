@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Download } from "lucide-react";
-import { MathTexture } from "@/components/MathTexture";
 import { BrandMark } from "@/components/BrandMark";
+import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { TOKEN } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -24,10 +24,14 @@ const TOC = [
 
 export default function WhitepaperPage() {
   return (
-    <main className="relative min-h-screen bg-present-black px-6 pb-28 pt-36 text-present-white">
-      <MathTexture era="present" />
+    <main className="relative min-h-screen bg-[#04070f] px-6 pb-28 pt-36 text-present-white">
+      {/* Da Vinci notebook over a quiet cosmos field — the document, electrified. */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <ShaderCanvas shader="cosmos" className="h-full w-full" />
+        <div className="absolute inset-0 bg-[#04070f]/85" />
+      </div>
 
-      <article className="relative mx-auto max-w-reading">
+      <article className="relative z-10 mx-auto max-w-reading">
         {/* ── Cover ── */}
         <header className="border-b border-white/10 pb-12 text-center">
           <BrandMark

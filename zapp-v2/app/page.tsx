@@ -7,6 +7,7 @@ import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { Reveal } from "@/components/Reveal";
 import { MascotHero } from "@/components/MascotHero";
 import { IntroScene } from "@/components/IntroScene";
+import { ShaderCanvas } from "@/components/ShaderCanvas";
 import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 /**
@@ -15,8 +16,16 @@ import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
  */
 export default function Home() {
   return (
-    <main>
+    <main className="relative">
+        {/* Cinematic cosmos field behind the whole home page (warm nebula +
+            receding grid), fully visible behind a legibility wash. */}
+        <div className="pointer-events-none fixed inset-0 z-0">
+          <ShaderCanvas shader="cosmos" className="h-full w-full" />
+          <div className="absolute inset-0 bg-gradient-to-b from-present-black/70 via-present-black/55 to-present-black/85" />
+        </div>
+
         {/* ── Scroll-pinned cinematic opener (Solana technique, ⚡ZAPP-themed) ── */}
+        <div className="relative z-10">
         <IntroScene />
 
         {/* ── Masthead (the settled hero) ── */}
@@ -104,8 +113,9 @@ export default function Home() {
           </div>
         </section>
 
-      {/* ── Verified on-chain ── */}
-      <VerifiedPanel />
-    </main>
+        {/* ── Verified on-chain ── */}
+        <VerifiedPanel />
+        </div>
+      </main>
   );
 }
