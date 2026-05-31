@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
-import { MascotHero } from "@/components/MascotHero";
 import { Numeral3D } from "@/components/Numeral3D";
-import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
-import { WardenclyffeTower } from "@/components/WardenclyffeTower";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -17,89 +13,49 @@ export const metadata: Metadata = {
     "1893 to 1917. Tesla's tower at Wardenclyffe, free energy for every human being, wirelessly, for free. The frequency they tried to silence.",
 };
 
-/** A hand-drawn, blueprint-style schematic of the tower (original line art). */
-function TowerSchematic() {
-  return (
-    <svg
-      viewBox="0 0 200 320"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1"
-      aria-hidden="true"
-      className="h-full w-full text-past-ink/70"
-    >
-      {/* dome */}
-      <path d="M60 70 Q100 20 140 70 Z" strokeLinejoin="round" />
-      <path d="M60 70 H140" />
-      <line x1="100" y1="22" x2="100" y2="6" />
-      <circle cx="100" cy="5" r="3" />
-      {/* lattice mast */}
-      <path d="M70 70 L88 290" />
-      <path d="M130 70 L112 290" />
-      <path d="M78 130 L122 130 M80 170 L120 170 M82 210 L118 210 M85 250 L115 250" />
-      <path d="M70 90 L130 130 M130 90 L70 130 M78 130 L122 170 M122 130 L78 170 M80 170 L120 210 M120 170 L80 210 M82 210 L118 250 M118 210 L82 250" />
-      {/* base + ground */}
-      <path d="M88 290 H112 L120 300 H80 Z" />
-      <line x1="20" y1="300" x2="180" y2="300" strokeDasharray="3 4" />
-      {/* annotation ticks */}
-      <line x1="150" y1="70" x2="172" y2="70" strokeDasharray="2 3" />
-      <line x1="150" y1="300" x2="172" y2="300" strokeDasharray="2 3" />
-      <line x1="172" y1="70" x2="172" y2="300" strokeDasharray="2 3" />
-    </svg>
-  );
-}
-
 export default function PastPage() {
   return (
-    <main className="relative min-h-screen bg-past-cream text-past-ink">
-      {/* Real WebGL world (ported from v1 pastfx): backlit monument, godrays */}
-      <div className="pointer-events-none fixed inset-0 -z-10 opacity-90">
-        <ShaderCanvas shader="past" />
+    <main className="relative min-h-screen bg-[#0a0604] text-[#f4e8d0]">
+      {/* The cinematic WebGL world IS the page: backlit monument, golden-hour
+          god-rays, drifting desert haze, the 3·6·9 sacred geometry. Fixed, full
+          screen, fully visible (no opaque background covering it). */}
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <ShaderCanvas shader="past" className="h-full w-full" />
+        {/* legibility wash — keeps text readable over the bright horizon */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0604]/85 via-[#0a0604]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0604] via-transparent to-[#0a0604]/60" />
       </div>
-      <MathTexture era="past" />
 
       {/* ── Hero ── */}
-      <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
+      <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
         <Numeral3D
           era="past"
           value="3"
-          className="ghost-number font-serif opacity-50"
-          style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", left: "-1rem" }}
+          className="ghost-number font-serif opacity-40"
+          style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", right: "-1rem" }}
         />
-        <div className="relative grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-ritual text-past-root">
-              3 · Past · The Tower
-            </p>
-            <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-past-ink/50">
-              Wardenclyffe · 1893–1917
-            </p>
+        <div className="relative max-w-2xl">
+          <p className="font-mono text-xs uppercase tracking-ritual text-past-gold">
+            3 · Past · The Tower
+          </p>
+          <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-[#f4e8d0]/50">
+            Wardenclyffe · 1893–1917
+          </p>
 
-            <h1 className="mt-8 max-w-reading text-balance font-serif text-5xl font-semibold leading-tight sm:text-6xl">
-              A tower built to give the world its energy, for free.
-            </h1>
+          <h1 className="mt-8 text-balance font-serif text-5xl font-semibold leading-[1.05] text-glow-gold sm:text-7xl">
+            A tower built to give the world its energy, for free.
+          </h1>
 
-            <blockquote className="mt-10 max-w-reading border-l-2 border-past-gold pl-6 font-serif text-2xl italic leading-relaxed text-past-ink/80">
-              &ldquo;{TESLA_QUOTES.magnificence}&rdquo;
-              <cite className="mt-3 block font-sans text-sm not-italic tracking-ritual text-past-ink/50">
-                Nikola Tesla
-              </cite>
-            </blockquote>
-          </div>
+          <blockquote className="mt-10 max-w-reading border-l-2 border-past-gold pl-6 font-serif text-2xl italic leading-relaxed text-[#f4e8d0]/90">
+            &ldquo;{TESLA_QUOTES.magnificence}&rdquo;
+            <cite className="mt-3 block font-sans text-sm not-italic tracking-ritual text-[#f4e8d0]/50">
+              Nikola Tesla
+            </cite>
+          </blockquote>
 
-          {/* The tower (SVG) rises behind the mascot. The real WebGL 3D tower
-              is parked in TeslaTower3D.tsx pending a green build. */}
-          <div className="relative mx-auto w-full max-w-md">
-            <Parallax speed={80} className="absolute left-1/2 top-[-5rem] h-[40rem] w-72 -translate-x-1/2">
-              <WardenclyffeTower className="h-full w-full" />
-            </Parallax>
-            <div className="relative">
-              <MascotHero era="past" priority />
-            </div>
-            <p className="mt-2 text-center font-mono text-[0.65rem] uppercase tracking-ritual text-past-ink/40">
-              Fig. I · the tower at Wardenclyffe
-            </p>
-          </div>
+          <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-[#f4e8d0]/40">
+            ↓ Scroll into the past
+          </p>
         </div>
       </section>
 
@@ -117,15 +73,15 @@ export default function PastPage() {
       </Section>
 
       {/* ── The Question ── */}
-      <section className="relative px-6 py-24">
+      <section className="relative z-10 px-6 py-24">
         <Reveal className="mx-auto max-w-4xl text-center">
-          <p className="font-serif text-3xl italic leading-relaxed sm:text-4xl">
+          <p className="font-serif text-3xl italic leading-relaxed text-glow-gold sm:text-5xl">
             &ldquo;Where do we put the meter?&rdquo;
           </p>
-          <p className="mt-4 font-sans text-sm uppercase tracking-ritual text-past-ink/50">
+          <p className="mt-4 font-sans text-sm uppercase tracking-ritual text-[#f4e8d0]/50">
             J.P. Morgan
           </p>
-          <p className="mx-auto mt-8 max-w-reading text-pretty font-serif text-xl leading-relaxed text-past-ink/75">
+          <p className="mx-auto mt-8 max-w-reading text-pretty font-serif text-xl leading-relaxed text-[#f4e8d0]/75">
             There was no answer, because there was no meter. Free energy meant
             free people. The funding was pulled. The tower came down.
           </p>
@@ -142,36 +98,36 @@ export default function PastPage() {
       </Section>
 
       {/* ── The Signal (Whitepaper I) ── */}
-      <section className="relative border-y border-past-ink/10 bg-[#efe2c6]/50 px-6 py-28">
+      <section className="relative z-10 border-y border-past-gold/15 bg-black/40 px-6 py-28 backdrop-blur-sm">
         <Reveal className="mx-auto max-w-reading">
-          <p className="font-mono text-xs uppercase tracking-ritual text-past-root">
+          <p className="font-mono text-xs uppercase tracking-ritual text-past-gold">
             From the Whitepaper · I. The Signal
           </p>
-          <blockquote className="mt-6 font-serif text-2xl leading-relaxed sm:text-3xl">
+          <blockquote className="mt-6 font-serif text-2xl leading-relaxed text-[#f4e8d0] sm:text-3xl">
             &ldquo;{TESLA_QUOTES.nonPhysical}&rdquo;
-            <cite className="mt-4 block font-sans text-sm not-italic tracking-ritual text-past-ink/50">
+            <cite className="mt-4 block font-sans text-sm not-italic tracking-ritual text-[#f4e8d0]/50">
               Nikola Tesla
             </cite>
           </blockquote>
-          <p className="mt-8 text-pretty font-serif text-xl leading-relaxed text-past-ink/80">
+          <p className="mt-8 text-pretty font-serif text-xl leading-relaxed text-[#f4e8d0]/80">
             {SLOGANS.signal} {SLOGANS.answer}
           </p>
         </Reveal>
       </section>
 
       {/* ── Onward ── */}
-      <section className="px-6 py-24">
+      <section className="relative z-10 px-6 py-28">
         <div className="mx-auto flex max-w-reading flex-col items-start gap-4">
-          <p className="font-mono text-xs uppercase tracking-ritual text-past-ink/50">
+          <p className="font-mono text-xs uppercase tracking-ritual text-[#f4e8d0]/50">
             The signal did not die.
           </p>
           <Link
             href="/present"
-            className="group inline-flex items-center gap-2 font-serif text-2xl text-past-ink transition-colors hover:text-past-root"
+            className="group inline-flex items-center gap-2 font-serif text-3xl text-past-gold transition-colors hover:text-[#f4e8d0]"
           >
             Follow it to the present
             <ArrowRight
-              size={22}
+              size={26}
               className="transition-transform group-hover:translate-x-1"
             />
           </Link>
@@ -183,7 +139,7 @@ export default function PastPage() {
   );
 }
 
-/** A slow, generous reading section in the Past world. */
+/** A slow, generous reading section in the Past world, over the cinematic bg. */
 function Section({
   kicker,
   children,
@@ -192,12 +148,12 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="relative px-6 py-20">
+    <section className="relative z-10 px-6 py-20">
       <Reveal className="mx-auto max-w-reading">
-        <p className="font-mono text-xs uppercase tracking-ritual text-past-root">
+        <p className="font-mono text-xs uppercase tracking-ritual text-past-gold">
           {kicker}
         </p>
-        <div className="mt-6 space-y-6 text-pretty font-serif text-xl leading-relaxed text-past-ink/85 sm:text-2xl">
+        <div className="mt-6 space-y-6 text-pretty font-serif text-xl leading-relaxed text-[#f4e8d0]/85 sm:text-2xl">
           {children}
         </div>
       </Reveal>

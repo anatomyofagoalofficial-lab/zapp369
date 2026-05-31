@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { TransitionProvider } from "@/components/TransitionProvider";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { EasterEggs } from "@/components/EasterEggs";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
@@ -74,6 +75,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </TransitionProvider>
+          <EasterEggs />
         </SmoothScroll>
       </body>
     </html>
