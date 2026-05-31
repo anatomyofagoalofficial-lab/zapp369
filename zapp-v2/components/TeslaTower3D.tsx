@@ -21,22 +21,24 @@ export function TeslaTower3D({ className }: { className?: string }) {
     let cleanup = () => {};
 
     (async () => {
-      const THREE = await import("three");
-      const { EffectComposer } = await import(
-        "three/examples/jsm/postprocessing/EffectComposer.js"
-      );
-      const { RenderPass } = await import(
-        "three/examples/jsm/postprocessing/RenderPass.js"
-      );
-      const { UnrealBloomPass } = await import(
-        "three/examples/jsm/postprocessing/UnrealBloomPass.js"
-      );
-      const { ShaderPass } = await import(
-        "three/examples/jsm/postprocessing/ShaderPass.js"
-      );
-      const { mergeGeometries } = await import(
-        "three/examples/jsm/utils/BufferGeometryUtils.js"
-      );
+      // Everything Three-related is wrapped so a failed import / WebGL context
+      // never breaks the page — it just renders nothing (the page bg shows).
+      let THREE: typeof import("three");
+      let EffectComposer: typeof import("three/examples/jsm/postprocessing/EffectComposer.js")["EffectComposer"];
+      let RenderPass: typeof import("three/examples/jsm/postprocessing/RenderPass.js")["RenderPass"];
+      let UnrealBloomPass: typeof import("three/examples/jsm/postprocessing/UnrealBloomPass.js")["UnrealBloomPass"];
+      let ShaderPass: typeof import("three/examples/jsm/postprocessing/ShaderPass.js")["ShaderPass"];
+      let mergeGeometries: typeof import("three/examples/jsm/utils/BufferGeometryUtils.js")["mergeGeometries"];
+      try {
+        THREE = await import("three");
+        ({ EffectComposer } = await import("three/examples/jsm/postprocessing/EffectComposer.js"));
+        ({ RenderPass } = await import("three/examples/jsm/postprocessing/RenderPass.js"));
+        ({ UnrealBloomPass } = await import("three/examples/jsm/postprocessing/UnrealBloomPass.js"));
+        ({ ShaderPass } = await import("three/examples/jsm/postprocessing/ShaderPass.js"));
+        ({ mergeGeometries } = await import("three/examples/jsm/utils/BufferGeometryUtils.js"));
+      } catch {
+        return; // three unavailable → silently skip
+      }
       if (disposed || !mountRef.current) return;
 
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
