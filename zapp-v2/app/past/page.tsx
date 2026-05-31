@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
-import { Numeral3D } from "@/components/Numeral3D";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { DigitalRain } from "@/components/DigitalRain";
+import { MajesticTower } from "@/components/MajesticTower";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
