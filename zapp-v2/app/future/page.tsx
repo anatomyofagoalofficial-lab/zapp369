@@ -11,6 +11,7 @@ import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { FutureHUD } from "@/components/FutureHUD";
 import { DigitalRain } from "@/components/DigitalRain";
+import { FutureBoot } from "@/components/FutureBoot";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -110,6 +111,11 @@ export default function FuturePage() {
           carried at the speed of light to anyone with a phone, anywhere on this
           planet.
         </p>
+
+        {/* The boot sequence: code writes itself, then futuristic tech ignites */}
+        <div className="relative mt-14 w-full">
+          <FutureBoot className="w-full" />
+        </div>
 
         <p className="relative mt-10 font-mono text-xs uppercase tracking-ritual text-white/40">
           ↓ Enter the network
