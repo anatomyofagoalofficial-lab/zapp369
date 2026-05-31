@@ -4,8 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { Numeral3D } from "@/components/Numeral3D";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
-import { ShaderCanvas } from "@/components/ShaderCanvas";
-import { TeslaPhotoHero } from "@/components/TeslaPhotoHero";
+import { DigitalRain } from "@/components/DigitalRain";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function PastPage() {
   return (
-    <main className="era-past relative min-h-screen bg-[#0a0604] text-[#f4e8d0]">
+    <main className="era-past relative min-h-screen bg-[#0a0604] text-white">
       {/* The cinematic WebGL world IS the page: backlit monument, golden-hour
           god-rays, drifting desert haze, the 3·6·9 sacred geometry. Fixed, full
           screen, fully visible (no opaque background covering it). */}
@@ -39,10 +38,10 @@ export default function PastPage() {
           style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", right: "-1rem" }}
         />
         <div className="relative max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-ritual text-past-gold">
+          <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
             3 · Past · The Tower
           </p>
-          <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-[#f4e8d0]/50">
+          <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-white/45">
             Wardenclyffe · 1893–1917
           </p>
 
@@ -50,14 +49,14 @@ export default function PastPage() {
             A tower built to give the world its energy, for free.
           </h1>
 
-          <blockquote className="mt-10 max-w-reading border-l-2 border-past-gold pl-6 font-serif text-2xl italic leading-relaxed text-[#f4e8d0]/90">
+          <blockquote className="mt-10 max-w-reading border-l-2 border-present-yellow pl-6 font-serif text-2xl italic leading-relaxed text-white/90">
             &ldquo;{TESLA_QUOTES.magnificence}&rdquo;
-            <cite className="mt-3 block font-sans text-sm not-italic tracking-ritual text-[#f4e8d0]/50">
+            <cite className="mt-3 block font-sans text-sm not-italic tracking-ritual text-white/45">
               Nikola Tesla
             </cite>
           </blockquote>
 
-          <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-[#f4e8d0]/40">
+          <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-white/40">
             ↓ Scroll into the past
           </p>
         </div>
@@ -82,10 +81,10 @@ export default function PastPage() {
           <p className="font-serif text-3xl italic leading-relaxed text-glow-gold sm:text-5xl">
             &ldquo;Where do we put the meter?&rdquo;
           </p>
-          <p className="mt-4 font-sans text-sm uppercase tracking-ritual text-[#f4e8d0]/50">
+          <p className="mt-4 font-sans text-sm uppercase tracking-ritual text-white/45">
             J.P. Morgan
           </p>
-          <p className="mx-auto mt-8 max-w-reading text-pretty font-serif text-xl leading-relaxed text-[#f4e8d0]/75">
+          <p className="mx-auto mt-8 max-w-reading text-pretty font-serif text-xl leading-relaxed text-white/70">
             There was no answer, because there was no meter. Free energy meant
             free people. The funding was pulled. The tower came down.
           </p>
@@ -102,18 +101,18 @@ export default function PastPage() {
       </Section>
 
       {/* ── The Signal (Whitepaper I) ── */}
-      <section className="relative z-10 border-y border-past-gold/15 bg-black/40 px-6 py-28 backdrop-blur-sm">
+      <section className="relative z-10 border-y border-white/10 bg-black/40 px-6 py-28 backdrop-blur-sm">
         <Reveal className="mx-auto max-w-reading">
-          <p className="font-mono text-xs uppercase tracking-ritual text-past-gold">
+          <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
             From the Whitepaper · I. The Signal
           </p>
-          <blockquote className="mt-6 font-serif text-2xl leading-relaxed text-[#f4e8d0] sm:text-3xl">
+          <blockquote className="mt-6 font-serif text-2xl leading-relaxed text-white sm:text-3xl">
             &ldquo;{TESLA_QUOTES.nonPhysical}&rdquo;
-            <cite className="mt-4 block font-sans text-sm not-italic tracking-ritual text-[#f4e8d0]/50">
+            <cite className="mt-4 block font-sans text-sm not-italic tracking-ritual text-white/45">
               Nikola Tesla
             </cite>
           </blockquote>
-          <p className="mt-8 text-pretty font-serif text-xl leading-relaxed text-[#f4e8d0]/80">
+          <p className="mt-8 text-pretty font-serif text-xl leading-relaxed text-white/80">
             {SLOGANS.signal} {SLOGANS.answer}
           </p>
         </Reveal>
@@ -122,12 +121,12 @@ export default function PastPage() {
       {/* ── Onward ── */}
       <section className="relative z-10 px-6 py-28">
         <div className="mx-auto flex max-w-reading flex-col items-start gap-4">
-          <p className="font-mono text-xs uppercase tracking-ritual text-[#f4e8d0]/50">
+          <p className="font-mono text-xs uppercase tracking-ritual text-white/45">
             The signal did not die.
           </p>
           <Link
             href="/present"
-            className="group inline-flex items-center gap-2 font-serif text-3xl text-past-gold transition-colors hover:text-[#f4e8d0]"
+            className="group inline-flex items-center gap-2 font-serif text-3xl text-present-yellow transition-colors hover:text-white"
           >
             Follow it to the present
             <ArrowRight
@@ -154,10 +153,10 @@ function Section({
   return (
     <section className="relative z-10 px-6 py-20">
       <Reveal className="mx-auto max-w-reading">
-        <p className="font-mono text-xs uppercase tracking-ritual text-past-gold">
+        <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
           {kicker}
         </p>
-        <div className="mt-6 space-y-6 text-pretty font-serif text-xl leading-relaxed text-[#f4e8d0]/85 sm:text-2xl">
+        <div className="mt-6 space-y-6 text-pretty font-serif text-xl leading-relaxed text-white/85 sm:text-2xl">
           {children}
         </div>
       </Reveal>
