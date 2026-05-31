@@ -5,13 +5,14 @@ import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { LiveStat } from "@/components/LiveStat";
 import { LiveChart } from "@/components/LiveChart";
+import { MascotHero } from "@/components/MascotHero";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
 import { SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Present — The Current",
+  title: "Present · The Current",
   description:
     "May 2026. The chain is live, the community is plugged in. Verified on-chain: mint revoked, freeze revoked, LP burned, 0% tax.",
 };
@@ -75,7 +76,7 @@ export default async function PresentPage() {
         <div className="grid items-center gap-12 md:grid-cols-[1.4fr_1fr]">
           <div>
             <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">
-              6 · Present — The Current
+              6 · Present · The Current
             </p>
             <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-present-white/40">
               Solana · May 2026 · live now
@@ -85,15 +86,16 @@ export default async function PresentPage() {
             </h1>
             <p className="mt-6 max-w-reading text-pretty text-lg leading-relaxed text-present-white/70">
               ⚡ZAPP is real, it is live, and the community exists. The frequency
-              is transmitting — verifiable, on-chain, owned by no one.
+              is transmitting. Verifiable, on-chain, owned by no one.
             </p>
           </div>
 
-          {/* TODO(mascot): place mascot-network.png centered in this network. */}
-          <div className="relative mx-auto h-72 w-full max-w-xs">
-            <div className="absolute inset-0 rounded-xl border border-present-blue/20 bg-present-black/40 p-6">
+          {/* The mascot at the centre of the network — the instrument is on. */}
+          <div className="relative mx-auto w-full max-w-sm">
+            <div className="absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 opacity-60">
               <NetworkMotif />
             </div>
+            <MascotHero era="present" priority className="relative" />
           </div>
         </div>
       </section>
@@ -118,12 +120,12 @@ export default async function PresentPage() {
           <LiveStat
             label="Market cap"
             value={formatUsd(stats.marketCap)}
-            sub={stats.live ? "live" : "—"}
+            sub={stats.live ? "live" : "·"}
           />
           <LiveStat
             label="24h volume"
             value={formatUsd(stats.volume24h)}
-            sub={stats.live ? "live" : "—"}
+            sub={stats.live ? "live" : "·"}
           />
           <LiveStat
             label="Telegram"
@@ -139,7 +141,7 @@ export default async function PresentPage() {
         </p>
       </section>
 
-      {/* ── Live chart (Pump.fun AMM via DexScreener) ── */}
+      {/* ── The chart: bespoke ⚡ZAPP candlesticks (Pump.fun AMM data) ── */}
       <LiveChart />
 
       {/* ── Verified on-chain ── */}
@@ -154,11 +156,11 @@ export default async function PresentPage() {
           <blockquote className="mt-6 font-serif text-2xl leading-relaxed sm:text-3xl">
             &ldquo;A frequency means nothing without receivers. ⚡ZAPP built its
             community in real time. In a single day, 1,438 people joined the
-            Telegram — just people who recognised the signal.&rdquo;
+            Telegram. Just people who recognised the signal.&rdquo;
           </blockquote>
           <p className="mt-8 text-pretty text-lg leading-relaxed text-present-white/70">
             No paid promotion. No manipulation. The frequency keeps reaching new
-            ears, every day, organically. Community owned — no corporation, no
+            ears, every day, organically. Community owned. No corporation, no
             VC, no bank.
           </p>
         </Reveal>

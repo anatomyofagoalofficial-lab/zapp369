@@ -5,10 +5,11 @@ import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { BrandMark } from "@/components/BrandMark";
 import { WorldClock } from "@/components/WorldClock";
+import { MascotHero } from "@/components/MascotHero";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Future — The Network",
+  title: "Future · The Network",
   description:
     "What ⚡ZAPP becomes when Tesla's vision is realised. Community-owned. Borderless. Free for everyone. Forever on the blockchain.",
 };
@@ -72,15 +73,17 @@ export default function FuturePage() {
       {/* ── Hero ── */}
       <section className="relative mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-6 py-32 text-center">
         <p className="font-mono text-xs uppercase tracking-ritual text-future-crown">
-          9 · Future — The Network
+          9 · Future · The Network
         </p>
 
-        {/* The monument: branching light. The figure is meant to read small
-            against it — that smallness signals the magnitude of the network.
-            TODO(mascot): place mascot-future.png (bronze, monumental) at the
-            base of this structure, on a sculptural plinth. */}
-        <div className="relative my-10 h-80 w-full max-w-sm">
-          <BranchingLight />
+        {/* The monument: branching light rising behind the mascot, who stands
+            on his plinth at its base — small against the structure on purpose,
+            signalling the magnitude of the network behind him. */}
+        <div className="relative my-10 w-full max-w-md">
+          <div className="absolute left-1/2 top-0 h-80 w-72 -translate-x-1/2 opacity-80">
+            <BranchingLight />
+          </div>
+          <MascotHero era="future" priority className="relative pt-20" />
         </div>
 
         <h1 className="max-w-3xl text-balance font-serif text-5xl font-semibold leading-tight sm:text-7xl">
@@ -121,7 +124,7 @@ export default function FuturePage() {
             Energy for everyone
           </h2>
           <p className="mt-6 text-pretty font-serif text-xl leading-relaxed text-future-white/75">
-            These are directions the community is moving toward — not deadlines,
+            These are directions the community is moving toward. Not deadlines,
             not promises, but the shape of what&rsquo;s next, decided together,
             in the open:
           </p>
@@ -131,7 +134,7 @@ export default function FuturePage() {
               "Building toward partnerships with humanitarian organisations and NGOs",
               "Direct, borderless, instant support for individuals and families in need",
               "Reaching grassroots communities across Africa, Asia, and Latin America",
-              "Micro-grants and donations powered by ⚡ZAPP — no bank, no middleman",
+              "Micro-grants and donations powered by ⚡ZAPP, no bank, no middleman",
             ].map((item) => (
               <li key={item} className="flex gap-4">
                 <span aria-hidden="true" className="mt-1 text-future-crown">

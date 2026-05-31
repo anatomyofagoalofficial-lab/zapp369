@@ -27,7 +27,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "⚡ZAPP — Tesla's Unfinished Revolution",
+    default: "⚡ZAPP · Tesla's Unfinished Revolution",
     template: "%s · ⚡ZAPP",
   },
   description:
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE.url,
     siteName: "⚡ZAPP",
-    title: "⚡ZAPP — Tesla's Unfinished Revolution",
+    title: "⚡ZAPP · Tesla's Unfinished Revolution",
     description:
       "Free Energy = Free Money ∞ · The frequency they tried to silence. 3 · 6 · 9 ∞",
     images: [{ url: "/og-default.jpg", alt: "⚡ZAPP" }],
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@ZAPPonSOL",
-    title: "⚡ZAPP — Tesla's Unfinished Revolution",
+    title: "⚡ZAPP · Tesla's Unfinished Revolution",
     description: "Free Energy = Free Money ∞ · 3 · 6 · 9 ∞",
     images: ["/og-default.jpg"],
   },

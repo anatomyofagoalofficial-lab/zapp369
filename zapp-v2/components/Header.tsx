@@ -23,7 +23,7 @@ export function Header() {
       />
 
       <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" aria-label="⚡ZAPP — home">
+        <Link href="/" aria-label="⚡ZAPP home">
           <BrandMark
             boltClassName="text-present-yellow"
             className="text-xl text-white transition-opacity hover:opacity-80"

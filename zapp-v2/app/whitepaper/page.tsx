@@ -7,14 +7,14 @@ import { TOKEN } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Whitepaper",
   description:
-    "⚡ZAPP — Tesla's Unfinished Revolution. The full whitepaper (v3): the signal, the problem, the solution, the frequency, token architecture, and the honest words at the end.",
+    "⚡ZAPP · Tesla's Unfinished Revolution. The full whitepaper: the signal, the problem, the solution, the frequency, token architecture, and the honest words at the end.",
 };
 
 const TOC = [
   ["signal", "I. The Signal"],
   ["problem", "II. The Problem"],
   ["solution", "III. The Solution"],
-  ["frequency", "IV. The Frequency — 3 · 6 · 9"],
+  ["frequency", "IV. The Frequency · 3 · 6 · 9"],
   ["architecture", "V. Token Architecture"],
   ["movement", "VI. The Movement"],
   ["roadmap", "VII. The Roadmap"],
@@ -40,7 +40,7 @@ export default function WhitepaperPage() {
           </p>
           <p className="mx-auto mt-8 max-w-xl text-pretty font-serif text-lg leading-relaxed text-present-white/60">
             &ldquo;If you knew the magnificence of 3, 6 and 9, you would have a
-            key to the universe.&rdquo; — Nikola Tesla
+            key to the universe.&rdquo; · Nikola Tesla
           </p>
           <p className="mt-6 font-mono text-xs uppercase tracking-ritual text-present-yellow">
             Free Energy = Free Money ∞
@@ -92,8 +92,8 @@ export default function WhitepaperPage() {
               every step, deciding who deserves access and who does not?
             </p>
             <p>
-              Nikola Tesla understood this. A century ago he built a tower —
-              Wardenclyffe — designed to transmit free energy to every human
+              Nikola Tesla understood this. A century ago he built a tower at
+              Wardenclyffe, designed to transmit free energy to every human
               being on Earth. Wirelessly. Instantaneously. For free. No meter. No
               bill. No gatekeeper.
             </p>
@@ -105,7 +105,7 @@ export default function WhitepaperPage() {
             <Quote>
               The day science begins to study non-physical phenomena, it will
               make more progress in one decade than in all the previous centuries
-              of its existence. — Nikola Tesla
+              of its existence. · Nikola Tesla
             </Quote>
             <p>
               ⚡ZAPP is that signal. Built on Solana. Owned by no one. Available
@@ -113,7 +113,7 @@ export default function WhitepaperPage() {
             </p>
           </Section>
 
-          <Section id="problem" title="II. The Problem — The World Was Built Around a Meter">
+          <Section id="problem" title="II. The Problem · The World Was Built Around a Meter">
             <p>
               JP Morgan&rsquo;s question, when Tesla pitched him on free energy,
               was simple: &ldquo;Where do we put the meter?&rdquo;
@@ -136,7 +136,7 @@ export default function WhitepaperPage() {
                 $45 average cost to send $200 internationally through a bank
               </li>
               <li>1.4 billion adults worldwide remain unbanked</li>
-              <li>Banking systems close daily — crypto never does</li>
+              <li>Banking systems close daily. Crypto never does</li>
               <li>
                 Transfer times: 1–5 business days vs. blockchain: seconds
               </li>
@@ -148,7 +148,7 @@ export default function WhitepaperPage() {
             </p>
           </Section>
 
-          <Section id="solution" title="III. The Solution — Free Energy = Free Money">
+          <Section id="solution" title="III. The Solution · Free Energy = Free Money">
             <p>
               ⚡ZAPP is built on one idea: energy should move freely. Money is
               energy. Therefore money should move freely.
@@ -164,9 +164,9 @@ export default function WhitepaperPage() {
             </p>
             <Subhead>Why Solana</Subhead>
             <ul>
-              <li>65,000+ transactions per second — faster than Visa</li>
+              <li>65,000+ transactions per second, faster than Visa</li>
               <li>Average transaction fee: $0.00025</li>
-              <li>Sub-second finality — not minutes, not hours, seconds</li>
+              <li>Sub-second finality. Not minutes, not hours, seconds</li>
               <li>Decentralized and censorship-resistant</li>
               <li>No permission needed to participate</li>
             </ul>
@@ -176,16 +176,16 @@ export default function WhitepaperPage() {
             </p>
           </Section>
 
-          <Section id="frequency" title="IV. The Frequency — 3 · 6 · 9">
+          <Section id="frequency" title="IV. The Frequency · 3 · 6 · 9">
             <Quote>
               If you only knew the magnificence of the 3, 6 and 9, then you would
-              have a key to the universe. — Nikola Tesla
+              have a key to the universe. · Nikola Tesla
             </Quote>
             <p>
               This was not a casual statement. Tesla was obsessed with the numbers
               3, 6 and 9. He walked around buildings three times before entering.
               He stayed in hotels with room numbers divisible by 3. He believed
-              these numbers formed the root pattern of nature itself — the
+              these numbers formed the root pattern of nature itself, the
               frequency beneath all creation.
             </p>
             <p>
@@ -196,11 +196,11 @@ export default function WhitepaperPage() {
             </p>
             <p>
               ⚡ZAPP launched May 1st, 2026. The Telegram: t.me/ZAPP369. The
-              website: zapp369.energy. The frequency is not decoration — it is the
+              website: zapp369.energy. The frequency is not decoration. It is the
               signal.
             </p>
             <p>
-              When the market cap touched $3,690 — Tesla&rsquo;s sacred number —
+              When the market cap touched $3,690, Tesla&rsquo;s sacred number,
               it was not a coincidence. The universe was listening.
             </p>
           </Section>
@@ -210,12 +210,12 @@ export default function WhitepaperPage() {
             <ul>
               <li>Name: ⚡ZAPP</li>
               <li>Chain: Solana</li>
-              <li>Total Supply: 1,000,000,000 (one billion) — fixed forever</li>
-              <li>Tax: 0% — no buy tax, no sell tax</li>
-              <li>Launch: May 1st, 2026 — Workers Day</li>
+              <li>Total Supply: 1,000,000,000 (one billion), fixed forever</li>
+              <li>Tax: 0%, no buy tax, no sell tax</li>
+              <li>Launch: May 1st, 2026, Workers Day</li>
               <li>Platform: pump.fun (bonding curve, graduated to PumpSwap)</li>
             </ul>
-            <Subhead>Liquidity &amp; Safety — Verified On-Chain</Subhead>
+            <Subhead>Liquidity &amp; Safety · Verified On-Chain</Subhead>
             <p>
               ⚡ZAPP launched through pump.fun&rsquo;s bonding curve mechanism. On
               May 8th, 2026, the curve graduated and the liquidity migrated to the
@@ -225,7 +225,7 @@ export default function WhitepaperPage() {
               <li>
                 LP permanently burned. 4,194.40 LP tokens were minted to the pool
                 and burned in the same transaction sequence. Current LP holders:
-                zero. The liquidity cannot be withdrawn by anyone — including the
+                zero. The liquidity cannot be withdrawn by anyone, including the
                 founders.
               </li>
               <li>
@@ -250,20 +250,20 @@ export default function WhitepaperPage() {
           <Section id="movement" title="VI. The Movement">
             <p>
               A frequency means nothing without receivers. Tesla&rsquo;s tower was
-              powerful — but it needed a world willing to listen.
+              powerful, but it needed a world willing to listen.
             </p>
             <p>
               ⚡ZAPP built its community in real time. In a single day, 1,438
-              people joined the Telegram — just people who recognised the signal.
+              people joined the Telegram. Just people who recognised the signal.
               The frequency keeps reaching new ears, every day, organically.
             </p>
             <Subhead>Community Principles</Subhead>
             <ul>
               <li>Everyone is welcome. No minimums. No gatekeeping.</li>
               <li>No scammers. No rugpulls. No walls.</li>
-              <li>Community owned — no corporation, no VC, no bank</li>
+              <li>Community owned. No corporation, no VC, no bank</li>
               <li>Transparent. On-chain. Verifiable.</li>
-              <li>3 · 6 · 9 ∞ — the frequency binds us</li>
+              <li>3 · 6 · 9 ∞ · the frequency binds us</li>
             </ul>
             <Subhead>Milestones (May 2026)</Subhead>
             <ul>
@@ -278,14 +278,14 @@ export default function WhitepaperPage() {
           </Section>
 
           <Section id="roadmap" title="VII. The Roadmap">
-            <Subhead>Phase 1 — The Signal (Now)</Subhead>
+            <Subhead>Phase 1 · The Signal (Now)</Subhead>
             <ul>
               <li>Daily Tesla content on Twitter @ZAPPonSOL</li>
               <li>Community growth on Telegram t.me/ZAPP369</li>
               <li>DEXScreener verified ✓</li>
               <li>Jupiter Exchange listed ✓</li>
             </ul>
-            <Subhead>Phase 2 — The Tower</Subhead>
+            <Subhead>Phase 2 · The Tower</Subhead>
             <ul>
               <li>Bonding curve graduation (~$45K mcap) ✓</li>
               <li>PumpSwap listing upon graduation ✓</li>
@@ -293,11 +293,11 @@ export default function WhitepaperPage() {
               <li>CoinGecko submission</li>
               <li>CoinMarketCap submission</li>
             </ul>
-            <Subhead>Phase 3 — Energy for Everyone</Subhead>
+            <Subhead>Phase 3 · Energy for Everyone</Subhead>
             <p>
               The community is exploring how to put ⚡ZAPP&rsquo;s speed and
               zero-fee architecture to work where it matters most. These are the
-              directions the community is moving toward — not deadlines, not
+              directions the community is moving toward. Not deadlines, not
               promises, but the shape of what&rsquo;s next:
             </p>
             <ul>
@@ -310,15 +310,15 @@ export default function WhitepaperPage() {
                 NGOs
               </li>
               <li>
-                Supporting individuals and families in need — direct, borderless,
-                instant — when the community decides together
+                Supporting individuals and families in need. Direct, borderless,
+                instant, when the community decides together
               </li>
               <li>
                 Reaching grassroots communities across Africa, Asia, and Latin
                 America
               </li>
               <li>
-                Micro-grants and donations powered by ⚡ZAPP — no bank, no
+                Micro-grants and donations powered by ⚡ZAPP, no bank, no
                 middleman
               </li>
               <li>
@@ -370,7 +370,7 @@ export default function WhitepaperPage() {
             </p>
             <div className="prose-zapp mt-6 space-y-5 text-present-white/75">
               <p>
-                ⚡ZAPP is a memecoin — a community/culture token on the Solana
+                ⚡ZAPP is a memecoin, a community/culture token on the Solana
                 blockchain. It is not a registered security, an investment
                 product, or a financial instrument. ⚡ZAPP does not promise
                 returns, future value, or specific outcomes. The price can go to

@@ -1,11 +1,27 @@
 import { ArrowUpRight } from "lucide-react";
 import { CHART, LINKS } from "@/lib/constants";
+import { getOhlcv } from "@/lib/chart";
+import { BrandChart } from "./BrandChart";
+
+function formatPrice(n: number | undefined): string {
+  if (!n || !Number.isFinite(n)) return "—";
+  return n >= 1 ? `$${n.toFixed(4)}` : `$${n.toPrecision(3)}`;
+}
 
 /**
- * Live price chart — embeds the ⚡ZAPP/SOL pair on the Pump.fun AMM (PumpSwap)
- * via DexScreener's iframe widget. Real-time, no API key, no extra libraries.
+ * "The chart" — a bespoke, on-brand ⚡ZAPP candlestick chart (SVG, no widget),
+ * fed by live GeckoTerminal data for the Pump.fun AMM (PumpSwap) pair. If the
+ * data source is unavailable, falls back to the live DexScreener embed so the
+ * section is never empty.
  */
-export function LiveChart() {
+export async function LiveChart() {
+  const candles = await getOhlcv();
+  const last = candles[candles.length - 1];
+  const first = candles[0];
+  const changePct =
+    last && first && first.c ? ((last.c - first.c) / first.c) * 100 : 0;
+  const up = changePct >= 0;
+
   return (
     <section className="relative border-t border-white/5 px-6 py-24">
       <div className="mx-auto max-w-5xl">
@@ -19,16 +35,45 @@ export function LiveChart() {
           </p>
         </div>
 
-        <div className="relative h-[460px] w-full overflow-hidden rounded-2xl border border-white/10 bg-present-black/40 sm:h-[600px]">
-          <iframe
-            title="⚡ZAPP live price chart"
-            src={CHART.embedUrl}
-            className="absolute inset-0 h-full w-full"
-            style={{ border: 0 }}
-            loading="lazy"
-            allow="clipboard-write"
-          />
-        </div>
+        {candles.length > 1 ? (
+          <div className="rounded-2xl border border-white/10 bg-present-black/40 p-5 sm:p-6">
+            <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
+              <span className="font-mono text-xs uppercase tracking-ritual text-present-white/50">
+                ZAPP / SOL · PumpSwap
+              </span>
+              <div className="flex items-baseline gap-3">
+                <span className="font-mono text-2xl text-present-white">
+                  {formatPrice(last?.c)}
+                </span>
+                <span
+                  className={`font-mono text-sm ${up ? "text-present-green" : "text-present-blue"}`}
+                >
+                  {up ? "▲" : "▼"} {Math.abs(changePct).toFixed(1)}%
+                </span>
+              </div>
+            </div>
+
+            <div className="w-full" style={{ aspectRatio: "1000 / 420" }}>
+              <BrandChart candles={candles} />
+            </div>
+
+            <p className="mt-3 text-right font-mono text-[0.65rem] uppercase tracking-wider text-present-white/30">
+              ~15 days · 4h candles · data via GeckoTerminal
+            </p>
+          </div>
+        ) : (
+          /* Fallback: live DexScreener embed if our data source is unreachable */
+          <div className="relative h-[460px] w-full overflow-hidden rounded-2xl border border-white/10 bg-present-black/40 sm:h-[600px]">
+            <iframe
+              title="⚡ZAPP live price chart"
+              src={CHART.embedUrl}
+              className="absolute inset-0 h-full w-full"
+              style={{ border: 0 }}
+              loading="lazy"
+              allow="clipboard-write"
+            />
+          </div>
+        )}
 
         <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
           <a

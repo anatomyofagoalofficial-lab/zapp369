@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export function RiskDisclaimer({ className }: { className?: string }) {
   return (
     <p className={cn("text-xs leading-relaxed text-present-white/40", className)}>
-      ⚡ZAPP is a community/culture memecoin — not an investment, security, or
+      ⚡ZAPP is a community/culture memecoin, not an investment, security, or
       financial advice. It can lose all value.{" "}
       <Link
         href="/whitepaper#honest-words"

@@ -5,6 +5,7 @@ import { MathTexture } from "@/components/MathTexture";
 import { EraDoorway } from "@/components/EraDoorway";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { Reveal } from "@/components/Reveal";
+import { MascotHero } from "@/components/MascotHero";
 import { ERAS, SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 /**
@@ -40,14 +41,16 @@ export default function Home() {
 
             <blockquote className="max-w-reading text-pretty font-serif text-2xl italic leading-relaxed text-present-white/85 sm:text-3xl">
               &ldquo;{TESLA_QUOTES.magnificence}&rdquo;
-              <cite className="mt-4 block font-sans text-sm not-italic text-present-white/45">
-                — Nikola Tesla
+              <cite className="mt-4 block font-sans text-sm not-italic tracking-ritual text-present-white/45">
+                Nikola Tesla
               </cite>
             </blockquote>
 
             <p className="font-mono text-sm uppercase tracking-ritual text-present-yellow">
               {SLOGANS.freeEnergy}
             </p>
+
+            <MascotHero era="home" priority className="mt-4 max-w-[14rem]" />
 
             <div className="mt-2 flex flex-col items-center gap-4 sm:flex-row">
               <a
@@ -84,7 +87,7 @@ export default function Home() {
               Enter the revolution
             </h2>
             <p className="mt-4 text-pretty text-present-white/55">
-              Past, Present, and Future — three immersive worlds, one frequency.
+              Past, Present, and Future. Three immersive worlds, one frequency.
             </p>
           </Reveal>
 

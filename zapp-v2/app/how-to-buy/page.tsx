@@ -9,14 +9,14 @@ import { LINKS, TOKEN } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "How to Buy",
   description:
-    "A simple, step-by-step guide to buying ⚡ZAPP on Solana — get a wallet, fund it with SOL, and swap on Jupiter or Pump.fun. Always verify the contract.",
+    "A simple, step-by-step guide to buying ⚡ZAPP on Solana. Get a wallet, fund it with SOL, and swap on Jupiter or Pump.fun. Always verify the contract.",
 };
 
 const STEPS = [
   {
     n: "1",
     title: "Get a Solana wallet",
-    body: "Install a self-custody Solana wallet such as Phantom or Solflare (browser extension or mobile app). Write down your recovery phrase and keep it offline. Never share it with anyone — not even us.",
+    body: "Install a self-custody Solana wallet such as Phantom or Solflare (browser extension or mobile app). Write down your recovery phrase and keep it offline. Never share it with anyone, not even us.",
   },
   {
     n: "2",
@@ -26,12 +26,12 @@ const STEPS = [
   {
     n: "3",
     title: "Open Jupiter or Pump.fun",
-    body: "Head to Jupiter or Pump.fun and connect your wallet there. ⚡ZAPP never asks you to connect a wallet on this site — you only ever connect on the exchange itself.",
+    body: "Head to Jupiter or Pump.fun and connect your wallet there. ⚡ZAPP never asks you to connect a wallet on this site. You only ever connect on the exchange itself.",
   },
   {
     n: "4",
     title: "Paste the ⚡ZAPP contract & swap",
-    body: "Paste the official contract address (below) into the token field, enter how much SOL you want to swap, and confirm. That's it — the tokens arrive in seconds.",
+    body: "Paste the official contract address (below) into the token field, enter how much SOL you want to swap, and confirm. That's it. The tokens arrive in seconds.",
   },
   {
     n: "5",

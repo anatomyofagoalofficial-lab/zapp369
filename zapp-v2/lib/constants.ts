@@ -61,7 +61,7 @@ export const SLOGANS = {
   frequency: "The frequency they tried to silence",
   numerology: "3 · 6 · 9 ∞",
   marketCap:
-    "When the market cap touched $3,690 — Tesla's sacred number — it was not a coincidence. The universe was listening.",
+    "When the market cap touched $3,690, Tesla's sacred number, it was not a coincidence. The universe was listening.",
   burnedLp: "Burned LP = no rug pull possible. Ever.",
   noMeters:
     "There are no meters on ⚡ZAPP. JP Morgan's question has no answer here.",

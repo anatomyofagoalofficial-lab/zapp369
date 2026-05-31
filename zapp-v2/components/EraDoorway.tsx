@@ -59,7 +59,7 @@ export function EraDoorway({ era }: EraDoorwayProps) {
   return (
     <Link
       href={era.href}
-      aria-label={`Enter ${era.title} — ${era.name}`}
+      aria-label={`Enter ${era.title}, ${era.name}`}
       className={cn(
         "group relative flex min-h-[clamp(26rem,55vh,40rem)] flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b p-8 transition-all duration-500 ease-reverent hover:-translate-y-1",
         s.gradient,
