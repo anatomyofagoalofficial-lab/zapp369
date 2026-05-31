@@ -29,7 +29,7 @@ export default function Home() {
           <ShaderCanvas shader="cosmos" className="h-full w-full" />
           <div className="absolute inset-0 bg-gradient-to-b from-present-black/70 via-present-black/55 to-present-black/85" />
           {/* electricity everywhere */}
-          <ElectricArcs tone="gold" className="absolute inset-0 h-full w-full opacity-50" />
+          <ElectricArcs tone="gold" className="absolute inset-0 h-full w-full opacity-20" />
         </div>
 
         {/* ── Scroll-pinned cinematic opener (Solana technique, ⚡ZAPP-themed) ── */}

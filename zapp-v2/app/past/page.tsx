@@ -26,7 +26,7 @@ export default function PastPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f04]/70 via-[#0a0604]/45 to-[#050301]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0604]/85 via-[#0a0604]/35 to-transparent" />
         {/* electricity everywhere */}
-        <ElectricArcs tone="gold" className="absolute inset-0 h-full w-full opacity-70" />
+        <ElectricArcs tone="gold" className="absolute inset-0 h-full w-full opacity-25" />
       </div>
 
       {/* ── Hero ── */}
