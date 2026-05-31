@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { LiveStat } from "@/components/LiveStat";
 import { LiveChart } from "@/components/LiveChart";
@@ -10,7 +9,7 @@ import { MascotHero } from "@/components/MascotHero";
 import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
-import { ShaderCanvas } from "@/components/ShaderCanvas";
+import { DigitalRain } from "@/components/DigitalRain";
 import { VerifiedPanel } from "@/components/VerifiedPanel";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
@@ -73,13 +72,27 @@ export default async function PresentPage() {
   const stats = await getStats();
 
   return (
-    <main className="relative min-h-screen bg-[#04070f] text-present-white">
-      {/* The cinematic WebGL world IS the page: flight through 9 spiralling
-          strands of light (frequencyfx), fully visible behind a legibility wash. */}
-      <div className="pointer-events-none fixed inset-0 z-0">
-        <ShaderCanvas shader="frequency" className="h-full w-full" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#04070f]/70 via-[#04070f]/55 to-[#04070f]/85" />
+    <main className="relative min-h-screen bg-black text-white">
+      {/* Clean black field: monochrome grid + falling on-chain numbers + gold
+          shaft. Crisp black + white + ⚡ZAPP gold, unified across the site. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+          WebkitMaskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+        }}
+      />
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.20]">
+        <DigitalRain className="h-full w-full" density={1} />
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[70vh] bg-[radial-gradient(ellipse_45%_60%_at_50%_0%,rgba(255,215,0,0.12),transparent_70%)]"
+      />
 
       {/* ── Hero ── */}
       <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
@@ -90,20 +103,20 @@ export default async function PresentPage() {
           style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", right: "-1rem" }}
         />
         <div className="relative max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">
+          <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
             6 · Present · The Current
           </p>
-          <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-present-white/40">
+          <p className="mt-2 font-mono text-xs uppercase tracking-ritual text-white/40">
             Solana · May 2026 · live now
           </p>
           <h1 className="mt-8 text-balance font-serif text-5xl font-semibold leading-[1.05] text-glow-gold sm:text-7xl">
             The instrument is on.
           </h1>
-          <p className="mt-6 max-w-reading text-pretty text-lg leading-relaxed text-present-white/75">
+          <p className="mt-6 max-w-reading text-pretty text-lg leading-relaxed text-white/75">
             ⚡ZAPP is real, it is live, and the community exists. The frequency
             is transmitting. Verifiable, on-chain, owned by no one.
           </p>
-          <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-present-white/40">
+          <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-white/40">
             ↓ Read the frequency
           </p>
         </div>
@@ -112,7 +125,7 @@ export default async function PresentPage() {
       {/* ── Live instrument panel ── */}
       <section className="relative z-10 border-t border-white/5 px-6 py-24">
         <Reveal className="mx-auto mb-10 max-w-2xl text-center">
-          <p className="font-mono text-xs uppercase tracking-ritual text-present-white/40">
+          <p className="font-mono text-xs uppercase tracking-ritual text-white/40">
             Instrument panel
           </p>
           <h2 className="mt-4 font-serif text-4xl sm:text-5xl">
@@ -143,7 +156,7 @@ export default async function PresentPage() {
           />
         </div>
 
-        <p className="mx-auto mt-6 max-w-3xl text-center font-mono text-[0.7rem] uppercase tracking-wider text-present-white/30">
+        <p className="mx-auto mt-6 max-w-3xl text-center font-mono text-[0.7rem] uppercase tracking-wider text-white/30">
           Market data live from Solana, refreshed every few minutes. Holder and
           member counts shown as last verified. Falls back to known values if a
           source is unreachable.
@@ -162,7 +175,7 @@ export default async function PresentPage() {
       {/* ── The Movement (Whitepaper VI) ── */}
       <section className="relative z-10 border-t border-white/5 bg-black/30 px-6 py-28 backdrop-blur-sm">
         <Reveal className="mx-auto max-w-reading">
-          <p className="font-mono text-xs uppercase tracking-ritual text-present-blue">
+          <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
             From the Whitepaper · VI. The Movement
           </p>
           <blockquote className="mt-6 font-serif text-2xl leading-relaxed sm:text-3xl">
@@ -170,7 +183,7 @@ export default async function PresentPage() {
             community in real time. In a single day, 1,438 people joined the
             Telegram. Just people who recognised the signal.&rdquo;
           </blockquote>
-          <p className="mt-8 text-pretty text-lg leading-relaxed text-present-white/70">
+          <p className="mt-8 text-pretty text-lg leading-relaxed text-white/70">
             No paid promotion. No manipulation. The frequency keeps reaching new
             ears, every day, organically. Community owned. No corporation, no
             VC, no bank.
@@ -181,12 +194,12 @@ export default async function PresentPage() {
       {/* ── Onward ── */}
       <section className="relative z-10 px-6 py-24">
         <div className="mx-auto flex max-w-reading flex-col items-start gap-4">
-          <p className="font-mono text-xs uppercase tracking-ritual text-present-white/40">
+          <p className="font-mono text-xs uppercase tracking-ritual text-white/40">
             {SLOGANS.numerology}
           </p>
           <Link
             href="/future"
-            className="group inline-flex items-center gap-2 font-serif text-2xl text-present-white transition-colors hover:text-present-yellow"
+            className="group inline-flex items-center gap-2 font-serif text-2xl text-white transition-colors hover:text-present-yellow"
           >
             See where the signal is going
             <ArrowRight

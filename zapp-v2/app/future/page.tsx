@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { MathTexture } from "@/components/MathTexture";
 import { Reveal } from "@/components/Reveal";
 import { BrandMark } from "@/components/BrandMark";
 import { WorldClock } from "@/components/WorldClock";
@@ -11,7 +10,7 @@ import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { FutureHUD } from "@/components/FutureHUD";
-import { ShaderCanvas } from "@/components/ShaderCanvas";
+import { DigitalRain } from "@/components/DigitalRain";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -68,13 +67,27 @@ function BranchingLight() {
 
 export default function FuturePage() {
   return (
-    <main className="era-future relative min-h-screen overflow-hidden bg-[#05060a] text-future-white">
-      {/* The cinematic WebGL world IS the page: infinite energy grid flying to a
-          radiant horizon sun (futurefx), fully visible behind a legibility wash. */}
-      <div className="pointer-events-none fixed inset-0 z-0">
-        <ShaderCanvas shader="future" className="h-full w-full" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#05060a]/75 via-[#05060a]/55 to-[#05060a]/90" />
+    <main className="relative min-h-screen overflow-hidden bg-black text-white">
+      {/* Clean black field: monochrome grid + falling on-chain numbers + gold
+          shaft. Crisp black + white + ⚡ZAPP gold, unified across the site. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+          WebkitMaskImage: "radial-gradient(ellipse 75% 60% at 50% 35%, black, transparent 85%)",
+        }}
+      />
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.20]">
+        <DigitalRain className="h-full w-full" density={1} />
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-x-0 top-0 z-0 h-[70vh] bg-[radial-gradient(ellipse_45%_60%_at_50%_0%,rgba(255,215,0,0.12),transparent_70%)]"
+      />
 
       {/* ── Hero ── */}
       <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center overflow-hidden px-6 py-32 text-center">
@@ -84,7 +97,7 @@ export default function FuturePage() {
           className="ghost-number font-serif opacity-40"
           style={{ fontSize: "clamp(16rem, 40vw, 34rem)", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
         />
-        <p className="relative font-mono text-xs uppercase tracking-ritual text-future-crown">
+        <p className="relative font-mono text-xs uppercase tracking-ritual text-present-yellow">
           9 · Future · The Network
         </p>
 
@@ -92,13 +105,13 @@ export default function FuturePage() {
           When the signal belongs to everyone.
         </h1>
 
-        <p className="relative mt-10 max-w-reading text-pretty font-serif text-xl leading-relaxed text-future-white/80">
+        <p className="relative mt-10 max-w-reading text-pretty font-serif text-xl leading-relaxed text-white/80">
           Free money. Free energy. No gatekeepers. The revolution Tesla started,
           carried at the speed of light to anyone with a phone, anywhere on this
           planet.
         </p>
 
-        <p className="relative mt-10 font-mono text-xs uppercase tracking-ritual text-future-white/40">
+        <p className="relative mt-10 font-mono text-xs uppercase tracking-ritual text-white/40">
           ↓ Enter the network
         </p>
       </section>
@@ -106,7 +119,7 @@ export default function FuturePage() {
       {/* ── One world · live time zones (carried over from v1) ── */}
       <section className="relative z-10 scroll-mt-24 px-6 pb-24 pt-12">
         <Reveal className="mx-auto max-w-5xl text-center">
-          <p className="font-mono text-xs uppercase tracking-ritual text-future-cyan">
+          <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
             One frequency · One signal · One world
           </p>
           <h2 className="mt-4 text-balance font-serif text-3xl leading-tight sm:text-4xl">
@@ -115,7 +128,7 @@ export default function FuturePage() {
           <div className="mt-10">
             <WorldClock />
           </div>
-          <p className="mt-10 font-serif text-lg italic text-future-white/60">
+          <p className="mt-10 font-serif text-lg italic text-white/60">
             ⚡ Tesla&rsquo;s frequency reaches every time zone.
           </p>
         </Reveal>
@@ -124,18 +137,18 @@ export default function FuturePage() {
       {/* ── The Direction (Whitepaper VII) ── */}
       <section className="relative z-10 bg-black/30 px-6 py-28 backdrop-blur-sm">
         <Reveal className="mx-auto max-w-reading">
-          <p className="font-mono text-xs uppercase tracking-ritual text-future-cyan">
+          <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
             From the Whitepaper · VII. The Roadmap
           </p>
           <h2 className="mt-6 font-serif text-4xl leading-tight sm:text-5xl">
             Energy for everyone
           </h2>
-          <p className="mt-6 text-pretty font-serif text-xl leading-relaxed text-future-white/75">
+          <p className="mt-6 text-pretty font-serif text-xl leading-relaxed text-white/75">
             These are directions the community is moving toward. Not deadlines,
             not promises, but the shape of what&rsquo;s next, decided together,
             in the open:
           </p>
-          <ul className="mt-8 space-y-4 font-serif text-lg leading-relaxed text-future-white/70">
+          <ul className="mt-8 space-y-4 font-serif text-lg leading-relaxed text-white/70">
             {[
               "Instant ⚡ZAPP payments at live events and community gatherings worldwide",
               "Building toward partnerships with humanitarian organisations and NGOs",
@@ -144,14 +157,14 @@ export default function FuturePage() {
               "Micro-grants and donations powered by ⚡ZAPP, no bank, no middleman",
             ].map((item) => (
               <li key={item} className="flex gap-4">
-                <span aria-hidden="true" className="mt-1 text-future-crown">
+                <span aria-hidden="true" className="mt-1 text-present-yellow">
                   ◆
                 </span>
                 <span>{item}</span>
               </li>
             ))}
           </ul>
-          <p className="mt-8 text-pretty text-sm leading-relaxed text-future-white/40">
+          <p className="mt-8 text-pretty text-sm leading-relaxed text-white/40">
             Items above are aspirations the community is exploring, not
             commitments. See the whitepaper&rsquo;s honest words for the full
             risk disclosure.
@@ -166,17 +179,17 @@ export default function FuturePage() {
       <section className="relative z-10 border-y border-white/5 px-6 py-32">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="text-balance font-serif text-3xl leading-relaxed sm:text-4xl">
-            <BrandMark className="text-future-white" boltClassName="text-future-gold" />{" "}
+            <BrandMark className="text-white" boltClassName="text-present-yellow" />{" "}
             is not just a token. It is the answer Tesla never got to give.
           </p>
-          <p className="mt-8 font-serif text-2xl italic leading-relaxed text-future-white/70">
+          <p className="mt-8 font-serif text-2xl italic leading-relaxed text-white/70">
             Decentralised. Borderless. Free for everyone. Forever on the
             blockchain.
           </p>
-          <p className="mt-10 font-mono text-sm uppercase tracking-ritual text-future-crown">
+          <p className="mt-10 font-mono text-sm uppercase tracking-ritual text-present-yellow">
             {SLOGANS.numerology}
           </p>
-          <p className="mt-2 font-mono text-sm uppercase tracking-ritual text-future-gold">
+          <p className="mt-2 font-mono text-sm uppercase tracking-ritual text-present-yellow">
             {SLOGANS.freeEnergy}
           </p>
         </Reveal>
@@ -197,7 +210,7 @@ export default function FuturePage() {
             </a>
             <Link
               href="/how-to-buy"
-              className="inline-flex items-center gap-2 rounded-full border border-future-cyan/60 px-8 py-3 font-sans text-sm uppercase tracking-wider text-future-cyan transition-colors hover:bg-future-cyan hover:text-future-black"
+              className="inline-flex items-center gap-2 rounded-full border border-future-cyan/60 px-8 py-3 font-sans text-sm uppercase tracking-wider text-present-yellow transition-colors hover:bg-future-cyan hover:text-future-black"
             >
               How to buy <ArrowUpRight size={16} />
             </Link>
