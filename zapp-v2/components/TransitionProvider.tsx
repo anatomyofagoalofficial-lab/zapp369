@@ -9,31 +9,42 @@ const TransitionCtx = createContext<NavFn>(() => {});
 export const useTransitionNav = () => useContext(TransitionCtx);
 
 /**
- * Per-destination colours for the portal. Always ⚡ZAPP's own palette — gold is
- * the constant spark ring, the core takes the destination era's accent.
+ * Per-destination identity for the time-jump. ⚡ZAPP gold is the constant; the
+ * core + label take the destination era. `order` lets us tell forward (into the
+ * future) from backward (into the past) so the warp direction reads as time.
  */
-function eraOf(href: string): { core: string; spark: string; rim: string } {
+type EraDef = { core: string; streak: string; label: string; order: number };
+function eraOf(href: string): EraDef {
   if (href.startsWith("/past"))
-    return { core: "#E8B547", spark: "#FFD700", rim: "#7A2E2E" };
+    return { core: "#E8B547", streak: "#FFE08a", label: "THE PAST", order: 0 };
   if (href.startsWith("/present"))
-    return { core: "#3B82F6", spark: "#FFD700", rim: "#22D3EE" };
+    return { core: "#22D3EE", streak: "#9be9ff", label: "THE PRESENT", order: 1 };
   if (href.startsWith("/future"))
-    return { core: "#9D4EDD", spark: "#FFD700", rim: "#22D3EE" };
+    return { core: "#9D4EDD", streak: "#d8a8ff", label: "THE FUTURE", order: 2 };
   if (href.startsWith("/how-to-buy"))
-    return { core: "#10B981", spark: "#FFD700", rim: "#FFD700" };
-  return { core: "#FFD700", spark: "#FFD700", rim: "#FFD700" };
+    return { core: "#10B981", streak: "#7af0c0", label: "ACQUIRE", order: 1 };
+  return { core: "#FFD700", streak: "#FFE08a", label: "⚡ZAPP", order: 1 };
 }
 
-// Deterministic spark positions around the ring (no Math.random → SSR-safe).
-const SPARKS = Array.from({ length: 48 }, (_, i) => (360 / 48) * i);
+// Deterministic hyperspace streaks radiating from the centre (SSR-safe).
+const STREAKS = Array.from({ length: 64 }, (_, i) => ({
+  deg: (360 / 64) * i,
+  len: 30 + ((i * 37) % 50), // pseudo-random length, deterministic
+  delay: ((i * 13) % 20) / 100,
+  thick: i % 4 === 0 ? 3 : 1.5,
+}));
 
 /**
- * A Dr-Strange-inspired portal — a spinning circle drawn in flying sparks and
- * embers — rendered entirely in ⚡ZAPP gold + the destination era's accent.
- * Inspired by the *idea* of a fiery threshold; original artwork, our colours.
+ * A time-jump warp: the screen fills with light-streaks rushing through a tunnel
+ * toward (or away from) the viewer, the destination era's colour floods in, and
+ * the era's name punches through the middle — so moving between pages reads as
+ * travelling through time, not clicking a link. ⚡ZAPP palette, original artwork.
  */
 function PortalOverlay({ href }: { href: string }) {
   const c = eraOf(href);
+  // Forward in time → streaks rush OUTWARD (we fly forward). Back in time →
+  // streaks rush INWARD (we're pulled back). Default forward.
+  const forward = c.order >= 1;
 
   return (
     <motion.div
@@ -41,65 +52,69 @@ function PortalOverlay({ href }: { href: string }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
+      transition={{ duration: 0.25, ease: "easeInOut" }}
     >
-      {/* The spinning spark-ring (the portal's burning edge) */}
+      {/* colour flood from the centre */}
       <motion.div
-        className="absolute"
-        style={{ width: "70vmin", height: "70vmin" }}
-        initial={{ scale: 0.2, opacity: 0, rotate: 0 }}
-        animate={{ scale: [0.2, 1, 1.15], opacity: [0, 1, 0], rotate: [0, 200] }}
-        transition={{ duration: 1.15, ease: [0.6, 0, 0.3, 1] }}
-      >
-        {SPARKS.map((deg, i) => (
-          <span
+        className="absolute inset-0"
+        style={{ background: `radial-gradient(circle at center, ${c.core}, transparent 60%)` }}
+        initial={{ opacity: 0, scale: 0.2 }}
+        animate={{ opacity: [0, 0.7, 0], scale: [0.2, 1.4, 2] }}
+        transition={{ duration: 1.2, ease: [0.7, 0, 0.3, 1] }}
+      />
+
+      {/* hyperspace streak tunnel */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        {STREAKS.map((s, i) => (
+          <motion.span
             key={i}
-            className="absolute left-1/2 top-1/2"
+            className="absolute left-1/2 top-1/2 origin-left"
             style={{
-              width: i % 3 === 0 ? 6 : 3,
-              height: i % 3 === 0 ? 6 : 3,
-              borderRadius: "50%",
-              background: i % 4 === 0 ? c.rim : c.spark,
-              boxShadow: `0 0 8px ${c.spark}`,
-              transform: `rotate(${deg}deg) translateY(-35vmin)`,
+              height: s.thick,
+              borderRadius: 9999,
+              background: `linear-gradient(to right, transparent, ${c.streak})`,
+              rotate: `${s.deg}deg`,
+              boxShadow: `0 0 6px ${c.streak}`,
             }}
+            initial={{
+              width: forward ? "2vmin" : "70vmin",
+              opacity: 0,
+              x: forward ? "4vmin" : "8vmin",
+            }}
+            animate={{
+              width: forward ? ["2vmin", "85vmin"] : ["70vmin", "3vmin"],
+              opacity: [0, 1, 0],
+              x: forward ? ["4vmin", "10vmin"] : ["8vmin", "2vmin"],
+            }}
+            transition={{ duration: 1, ease: "easeIn", delay: s.delay }}
           />
         ))}
-        {/* inner glowing rim of the opening */}
-        <div
-          className="absolute inset-[6%] rounded-full"
-          style={{
-            border: `2px solid ${c.spark}`,
-            boxShadow: `0 0 40px ${c.spark}, inset 0 0 40px ${c.spark}`,
-            opacity: 0.5,
-          }}
-        />
-      </motion.div>
+      </div>
 
-      {/* Mandala shimmer — concentric sigil rings flaring out */}
-      {[0, 0.08, 0.16].map((d, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full"
-          style={{ border: `1px solid ${c.spark}`, opacity: 0.4 }}
-          initial={{ width: "10vmin", height: "10vmin", opacity: 0 }}
-          animate={{ width: "120vmin", height: "120vmin", opacity: [0, 0.5, 0] }}
-          transition={{ duration: 1, ease: "easeOut", delay: d }}
-        />
-      ))}
-
-      {/* The opening itself — destination era's colour pouring through */}
+      {/* the era name punches through the warp */}
       <motion.div
-        className="absolute rounded-full blur-2xl"
-        style={{ background: `radial-gradient(circle, ${c.core}, transparent 70%)` }}
-        initial={{ width: 0, height: 0, opacity: 0 }}
+        className="relative z-10 text-center"
+        initial={{ opacity: 0, scale: forward ? 0.4 : 1.6, filter: "blur(12px)" }}
         animate={{
-          width: ["0vmax", "8vmax", "150vmax"],
-          height: ["0vmax", "8vmax", "150vmax"],
-          opacity: [0, 1, 0],
+          opacity: [0, 1, 1, 0],
+          scale: forward ? [0.4, 1, 1.05, 1.3] : [1.6, 1, 0.95, 0.7],
+          filter: ["blur(12px)", "blur(0px)", "blur(0px)", "blur(10px)"],
         }}
-        transition={{ duration: 1.15, ease: [0.7, 0, 0.3, 1] }}
-      />
+        transition={{ duration: 1.25, ease: [0.6, 0, 0.3, 1], times: [0, 0.35, 0.7, 1] }}
+      >
+        <p
+          className="font-serif text-5xl font-semibold sm:text-7xl"
+          style={{ color: "#fff", textShadow: `0 0 30px ${c.core}, 0 0 70px ${c.core}` }}
+        >
+          {c.label}
+        </p>
+        <p
+          className="mt-3 font-mono text-xs uppercase tracking-[0.5em]"
+          style={{ color: c.streak }}
+        >
+          ⚡ 3 · 6 · 9 ∞
+        </p>
+      </motion.div>
     </motion.div>
   );
 }
@@ -121,8 +136,8 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
         return;
       }
       setTarget(href);
-      window.setTimeout(() => router.push(href), 600);
-      window.setTimeout(() => setTarget(null), 1300);
+      window.setTimeout(() => router.push(href), 700);
+      window.setTimeout(() => setTarget(null), 1500);
     },
     [router, reduce],
   );
