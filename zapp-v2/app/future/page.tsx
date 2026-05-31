@@ -10,6 +10,7 @@ import { BurnRitual } from "@/components/BurnRitual";
 import { Numeral3D } from "@/components/Numeral3D";
 import { Parallax } from "@/components/Parallax";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
+import { FutureHUD } from "@/components/FutureHUD";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -90,13 +91,16 @@ export default function FuturePage() {
           When the signal belongs to everyone.
         </h1>
 
-        {/* The monument: branching light rising above the mascot, who stands
-            small at its base on purpose, signalling the scale of the network. */}
+        {/* The monument inside a holographic HUD, standing on a glowing grid
+            floor — the mascot small at its base, signalling the scale ahead. */}
         <div className="relative my-12 w-full max-w-md">
+          {/* Tron-grammar glowing grid floor */}
+          <div className="hud-grid absolute inset-x-[-30%] bottom-0 h-56" />
+          <FutureHUD className="z-0" />
           <Parallax speed={90} className="absolute left-1/2 top-[-6rem] h-80 w-72 -translate-x-1/2 opacity-70">
             <BranchingLight />
           </Parallax>
-          <Parallax speed={-50} className="relative">
+          <Parallax speed={-50} className="relative z-10">
             <MascotHero era="future" priority />
           </Parallax>
         </div>
