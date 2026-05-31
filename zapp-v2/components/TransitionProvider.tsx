@@ -19,6 +19,8 @@ function eraOf(href: string): { core: string; spark: string; rim: string } {
     return { core: "#3B82F6", spark: "#FFD700", rim: "#22D3EE" };
   if (href.startsWith("/future"))
     return { core: "#9D4EDD", spark: "#FFD700", rim: "#22D3EE" };
+  if (href.startsWith("/how-to-buy"))
+    return { core: "#10B981", spark: "#FFD700", rim: "#FFD700" };
   return { core: "#FFD700", spark: "#FFD700", rim: "#FFD700" };
 }
 
