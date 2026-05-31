@@ -38,14 +38,8 @@ export default function PastPage() {
       />
 
       {/* ── Hero ── */}
-      <section className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col justify-center overflow-hidden px-6 py-32">
-        <Numeral3D
-          era="past"
-          value="3"
-          className="ghost-number font-serif opacity-40"
-          style={{ fontSize: "clamp(14rem, 34vw, 30rem)", bottom: "-3rem", right: "-1rem" }}
-        />
-        <div className="relative max-w-2xl">
+      <section className="relative z-10 mx-auto grid min-h-screen max-w-6xl items-center gap-10 overflow-hidden px-6 py-32 md:grid-cols-[1.1fr_0.9fr]">
+        <div className="relative">
           <p className="font-mono text-xs uppercase tracking-ritual text-present-yellow">
             3 · Past · The Tower
           </p>
@@ -67,6 +61,11 @@ export default function PastPage() {
           <p className="mt-10 font-mono text-xs uppercase tracking-ritual text-white/40">
             ↓ Scroll into the past
           </p>
+        </div>
+
+        {/* The majestic Wardenclyffe tower, rising */}
+        <div className="relative mx-auto h-[34rem] w-full max-w-sm sm:h-[42rem]">
+          <MajesticTower className="h-full w-full drop-shadow-[0_0_50px_rgba(255,215,0,0.25)]" />
         </div>
       </section>
 
