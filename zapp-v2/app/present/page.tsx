@@ -11,6 +11,7 @@ import { DigitalRain } from "@/components/DigitalRain";
 import {
   IllustratedScene, SceneCopy, SceneKicker, SceneTitle, SceneBody,
 } from "@/components/IllustratedScene";
+import { LightningDivider } from "@/components/LightningDivider";
 import { getStats } from "@/lib/stats";
 import { formatNumber, formatUsd } from "@/lib/utils";
 import { SLOGANS } from "@/lib/constants";
@@ -50,7 +51,7 @@ export default async function PresentPage() {
             a frequency that was always there.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* THE PROBLEM */}
       <IllustratedScene src="/illustrations/chains.jpg"
@@ -65,7 +66,7 @@ export default async function PresentPage() {
             1–5 days for a wire transfer. Built to extract — from you. Every time.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* RUNNING — the answer */}
       <IllustratedScene src="/illustrations/running-lightning.jpg"
@@ -81,7 +82,7 @@ export default async function PresentPage() {
             65,000 transactions per second. Average fee: $0.00025.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* SOLANA GLOBE */}
       <IllustratedScene src="/illustrations/solana-globe.jpg"
@@ -115,7 +116,7 @@ export default async function PresentPage() {
 
       <LiveChart />
       <Calculator />
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* HALL OF FAME — context */}
       <IllustratedScene src="/illustrations/hall-of-fame.jpg"
@@ -131,7 +132,7 @@ export default async function PresentPage() {
             them had: a real story. Hidden in plain sight. 3 · 6 · 9 ∞</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* 0% TAX */}
       <IllustratedScene src="/illustrations/zero-tax.jpg"
@@ -147,7 +148,7 @@ export default async function PresentPage() {
             JP Morgan&rsquo;s meter doesn&rsquo;t exist here.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* VAULT */}
       <IllustratedScene src="/illustrations/vault-v2.jpg"

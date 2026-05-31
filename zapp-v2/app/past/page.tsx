@@ -6,6 +6,7 @@ import { ScrollTeleport } from "@/components/ScrollTeleport";
 import {
   IllustratedScene, SceneCopy, SceneKicker, SceneTitle, SceneBody,
 } from "@/components/IllustratedScene";
+import { LightningDivider } from "@/components/LightningDivider";
 
 export const metadata: Metadata = {
   title: "Past · The Tower",
@@ -30,7 +31,7 @@ export default function PastPage() {
             that would give the world free energy.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       <IllustratedScene src="/illustrations/babylon-3d.jpg"
         alt="Babylon — the hanging gardens" position="center 35%" veil="dark">
@@ -43,7 +44,7 @@ export default function PastPage() {
             defied its time. Tesla was building the monument of the modern age.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       <IllustratedScene src="/illustrations/babylon-ink.jpg"
         alt="Babylon — classical ink engraving" position="center 40%" veil="dark">
@@ -56,7 +57,7 @@ export default function PastPage() {
             Banks control the money. The pattern repeats — until someone breaks it.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* THE METER — JP Morgan's question, visually answered */}
       <IllustratedScene src="/illustrations/no-meter.jpg"
@@ -72,7 +73,7 @@ export default function PastPage() {
             free people. The funding was pulled.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* TESLA */}
       <IllustratedScene src="/illustrations/tesla-speed.jpg"
@@ -88,7 +89,7 @@ export default function PastPage() {
             He was already building it.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       <IllustratedScene src="/illustrations/369-sacred.jpg"
         alt="3·6·9 sacred geometry" position="center 35%" veil="light">
@@ -103,7 +104,7 @@ export default function PastPage() {
             The pattern nobody else could see.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       <IllustratedScene src="/illustrations/tesla-369.jpg"
         alt="⚡ZAPP mascot energetic with 3·6·9 and lightning"
@@ -117,7 +118,7 @@ export default function PastPage() {
             The signal he never got to send.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       <IllustratedScene src="/illustrations/why-zapp.jpg"
         alt="Why ⚡ZAPP" position="center" veil="light">
@@ -129,7 +130,7 @@ export default function PastPage() {
           </p>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       <IllustratedScene src="/illustrations/tribute-v2.jpg"
         alt="A tribute to the man who saw the future"
@@ -143,7 +144,7 @@ export default function PastPage() {
             every human being on Earth. The greatest gift ever attempted.</SceneBody>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* Tower demolished */}
       <IllustratedScene src="/illustrations/silent.jpg"
@@ -153,7 +154,7 @@ export default function PastPage() {
           <SceneKicker>Past · The Fall · 1917</SceneKicker>
         </SceneCopy>
       </IllustratedScene>
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* THE BRIDGE */}
       <IllustratedScene src="/illustrations/then-now.jpg"

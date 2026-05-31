@@ -11,6 +11,7 @@ import { DigitalRain } from "@/components/DigitalRain";
 import {
   IllustratedScene, SceneCopy, SceneKicker, SceneTitle, SceneBody,
 } from "@/components/IllustratedScene";
+import { LightningDivider } from "@/components/LightningDivider";
 import { LINKS, SLOGANS } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default function FuturePage() {
         </SceneCopy>
       </IllustratedScene>
 
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* ── Solana globe ── */}
       <IllustratedScene src="/illustrations/solana-globe.jpg"
@@ -81,7 +82,7 @@ export default function FuturePage() {
         </Reveal>
       </section>
 
-      <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <LightningDivider />
 
       {/* ── Roadmap ── */}
       <section className="relative z-10 bg-black/30 px-6 py-28 backdrop-blur-sm">
