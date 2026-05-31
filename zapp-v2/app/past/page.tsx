@@ -5,6 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { Numeral3D } from "@/components/Numeral3D";
 import { ScrollTeleport } from "@/components/ScrollTeleport";
 import { ShaderCanvas } from "@/components/ShaderCanvas";
+import { ElectricArcs } from "@/components/ElectricArcs";
 import { SLOGANS, TESLA_QUOTES } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -21,9 +22,11 @@ export default function PastPage() {
           screen, fully visible (no opaque background covering it). */}
       <div className="pointer-events-none fixed inset-0 z-0">
         <ShaderCanvas shader="past" className="h-full w-full" />
-        {/* legibility wash — keeps text readable over the bright horizon */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0604]/85 via-[#0a0604]/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0604] via-transparent to-[#0a0604]/60" />
+        {/* retro Brâncuși grade: sepia-brown → black, white-hot highlights */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f04]/70 via-[#0a0604]/45 to-[#050301]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0604]/85 via-[#0a0604]/35 to-transparent" />
+        {/* electricity everywhere */}
+        <ElectricArcs tone="gold" className="absolute inset-0 h-full w-full opacity-70" />
       </div>
 
       {/* ── Hero ── */}
