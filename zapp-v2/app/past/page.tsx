@@ -21,7 +21,10 @@ export default function PastPage() {
           god-rays, drifting desert haze, the 3·6·9 sacred geometry. Fixed, full
           screen, fully visible (no opaque background covering it). */}
       <div className="pointer-events-none fixed inset-0 z-0">
+        {/* WebGL world underneath (shows if the photo is missing) */}
         <ShaderCanvas shader="past" className="h-full w-full" />
+        {/* the REAL Tesla-beside-his-machinery photo, with arcs that flash */}
+        <TeslaPhotoHero src="/tesla-lab.jpg" />
         {/* retro Brâncuși grade: sepia-brown → black, white-hot highlights */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a0f04]/70 via-[#0a0604]/45 to-[#050301]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0a0604]/85 via-[#0a0604]/35 to-transparent" />
