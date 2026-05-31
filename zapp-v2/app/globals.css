@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-feature-settings: "kern", "liga";
+  }
+
+  /* Keyboard focus — visible, on-brand, never removed (a11y). */
+  :focus-visible {
+    outline: 2px solid #ffd700;
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: #ffd700;
+    color: #0a0a0a;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* Long-form reading style for the whitepaper — no typography plugin needed. */
+@layer components {
+  .prose-zapp {
+    @apply font-serif text-lg leading-relaxed text-present-white/75;
+  }
+  .prose-zapp p {
+    @apply text-pretty;
+  }
+  .prose-zapp ul {
+    @apply list-disc space-y-2 pl-6;
+  }
+  .prose-zapp li {
+    @apply pl-1 text-present-white/70;
+  }
+  .prose-zapp li::marker {
+    color: rgba(255, 215, 0, 0.6);
+  }
+}
+
+/* Respect the visitor — honor reduced-motion everywhere. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
