@@ -60,9 +60,13 @@ html.lenis,html.lenis body{height:auto}
 #hub-arc-cv{position:absolute;top:0;left:0;width:100%;height:280px;pointer-events:none;z-index:1}
 .hub-sub{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,2vw,1.4rem);color:rgba(255,255,255,.35);margin-top:.5rem}
 
-/* Portal grid */
-.portals{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1000px;width:100%;padding:0 2rem}
-.portal{border-radius:20px;padding:3rem 2rem 2.5rem;cursor:pointer;transition:all .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;align-items:center;gap:1.1rem;text-align:center;position:relative;overflow:hidden;border:1px solid transparent;backdrop-filter:blur(12px);min-height:320px;justify-content:center}
+/* Portal grid — 3·6·9 sacred-geometry triangle:
+   3 top-left · 6 bottom-left · 9 centred on the right (right angle at 6) */
+.portals{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:1.1rem 1.4rem;max-width:780px;width:100%;padding:0 2rem;margin:0 auto}
+.portal.past{grid-column:1;grid-row:1}
+.portal.present{grid-column:1;grid-row:2}
+.portal.future{grid-column:2;grid-row:1 / span 2;align-self:center}
+.portal{border-radius:20px;padding:2.2rem 1.8rem;cursor:pointer;transition:all .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;align-items:center;gap:.85rem;text-align:center;position:relative;overflow:hidden;border:1px solid transparent;backdrop-filter:blur(12px);min-height:235px;justify-content:center}
 .portal::before{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;transition:opacity .4s}
 .portal::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;opacity:0;transition:opacity .4s}
 .portal:hover{transform:translateY(-12px) scale(1.03)}
@@ -90,7 +94,10 @@ html.lenis,html.lenis body{height:auto}
 .portal-desc{font-size:.82rem;line-height:1.65;opacity:.42;max-width:24ch}
 .portal-enter{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;opacity:0;transform:translateY(6px);transition:all .35s;color:var(--gold)}
 .portal:hover .portal-enter{opacity:.7;transform:translateY(0)}
-@media(max-width:700px){.portals{grid-template-columns:1fr;max-width:360px}}
+@media(max-width:700px){
+  .portals{grid-template-columns:1fr;grid-template-rows:none;max-width:360px}
+  .portal.past,.portal.present,.portal.future{grid-column:1;grid-row:auto;align-self:auto}
+}
 
 .hub-price{position:relative;z-index:2;margin-top:2.5rem;font-family:var(--mono);font-size:.65rem;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:.75rem}
 .hub-price .live-dot{width:6px;height:6px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;animation:bl 1.5s infinite}
