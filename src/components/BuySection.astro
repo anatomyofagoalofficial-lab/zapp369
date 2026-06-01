@@ -1,0 +1,35 @@
+---
+const { sub = 'Live on Solana. Community owned. The signal is open.', disc = '⚡ZAPP is a community memecoin. It can lose all its value. Not financial advice. 3 · 6 · 9 ∞', showMsg = true } = Astro.props;
+const CA = 'Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump';
+const PUMP = `https://pump.fun/coin/${CA}`;
+const PHANTOM = `https://phantom.com/tokens/solana/${CA}?referralId=k31pepyasnt`;
+const JUP = `https://jup.ag/tokens/${CA}`;
+const DEX = `https://dexscreener.com/solana/${CA}`;
+---
+<div class="buy-section" id="buy-section">
+  <div class="buy-glow"></div>
+  <div class="buy-in">
+    <h2 class="buy-h rv">Join the<br><em>frequency</em>.</h2>
+    <p class="buy-sub rv d1">{sub}</p>
+    <div class="ca-pill rv d2" data-copy-ca>
+      <div><span class="ca-l">Contract Address</span><div class="ca-a">{CA}</div></div>
+      <span class="ca-i">⎘</span>
+    </div>
+    {showMsg && <div id="ca-msg" style="opacity:0"></div>}
+    <div class="buy-btns rv d2">
+      <a href={PUMP} target="_blank" rel="noopener" class="bg">Buy on Pump.fun ⚡</a>
+      <a href={PHANTOM} target="_blank" rel="noopener" class="bo">Phantom</a>
+    </div>
+    <div class="buy-lnks rv d3">
+      <a href={JUP} target="_blank" rel="noopener" class="bl sol">Jupiter</a>
+      <a href={DEX} target="_blank" rel="noopener" class="bl">Chart</a>
+      <a href="/whitepaper" target="_blank" rel="noopener" class="bl">Whitepaper</a>
+    </div>
+    <div class="socials rv d3">
+      <a href="https://t.me/ZAPP369" target="_blank" rel="noopener" class="sc">TG</a>
+      <a href="https://x.com/ZAPPonSOL" target="_blank" rel="noopener" class="sc">𝕏</a>
+      <a href="https://www.instagram.com/zapp369.energy/" target="_blank" rel="noopener" class="sc">IG</a>
+    </div>
+    <p class="disc rv d4">{disc}</p>
+  </div>
+</div>
