@@ -86,6 +86,15 @@ export function startHubVortex() {
   const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.85, 0.55, 0.12);
   composer.addPass(bloom);
 
+  // soft round point sprite → smooth particles, not blocky squares
+  const dotTex = (() => {
+    const cc = document.createElement('canvas'); cc.width = cc.height = 64; const g2 = cc.getContext('2d')!;
+    const rg = g2.createRadialGradient(32, 32, 0, 32, 32, 32);
+    rg.addColorStop(0, 'rgba(255,255,255,1)'); rg.addColorStop(.45, 'rgba(255,255,255,.5)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+    g2.fillStyle = rg; g2.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(cc);
+  })();
+
   // ── Infinite travelling starfield (recycles in z → endless) ──
   const SN = 6000, DEPTH = 460;
   const sp = new Float32Array(SN * 3), sc = new Float32Array(SN * 3);
@@ -100,7 +109,7 @@ export function startHubVortex() {
   const sg = new THREE.BufferGeometry();
   sg.setAttribute('position', new THREE.BufferAttribute(sp, 3));
   sg.setAttribute('color', new THREE.BufferAttribute(sc, 3));
-  const starMat = new THREE.PointsMaterial({ vertexColors: true, size: .5, transparent: true, opacity: .9, blending: THREE.AdditiveBlending, sizeAttenuation: true });
+  const starMat = new THREE.PointsMaterial({ map: dotTex, vertexColors: true, size: .8, transparent: true, opacity: .9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true });
   scene.add(new THREE.Points(sg, starMat));
 
   // ── Spiral galaxy disc (3 arms → 3·6·9), tilted, sitting behind the logo ──
@@ -120,7 +129,7 @@ export function startHubVortex() {
   const gg = new THREE.BufferGeometry();
   gg.setAttribute('position', new THREE.BufferAttribute(gp, 3));
   gg.setAttribute('color', new THREE.BufferAttribute(gc, 3));
-  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ vertexColors: true, size: .42, transparent: true, opacity: .62, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
+  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ map: dotTex, vertexColors: true, size: .62, transparent: true, opacity: .62, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
   galaxy.position.z = GZ; galaxy.rotation.x = -0.42;
   scene.add(galaxy);
 
