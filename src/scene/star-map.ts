@@ -6,6 +6,8 @@ import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRe
 import { DIMENSIONS } from './dimensions.config';
 import { flyTo } from './camera-controller';
 import { buildZappCore } from './zapp-core';
+import { buildGalaxy, buildStarLayers, animateStarLayers } from './galaxy';
+import { buildEnergyLines, animateEnergyLines } from './energy-lines';
 
 export function initStarMap(canvas: HTMLCanvasElement) {
   const scene = new THREE.Scene();
@@ -20,7 +22,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   composer.setPixelRatio(Math.min(devicePixelRatio, 2));
   composer.setSize(innerWidth, innerHeight);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.9, 0.6, 0.1));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.6, 0.4, 0.85));
 
   // CSS2D label overlay
   const labelRenderer = new CSS2DRenderer();
@@ -39,27 +41,17 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   // ── ⚡ZAPP crystalline core at origin (modest — not a sun) ──
   const zappCore = buildZappCore(scene);
 
-  // ── starfield (smooth) ──
-  const SN = 2600, sp = new Float32Array(SN * 3), scl = new Float32Array(SN * 3);
-  const SPAL = [new THREE.Color(0xffffff), new THREE.Color(0xBFD4FF), new THREE.Color(0xFFE6B0), new THREE.Color(0xC9A8FF)];
-  for (let i = 0; i < SN; i++) {
-    const v = new THREE.Vector3(Math.random() - .5, Math.random() - .5, Math.random() - .5).normalize().multiplyScalar(150 + Math.random() * 350);
-    sp[i * 3] = v.x; sp[i * 3 + 1] = v.y; sp[i * 3 + 2] = v.z;
-    const c = SPAL[Math.random() < .7 ? 0 : (Math.random() * SPAL.length) | 0]; scl[i * 3] = c.r; scl[i * 3 + 1] = c.g; scl[i * 3 + 2] = c.b;
-  }
-  const sg = new THREE.BufferGeometry(); sg.setAttribute('position', new THREE.BufferAttribute(sp, 3)); sg.setAttribute('color', new THREE.BufferAttribute(scl, 3));
-  scene.add(new THREE.Points(sg, new THREE.PointsMaterial({ map: dot, vertexColors: true, size: 1.6, transparent: true, opacity: .9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
+  // ── tilted spiral galaxy + 3 parallax star layers (depth) ──
+  const galaxy = buildGalaxy(scene);
+  const starLayers = buildStarLayers(scene);
 
   // ── each dimension: glowing orb + halo + connecting beam + floating label ──
-  const orbs: { mesh: THREE.Object3D; glow: THREE.Sprite; inner: HTMLElement; pos: THREE.Vector3 }[] = [];
+  const orbs: { mesh: THREE.Object3D; glow: THREE.Sprite; inner: HTMLElement; pos: THREE.Vector3; id: string; color: string }[] = [];
   DIMENSIONS.forEach(dim => {
     const col = new THREE.Color(dim.color);
     const grp = new THREE.Group(); grp.position.copy(dim.position);
     const orb = new THREE.Mesh(new THREE.SphereGeometry(2.4, 24, 24), new THREE.MeshBasicMaterial({ color: col })); grp.add(orb);
-    const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: col, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false })); glow.scale.set(18, 18, 1); grp.add(glow);
-    // beam from core → dimension
-    const beam = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), dim.position.clone()]), new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending }));
-    scene.add(beam);
+    const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: col, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false })); glow.scale.set(14, 14, 1); grp.add(glow);
 
     const wrap = document.createElement('div'); wrap.style.pointerEvents = 'none';
     const el = document.createElement('div');
@@ -73,8 +65,16 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     wrap.appendChild(el);
     const label = new CSS2DObject(wrap); label.position.set(0, 5, 0); grp.add(label);
 
-    scene.add(grp); orbs.push({ mesh: grp, glow, inner: el, pos: dim.position.clone() });
+    scene.add(grp); orbs.push({ mesh: grp, glow, inner: el, pos: dim.position.clone(), id: dim.id, color: dim.color });
   });
+
+  // ── animated energy beams from core → each dimension ──
+  const energyLines = buildEnergyLines(scene);
+
+  // hover brightens the hovered dimension's beam
+  let hoveredId: string | null = null;
+  document.addEventListener('mouseover', e => { const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null; if (t) hoveredId = DIMENSIONS.find(d => d.route === t.getAttribute('data-go'))?.id ?? null; });
+  document.addEventListener('mouseout', e => { if ((e.target as HTMLElement).closest('[data-go]')) hoveredId = null; });
 
   // ── click an "Enter →" → fly to it → navigate ──
   let flying = false;
@@ -97,19 +97,29 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
+    const BEAT = 9.0; // one shared rhythm — the 9 of 3·6·9
     zappCore.update(t);
+    galaxy.rotation.y = (t / BEAT) * Math.PI * 0.6;
+    galaxy.rotation.x = Math.PI * 0.18 + Math.sin(t / 12) * 0.08; // cinematic tilt + wobble
+    animateStarLayers(starLayers, t);
+    animateEnergyLines(energyLines, t, flying ? null : hoveredId);
     orbs.forEach((o, i) => {
-      o.glow.material.opacity = 0.6 + 0.3 * Math.sin(t * (1.2 + i * 0.4) + i);
+      const hot = o.id === hoveredId;
+      o.glow.material.opacity = (0.6 + 0.3 * Math.sin(t * (1.2 + i * 0.4) + i)) * (hot ? 1.5 : 1);
       o.mesh.rotation.y += 0.003;
-      // depth: nearer cards bigger & brighter
+      // depth: nearer cards bigger & brighter, hovered card pops
       const dist = camera.position.distanceTo(o.pos);
-      o.inner.style.transform = `scale(${THREE.MathUtils.clamp(64 / dist, 0.6, 1.2).toFixed(3)})`;
+      const sc = THREE.MathUtils.clamp(64 / dist, 0.6, 1.2) * (hot ? 1.08 : 1);
+      o.inner.style.transform = `scale(${sc.toFixed(3)})`;
       o.inner.style.opacity = flying ? '0' : THREE.MathUtils.clamp(110 / dist, 0.5, 1).toFixed(2);
+      o.inner.style.boxShadow = hot ? `0 0 55px ${o.color}66` : '';
     });
     if (!flying) {
-      // fixed corner framing + subtle mouse parallax (no auto-orbit so corners stay put)
-      camera.position.x += (mx * 6 - camera.position.x) * 0.04;
-      camera.position.y += (-my * 4 - camera.position.y) * 0.04;
+      // gentle figure-8 drift + subtle mouse parallax (corners stay framed)
+      const dx = Math.sin(t * 0.1) * 1.5 + mx * 6;
+      const dy = Math.cos(t * 0.07) * 0.8 - my * 4;
+      camera.position.x += (dx - camera.position.x) * 0.04;
+      camera.position.y += (dy - camera.position.y) * 0.04;
       camera.position.z += (20 - camera.position.z) * 0.04;
       camera.lookAt(0, 0, 0);
     }
