@@ -60,7 +60,7 @@ export function startHubLogo() {
     jag(x1, y1, mx, my, r * .5); jag(mx, my, x2, y2, r * .5);
   }
 
-  let frame = 0;
+  let frame = 0, zap = 0;
   function draw() {
     requestAnimationFrame(draw);
     const hub = document.getElementById('hub');
@@ -70,27 +70,39 @@ export function startHubLogo() {
     const t = performance.now() * 0.001;
     const breathe = 0.93 + 0.07 * Math.sin(t * 0.9);
 
-    // liquid-gold body — soft sprites blended additively
+    // high-voltage ZAP: random jolt that shakes + over-charges the wordmark
+    if (!reduce && zap < 0.05 && Math.random() < 0.014) zap = 1;
+    zap *= 0.84; if (zap < 0.01) zap = 0;
+    const zjx = (Math.random() - .5) * 7 * DPR * zap;
+    const zjy = (Math.random() - .5) * 4 * DPR * zap;
+
+    // liquid-gold body — soft sprites blended additively (+ zap over-charge)
     ctx.globalCompositeOperation = 'lighter';
     const sheenX = (((t * 0.11) % 1.5) - 0.25) * W; // light flowing left → right
     for (const p of pts) {
       const tw = reduce ? 1 : 0.78 + 0.22 * Math.sin(t * p.spd + p.ph);
       const sheen = reduce ? 0 : Math.max(0, 1 - Math.abs(p.x - sheenX) / (W * 0.17));
-      const s = p.base * breathe * (0.9 + 0.16 * tw) * (1 + sheen * 0.7);
-      ctx.globalAlpha = Math.min(1, (0.30 + 0.55 * sheen) * (0.78 + 0.22 * tw));
-      ctx.drawImage(spr, p.x - s / 2, p.y - s / 2, s, s);
+      const s = p.base * breathe * (0.9 + 0.16 * tw) * (1 + sheen * 0.7 + zap * 0.55);
+      ctx.globalAlpha = Math.min(1, (0.30 + 0.55 * sheen + zap * 0.3) * (0.78 + 0.22 * tw));
+      ctx.drawImage(spr, p.x + zjx - s / 2, p.y + zjy - s / 2, s, s);
     }
     ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = 1;
 
-    // smooth electric whisper on the bolt (sparse, soft)
-    if (!reduce && frame % 14 === 0) {
-      const ang = (Math.random() - .5) * 1.4 - 1.2;
-      const len = (24 + Math.random() * 46) * DPR;
-      const ex = boltX + Math.cos(ang) * len, ey = boltY + Math.sin(ang) * len;
-      ctx.beginPath(); ctx.moveTo(boltX, boltY); jag(boltX, boltY, ex, ey, 16 * DPR);
-      ctx.strokeStyle = 'rgba(210,232,255,.35)'; ctx.lineWidth = 1.4 * DPR; ctx.shadowBlur = 14; ctx.shadowColor = '#CFE3FF'; ctx.stroke();
-      ctx.shadowBlur = 0;
+    // electric sparks zapping around the letters — constant trickle, storm on a zap
+    if (!reduce && pts.length > 3) {
+      const bursts = zap > 0.25 ? 2 + ((Math.random() * 3) | 0) : (frame % 11 === 0 ? 1 : 0);
+      for (let k = 0; k < bursts; k++) {
+        const o = pts[(Math.random() * pts.length) | 0];
+        const ax = o.x + zjx, ay = o.y + zjy;
+        const ang = Math.random() * Math.PI * 2, len = (26 + Math.random() * 80) * DPR;
+        const bx = ax + Math.cos(ang) * len, by = ay + Math.sin(ang) * len;
+        ctx.beginPath(); ctx.moveTo(ax, ay); jag(ax, ay, bx, by, 15 * DPR);
+        ctx.strokeStyle = 'rgba(200,228,255,.5)'; ctx.lineWidth = 1.4 * DPR; ctx.shadowBlur = 13; ctx.shadowColor = '#CFE3FF'; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ax, ay); jag(ax, ay, bx, by, 9 * DPR);
+        ctx.strokeStyle = 'rgba(255,226,130,.82)'; ctx.lineWidth = .85 * DPR; ctx.shadowBlur = 8; ctx.shadowColor = '#FFD700'; ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
     }
   }
 
