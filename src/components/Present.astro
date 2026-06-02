@@ -1,6 +1,6 @@
 ---
 import BuySection from './BuySection.astro';
-const IMG = '/illustrations';
+const IMG = 'https://zapp-v2.vercel.app/illustrations';
 ---
 <div id="dim-present" class="page">
   <canvas id="present-canvas"></canvas>
@@ -24,7 +24,6 @@ const IMG = '/illustrations';
   <div class="p-scenes">
     <div class="p-row rv"><div class="p-img"><img src={`${IMG}/not-just-memecoin.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Difference</p><h3 class="p-h3">Not just <em>another memecoin</em>.</h3><p class="p-p">Doge had a meme. Pepe had a cult. ⚡ZAPP has 130 years of suppressed history and a frequency that was always meant to reach everyone.</p></div></div>
     <div class="p-row flip rv"><div class="p-img"><img src={`${IMG}/vault-v2.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">Trust On-Chain</p><h3 class="p-h3">Nobody touches<br>the <em>liquidity</em>.</h3><p class="p-p">LP permanently burned. Mint revoked. Freeze revoked. 0% tax. The vault is sealed — not even the founders can open it.</p></div></div>
-    <div class="p-row rv"><div class="p-img"><img src={`${IMG}/369-cards.jpg`} alt="Liquidity locked — protected by the 3·6·9 curve" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Curve · 3 · 6 · 9</p><h3 class="p-h3">Protected by<br>the <em>curve</em>.</h3><p class="p-p">Liquidity locked behind the 3·6·9 bonding curve. Nobody touches it — not even us. The geometry holds the line so the signal can't be pulled.</p></div></div>
   </div>
   <div class="vid-frame rv" data-reveal style="max-width:420px">
     <video src="/videos/flash-music.mp4" muted loop playsinline preload="none" poster="/img/zapp-mascot.png" data-autoplay-inview></video>

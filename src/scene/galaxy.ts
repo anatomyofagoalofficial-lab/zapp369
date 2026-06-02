@@ -13,7 +13,7 @@ const TEX = roundTex();
 // 12k-particle tilted spiral galaxy with an EMPTY core (logo lives in the hole).
 // Each particle is a sharp twinkling star (diffraction spikes via shader).
 export function buildGalaxy(scene: THREE.Scene): { points: THREE.Points; material: THREE.ShaderMaterial } {
-  const N = 12000, INNER = 15, OUTER = 46;
+  const N = 12000, INNER = 12, OUTER = 45;
   const positions = new Float32Array(N * 3), colors = new Float32Array(N * 3), sizes = new Float32Array(N), twinkles = new Float32Array(N);
   const cGold = new THREE.Color('#F4D27A'), cPurple = new THREE.Color('#9D6CFF'), cWhite = new THREE.Color('#FFFFFF');
   for (let i = 0; i < N; i++) {
@@ -49,20 +49,15 @@ export function buildStarLayers(scene: THREE.Scene): THREE.Points[] {
   const make = (count: number, range: number, size: number, color: number, opacity: number) => {
     const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      // place on a shell so none spawn right next to the camera (no giant blobs)
-      const v = new THREE.Vector3(Math.random() - .5, Math.random() - .5, Math.random() - .5).normalize().multiplyScalar(range * (0.55 + Math.random() * 0.45));
-      pos[i * 3] = v.x; pos[i * 3 + 1] = v.y; pos[i * 3 + 2] = v.z;
-    }
+    for (let i = 0; i < count * 3; i++) pos[i] = (Math.random() - 0.5) * range;
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    // fixed pixel size (no sizeAttenuation) → tiny distant stars, never huge orbs
-    const layer = new THREE.Points(geo, new THREE.PointsMaterial({ map: TEX, color, size, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: false }));
+    const layer = new THREE.Points(geo, new THREE.PointsMaterial({ map: TEX, color, size, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true }));
     scene.add(layer); return layer;
   };
   return [
-    make(2600, 600, 1.4, 0xCCCCFF, 0.5),
-    make(1400, 360, 2.0, 0xFFFFFF, 0.7),
-    make(500, 220, 2.6, 0xFFF0C8, 0.85),
+    make(3000, 600, 0.7, 0xCCCCFF, 0.55),
+    make(1500, 320, 1.1, 0xFFFFFF, 0.75),
+    make(400, 130, 1.7, 0xFFE890, 0.9),
   ];
 }
 export function animateStarLayers(layers: THREE.Points[], t: number) {
