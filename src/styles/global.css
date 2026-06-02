@@ -204,6 +204,9 @@ html.lenis,html.lenis body{height:auto}
 .blueprint-q em{color:#7CB9F0;font-style:normal}
 .blueprint p{font-size:.9rem;line-height:1.85;color:rgba(184,212,240,.45);max-width:60ch;position:relative;z-index:1}
 .blueprint-stamp{position:absolute;right:2.5rem;top:2rem;font-family:var(--mono);font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(100,160,220,.3);transform:rotate(12deg);border:1px solid rgba(100,160,220,.18);padding:.28rem .7rem;z-index:1}
+.past-figure{position:relative;z-index:2;max-width:760px;margin:0 auto 4rem;border:1px solid rgba(184,115,51,.3);border-radius:6px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.55)}
+.past-figure img{display:block;width:100%;max-height:540px;object-fit:cover;filter:sepia(.42) contrast(1.05) brightness(.9) saturate(1.1)}
+.past-figure figcaption{position:absolute;left:0;right:0;bottom:0;padding:1.6rem;font-family:var(--serif);font-style:italic;font-size:clamp(1rem,2vw,1.4rem);color:#F5E6C8;background:linear-gradient(0deg,rgba(12,6,0,.88),transparent);text-align:center}
 .past-tesla-q{text-align:center;padding:5rem 2rem;max-width:860px;margin:0 auto;position:relative;z-index:2}
 .past-tesla-q blockquote{font-family:var(--serif);font-size:clamp(1.5rem,2.8vw,2.6rem);font-style:italic;line-height:1.35;color:#F5E6C8}
 .past-tesla-q cite{display:block;margin-top:1.2rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.4em;color:var(--gold);font-style:normal;text-transform:uppercase}
