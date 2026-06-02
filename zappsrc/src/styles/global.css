@@ -294,6 +294,23 @@ html.lenis,html.lenis body{height:auto}
 .p-h3{font-family:var(--serif);font-size:clamp(1.8rem,3vw,3rem);line-height:.96;margin-bottom:1rem;color:#EAF3FC}
 .p-h3 em{color:#BFE0FF;font-style:italic}
 .p-p{font-size:.92rem;line-height:1.9;color:rgba(231,242,252,.55);max-width:44ch}
+/* ── native "TO-DO LIST" meme — crisp, animated, 3·6·9 ── */
+.todo-meme{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:4rem 5vw 5rem}
+.todo-paper{position:relative;width:min(440px,86vw);background-color:#E7F1CD;background-image:linear-gradient(170deg,rgba(255,255,255,.5),rgba(120,150,70,.12)),repeating-linear-gradient(transparent,transparent 47px,rgba(120,150,70,.3) 47px,rgba(120,150,70,.3) 48px);color:#2A3A12;border-radius:6px;padding:2.6rem 2.4rem 3.4rem;transform:rotate(-2.2deg);box-shadow:0 30px 60px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.5) inset}
+.todo-paper::before{content:'';position:absolute;left:14%;top:0;bottom:0;width:1px;background:rgba(200,90,90,.35)}
+.todo-tape{position:absolute;top:-16px;left:50%;transform:translateX(-50%) rotate(-3deg);width:118px;height:30px;background:rgba(255,255,255,.34);border:1px solid rgba(255,255,255,.2);box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.todo-title{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(2.4rem,7vw,3.4rem);line-height:1;color:#1F2D0C;margin:0 0 .2rem;text-align:center;border-bottom:3px solid #1F2D0C;padding-bottom:.4rem;display:inline-block;position:relative;left:50%;transform:translateX(-50%)}
+.todo-items{list-style:none;margin:1.8rem 0 0;padding:0;display:flex;flex-direction:column;gap:1.15rem}
+.todo-i{display:flex;align-items:center;gap:1rem;font-family:'Caveat',cursive;font-weight:700;font-size:clamp(1.7rem,5vw,2.3rem);color:#26340F}
+.todo-box{flex:0 0 auto;width:34px;height:34px;border:3px solid #26340F;border-radius:5px;display:grid;place-items:center}
+.todo-box svg{width:26px;height:26px;fill:none;stroke:#1E7A2E;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48}
+.todo-meme.in .todo-box svg{animation:todoCheck .5s cubic-bezier(.65,0,.35,1) forwards;animation-delay:calc(.5s + var(--i) * .45s)}
+@keyframes todoCheck{to{stroke-dashoffset:0}}
+.todo-i .zb{font-family:var(--serif);font-weight:700;font-style:italic;color:#1F2D0C}
+.todo-i .z369{font-family:var(--mono);font-weight:500;font-size:.62em;letter-spacing:.12em;color:#7A5A0A;white-space:nowrap}
+.todo-mascot{position:absolute;right:-14px;bottom:-26px;width:clamp(86px,22vw,118px);height:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.3));transform:rotate(6deg);animation:floaty 6s ease-in-out infinite}
+.todo-pencil{position:absolute;top:8%;right:-22px;font-size:2rem;transform:rotate(34deg);filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
+.todo-cap{margin-top:2.4rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(231,242,252,.4)}
 .calc-outer{position:relative;z-index:2;max-width:660px;margin:0 auto 5rem;padding:0 5vw}
 .calc-inner{border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:2.75rem;background:rgba(255,255,255,.08);backdrop-filter:blur(12px)}
 .calc-inner h3{font-family:var(--serif);font-size:2rem;text-align:center;margin-bottom:.4rem;color:#EAF3FC}
