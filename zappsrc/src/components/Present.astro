@@ -1,0 +1,63 @@
+---
+import BuySection from './BuySection.astro';
+const IMG = '/illustrations';
+---
+<div id="dim-present" class="page">
+  <canvas id="present-canvas"></canvas>
+  <div class="p-hero">
+    <div class="p-tag rv">6 · Present · Solana · Live</div>
+    <h1 class="p-h rv d1">The signal is<br><em>already running</em>.</h1>
+    <p class="p-sub rv d2">⚡ZAPP is live on Solana. Verifiable on-chain. Owned by no one.</p>
+    <img class="p-mascot rv d2" src="/img/zapp-mascot.png" alt="⚡ZAPP mascot" width="230" height="230" loading="lazy" />
+    <div class="price-hud rv d3">
+      <div class="ph-cell"><div class="ph-l">⚡ZAPP Price</div><div class="ph-v" id="p-price">—</div></div>
+      <div class="ph-cell"><div class="ph-l">Market Cap</div><div class="ph-v" id="p-mcap">—</div></div>
+      <div class="ph-cell"><div class="ph-l">24h Change</div><div class="ph-v" id="p-change">—</div></div>
+    </div>
+    <div class="stats-row three rv d4">
+      <div class="sr-c"><div class="sr-v">0%</div><div class="sr-l">Tax</div></div>
+      <div class="sr-c"><div class="sr-v">$0.00025</div><div class="sr-l">Fee / tx</div></div>
+      <div class="sr-c"><div class="sr-v">65K+</div><div class="sr-l">Solana TPS</div></div>
+    </div>
+  </div>
+  <div class="vbar rv"><div class="vi"><span class="vd"></span>Mint Revoked</div><div class="vi"><span class="vd"></span>LP Burned</div><div class="vi"><span class="vd"></span>Freeze Revoked</div></div>
+  <div class="p-scenes">
+    <div class="p-row rv"><div class="p-img"><img src={`${IMG}/not-just-memecoin.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Difference</p><h3 class="p-h3">Not just <em>another memecoin</em>.</h3><p class="p-p">Doge had a meme. Pepe had a cult. ⚡ZAPP has 130 years of suppressed history and a frequency that was always meant to reach everyone.</p></div></div>
+    <div class="p-row flip rv"><div class="p-img"><img src={`${IMG}/vault-v2.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">Trust On-Chain</p><h3 class="p-h3">Nobody touches<br>the <em>liquidity</em>.</h3><p class="p-p">LP permanently burned. Mint revoked. Freeze revoked. 0% tax. The vault is sealed — not even the founders can open it.</p></div></div>
+    <div class="p-row rv"><div class="p-img"><img src={`${IMG}/369-cards.jpg`} alt="Liquidity locked — protected by the 3·6·9 curve" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Curve · 3 · 6 · 9</p><h3 class="p-h3">Protected by<br>the <em>curve</em>.</h3><p class="p-p">Liquidity locked behind the 3·6·9 bonding curve. Nobody touches it — not even us. The geometry holds the line so the signal can't be pulled.</p></div></div>
+  </div>
+  <div class="vid-frame rv" data-reveal style="max-width:420px">
+    <video src="/videos/flash-music.mp4" muted loop playsinline preload="none" poster="/img/zapp-mascot.png" data-autoplay-inview></video>
+    <span class="vid-cap">⚡ The Signal · Transmitting</span>
+  </div>
+  <div class="calc-outer rv"><div class="calc-inner"><h3>⚡ Your ZAPP, measured</h3><p class="sub">Enter your holdings — see the live value</p><div class="calc-row"><input type="text" id="cin" placeholder="1,000,000" inputmode="numeric"><span class="unit">⚡ZAPP</span></div><div class="presets"><button data-sc="100000">100K</button><button data-sc="1000000">1M</button><button data-sc="10000000">10M</button><button data-sc="100000000">100M</button><button data-sc="1000000000">1B</button></div><div class="calc-out"><span class="co-l">Value at live price</span><span class="co-v" id="cout">—</span></div><p class="calc-note">Not financial advice. ZAPP can go to zero.</p></div></div>
+  <div class="hof rv"><div class="hof-head"><h2>Pump.fun Hall of Fame</h2><p>The six that made it out — from the same starting line</p></div><div class="hof-g"><div class="hc"><div class="rk">No.1</div><div class="nm">FARTCOIN</div><div class="mc">$2.15B</div><div class="dc">AI dreamed it. Colbert mentioned it.</div></div><div class="hc"><div class="rk">No.2</div><div class="nm">PNUT</div><div class="mc">$1.8B</div><div class="dc">A real squirrel. A real news cycle.</div></div><div class="hc"><div class="rk">No.3</div><div class="nm">GOAT</div><div class="mc">$1.3B</div><div class="dc">AI prophecy. Truth Terminal cult.</div></div><div class="hc"><div class="rk">No.4</div><div class="nm">CHILLGUY</div><div class="mc">$543M</div><div class="dc">TikTok generation. Pure vibe.</div></div><div class="hc"><div class="rk">No.5</div><div class="nm">MOTHER</div><div class="mc">$200M</div><div class="dc">Iggy Azalea launched it.</div></div><div class="hc zapp"><div class="rk">⚡ ZAPP</div><div class="nm" id="zv">Live</div><div class="mc">3 · 6 · 9 ∞</div><div class="dc">Tesla's frequency. Now on Solana.</div></div></div></div>
+  <!-- ❄️ COLD MIND SECTION inside Present -->
+  <div style="background:linear-gradient(180deg,#2C5E8E 0%,#0A1628 100%);position:relative;z-index:2;padding:5rem 2rem 6rem;text-align:center">
+    <div style="max-width:700px;margin:0 auto">
+      <p style="font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#78B4DC;margin-bottom:1.5rem;opacity:.8" class="rv">❄️ · Cold Edition · Winter</p>
+      <h2 style="font-family:var(--serif);font-size:clamp(2.5rem,6vw,5rem);font-weight:600;line-height:.92;color:#E8F4FF;margin-bottom:1rem" class="rv d1"><em style="color:#78B4DC;font-style:italic">Cold</em> Mind.<br>Solid Hold.</h2>
+      <p style="font-family:var(--mono);font-size:.72rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(232,244,255,.35);margin-bottom:1rem" class="rv d2">ICE IN MY VEINS · DIAMONDS IN MY WALLET</p>
+      <p style="font-family:var(--serif);font-style:italic;font-size:1.1rem;color:rgba(232,244,255,.4);margin-bottom:3rem;max-width:40ch;margin-left:auto;margin-right:auto;line-height:1.8" class="rv d3">The coldest movement on Solana. HODL · CHILL · EARN · REPEAT</p>
+      <div class="cold-grid rv d3">
+        <div class="cold-c">
+          <div class="cold-ic">❄️</div>
+          <h3>Cold</h3>
+          <p>Cold math, cold mind, cold hold. Built for the long run.</p>
+        </div>
+        <div class="cold-c">
+          <div class="cold-ic">🔒</div>
+          <h3>Locked</h3>
+          <p>Burned. Sealed. Untouchable. Not even us.</p>
+        </div>
+        <div class="cold-c">
+          <div class="cold-ic">💎</div>
+          <h3>Diamond</h3>
+          <p>Ice in the veins. Diamonds in the wallet. Forever.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="p-bridge rv"><h2 style="color:#fff">The meter still<br><em>doesn't exist here</em>.</h2><p style="color:rgba(255,255,255,.35)">Live on Solana. Owned by no one.</p><button class="bo" style="display:inline-block;margin-top:1rem;cursor:pointer;background:rgba(255,255,255,.1);color:#fff" data-hub>↩ Back to Hub</button></div>
+  <BuySection sub="Live on Solana. Community owned." disc="Not financial advice. 3 · 6 · 9 ∞" showMsg={false} />
+</div>

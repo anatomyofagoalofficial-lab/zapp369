@@ -1,0 +1,56 @@
+---
+// The Hub — 3D vortex + electric-arc logo + three dimension portals
+---
+<div id="hub" class="page active">
+  <canvas id="hub-cv"></canvas>
+  <div class="hub-top">
+    <h1 class="sr-only">⚡ZAPP — 3 · 6 · 9 · ∞</h1>
+    <canvas id="hub-logo-cv" class="rv" aria-hidden="true"></canvas>
+    <div class="hub-369 rv d1">3 · 6 · 9 · ∞</div>
+    <span class="hub-tag rv d1">Tesla's Revolution</span>
+    <div class="hub-sub rv d2">Choose your dimension</div>
+  </div>
+  <div class="portals rv d2">
+    <svg class="portal-tri" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="triG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#E8C878"/>
+          <stop offset=".5" stop-color="#FFD700"/>
+          <stop offset="1" stop-color="#C4B5FD"/>
+        </linearGradient>
+      </defs>
+      <path id="tri-main" d="M25 25 L25 75 L75 75 Z" pathLength="100" fill="none" stroke="url(#triG)" stroke-width="1.1" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+      <path id="tri-flow" d="M25 25 L25 75 L75 75 Z" pathLength="100" fill="none" stroke="url(#triG)" stroke-width="2.4" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+      <path id="tri-angle" d="M25 67 L33 67 L33 75" fill="none" stroke="url(#triG)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="portal past" data-dim="past">
+      <div class="portal-icon">🏛️</div>
+      <div class="portal-num">3 · Past</div>
+      <div class="portal-hz">396 Hz · Root</div>
+      <div class="portal-name">The Tower</div>
+      <div class="portal-desc">Tesla. 1893. The idea that should have changed everything — and will.</div>
+      <div class="portal-enter">Enter →</div>
+    </div>
+    <div class="portal present" data-dim="present">
+      <div class="portal-icon">⚡</div>
+      <div class="portal-num">6 · Present</div>
+      <div class="portal-hz">639 Hz · Heart</div>
+      <div class="portal-name">The Signal</div>
+      <div class="portal-desc">Live on Solana. The frequency is transmitting right now.</div>
+      <div class="portal-enter">Enter →</div>
+    </div>
+    <div class="portal future" data-dim="future">
+      <div class="portal-icon">🔮</div>
+      <div class="portal-num">9 · Future</div>
+      <div class="portal-hz">963 Hz · Crown</div>
+      <div class="portal-name">The Network</div>
+      <div class="portal-desc">Free energy for everyone. No banks. No borders. Forever.</div>
+      <div class="portal-enter">Enter →</div>
+    </div>
+  </div>
+  <div class="hub-price rv d3">
+    <div class="live-dot"></div>
+    <span>⚡ZAPP live: </span>
+    <span id="hub-price-val">loading…</span>
+  </div>
+</div>
