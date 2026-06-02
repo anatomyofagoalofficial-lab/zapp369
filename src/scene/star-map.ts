@@ -41,8 +41,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   // ── ⚡ZAPP crystalline core at origin (modest — not a sun) ──
   const zappCore = buildZappCore(scene);
 
-  // ── tilted spiral galaxy + 3 parallax star layers (depth) ──
-  const galaxy = buildGalaxy(scene);
+  // ── tilted spiral galaxy (empty core) + 3 parallax star layers ──
+  const { points: galaxy, material: galaxyMat } = buildGalaxy(scene);
   const starLayers = buildStarLayers(scene);
 
   // ── each dimension: glowing orb + halo + connecting beam + floating label ──
@@ -99,8 +99,9 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     const t = clock.getElapsedTime();
     const BEAT = 9.0; // one shared rhythm — the 9 of 3·6·9
     zappCore.update(t);
-    galaxy.rotation.y = (t / BEAT) * Math.PI * 0.6;
-    galaxy.rotation.x = Math.PI * 0.18 + Math.sin(t / 12) * 0.08; // cinematic tilt + wobble
+    galaxyMat.uniforms.uTime.value = t;
+    galaxy.rotation.y = (t / BEAT) * Math.PI * 0.4;
+    galaxy.rotation.x = Math.PI * 0.22 + Math.sin(t / 14) * 0.04; // ~40° Hubble tilt + breath
     animateStarLayers(starLayers, t);
     animateEnergyLines(energyLines, t, flying ? null : hoveredId);
     orbs.forEach((o, i) => {
