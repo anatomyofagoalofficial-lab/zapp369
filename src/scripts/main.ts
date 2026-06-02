@@ -140,21 +140,41 @@ function timeWarp(dir: number, tint: string, mid: () => void) {
   const W = cv.width = innerWidth, H = cv.height = innerHeight;
   const cx = W / 2, cy = H / 2, maxR = Math.hypot(W, H) / 2;
   const st: { a: number; r: number; sp: number; col: string }[] = [];
-  for (let i = 0; i < 150; i++) st.push({ a: Math.random() * Math.PI * 2, r: dir < 0 ? maxR * (0.5 + Math.random() * 0.6) : Math.random() * maxR * 0.4, sp: 4 + Math.random() * 16, col: Math.random() < .6 ? '#FFD700' : (Math.random() < .5 ? '#fff' : tint) });
-  const t0 = performance.now(), DUR = 840; let swapped = false, raf = 0;
+  for (let i = 0; i < 170; i++) st.push({ a: Math.random() * Math.PI * 2, r: dir < 0 ? maxR * (0.5 + Math.random() * 0.6) : Math.random() * maxR * 0.4, sp: 4 + Math.random() * 16, col: Math.random() < .55 ? '#FFD700' : (Math.random() < .5 ? '#fff' : tint) });
+  // 3·6·9 numerals flying through the time tunnel
+  const GLYPH = ['3', '6', '9', '3', '6', '9', '∞'];
+  const nums: { ch: string; a: number; r: number; sp: number; col: string }[] = [];
+  for (let i = 0; i < 16; i++) nums.push({ ch: GLYPH[(Math.random() * GLYPH.length) | 0], a: Math.random() * Math.PI * 2, r: Math.random() * maxR * 0.3, sp: 3 + Math.random() * 9, col: Math.random() < .5 ? '#FFD700' : tint });
+  const t0 = performance.now(), DUR = 900; let swapped = false, raf = 0;
+  c.textAlign = 'center'; c.textBaseline = 'middle';
   function frame(now: number) {
     const p = Math.min(1, (now - t0) / DUR);
     c.clearRect(0, 0, W, H);
     c.fillStyle = `rgba(4,2,8,${0.12 + 0.55 * p})`; c.fillRect(0, 0, W, H);
-    const acc = 1 + p * p * 13;
+    // central tunnel glow
+    const g = c.createRadialGradient(cx, cy, 0, cx, cy, maxR * (0.25 + p * 0.5));
+    g.addColorStop(0, `rgba(255,240,185,${0.28 * (1 - p * 0.4)})`); g.addColorStop(1, 'transparent');
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+    const acc = 1 + p * p * 14;
     for (const s of st) {
-      const r2 = s.r + s.sp * (6 + p * 28);
+      const r2 = s.r + s.sp * (6 + p * 30);
       c.beginPath();
       c.moveTo(cx + Math.cos(s.a) * s.r, cy + Math.sin(s.a) * s.r);
       c.lineTo(cx + Math.cos(s.a) * r2, cy + Math.sin(s.a) * r2);
       c.strokeStyle = s.col; c.globalAlpha = 0.45 + 0.55 * p; c.lineWidth = 1 + p * 1.8; c.shadowBlur = 8; c.shadowColor = s.col; c.stroke();
       s.r += s.sp * acc * dir;
       if (s.r > maxR * 1.25) s.r = 0; else if (s.r < 0) s.r = maxR;
+    }
+    // flying numerals (grow as they rush past)
+    for (const n of nums) {
+      const x = cx + Math.cos(n.a) * n.r, y = cy + Math.sin(n.a) * n.r;
+      const fs = 10 + (n.r / maxR) * 150 * (1 + p);
+      c.font = `700 ${fs}px "Cormorant Garamond",serif`;
+      c.globalAlpha = Math.max(0, 1 - n.r / (maxR * 1.1)) * (0.45 + 0.55 * p);
+      c.fillStyle = n.col; c.shadowBlur = 14; c.shadowColor = '#FFD700';
+      c.fillText(n.ch, x, y);
+      n.r += n.sp * (1 + p * p * 15);
+      if (n.r > maxR * 1.15) { n.r = Math.random() * maxR * 0.12; n.a = Math.random() * Math.PI * 2; }
     }
     c.globalAlpha = 1; c.shadowBlur = 0;
     if (p >= 0.5 && !swapped) { swapped = true; mid(); c.fillStyle = 'rgba(255,255,255,.92)'; c.fillRect(0, 0, W, H); }
