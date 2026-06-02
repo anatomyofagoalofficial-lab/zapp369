@@ -9,8 +9,8 @@ import { buildZappCore } from './zapp-core';
 
 export function initStarMap(canvas: HTMLCanvasElement) {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(52, innerWidth / innerHeight, 0.1, 1000);
-  camera.position.set(0, 0, 135);
+  const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
+  camera.position.set(0, 0, 20); // pulled back just enough — core has breathing room
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -51,7 +51,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   scene.add(new THREE.Points(sg, new THREE.PointsMaterial({ map: dot, vertexColors: true, size: 1.6, transparent: true, opacity: .9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
 
   // ── each dimension: glowing orb + halo + connecting beam + floating label ──
-  const orbs: { mesh: THREE.Object3D; glow: THREE.Sprite }[] = [];
+  const orbs: { mesh: THREE.Object3D; glow: THREE.Sprite; inner: HTMLElement; pos: THREE.Vector3 }[] = [];
   DIMENSIONS.forEach(dim => {
     const col = new THREE.Color(dim.color);
     const grp = new THREE.Group(); grp.position.copy(dim.position);
@@ -61,6 +61,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     const beam = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), dim.position.clone()]), new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending }));
     scene.add(beam);
 
+    const wrap = document.createElement('div'); wrap.style.pointerEvents = 'none';
     const el = document.createElement('div');
     el.className = 'dim-label';
     el.innerHTML = `
@@ -69,9 +70,10 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       <div class="dim-label-desc">${dim.description}</div>
       <button class="dim-label-cta" data-go="${dim.route}" style="border-color:${dim.color};color:${dim.color}">Enter →</button>`;
     el.style.pointerEvents = 'auto';
-    const label = new CSS2DObject(el); label.position.set(0, 5, 0); grp.add(label);
+    wrap.appendChild(el);
+    const label = new CSS2DObject(wrap); label.position.set(0, 5, 0); grp.add(label);
 
-    scene.add(grp); orbs.push({ mesh: grp, glow });
+    scene.add(grp); orbs.push({ mesh: grp, glow, inner: el, pos: dim.position.clone() });
   });
 
   // ── click an "Enter →" → fly to it → navigate ──
@@ -96,12 +98,19 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
     zappCore.update(t);
-    orbs.forEach((o, i) => { o.glow.material.opacity = 0.6 + 0.3 * Math.sin(t * (1.2 + i * 0.4) + i); o.mesh.rotation.y += 0.003; });
+    orbs.forEach((o, i) => {
+      o.glow.material.opacity = 0.6 + 0.3 * Math.sin(t * (1.2 + i * 0.4) + i);
+      o.mesh.rotation.y += 0.003;
+      // depth: nearer cards bigger & brighter
+      const dist = camera.position.distanceTo(o.pos);
+      o.inner.style.transform = `scale(${THREE.MathUtils.clamp(64 / dist, 0.6, 1.2).toFixed(3)})`;
+      o.inner.style.opacity = flying ? '0' : THREE.MathUtils.clamp(110 / dist, 0.5, 1).toFixed(2);
+    });
     if (!flying) {
-      const orbit = t * 0.04 + mx * 0.5;
-      camera.position.x += (Math.sin(orbit) * 135 - camera.position.x) * 0.03;
-      camera.position.z += (Math.cos(orbit) * 135 - camera.position.z) * 0.03;
-      camera.position.y += (-my * 40 - camera.position.y) * 0.03;
+      // fixed corner framing + subtle mouse parallax (no auto-orbit so corners stay put)
+      camera.position.x += (mx * 6 - camera.position.x) * 0.04;
+      camera.position.y += (-my * 4 - camera.position.y) * 0.04;
+      camera.position.z += (20 - camera.position.z) * 0.04;
       camera.lookAt(0, 0, 0);
     }
     composer.render();
