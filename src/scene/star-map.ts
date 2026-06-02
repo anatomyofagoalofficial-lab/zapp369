@@ -5,6 +5,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 import { DIMENSIONS } from './dimensions.config';
 import { flyTo } from './camera-controller';
+import { buildZappCore } from './zapp-core';
 
 export function initStarMap(canvas: HTMLCanvasElement) {
   const scene = new THREE.Scene();
@@ -35,11 +36,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     g.fillStyle = rg; g.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(cc);
   })();
 
-  // ── ⚡ZAPP core at origin ──
-  const core = new THREE.Mesh(new THREE.SphereGeometry(3.4, 32, 32), new THREE.MeshBasicMaterial({ color: 0xFFF6DC }));
-  scene.add(core);
-  const coreGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: 0xFFD86A, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false }));
-  coreGlow.scale.set(34, 34, 1); scene.add(coreGlow);
+  // ── ⚡ZAPP crystalline core at origin (modest — not a sun) ──
+  const zappCore = buildZappCore(scene);
 
   // ── starfield (smooth) ──
   const SN = 2600, sp = new Float32Array(SN * 3), scl = new Float32Array(SN * 3);
@@ -97,8 +95,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
-    core.scale.setScalar(1 + 0.05 * Math.sin(t * 1.6));
-    coreGlow.material.opacity = 0.75 + 0.2 * Math.sin(t * 1.6);
+    zappCore.update(t);
     orbs.forEach((o, i) => { o.glow.material.opacity = 0.6 + 0.3 * Math.sin(t * (1.2 + i * 0.4) + i); o.mesh.rotation.y += 0.003; });
     if (!flying) {
       const orbit = t * 0.04 + mx * 0.5;
