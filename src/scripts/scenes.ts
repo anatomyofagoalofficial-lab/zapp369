@@ -47,29 +47,94 @@ export function startHubArcs() {
   })();
 }
 
-/* HUB — 3D vortex */
+/* HUB — infinite galaxy with warp-travel into each dimension */
+let _warpHub: ((dir: number) => void) | null = null;
+/** Trigger a warp toward a dimension. dir: -1 past · 0 present · +1 future */
+export function warpHub(dir = 0) { _warpHub?.(dir); }
+
 export function startHubVortex() {
   const cv = document.getElementById('hub-cv') as HTMLCanvasElement | null;
   if (!cv) return;
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight);
-  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, .1, 200);
-  cam.position.z = 7;
-  const tkg = new THREE.TorusKnotGeometry(2, 0.5, 128, 16);
-  const tkm = new THREE.MeshBasicMaterial({ color: 0x7C3AED, wireframe: true, transparent: true, opacity: .18 });
-  const tk = new THREE.Mesh(tkg, tkm); scene.add(tk);
-  ([[3.5, .012, 100, 0xFFD700, .1], [4.2, .009, 80, 0x9945FF, .08], [2.8, .008, 60, 0x06B6D4, .09]] as const).forEach(([r, t, s, c, op]) => {
-    const m = new THREE.Mesh(new THREE.TorusGeometry(r, t, 4, s), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: op, blending: THREE.AdditiveBlending }));
-    m.rotation.x = Math.PI * (Math.random() * .5 + .2); scene.add(m); m.userData.sp = (Math.random() - .5) * .008;
-  });
-  const N = 1500, pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
-  const COLS = [new THREE.Color(0xFFD700), new THREE.Color(0x9945FF), new THREE.Color(0x06B6D4), new THREE.Color(0xEC4899)];
-  for (let i = 0; i < N; i++) { const a = Math.random() * Math.PI * 2, r = 2 + Math.random() * 6, h = (Math.random() - .5) * 8; pos[i * 3] = Math.cos(a) * r; pos[i * 3 + 1] = h; pos[i * 3 + 2] = Math.sin(a) * r; const c = COLS[Math.floor(Math.random() * COLS.length)]; col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b; }
-  const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pos, 3)); pg.setAttribute('color', new THREE.BufferAttribute(col, 3));
-  scene.add(new THREE.Points(pg, new THREE.PointsMaterial({ vertexColors: true, size: .05, transparent: true, opacity: .55, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
-  let mxn = 0;
-  document.addEventListener('mousemove', e => { mxn = (e.clientX / innerWidth - .5) * .5; }, { passive: true });
-  (function anim() { requestAnimationFrame(anim); tk.rotation.x += .004; tk.rotation.y += .006; scene.children.filter(c => c.type === 'Mesh' && (c as THREE.Mesh).geometry.type === 'TorusGeometry').forEach(m => m.rotation.z += m.userData.sp || 0); cam.position.x += (mxn - cam.position.x) * .04; cam.lookAt(0, 0, 0); renderer.render(scene, cam); })();
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, .1, 1200);
+  cam.position.z = 6;
+
+  // ── Infinite travelling starfield (recycles in z → endless) ──
+  const SN = 4200, DEPTH = 460;
+  const sp = new Float32Array(SN * 3), sc = new Float32Array(SN * 3);
+  const PAL = [new THREE.Color(0xFFFFFF), new THREE.Color(0xFFE08A), new THREE.Color(0xBFD4FF), new THREE.Color(0xC9A8FF), new THREE.Color(0x8FE6FF)];
+  for (let i = 0; i < SN; i++) {
+    sp[i * 3] = (Math.random() - .5) * 170;
+    sp[i * 3 + 1] = (Math.random() - .5) * 130;
+    sp[i * 3 + 2] = -Math.random() * DEPTH;
+    const c = PAL[Math.random() < .58 ? 0 : Math.floor(Math.random() * PAL.length)];
+    sc[i * 3] = c.r; sc[i * 3 + 1] = c.g; sc[i * 3 + 2] = c.b;
+  }
+  const sg = new THREE.BufferGeometry();
+  sg.setAttribute('position', new THREE.BufferAttribute(sp, 3));
+  sg.setAttribute('color', new THREE.BufferAttribute(sc, 3));
+  const starMat = new THREE.PointsMaterial({ vertexColors: true, size: .5, transparent: true, opacity: .9, blending: THREE.AdditiveBlending, sizeAttenuation: true });
+  scene.add(new THREE.Points(sg, starMat));
+
+  // ── Spiral galaxy disc (3 arms → 3·6·9), tilted, sitting behind the logo ──
+  const GN = 2800, GZ = -30;
+  const gp = new Float32Array(GN * 3), gc = new Float32Array(GN * 3);
+  const ARMS = 3;
+  for (let i = 0; i < GN; i++) {
+    const arm = i % ARMS;
+    const t = Math.pow(Math.random(), .5) * 24;
+    const ang = arm / ARMS * Math.PI * 2 + t * 0.42 + (Math.random() - .5) * (1.2 / (0.25 + t * 0.06));
+    gp[i * 3] = Math.cos(ang) * t + (Math.random() - .5) * 1.6;
+    gp[i * 3 + 1] = (Math.random() - .5) * 1.8 * Math.max(0, 1 - t / 34);
+    gp[i * 3 + 2] = Math.sin(ang) * t;
+    const c = new THREE.Color().lerpColors(new THREE.Color(0xFFE3A0), new THREE.Color(0x7C3AED), t / 24);
+    gc[i * 3] = c.r; gc[i * 3 + 1] = c.g; gc[i * 3 + 2] = c.b;
+  }
+  const gg = new THREE.BufferGeometry();
+  gg.setAttribute('position', new THREE.BufferAttribute(gp, 3));
+  gg.setAttribute('color', new THREE.BufferAttribute(gc, 3));
+  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ vertexColors: true, size: .34, transparent: true, opacity: .5, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
+  galaxy.position.z = GZ; galaxy.rotation.x = -1.15;
+  scene.add(galaxy);
+
+  // glowing galactic core behind the logo
+  const core = new THREE.Mesh(new THREE.SphereGeometry(1.4, 18, 18), new THREE.MeshBasicMaterial({ color: 0xFFE3A0, transparent: true, opacity: .45, blending: THREE.AdditiveBlending }));
+  core.position.z = GZ; scene.add(core);
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
+
+  let warpAmt = 0, warpDir = 0;
+  _warpHub = (dir: number) => { warpAmt = 1; warpDir = dir; };
+
+  const pa = sg.attributes.position.array as Float32Array;
+  let tt = 0;
+  (function anim() {
+    requestAnimationFrame(anim);
+    tt += .016;
+    const speed = 0.32 + warpAmt * 12;
+    for (let i = 0; i < SN; i++) {
+      pa[i * 3 + 2] += speed;
+      if (pa[i * 3 + 2] > cam.position.z + 6) {
+        pa[i * 3 + 2] = -DEPTH;
+        pa[i * 3] = (Math.random() - .5) * 170;
+        pa[i * 3 + 1] = (Math.random() - .5) * 130;
+      }
+    }
+    sg.attributes.position.needsUpdate = true;
+    starMat.size = 0.5 + warpAmt * 1.6;
+    galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
+    core.scale.setScalar(1 + 0.14 * Math.sin(tt * 1.6) + warpAmt * 2.2);
+    // parallax + warp dolly forward (fly into the distance), drift toward the chosen era
+    cam.position.x += ((mx * 1.3 + warpDir * warpAmt * 2.4) - cam.position.x) * 0.05;
+    cam.position.y += (-my * 1.05 - cam.position.y) * 0.05;
+    cam.position.z += ((6 - warpAmt * 5.5) - cam.position.z) * 0.14;
+    cam.lookAt(0, 0, GZ);
+    warpAmt *= 0.93; if (warpAmt < 0.001) warpAmt = 0;
+    renderer.render(scene, cam);
+  })();
   window.addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); });
 }
 

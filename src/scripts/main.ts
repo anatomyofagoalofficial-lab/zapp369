@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { CA, DEX_API, prefersReducedMotion, isTouch } from './constants';
-import { startHubArcs, startHubVortex, startDimCanvas } from './scenes';
+import { startHubArcs, startHubVortex, startDimCanvas, warpHub } from './scenes';
 import { initIntro } from './intro';
 import { initSound } from './sound';
 
@@ -115,9 +115,11 @@ function withOverlay(color: string, mid: () => void, dur = .45) {
   } });
 }
 
-const DIM_COLORS: Record<string, string> = { past: '#0C0600', present: '#B3CCDA', future: '#F3EEFF', winter: '#0A1628' };
+const DIM_COLORS: Record<string, string> = { past: '#0C0600', present: '#2C5E8E', future: '#F3EEFF', winter: '#0A1628' };
+const DIM_DIR: Record<string, number> = { past: -1, present: 0, future: 1, winter: 0 };
 function enterDimension(name: string) {
-  withOverlay(DIM_COLORS[name] || '#000', () => { showPage('dim-' + name); startDimCanvas(name); });
+  warpHub(DIM_DIR[name] ?? 0); // fly into the distance toward that era
+  withOverlay(DIM_COLORS[name] || '#000', () => { showPage('dim-' + name); startDimCanvas(name); }, .55);
 }
 function backToHub() { withOverlay('#000', () => showPage('hub'), .4); }
 
