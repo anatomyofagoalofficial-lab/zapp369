@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { CA, DEX_API, prefersReducedMotion, isTouch } from './constants';
-import { startHubVortex, startDimCanvas, warpHub } from './scenes';
+import { startHubVortex, startDimCanvas, warpHub, setDimScroll } from './scenes';
 import { startHubLogo } from './hubLogo';
 import { initIntro } from './intro';
 import { initSound } from './sound';
@@ -219,7 +219,7 @@ function wire() {
   ci?.addEventListener('input', () => { const v = ci.value.replace(/[^0-9]/g, ''); if (v) ci.value = Number(v).toLocaleString('en-US'); uc(); });
 
   // dim-nav scroll state (works with Lenis or native)
-  const onScroll = () => { const y = window.scrollY; document.getElementById('dim-nav')!.classList.toggle('scrolled', y > 60); };
+  const onScroll = () => { const y = window.scrollY; document.getElementById('dim-nav')!.classList.toggle('scrolled', y > 60); setDimScroll(y / Math.max(1, innerHeight * 0.9)); };
   window.addEventListener('scroll', onScroll, { passive: true });
   if (lenis) lenis.on('scroll', onScroll);
 }

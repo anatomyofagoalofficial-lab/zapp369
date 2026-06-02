@@ -2,6 +2,10 @@ import * as THREE from 'three';
 
 const started = new Set<string>();
 
+let dimScrollP = 0;
+/** 0 (top) → 1 (scrolled a viewport) — drives the scroll-cinematic dimension cameras */
+export function setDimScroll(p: number) { dimScrollP = Math.max(0, Math.min(1, p)); }
+
 /* HUB — electric arcs over the logo (2D canvas) */
 export function startHubArcs() {
   const cv = document.getElementById('hub-arc-cv') as HTMLCanvasElement | null;
@@ -249,7 +253,7 @@ function startPast() {
   const boltMat = () => new THREE.LineBasicMaterial({ color: 0xFFF6DC, transparent: true, opacity: 0.5 + Math.random() * 0.5, blending: THREE.AdditiveBlending });
   function rebuild() {
     bolts.clear();
-    const n = 15;
+    const n = 14 + Math.floor(dimScrollP * 12);
     for (let i = 0; i < n; i++) {
       const az = Math.random() * Math.PI * 2, elev = 0.15 + Math.random() * 1.05, len = 8 + Math.random() * 18;
       const end = new THREE.Vector3(SRC.x + Math.cos(az) * Math.cos(elev) * len, SRC.y + Math.sin(elev) * len * 1.15, SRC.z + Math.sin(az) * Math.cos(elev) * len);
@@ -275,11 +279,18 @@ function startPast() {
     if (!document.getElementById('dim-past')?.classList.contains('active')) return;
     frame++; t += 0.016;
     if (frame % 4 === 0) rebuild();
-    eglow.scale.setScalar(1 + 0.28 * Math.sin(t * 11) + Math.random() * 0.18);
-    cam.position.x += ((mx * 6 + 3) - cam.position.x) * 0.025;
-    cam.position.y += ((7 - my * 3) - cam.position.y) * 0.025;
-    cam.position.z = 27 + Math.sin(t * 0.12) * 1.6;
-    cam.lookAt(TX, 11.5, TZ);
+    eglow.scale.setScalar(1 + 0.28 * Math.sin(t * 11) + Math.random() * 0.18 + dimScrollP * 0.7);
+    // scroll-cinematic: orbit the transmitter while craning down toward seated Tesla
+    const sp = dimScrollP;
+    const ang = 0.12 + sp * 1.05 + mx * 0.28;
+    const rad = 27 - sp * 10;
+    const tx = TX + Math.sin(ang) * rad;
+    const tz = TZ + Math.cos(ang) * rad;
+    const ty = (7 - sp * 3.6) - my * 2.4 + Math.sin(t * 0.12) * 0.8;
+    cam.position.x += (tx - cam.position.x) * 0.06;
+    cam.position.y += (ty - cam.position.y) * 0.06;
+    cam.position.z += (tz - cam.position.z) * 0.06;
+    cam.lookAt(TX, 11.5 - sp * 8.4, TZ);
     renderer.render(scene, cam);
   }
   resize(); window.addEventListener('resize', resize); rebuild(); anim();
