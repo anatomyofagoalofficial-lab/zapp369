@@ -323,7 +323,14 @@ html.lenis,html.lenis body{height:auto}
 #dim-future{background:#F3EEFF;color:#0F0A1E}
 .f-grad{position:fixed;inset:0;background:radial-gradient(ellipse 80% 65% at 15% 10%,rgba(196,181,253,.6),transparent 55%),radial-gradient(ellipse 70% 55% at 85% 85%,rgba(207,250,254,.7),transparent 55%),radial-gradient(ellipse 60% 50% at 60% 30%,rgba(252,231,243,.5),transparent 50%),#F3EEFF;animation:fmove 20s ease-in-out infinite alternate;pointer-events:none;z-index:0}
 @keyframes fmove{0%{opacity:1}100%{opacity:.8}}
-#future-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;mix-blend-mode:multiply;opacity:.45}
+/* Future hero — full-bleed 3D Earth energy network (cosmic dark) */
+.future-hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:radial-gradient(ellipse 90% 80% at 62% 42%,#120a32,#070418 62%,#03020c)}
+#future-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+.future-hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(6,4,20,.82),rgba(6,4,20,.35) 38%,transparent 66%),linear-gradient(0deg,#F3EEFF 0%,transparent 16%)}
+.future-hero-text{position:relative;z-index:2;max-width:600px;padding:0 4rem 0 6vw}
+.future-hero .f-tag{color:#C4B5FD;border-color:rgba(196,181,253,.4)}
+.future-hero .f-h1{color:#F6F2FF;text-shadow:0 2px 30px rgba(0,0,0,.5)}
+.future-hero .f-lead{color:rgba(236,230,255,.62)}
 .f-split{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:8rem 5vw 6rem;gap:4rem}
 .f-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:#7C3AED;border:1px solid rgba(124,58,237,.2);padding:.28rem .85rem;border-radius:4px;margin-bottom:2rem}
 .f-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#06B6D4)}
