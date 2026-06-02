@@ -62,6 +62,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       <div class="dim-label-desc">${dim.description}</div>
       <button class="dim-label-cta" data-go="${dim.route}" style="border-color:${dim.color};color:${dim.color}">Enter →</button>`;
     el.style.pointerEvents = 'auto';
+    el.style.cursor = 'pointer';
+    el.setAttribute('data-go', dim.route); // whole card is clickable, not just the button
     wrap.appendChild(el);
     const label = new CSS2DObject(wrap); label.position.set(0, 5, 0); grp.add(label);
 
