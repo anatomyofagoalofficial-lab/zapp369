@@ -152,18 +152,7 @@ export function startHubVortex() {
     return new THREE.CanvasTexture(cc);
   })();
 
-  // ── Nebula clouds — colored cosmic gas that breathes ──
-  const NEB = [0x7C3AED, 0x06B6D4, 0xEC4899, 0xFFB020, 0x4F46E5, 0x10B981, 0x9945FF];
-  const nebula: THREE.Sprite[] = [];
-  for (let i = 0; i < 8; i++) {
-    const m = new THREE.SpriteMaterial({ map: softTex, color: NEB[i % NEB.length], transparent: true, opacity: 0.16 + Math.random() * 0.12, blending: THREE.AdditiveBlending, depthWrite: false });
-    const s = new THREE.Sprite(m);
-    const a = Math.random() * Math.PI * 2, r = 6 + Math.random() * 30;
-    s.position.set(Math.cos(a) * r, (Math.random() - .5) * 18, GZ + Math.sin(a) * r * 0.5 - Math.random() * 26);
-    const sc = 28 + Math.random() * 46; s.scale.set(sc, sc, 1);
-    s.userData = { ph: Math.random() * Math.PI * 2, sp: 0.15 + Math.random() * 0.4, baseOp: m.opacity, dx: (Math.random() - .5) * 0.012 };
-    nebula.push(s); scene.add(s);
-  }
+  void softTex; // (nebula bubbles removed — the bloom + colored galaxy points carry the colour now)
 
   // ── Shooting stars ──
   interface Shoot { line: THREE.Line; mat: THREE.LineBasicMaterial; life: number; vx: number; vy: number; vz: number; }
@@ -202,14 +191,6 @@ export function startHubVortex() {
     starMat.size = 0.5 + warpAmt * 1.6;
     galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
     galaxy.rotation.x += ((-0.42 + my * 0.14) - galaxy.rotation.x) * 0.04;
-
-    // nebula breathing + slow drift
-    for (const s of nebula) {
-      const u = s.userData;
-      (s.material as THREE.SpriteMaterial).opacity = u.baseOp * (0.55 + 0.45 * Math.sin(tt * u.sp + u.ph)) * (1 + warpAmt);
-      s.position.x += u.dx;
-      if (s.position.x > 40) s.position.x = -40; else if (s.position.x < -40) s.position.x = 40;
-    }
 
     // shooting stars
     if (Math.random() < 0.028 && shoot.length < 6) spawnShoot();
