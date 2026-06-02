@@ -50,7 +50,9 @@ function syncTriangle() {
   };
   const p3 = centre('.portal.past'), p6 = centre('.portal.present'), p9 = centre('.portal.future');
   if (!p3 || !p6 || !p9) return;
-  main.setAttribute('d', `M${p3.x.toFixed(2)} ${p3.y.toFixed(2)} L${p6.x.toFixed(2)} ${p6.y.toFixed(2)} L${p9.x.toFixed(2)} ${p9.y.toFixed(2)} Z`);
+  const d = `M${p3.x.toFixed(2)} ${p3.y.toFixed(2)} L${p6.x.toFixed(2)} ${p6.y.toFixed(2)} L${p9.x.toFixed(2)} ${p9.y.toFixed(2)} Z`;
+  main.setAttribute('d', d);
+  document.getElementById('tri-flow')?.setAttribute('d', d);
   if (ang) {
     const ux = p3.x - p6.x, uy = p3.y - p6.y, vx = p9.x - p6.x, vy = p9.y - p6.y;
     const ul = Math.hypot(ux, uy) || 1, vl = Math.hypot(vx, vy) || 1, s = 5.5;
