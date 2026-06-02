@@ -300,30 +300,131 @@ function startPresent() {
   const cv = document.getElementById('present-canvas') as HTMLCanvasElement | null; if (!cv) return;
   const par = document.getElementById('dim-present') as HTMLElement;
   const W = () => par.offsetWidth || innerWidth, H = () => par.scrollHeight || innerHeight;
-  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: false });
+  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(W(), H());
   const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(50, W() / H(), .1, 200); cam.position.z = 10;
-  scene.add(new THREE.Mesh(new THREE.SphereGeometry(3.2, 28, 18), new THREE.MeshBasicMaterial({ color: 0xCFE8FF, wireframe: true, transparent: true, opacity: .14 })));
-  const ng = new THREE.Group(); scene.add(ng); const npts: THREE.Vector3[] = [], nc = 80;
-  for (let i = 0; i < nc; i++) { const phi = Math.acos(-1 + 2 * i / nc), theta = Math.sqrt(nc * Math.PI) * phi; const x = 3.2 * Math.sin(phi) * Math.cos(theta), y = 3.2 * Math.cos(phi), z = 3.2 * Math.sin(phi) * Math.sin(theta); npts.push(new THREE.Vector3(x, y, z)); const nm = new THREE.Mesh(new THREE.SphereGeometry(.06, 6, 4), new THREE.MeshBasicMaterial({ color: 0xEAF3FC, transparent: true, opacity: .7 })); nm.position.set(x, y, z); nm.userData.ph = Math.random() * Math.PI * 2; ng.add(nm); }
-  const cp: number[] = []; for (let i = 0; i < nc; i++) for (let j = i + 1; j < nc; j++) if (npts[i].distanceTo(npts[j]) < 1.55) cp.push(npts[i].x, npts[i].y, npts[i].z, npts[j].x, npts[j].y, npts[j].z);
-  const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(cp), 3)); scene.add(new THREE.LineSegments(cg, new THREE.LineBasicMaterial({ color: 0xCFE8FF, transparent: true, opacity: .2 })));
-  let t = 0; (function anim() { requestAnimationFrame(anim); t += .004; ng.rotation.y = t * .09; ng.children.forEach(n => { if (n.userData.ph !== undefined) n.scale.setScalar(.65 + .55 * Math.sin(t * 2 + n.userData.ph)); }); renderer.render(scene, cam); })();
+
+  // ── Solana node network (sphere) ──
+  const ng = new THREE.Group(); scene.add(ng);
+  const npts: THREE.Vector3[] = [], nc = 92, RAD = 3.4;
+  for (let i = 0; i < nc; i++) {
+    const y = 1 - (i / (nc - 1)) * 2, rr = Math.sqrt(Math.max(0, 1 - y * y)), th = i * 2.399963;
+    const v = new THREE.Vector3(Math.cos(th) * rr, y, Math.sin(th) * rr).multiplyScalar(RAD); npts.push(v);
+    const nm = new THREE.Mesh(new THREE.SphereGeometry(.055, 6, 5), new THREE.MeshBasicMaterial({ color: 0xEAF3FC, transparent: true, opacity: .8 }));
+    nm.position.copy(v); nm.userData.ph = Math.random() * Math.PI * 2; ng.add(nm);
+  }
+  const pairs: [THREE.Vector3, THREE.Vector3][] = [];
+  const cp: number[] = [];
+  for (let i = 0; i < nc; i++) for (let j = i + 1; j < nc; j++) if (npts[i].distanceTo(npts[j]) < 1.7) { cp.push(npts[i].x, npts[i].y, npts[i].z, npts[j].x, npts[j].y, npts[j].z); if (pairs.length < 30 && Math.random() < .3) pairs.push([npts[i], npts[j]]); }
+  const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(cp), 3));
+  ng.add(new THREE.LineSegments(cg, new THREE.LineBasicMaterial({ color: 0xBFE0FF, transparent: true, opacity: .22 })));
+
+  // ── central emitter core ──
+  const core = new THREE.Mesh(new THREE.SphereGeometry(.4, 18, 18), new THREE.MeshBasicMaterial({ color: 0xEAF6FF, transparent: true, opacity: .95, blending: THREE.AdditiveBlending })); scene.add(core);
+
+  // ── broadcasting waves — expanding shells radiating from the core ──
+  const rings: THREE.Mesh[] = [];
+  for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 26, 16), new THREE.MeshBasicMaterial({ color: 0xBFE0FF, wireframe: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending })); m.userData.r = i / 4; scene.add(m); rings.push(m); }
+
+  // ── energy packets travelling between nodes ──
+  const packets = pairs.slice(0, 18).map(p => { const m = new THREE.Mesh(new THREE.SphereGeometry(.07, 6, 6), new THREE.MeshBasicMaterial({ color: 0xFFFFFF, transparent: true, opacity: .95, blending: THREE.AdditiveBlending })); scene.add(m); return { m, a: p[0], b: p[1], t: Math.random(), sp: .006 + Math.random() * .01 }; });
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
+  let t = 0;
+  (function anim() {
+    requestAnimationFrame(anim);
+    if (!document.getElementById('dim-present')?.classList.contains('active')) return;
+    t += .006;
+    ng.rotation.y = t * .12; ng.rotation.x = -0.1 + my * 0.15;
+    ng.children.forEach(n => { if (n.userData.ph !== undefined) n.scale.setScalar(.6 + .6 * Math.sin(t * 2 + n.userData.ph)); });
+    core.scale.setScalar(1 + .3 * Math.sin(t * 4));
+    rings.forEach(m => { let r = m.userData.r + t * 0.18; r %= 1; const s = r * 9 + 0.2; m.scale.setScalar(s); (m.material as THREE.MeshBasicMaterial).opacity = Math.max(0, (1 - r) * 0.3); m.rotation.copy(ng.rotation); });
+    packets.forEach(p => { p.t += p.sp; if (p.t > 1) p.t -= 1; p.m.position.lerpVectors(p.a, p.b, p.t).applyEuler(ng.rotation); });
+    const sp = dimScrollP;
+    cam.position.x += ((mx * 2) - cam.position.x) * 0.04;
+    cam.position.y += ((-my * 1.5) - cam.position.y) * 0.04;
+    cam.position.z += ((10 - sp * 3) - cam.position.z) * 0.05;
+    cam.lookAt(0, 0, 0);
+    renderer.render(scene, cam);
+  })();
 }
 
 function startFuture() {
   const cv = document.getElementById('future-canvas') as HTMLCanvasElement | null; if (!cv) return;
-  const par = document.getElementById('dim-future') as HTMLElement;
-  const W = () => par.offsetWidth || innerWidth, H = () => par.scrollHeight || innerHeight;
-  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: false });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(W(), H());
-  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(55, W() / H(), .1, 200); cam.position.z = 8;
-  const COLS = [0x7C3AED, 0x06B6D4, 0x10B981, 0xEC4899, 0xA78BFA];
-  ([[new THREE.IcosahedronGeometry(2, 0), 0x7C3AED, .12, .007], [new THREE.OctahedronGeometry(1.4, 0), 0x06B6D4, .1, -.011], [new THREE.TorusGeometry(2.8, .013, 4, 80), 0xA78BFA, .08, .005]] as const).forEach(([g, c, op, sp]) => { const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: c, wireframe: true, transparent: true, opacity: op, blending: THREE.AdditiveBlending })); m.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0); m.userData.sp = sp; scene.add(m); });
-  const fpN = 120, fpP = new Float32Array(fpN * 3), fpC = new Float32Array(fpN * 3);
-  for (let i = 0; i < fpN; i++) { fpP[i * 3] = (Math.random() - .5) * 16; fpP[i * 3 + 1] = (Math.random() - .5) * 14; fpP[i * 3 + 2] = (Math.random() - .5) * 5; const c = new THREE.Color(COLS[Math.floor(Math.random() * COLS.length)]); fpC[i * 3] = c.r; fpC[i * 3 + 1] = c.g; fpC[i * 3 + 2] = c.b; }
-  const fpG = new THREE.BufferGeometry(); fpG.setAttribute('position', new THREE.BufferAttribute(fpP, 3)); fpG.setAttribute('color', new THREE.BufferAttribute(fpC, 3)); scene.add(new THREE.Points(fpG, new THREE.PointsMaterial({ vertexColors: true, size: .07, transparent: true, opacity: .22, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
-  let t = 0; (function anim() { requestAnimationFrame(anim); t += .004; scene.children.filter(c => c.type === 'Mesh').forEach(m => { m.rotation.x += m.userData.sp * .7 || .004; m.rotation.y += m.userData.sp || .006; }); const pp = fpG.attributes.position.array as Float32Array; for (let i = 0; i < fpN; i++) { pp[i * 3 + 1] -= .0025; if (pp[i * 3 + 1] < -8) pp[i * 3 + 1] = 8; } fpG.attributes.position.needsUpdate = true; renderer.render(scene, cam); })();
+  const par = (cv.parentElement as HTMLElement) || document.getElementById('dim-future')!;
+  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(50, 1, 0.1, 240); cam.position.set(0, 1, 22);
+  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+
+  const earth = new THREE.Group(); scene.add(earth);
+  const R = 6.2;
+  earth.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 48, 32), new THREE.MeshBasicMaterial({ color: 0x070518 })));
+  earth.add(new THREE.Mesh(new THREE.SphereGeometry(R, 40, 28), new THREE.MeshBasicMaterial({ color: 0x4a3aa0, wireframe: true, transparent: true, opacity: 0.22 })));
+  const atmo = new THREE.Mesh(new THREE.SphereGeometry(R * 1.18, 36, 26), new THREE.MeshBasicMaterial({ color: 0x6d4bd0, transparent: true, opacity: 0.1, side: THREE.BackSide, blending: THREE.AdditiveBlending })); earth.add(atmo);
+
+  // glowing surface dots (fibonacci sphere) — the "continents of light"
+  const PN = 1600, pp = new Float32Array(PN * 3), pcc = new Float32Array(PN * 3);
+  const pal = [new THREE.Color(0x7C3AED), new THREE.Color(0x06B6D4), new THREE.Color(0x10B981), new THREE.Color(0xEC4899), new THREE.Color(0xA78BFA)];
+  const surf: THREE.Vector3[] = [];
+  for (let i = 0; i < PN; i++) {
+    const y = 1 - (i / (PN - 1)) * 2, rr = Math.sqrt(Math.max(0, 1 - y * y)), th = i * 2.399963;
+    const v = new THREE.Vector3(Math.cos(th) * rr, y, Math.sin(th) * rr); surf.push(v);
+    pp[i * 3] = v.x * R * 1.002; pp[i * 3 + 1] = v.y * R * 1.002; pp[i * 3 + 2] = v.z * R * 1.002;
+    const c = pal[(Math.random() * pal.length) | 0]; pcc[i * 3] = c.r; pcc[i * 3 + 1] = c.g; pcc[i * 3 + 2] = c.b;
+  }
+  const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3)); pg.setAttribute('color', new THREE.BufferAttribute(pcc, 3));
+  earth.add(new THREE.Points(pg, new THREE.PointsMaterial({ vertexColors: true, size: 0.13, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
+
+  // Tesla towers on the surface + glowing tips
+  const towers: THREE.Vector3[] = [];
+  for (let i = 0; i < 16; i++) {
+    const v = surf[(Math.random() * PN) | 0].clone().normalize(); towers.push(v);
+    const base = v.clone().multiplyScalar(R), tip = v.clone().multiplyScalar(R + 0.95);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.09, 0.95, 6), new THREE.MeshBasicMaterial({ color: 0xCFE8FF }));
+    m.position.copy(base.clone().add(tip).multiplyScalar(0.5)); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v); earth.add(m);
+    const glow = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), new THREE.MeshBasicMaterial({ color: 0x9be8ff, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending })); glow.position.copy(tip); earth.add(glow);
+  }
+
+  // energy arcs with travelling packets (wireless transmission across the globe)
+  interface Arc { pts: THREE.Vector3[]; packet: THREE.Mesh; t: number; sp: number; }
+  const arcs: Arc[] = [];
+  function makeArc(a: THREE.Vector3, b: THREE.Vector3) {
+    const mid = a.clone().add(b).multiplyScalar(0.5).normalize().multiplyScalar(R * (1.28 + a.distanceTo(b) * 0.12));
+    const cpts = new THREE.QuadraticBezierCurve3(a.clone().multiplyScalar(R * 1.01), mid, b.clone().multiplyScalar(R * 1.01)).getPoints(44);
+    earth.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(cpts), new THREE.LineBasicMaterial({ color: 0x7CC8FF, transparent: true, opacity: 0.26, blending: THREE.AdditiveBlending })));
+    const packet = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshBasicMaterial({ color: 0xFFFFFF, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending })); earth.add(packet);
+    arcs.push({ pts: cpts, packet, t: Math.random(), sp: 0.004 + Math.random() * 0.006 });
+  }
+  for (let i = 0; i < 16; i++) { const a = towers[(Math.random() * towers.length) | 0], b = towers[(Math.random() * towers.length) | 0]; if (a !== b) makeArc(a, b); }
+
+  // distant starfield
+  const SN = 900, sps = new Float32Array(SN * 3);
+  for (let i = 0; i < SN; i++) { const v = new THREE.Vector3(Math.random() - .5, Math.random() - .5, Math.random() - .5).normalize().multiplyScalar(45 + Math.random() * 45); sps[i * 3] = v.x; sps[i * 3 + 1] = v.y; sps[i * 3 + 2] = v.z; }
+  const sgg = new THREE.BufferGeometry(); sgg.setAttribute('position', new THREE.BufferAttribute(sps, 3));
+  scene.add(new THREE.Points(sgg, new THREE.PointsMaterial({ color: 0xBFD4FF, size: 0.18, transparent: true, opacity: 0.7 })));
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
+  let t = 0;
+  function anim() {
+    requestAnimationFrame(anim);
+    if (!document.getElementById('dim-future')?.classList.contains('active')) return;
+    t += 0.016;
+    earth.rotation.y += 0.0016;
+    earth.rotation.x += ((-0.25 + my * 0.2) - earth.rotation.x) * 0.04;
+    atmo.scale.setScalar(1 + 0.02 * Math.sin(t * 1.5));
+    for (const ar of arcs) { ar.t += ar.sp; if (ar.t > 1) ar.t -= 1; ar.packet.position.copy(ar.pts[Math.min(ar.pts.length - 1, Math.floor(ar.t * (ar.pts.length - 1)))]); }
+    const sp = dimScrollP, ang = mx * 0.5 + sp * 0.9, rad = 22 - sp * 9;
+    cam.position.x += (Math.sin(ang) * rad - cam.position.x) * 0.05;
+    cam.position.z += (Math.cos(ang) * rad - cam.position.z) * 0.05;
+    cam.position.y += ((1 - my * 2 + sp * 3) - cam.position.y) * 0.05;
+    cam.lookAt(0, 0, 0);
+    renderer.render(scene, cam);
+  }
+  resize(); window.addEventListener('resize', resize); anim();
 }
 
 function startWinter() {
