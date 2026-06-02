@@ -18,10 +18,10 @@ export function startHubLogo() {
   const spr = document.createElement('canvas'); spr.width = spr.height = 64;
   const sx = spr.getContext('2d')!;
   const grd = sx.createRadialGradient(32, 32, 0, 32, 32, 32);
-  grd.addColorStop(0, 'rgba(255,246,214,1)');
-  grd.addColorStop(.30, 'rgba(255,212,96,.85)');
-  grd.addColorStop(.65, 'rgba(232,150,20,.28)');
-  grd.addColorStop(1, 'rgba(232,150,20,0)');
+  grd.addColorStop(0, 'rgba(255,252,244,1)');
+  grd.addColorStop(.32, 'rgba(255,234,180,.72)');
+  grd.addColorStop(.66, 'rgba(212,180,110,.18)');
+  grd.addColorStop(1, 'rgba(212,180,110,0)');
   sx.fillStyle = grd; sx.fillRect(0, 0, 64, 64);
 
   function build() {

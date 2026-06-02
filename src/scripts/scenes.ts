@@ -1,10 +1,33 @@
 import * as THREE from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 const started = new Set<string>();
 
 let dimScrollP = 0;
 /** 0 (top) → 1 (scrolled a viewport) — drives the scroll-cinematic dimension cameras */
 export function setDimScroll(p: number) { dimScrollP = Math.max(0, Math.min(1, p)); }
+
+/** Shared soft round point texture → smooth particles everywhere */
+let _dot: THREE.Texture | null = null;
+function dotTexture() {
+  if (_dot) return _dot;
+  const cc = document.createElement('canvas'); cc.width = cc.height = 64; const g = cc.getContext('2d')!;
+  const rg = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  rg.addColorStop(0, 'rgba(255,255,255,1)'); rg.addColorStop(.45, 'rgba(255,255,255,.5)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, 64, 64); _dot = new THREE.CanvasTexture(cc); return _dot;
+}
+
+/** Cinematic bloom composer — the glow that makes it feel expensive */
+function makeBloom(renderer: THREE.WebGLRenderer, scene: THREE.Scene, cam: THREE.Camera, w: number, h: number, strength = 0.8, radius = 0.55, threshold = 0.12) {
+  const comp = new EffectComposer(renderer);
+  comp.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  comp.setSize(w || 1, h || 1);
+  comp.addPass(new RenderPass(scene, cam));
+  comp.addPass(new UnrealBloomPass(new THREE.Vector2(w || 1, h || 1), strength, radius, threshold));
+  return comp;
+}
 
 /* HUB — electric arcs over the logo (2D canvas) */
 export function startHubArcs() {
@@ -65,6 +88,23 @@ export function startHubVortex() {
   const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, .1, 1200);
   cam.position.z = 6;
 
+  // cinematic bloom — the "$150k" glow
+  const composer = new EffectComposer(renderer);
+  composer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  composer.setSize(innerWidth, innerHeight);
+  composer.addPass(new RenderPass(scene, cam));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.85, 0.55, 0.12);
+  composer.addPass(bloom);
+
+  // soft round point sprite → smooth particles, not blocky squares
+  const dotTex = (() => {
+    const cc = document.createElement('canvas'); cc.width = cc.height = 64; const g2 = cc.getContext('2d')!;
+    const rg = g2.createRadialGradient(32, 32, 0, 32, 32, 32);
+    rg.addColorStop(0, 'rgba(255,255,255,1)'); rg.addColorStop(.45, 'rgba(255,255,255,.5)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+    g2.fillStyle = rg; g2.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(cc);
+  })();
+
   // ── Infinite travelling starfield (recycles in z → endless) ──
   const SN = 6000, DEPTH = 460;
   const sp = new Float32Array(SN * 3), sc = new Float32Array(SN * 3);
@@ -79,7 +119,7 @@ export function startHubVortex() {
   const sg = new THREE.BufferGeometry();
   sg.setAttribute('position', new THREE.BufferAttribute(sp, 3));
   sg.setAttribute('color', new THREE.BufferAttribute(sc, 3));
-  const starMat = new THREE.PointsMaterial({ vertexColors: true, size: .5, transparent: true, opacity: .9, blending: THREE.AdditiveBlending, sizeAttenuation: true });
+  const starMat = new THREE.PointsMaterial({ map: dotTex, vertexColors: true, size: .8, transparent: true, opacity: .9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true });
   scene.add(new THREE.Points(sg, starMat));
 
   // ── Spiral galaxy disc (3 arms → 3·6·9), tilted, sitting behind the logo ──
@@ -99,7 +139,7 @@ export function startHubVortex() {
   const gg = new THREE.BufferGeometry();
   gg.setAttribute('position', new THREE.BufferAttribute(gp, 3));
   gg.setAttribute('color', new THREE.BufferAttribute(gc, 3));
-  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ vertexColors: true, size: .42, transparent: true, opacity: .62, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
+  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ map: dotTex, vertexColors: true, size: .62, transparent: true, opacity: .62, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
   galaxy.position.z = GZ; galaxy.rotation.x = -0.42;
   scene.add(galaxy);
 
@@ -112,18 +152,7 @@ export function startHubVortex() {
     return new THREE.CanvasTexture(cc);
   })();
 
-  // ── Nebula clouds — colored cosmic gas that breathes ──
-  const NEB = [0x7C3AED, 0x06B6D4, 0xEC4899, 0xFFB020, 0x4F46E5, 0x10B981, 0x9945FF];
-  const nebula: THREE.Sprite[] = [];
-  for (let i = 0; i < 8; i++) {
-    const m = new THREE.SpriteMaterial({ map: softTex, color: NEB[i % NEB.length], transparent: true, opacity: 0.16 + Math.random() * 0.12, blending: THREE.AdditiveBlending, depthWrite: false });
-    const s = new THREE.Sprite(m);
-    const a = Math.random() * Math.PI * 2, r = 6 + Math.random() * 30;
-    s.position.set(Math.cos(a) * r, (Math.random() - .5) * 18, GZ + Math.sin(a) * r * 0.5 - Math.random() * 26);
-    const sc = 28 + Math.random() * 46; s.scale.set(sc, sc, 1);
-    s.userData = { ph: Math.random() * Math.PI * 2, sp: 0.15 + Math.random() * 0.4, baseOp: m.opacity, dx: (Math.random() - .5) * 0.012 };
-    nebula.push(s); scene.add(s);
-  }
+  void softTex; // (nebula bubbles removed — the bloom + colored galaxy points carry the colour now)
 
   // ── Shooting stars ──
   interface Shoot { line: THREE.Line; mat: THREE.LineBasicMaterial; life: number; vx: number; vy: number; vz: number; }
@@ -163,14 +192,6 @@ export function startHubVortex() {
     galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
     galaxy.rotation.x += ((-0.42 + my * 0.14) - galaxy.rotation.x) * 0.04;
 
-    // nebula breathing + slow drift
-    for (const s of nebula) {
-      const u = s.userData;
-      (s.material as THREE.SpriteMaterial).opacity = u.baseOp * (0.55 + 0.45 * Math.sin(tt * u.sp + u.ph)) * (1 + warpAmt);
-      s.position.x += u.dx;
-      if (s.position.x > 40) s.position.x = -40; else if (s.position.x < -40) s.position.x = 40;
-    }
-
     // shooting stars
     if (Math.random() < 0.028 && shoot.length < 6) spawnShoot();
     for (let i = shoot.length - 1; i >= 0; i--) {
@@ -189,9 +210,9 @@ export function startHubVortex() {
     cam.position.z += ((6 - warpAmt * 5.5) - cam.position.z) * 0.14;
     cam.lookAt(0, 0, GZ);
     warpAmt *= 0.93; if (warpAmt < 0.001) warpAmt = 0;
-    renderer.render(scene, cam);
+    composer.render();
   })();
-  window.addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); });
+  window.addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); });
 }
 
 export function startDimCanvas(name: string) {
@@ -211,7 +232,8 @@ function startPast() {
   scene.fog = new THREE.FogExp2(0x0e0a05, 0.015);
   const cam = new THREE.PerspectiveCamera(56, 1, 0.1, 500);
   cam.position.set(3, 7, 27);
-  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); composer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const composer = makeBloom(renderer, scene, cam, par.getBoundingClientRect().width, par.getBoundingClientRect().height, 1.05, 0.6, 0.0);
 
   const basic = (col: number, opts: THREE.MeshBasicMaterialParameters = {}) => new THREE.MeshBasicMaterial({ color: col, ...opts });
   const lineMat = new THREE.LineBasicMaterial({ color: 0x5a4426, transparent: true, opacity: 0.4 });
@@ -291,7 +313,7 @@ function startPast() {
     cam.position.y += (ty - cam.position.y) * 0.06;
     cam.position.z += (tz - cam.position.z) * 0.06;
     cam.lookAt(TX, 11.5 - sp * 8.4, TZ);
-    renderer.render(scene, cam);
+    composer.render();
   }
   resize(); window.addEventListener('resize', resize); rebuild(); anim();
 }
@@ -303,6 +325,7 @@ function startPresent() {
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(W(), H());
   const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(50, W() / H(), .1, 200); cam.position.z = 10;
+  const composer = makeBloom(renderer, scene, cam, W(), H(), 0.75, 0.5, 0.08);
 
   // ── Solana node network (sphere) ──
   const ng = new THREE.Group(); scene.add(ng);
@@ -346,7 +369,7 @@ function startPresent() {
     cam.position.y += ((-my * 1.5) - cam.position.y) * 0.04;
     cam.position.z += ((10 - sp * 3) - cam.position.z) * 0.05;
     cam.lookAt(0, 0, 0);
-    renderer.render(scene, cam);
+    composer.render();
   })();
 }
 
@@ -357,7 +380,8 @@ function startFuture() {
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   const scene = new THREE.Scene();
   const cam = new THREE.PerspectiveCamera(50, 1, 0.1, 240); cam.position.set(0, 1, 22);
-  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); composer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const composer = makeBloom(renderer, scene, cam, par.getBoundingClientRect().width, par.getBoundingClientRect().height, 0.85, 0.55, 0.05);
 
   const earth = new THREE.Group(); scene.add(earth);
   const R = 6.2;
@@ -376,7 +400,7 @@ function startFuture() {
     const c = pal[(Math.random() * pal.length) | 0]; pcc[i * 3] = c.r; pcc[i * 3 + 1] = c.g; pcc[i * 3 + 2] = c.b;
   }
   const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3)); pg.setAttribute('color', new THREE.BufferAttribute(pcc, 3));
-  earth.add(new THREE.Points(pg, new THREE.PointsMaterial({ vertexColors: true, size: 0.13, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
+  earth.add(new THREE.Points(pg, new THREE.PointsMaterial({ map: dotTexture(), vertexColors: true, size: 0.2, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
 
   // Tesla towers on the surface + glowing tips
   const towers: THREE.Vector3[] = [];
@@ -404,7 +428,7 @@ function startFuture() {
   const SN = 900, sps = new Float32Array(SN * 3);
   for (let i = 0; i < SN; i++) { const v = new THREE.Vector3(Math.random() - .5, Math.random() - .5, Math.random() - .5).normalize().multiplyScalar(45 + Math.random() * 45); sps[i * 3] = v.x; sps[i * 3 + 1] = v.y; sps[i * 3 + 2] = v.z; }
   const sgg = new THREE.BufferGeometry(); sgg.setAttribute('position', new THREE.BufferAttribute(sps, 3));
-  scene.add(new THREE.Points(sgg, new THREE.PointsMaterial({ color: 0xBFD4FF, size: 0.18, transparent: true, opacity: 0.7 })));
+  scene.add(new THREE.Points(sgg, new THREE.PointsMaterial({ map: dotTexture(), color: 0xBFD4FF, size: 0.28, transparent: true, opacity: 0.75, depthWrite: false })));
 
   let mx = 0, my = 0;
   document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
@@ -422,7 +446,7 @@ function startFuture() {
     cam.position.z += (Math.cos(ang) * rad - cam.position.z) * 0.05;
     cam.position.y += ((1 - my * 2 + sp * 3) - cam.position.y) * 0.05;
     cam.lookAt(0, 0, 0);
-    renderer.render(scene, cam);
+    composer.render();
   }
   resize(); window.addEventListener('resize', resize); anim();
 }
