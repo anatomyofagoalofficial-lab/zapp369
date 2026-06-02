@@ -3,6 +3,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { DIMENSIONS } from './dimensions.config';
 import { flyTo } from './camera-controller';
 import { buildZappCore } from './zapp-core';
@@ -17,6 +18,22 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setSize(innerWidth, innerHeight);
+
+  // ── free, smooth navigation: drag to look around space (damped) ──
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;   // weighty, smooth glide — no jitter
+  controls.enablePan = false;
+  controls.rotateSpeed = 0.45;
+  controls.zoomSpeed = 0.6;
+  controls.minDistance = 12;
+  controls.maxDistance = 70;
+  controls.autoRotate = true;       // gentle idle breath — pauses the moment you reach a card
+  controls.autoRotateSpeed = 0.22;
+  controls.target.set(0, 0, 0);
+  let dragging = false;
+  controls.addEventListener('start', () => { dragging = true; });
+  controls.addEventListener('end', () => { dragging = false; });
 
   const composer = new EffectComposer(renderer);
   composer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -46,7 +63,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   const starLayers = buildStarLayers(scene);
 
   // ── each dimension: glowing orb + halo + connecting beam + floating label ──
-  const orbs: { mesh: THREE.Object3D; glow: THREE.Sprite; inner: HTMLElement; pos: THREE.Vector3; id: string; color: string }[] = [];
+  const orbs: { mesh: THREE.Object3D; glow: THREE.Sprite; inner: HTMLElement; pos: THREE.Vector3; home: THREE.Vector3; id: string; color: string }[] = [];
   DIMENSIONS.forEach(dim => {
     const col = new THREE.Color(dim.color);
     const grp = new THREE.Group(); grp.position.copy(dim.position);
@@ -67,7 +84,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     wrap.appendChild(el);
     const label = new CSS2DObject(wrap); label.position.set(0, 5, 0); grp.add(label);
 
-    scene.add(grp); orbs.push({ mesh: grp, glow, inner: el, pos: dim.position.clone(), id: dim.id, color: dim.color });
+    scene.add(grp); orbs.push({ mesh: grp, glow, inner: el, pos: dim.position.clone(), home: dim.position.clone(), id: dim.id, color: dim.color });
   });
 
   // ── animated energy beams from core → each dimension ──
@@ -78,23 +95,24 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   document.addEventListener('mouseover', e => { const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null; if (t) hoveredId = DIMENSIONS.find(d => d.route === t.getAttribute('data-go'))?.id ?? null; });
   document.addEventListener('mouseout', e => { if ((e.target as HTMLElement).closest('[data-go]')) hoveredId = null; });
 
-  // ── click an "Enter →" → fly to it → navigate ──
+  // ── click an "Enter →" → fly to it → navigate (a drag never counts as a click) ──
   let flying = false;
+  let downX = 0, downY = 0, moved = false;
+  document.addEventListener('pointerdown', e => { downX = e.clientX; downY = e.clientY; moved = false; }, { passive: true });
+  document.addEventListener('pointermove', e => { if (Math.hypot(e.clientX - downX, e.clientY - downY) > 6) moved = true; }, { passive: true });
   document.addEventListener('click', e => {
     const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null;
-    if (!t || flying) return;
+    if (!t || flying || moved) return;
     const route = t.getAttribute('data-go')!;
     const dim = DIMENSIONS.find(d => d.route === route)!;
     flying = true;
+    controls.enabled = false;
     document.querySelectorAll('.dim-label').forEach(l => (l as HTMLElement).style.opacity = '0');
     const center = (document.querySelector('.sm-center') as HTMLElement | null);
     if (center) center.style.opacity = '0';
     flyTo(camera, dim.position, () => { window.location.href = route; });
   });
 
-  // ── gentle mouse-look + drift ──
-  let mx = 0, my = 0;
-  document.addEventListener('mousemove', ev => { mx = ev.clientX / innerWidth - .5; my = ev.clientY / innerHeight - .5; }, { passive: true });
   const clock = new THREE.Clock();
   function animate() {
     requestAnimationFrame(animate);
@@ -108,23 +126,22 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     animateEnergyLines(energyLines, t, flying ? null : hoveredId);
     orbs.forEach((o, i) => {
       const hot = o.id === hoveredId;
-      o.glow.material.opacity = (0.6 + 0.3 * Math.sin(t * (1.2 + i * 0.4) + i)) * (hot ? 1.5 : 1);
+      // ── magnetic pull: reach for a dimension and it glides toward you ──
+      const target = hot ? o.home.clone().lerp(camera.position, 0.34) : o.home;
+      o.mesh.position.lerp(target, 0.08);
+      o.glow.material.opacity = (0.6 + 0.3 * Math.sin(t * (1.2 + i * 0.4) + i)) * (hot ? 1.6 : 1);
       o.mesh.rotation.y += 0.003;
       // depth: nearer cards bigger & brighter, hovered card pops
-      const dist = camera.position.distanceTo(o.pos);
-      const sc = THREE.MathUtils.clamp(64 / dist, 0.6, 1.2) * (hot ? 1.08 : 1);
+      const dist = camera.position.distanceTo(o.mesh.position);
+      const sc = THREE.MathUtils.clamp(64 / dist, 0.6, 1.5) * (hot ? 1.06 : 1);
       o.inner.style.transform = `scale(${sc.toFixed(3)})`;
-      o.inner.style.opacity = flying ? '0' : THREE.MathUtils.clamp(110 / dist, 0.5, 1).toFixed(2);
+      o.inner.style.opacity = flying ? '0' : THREE.MathUtils.clamp(120 / dist, 0.55, 1).toFixed(2);
       o.inner.style.boxShadow = hot ? `0 0 55px ${o.color}66` : '';
     });
     if (!flying) {
-      // gentle figure-8 drift + subtle mouse parallax (corners stay framed)
-      const dx = Math.sin(t * 0.1) * 1.5 + mx * 6;
-      const dy = Math.cos(t * 0.07) * 0.8 - my * 4;
-      camera.position.x += (dx - camera.position.x) * 0.04;
-      camera.position.y += (dy - camera.position.y) * 0.04;
-      camera.position.z += (20 - camera.position.z) * 0.04;
-      camera.lookAt(0, 0, 0);
+      // free, damped navigation — idle breath pauses the instant you reach a card or grab the view
+      controls.autoRotate = !dragging && !hoveredId;
+      controls.update();
     }
     composer.render();
     labelRenderer.render(scene, camera);
