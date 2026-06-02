@@ -9,6 +9,16 @@ let dimScrollP = 0;
 /** 0 (top) → 1 (scrolled a viewport) — drives the scroll-cinematic dimension cameras */
 export function setDimScroll(p: number) { dimScrollP = Math.max(0, Math.min(1, p)); }
 
+/** Shared soft round point texture → smooth particles everywhere */
+let _dot: THREE.Texture | null = null;
+function dotTexture() {
+  if (_dot) return _dot;
+  const cc = document.createElement('canvas'); cc.width = cc.height = 64; const g = cc.getContext('2d')!;
+  const rg = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  rg.addColorStop(0, 'rgba(255,255,255,1)'); rg.addColorStop(.45, 'rgba(255,255,255,.5)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, 64, 64); _dot = new THREE.CanvasTexture(cc); return _dot;
+}
+
 /** Cinematic bloom composer — the glow that makes it feel expensive */
 function makeBloom(renderer: THREE.WebGLRenderer, scene: THREE.Scene, cam: THREE.Camera, w: number, h: number, strength = 0.8, radius = 0.55, threshold = 0.12) {
   const comp = new EffectComposer(renderer);
@@ -409,7 +419,7 @@ function startFuture() {
     const c = pal[(Math.random() * pal.length) | 0]; pcc[i * 3] = c.r; pcc[i * 3 + 1] = c.g; pcc[i * 3 + 2] = c.b;
   }
   const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3)); pg.setAttribute('color', new THREE.BufferAttribute(pcc, 3));
-  earth.add(new THREE.Points(pg, new THREE.PointsMaterial({ vertexColors: true, size: 0.13, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
+  earth.add(new THREE.Points(pg, new THREE.PointsMaterial({ map: dotTexture(), vertexColors: true, size: 0.2, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
 
   // Tesla towers on the surface + glowing tips
   const towers: THREE.Vector3[] = [];
@@ -437,7 +447,7 @@ function startFuture() {
   const SN = 900, sps = new Float32Array(SN * 3);
   for (let i = 0; i < SN; i++) { const v = new THREE.Vector3(Math.random() - .5, Math.random() - .5, Math.random() - .5).normalize().multiplyScalar(45 + Math.random() * 45); sps[i * 3] = v.x; sps[i * 3 + 1] = v.y; sps[i * 3 + 2] = v.z; }
   const sgg = new THREE.BufferGeometry(); sgg.setAttribute('position', new THREE.BufferAttribute(sps, 3));
-  scene.add(new THREE.Points(sgg, new THREE.PointsMaterial({ color: 0xBFD4FF, size: 0.18, transparent: true, opacity: 0.7 })));
+  scene.add(new THREE.Points(sgg, new THREE.PointsMaterial({ map: dotTexture(), color: 0xBFD4FF, size: 0.28, transparent: true, opacity: 0.75, depthWrite: false })));
 
   let mx = 0, my = 0;
   document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
