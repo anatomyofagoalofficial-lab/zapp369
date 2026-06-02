@@ -1,10 +1,23 @@
 import * as THREE from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 const started = new Set<string>();
 
 let dimScrollP = 0;
 /** 0 (top) → 1 (scrolled a viewport) — drives the scroll-cinematic dimension cameras */
 export function setDimScroll(p: number) { dimScrollP = Math.max(0, Math.min(1, p)); }
+
+/** Cinematic bloom composer — the glow that makes it feel expensive */
+function makeBloom(renderer: THREE.WebGLRenderer, scene: THREE.Scene, cam: THREE.Camera, w: number, h: number, strength = 0.8, radius = 0.55, threshold = 0.12) {
+  const comp = new EffectComposer(renderer);
+  comp.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  comp.setSize(w || 1, h || 1);
+  comp.addPass(new RenderPass(scene, cam));
+  comp.addPass(new UnrealBloomPass(new THREE.Vector2(w || 1, h || 1), strength, radius, threshold));
+  return comp;
+}
 
 /* HUB — electric arcs over the logo (2D canvas) */
 export function startHubArcs() {
@@ -64,6 +77,14 @@ export function startHubVortex() {
   const scene = new THREE.Scene();
   const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, .1, 1200);
   cam.position.z = 6;
+
+  // cinematic bloom — the "$150k" glow
+  const composer = new EffectComposer(renderer);
+  composer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  composer.setSize(innerWidth, innerHeight);
+  composer.addPass(new RenderPass(scene, cam));
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.85, 0.55, 0.12);
+  composer.addPass(bloom);
 
   // ── Infinite travelling starfield (recycles in z → endless) ──
   const SN = 6000, DEPTH = 460;
@@ -189,9 +210,9 @@ export function startHubVortex() {
     cam.position.z += ((6 - warpAmt * 5.5) - cam.position.z) * 0.14;
     cam.lookAt(0, 0, GZ);
     warpAmt *= 0.93; if (warpAmt < 0.001) warpAmt = 0;
-    renderer.render(scene, cam);
+    composer.render();
   })();
-  window.addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); });
+  window.addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); });
 }
 
 export function startDimCanvas(name: string) {
@@ -211,7 +232,8 @@ function startPast() {
   scene.fog = new THREE.FogExp2(0x0e0a05, 0.015);
   const cam = new THREE.PerspectiveCamera(56, 1, 0.1, 500);
   cam.position.set(3, 7, 27);
-  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); composer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const composer = makeBloom(renderer, scene, cam, par.getBoundingClientRect().width, par.getBoundingClientRect().height, 1.05, 0.6, 0.0);
 
   const basic = (col: number, opts: THREE.MeshBasicMaterialParameters = {}) => new THREE.MeshBasicMaterial({ color: col, ...opts });
   const lineMat = new THREE.LineBasicMaterial({ color: 0x5a4426, transparent: true, opacity: 0.4 });
@@ -291,7 +313,7 @@ function startPast() {
     cam.position.y += (ty - cam.position.y) * 0.06;
     cam.position.z += (tz - cam.position.z) * 0.06;
     cam.lookAt(TX, 11.5 - sp * 8.4, TZ);
-    renderer.render(scene, cam);
+    composer.render();
   }
   resize(); window.addEventListener('resize', resize); rebuild(); anim();
 }
@@ -303,6 +325,7 @@ function startPresent() {
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(W(), H());
   const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(50, W() / H(), .1, 200); cam.position.z = 10;
+  const composer = makeBloom(renderer, scene, cam, W(), H(), 0.75, 0.5, 0.08);
 
   // ── Solana node network (sphere) ──
   const ng = new THREE.Group(); scene.add(ng);
@@ -346,7 +369,7 @@ function startPresent() {
     cam.position.y += ((-my * 1.5) - cam.position.y) * 0.04;
     cam.position.z += ((10 - sp * 3) - cam.position.z) * 0.05;
     cam.lookAt(0, 0, 0);
-    renderer.render(scene, cam);
+    composer.render();
   })();
 }
 
@@ -357,7 +380,8 @@ function startFuture() {
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   const scene = new THREE.Scene();
   const cam = new THREE.PerspectiveCamera(50, 1, 0.1, 240); cam.position.set(0, 1, 22);
-  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); composer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
+  const composer = makeBloom(renderer, scene, cam, par.getBoundingClientRect().width, par.getBoundingClientRect().height, 0.85, 0.55, 0.05);
 
   const earth = new THREE.Group(); scene.add(earth);
   const R = 6.2;
@@ -422,7 +446,7 @@ function startFuture() {
     cam.position.z += (Math.cos(ang) * rad - cam.position.z) * 0.05;
     cam.position.y += ((1 - my * 2 + sp * 3) - cam.position.y) * 0.05;
     cam.lookAt(0, 0, 0);
-    renderer.render(scene, cam);
+    composer.render();
   }
   resize(); window.addEventListener('resize', resize); anim();
 }
