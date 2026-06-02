@@ -3,10 +3,16 @@ const PUMP = 'https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump
 ---
 <nav id="dim-nav">
   <a href="#" class="dn-logo" data-hub><span>⚡</span>ZAPP</a>
-  <ul class="dn-links">
-    <li><a href="#" data-hub>↩ Hub</a></li>
-    <li><a href="#buy-section" data-scroll-buy>Buy</a></li>
-    <li><span id="dn-price"></span></li>
-  </ul>
-  <a href={PUMP} target="_blank" rel="noopener" class="dn-buy">Buy ⚡ZAPP</a>
+  <div class="dn-era" role="navigation" aria-label="Timeline">
+    <button type="button" data-era="past">3 · Past</button>
+    <span class="dn-era-line" aria-hidden="true"></span>
+    <button type="button" data-era="present">6 · Present</button>
+    <span class="dn-era-line" aria-hidden="true"></span>
+    <button type="button" data-era="future">9 · Future</button>
+  </div>
+  <div class="dn-right">
+    <a href="#" class="dn-link" data-hub>↩ Hub</a>
+    <span id="dn-price"></span>
+    <a href={PUMP} target="_blank" rel="noopener" class="dn-buy">Buy ⚡ZAPP</a>
+  </div>
 </nav>

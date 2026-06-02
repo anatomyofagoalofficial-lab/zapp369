@@ -97,6 +97,8 @@ function showPage(id: string) {
     document.body.classList.add('scrollable');
     lenis?.scrollTo(0, { immediate: true }); lenis?.start();
     window.scrollTo(0, 0);
+    const era = id.replace('dim-', '');
+    document.querySelectorAll('.dn-era [data-era]').forEach(b => b.classList.toggle('on', b.getAttribute('data-era') === era));
     setTimeout(() => { initReveals(); initVideos(); buildParallax(id); }, 100);
   } else {
     document.body.classList.remove('scrollable');
@@ -125,6 +127,50 @@ function enterDimension(name: string) {
   withOverlay(DIM_COLORS[name] || '#000', () => { showPage('dim-' + name); startDimCanvas(name); }, .55);
 }
 function backToHub() { withOverlay('#000', () => showPage('hub'), .4); }
+
+/* ───────── Time-travel between eras (past ↔ present ↔ future) ───────── */
+const ERA_ORDER: Record<string, number> = { past: 0, present: 1, future: 2 };
+const ERA_TINT: Record<string, string> = { past: '#C8862A', present: '#3E7EBC', future: '#7C3AED' };
+function timeWarp(dir: number, tint: string, mid: () => void) {
+  if (prefersReducedMotion()) { mid(); return; }
+  const cv = document.createElement('canvas');
+  cv.style.cssText = 'position:fixed;inset:0;z-index:1200;pointer-events:none';
+  document.body.appendChild(cv);
+  const c = cv.getContext('2d')!;
+  const W = cv.width = innerWidth, H = cv.height = innerHeight;
+  const cx = W / 2, cy = H / 2, maxR = Math.hypot(W, H) / 2;
+  const st: { a: number; r: number; sp: number; col: string }[] = [];
+  for (let i = 0; i < 150; i++) st.push({ a: Math.random() * Math.PI * 2, r: dir < 0 ? maxR * (0.5 + Math.random() * 0.6) : Math.random() * maxR * 0.4, sp: 4 + Math.random() * 16, col: Math.random() < .6 ? '#FFD700' : (Math.random() < .5 ? '#fff' : tint) });
+  const t0 = performance.now(), DUR = 840; let swapped = false, raf = 0;
+  function frame(now: number) {
+    const p = Math.min(1, (now - t0) / DUR);
+    c.clearRect(0, 0, W, H);
+    c.fillStyle = `rgba(4,2,8,${0.12 + 0.55 * p})`; c.fillRect(0, 0, W, H);
+    const acc = 1 + p * p * 13;
+    for (const s of st) {
+      const r2 = s.r + s.sp * (6 + p * 28);
+      c.beginPath();
+      c.moveTo(cx + Math.cos(s.a) * s.r, cy + Math.sin(s.a) * s.r);
+      c.lineTo(cx + Math.cos(s.a) * r2, cy + Math.sin(s.a) * r2);
+      c.strokeStyle = s.col; c.globalAlpha = 0.45 + 0.55 * p; c.lineWidth = 1 + p * 1.8; c.shadowBlur = 8; c.shadowColor = s.col; c.stroke();
+      s.r += s.sp * acc * dir;
+      if (s.r > maxR * 1.25) s.r = 0; else if (s.r < 0) s.r = maxR;
+    }
+    c.globalAlpha = 1; c.shadowBlur = 0;
+    if (p >= 0.5 && !swapped) { swapped = true; mid(); c.fillStyle = 'rgba(255,255,255,.92)'; c.fillRect(0, 0, W, H); }
+    if (p >= 1) { cancelAnimationFrame(raf); cv.remove(); return; }
+    raf = requestAnimationFrame(frame);
+  }
+  raf = requestAnimationFrame(frame);
+}
+function timeTravel(name: string) {
+  if (currentPage === 'dim-' + name) return;
+  if (currentPage === 'hub') { enterDimension(name); return; }
+  const cur = currentPage.replace('dim-', '');
+  const dir = (ERA_ORDER[name] ?? 1) >= (ERA_ORDER[cur] ?? 1) ? 1 : -1;
+  document.querySelectorAll('.dn-era [data-era]').forEach(b => b.classList.toggle('on', b.getAttribute('data-era') === name));
+  timeWarp(dir, ERA_TINT[name] || '#FFD700', () => { showPage('dim-' + name); startDimCanvas(name); });
+}
 
 /* ───────── Live price data ───────── */
 let livePrice = 0;
@@ -159,9 +205,10 @@ async function fetchData() {
 function wire() {
   // portals + hub buttons (delegated)
   document.addEventListener('click', e => {
-    const t = (e.target as HTMLElement).closest('[data-dim],[data-hub],[data-copy-ca],[data-scroll-buy],[data-sc]') as HTMLElement | null;
+    const t = (e.target as HTMLElement).closest('[data-dim],[data-era],[data-hub],[data-copy-ca],[data-scroll-buy],[data-sc]') as HTMLElement | null;
     if (!t) return;
     if (t.hasAttribute('data-dim')) { e.preventDefault(); enterDimension(t.getAttribute('data-dim')!); }
+    else if (t.hasAttribute('data-era')) { e.preventDefault(); timeTravel(t.getAttribute('data-era')!); }
     else if (t.hasAttribute('data-hub')) { e.preventDefault(); backToHub(); }
     else if (t.hasAttribute('data-copy-ca')) { navigator.clipboard.writeText(CA).then(() => { const m = document.getElementById('ca-msg'); if (m) { m.textContent = '✓ Copied!'; m.style.opacity = '1'; setTimeout(() => m.style.opacity = '0', 2500); } }); }
     else if (t.hasAttribute('data-scroll-buy')) { e.preventDefault(); const b = document.querySelector('.page.active #buy-section'); if (b) lenis ? lenis.scrollTo(b as HTMLElement) : (b as HTMLElement).scrollIntoView({ behavior: 'smooth' }); }
