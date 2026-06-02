@@ -1,28 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
 import Cursor from '../components/Cursor.astro';
-import Intro from '../components/Intro.astro';
-import DimNav from '../components/DimNav.astro';
 import SoundToggle from '../components/SoundToggle.astro';
-import Hub from '../components/Hub.astro';
-import Past from '../components/Past.astro';
-import Present from '../components/Present.astro';
-import Future from '../components/Future.astro';
-import Winter from '../components/Winter.astro';
 ---
 <Base>
   <Cursor />
-  <Intro />
-  <DimNav />
   <SoundToggle />
 
-  <Hub />
-  <Past />
-  <Present />
-  <Future />
-  <Winter />
+  <div id="starmap-wrap">
+    <canvas id="starmap"></canvas>
+    <div class="sm-center">
+      <h1 class="sm-logo">⚡ZAPP</h1>
+      <div class="sm-369">3 · 6 · 9 · ∞</div>
+      <div class="sm-tag">Tesla's Revolution</div>
+      <div class="sm-sub">Choose your dimension</div>
+    </div>
+  </div>
 
   <script>
-    import '../scripts/main';
+    import { initStarMap } from '../scene/star-map';
+    import { initCursor } from '../scripts/ui';
+    import { initSound } from '../scripts/sound';
+    const cv = document.getElementById('starmap') as HTMLCanvasElement;
+    if (cv) initStarMap(cv);
+    initCursor();
+    initSound();
   </script>
 </Base>

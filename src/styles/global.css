@@ -101,38 +101,40 @@ html.lenis,html.lenis body{height:auto}
    Past ↖ top-left · Present ↙ bottom-left · Future ↘ bottom-right */
 @media(min-width:901px){
   #hub{justify-content:center}
-  #hub .portals{position:absolute;inset:0;display:block;max-width:none;width:100%;height:100%;padding:0;margin:0;pointer-events:none}
-  #hub .portal{position:absolute;width:clamp(230px,19vw,278px);min-height:0;padding:1.7rem 1.6rem;pointer-events:auto}
-  #hub .portal.past{top:6.2rem;left:3.5vw}
-  #hub .portal.present{bottom:4.5rem;left:3.5vw}
-  #hub .portal.future{bottom:4.5rem;right:3.5vw}
+  /* 3·6·9 triangle, polar around the centre: 3 top-left (210°) · 9 top-right (330°) · 6 bottom (90°) */
+  #hub .portals{position:absolute;inset:0;display:block;max-width:none;width:100%;height:100%;padding:0;margin:0;pointer-events:none;--tri-radius:38vmin}
+  #hub .portal{position:absolute;width:clamp(228px,18vw,272px);min-height:0;padding:1.65rem 1.55rem;pointer-events:auto;transform:translate(-50%,-50%)}
+  #hub .portal.past{left:calc(50vw + var(--tri-radius) * cos(210deg));top:calc(50vh + var(--tri-radius) * sin(210deg))}
+  #hub .portal.future{left:calc(50vw + var(--tri-radius) * cos(330deg));top:calc(50vh + var(--tri-radius) * sin(330deg))}
+  #hub .portal.present{left:calc(50vw + var(--tri-radius) * cos(90deg));top:calc(50vh + var(--tri-radius) * sin(90deg))}
+  #hub .portal:hover{transform:translate(-50%,-50%) translateY(-14px) scale(1.03)}
 }
-.portal{border-radius:20px;padding:2.2rem 1.8rem;cursor:pointer;transition:all .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;align-items:center;gap:.85rem;text-align:center;position:relative;overflow:hidden;border:1px solid transparent;backdrop-filter:blur(12px);min-height:235px;justify-content:center}
+.portal{border-radius:18px;padding:2.2rem 1.8rem;cursor:pointer;transition:all .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;align-items:center;gap:.85rem;text-align:center;position:relative;overflow:hidden;border:1px solid transparent;backdrop-filter:blur(14px) saturate(140%);min-height:235px;justify-content:center;box-shadow:0 0 40px rgba(255,200,80,.06),inset 0 1px 0 rgba(255,255,255,.06)}
 .portal::before{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;transition:opacity .4s}
 .portal::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;opacity:0;transition:opacity .4s}
 .portal:hover{transform:translateY(-12px) scale(1.03)}
 .portal:hover::before{opacity:1}
 .portal:hover::after{opacity:1}
-.portal.past{background:linear-gradient(160deg,rgba(184,115,51,.12),rgba(12,6,0,.6));border-color:rgba(184,115,51,.3)}
+.portal.past{background:linear-gradient(160deg,rgba(48,28,10,.6),rgba(10,8,18,.82));border-color:rgba(232,200,120,.34)}
 .portal.past::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(184,115,51,.25),transparent 65%)}
 .portal.past::after{background:linear-gradient(90deg,transparent,rgba(184,115,51,.7),transparent)}
 .portal.past:hover{box-shadow:0 28px 80px rgba(184,115,51,.35),0 0 0 1px rgba(184,115,51,.5),inset 0 1px 0 rgba(232,200,120,.2)}
-.portal.present{background:linear-gradient(160deg,rgba(255,215,0,.1),rgba(5,2,8,.6));border-color:rgba(255,215,0,.25)}
+.portal.present{background:linear-gradient(160deg,rgba(62,48,10,.55),rgba(10,8,18,.82));border-color:rgba(255,215,100,.32)}
 .portal.present::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,215,0,.22),transparent 65%)}
 .portal.present::after{background:linear-gradient(90deg,transparent,rgba(255,215,0,.7),transparent)}
 .portal.present:hover{box-shadow:0 28px 80px rgba(255,215,0,.28),0 0 0 1px rgba(255,215,0,.45),inset 0 1px 0 rgba(255,240,150,.2)}
-.portal.future{background:linear-gradient(160deg,rgba(124,58,237,.12),rgba(2,2,10,.6));border-color:rgba(124,58,237,.3)}
+.portal.future{background:linear-gradient(160deg,rgba(42,28,72,.55),rgba(8,7,18,.82));border-color:rgba(196,181,253,.36)}
 .portal.future::before{background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(124,58,237,.25),transparent 65%)}
 .portal.future::after{background:linear-gradient(90deg,transparent,rgba(124,58,237,.7),transparent)}
 .portal.future:hover{box-shadow:0 28px 80px rgba(124,58,237,.35),0 0 0 1px rgba(124,58,237,.5),inset 0 1px 0 rgba(196,181,253,.2)}
 
 .portal-icon{font-size:3rem;line-height:1;filter:drop-shadow(0 0 16px currentColor)}
-.portal-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;opacity:.4}
+.portal-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.55)}
 .portal-name{font-family:var(--serif);font-size:2rem;font-weight:600;line-height:1}
 .portal.past .portal-name{color:#E8C878;text-shadow:0 0 30px rgba(232,200,120,.4)}
 .portal.present .portal-name{color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,.4)}
 .portal.future .portal-name{color:#C4B5FD;text-shadow:0 0 30px rgba(196,181,253,.4)}
-.portal-desc{font-size:.82rem;line-height:1.65;opacity:.42;max-width:24ch}
+.portal-desc{font-size:.84rem;line-height:1.55;color:rgba(245,240,230,.88);max-width:24ch}
 .portal-enter{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;opacity:0;transform:translateY(6px);transition:all .35s;color:var(--gold)}
 .portal:hover .portal-enter{opacity:.7;transform:translateY(0)}
 @media(max-width:700px){
@@ -495,3 +497,21 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 .bl{position:relative}
 .bl::before{content:'';position:absolute;left:1.4rem;right:1.4rem;bottom:.32rem;height:1px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .35s ease;opacity:.6}
 .bl:hover::before{transform:scaleX(1)}
+
+/* ══════════ STAR MAP (landing) ══════════ */
+#starmap-wrap{position:fixed;inset:0;background:radial-gradient(ellipse 72% 60% at 50% 45%,#0b0820,#04030f 70%,#010007)}
+#starmap{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:1}
+.sm-center{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;text-align:center;pointer-events:none;max-width:90vw;padding:46px 84px;background:radial-gradient(ellipse at center,rgba(8,6,16,.66) 0%,rgba(8,6,16,.34) 42%,rgba(8,6,16,0) 75%)}
+.sm-logo{font-family:var(--serif);font-weight:700;font-size:clamp(2.4rem,6.5vw,4.6rem);line-height:.9;letter-spacing:-.02em;white-space:nowrap;background:linear-gradient(170deg,#FFF8E6,#FFE9A8 30%,#E8C84A 55%,#C8960A 80%,#8A5E0A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 24px rgba(255,232,144,.4)) drop-shadow(0 2px 6px rgba(0,0,0,.85))}
+.sm-369{font-family:var(--mono);font-size:clamp(.7rem,1.5vw,1rem);letter-spacing:.6em;padding-left:.6em;color:#FFDA6E;text-shadow:0 0 18px rgba(255,200,60,.6);margin-top:.45rem}
+.sm-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(255,243,210,.72);margin-top:1.2rem;text-shadow:0 1px 10px rgba(0,0,0,.9)}
+.sm-sub{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,2vw,1.45rem);color:rgba(255,255,255,.62);margin-top:.35rem;text-shadow:0 1px 12px rgba(0,0,0,.9)}
+
+/* floating dimension labels (CSS2D) */
+.dim-label{background:rgba(10,8,20,.78);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border:1px solid rgba(255,215,100,.3);border-radius:16px;padding:15px 19px;min-width:220px;text-align:center;color:rgba(245,240,230,.92);box-shadow:0 18px 50px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06);transition:opacity .5s ease;font-family:var(--sans)}
+.dim-label-meta{font-size:10px;letter-spacing:.18em;opacity:.6;text-transform:uppercase}
+.dim-label-title{font-family:var(--serif);font-size:1.45rem;font-weight:600;margin:.3rem 0}
+.dim-label-desc{font-size:.78rem;line-height:1.5;color:rgba(245,240,230,.6);margin:.2rem auto .75rem;max-width:24ch}
+.dim-label-cta{background:transparent;border:1px solid;padding:7px 16px;border-radius:20px;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:.14em;transition:all .3s}
+.dim-label-cta:hover{background:rgba(255,215,120,.14);box-shadow:0 0 20px rgba(255,215,120,.25)}
+@media(hover:none){.dim-label{min-width:160px;padding:11px 13px}.dim-label-desc{display:none}}

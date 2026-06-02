@@ -154,6 +154,26 @@ export function startHubVortex() {
 
   void softTex; // (nebula bubbles removed — the bloom + colored galaxy points carry the colour now)
 
+  // ── Distant planets — make it feel like a universe ──
+  const planets: THREE.Object3D[] = [];
+  function addPlanet(x: number, y: number, z: number, R: number, lit: string, dark: string, ring?: string) {
+    const cc = document.createElement('canvas'); cc.width = cc.height = 128; const g = cc.getContext('2d')!;
+    g.fillStyle = dark; g.fillRect(0, 0, 128, 128);
+    const rg = g.createRadialGradient(42, 40, 4, 70, 70, 100);
+    rg.addColorStop(0, lit); rg.addColorStop(.45, lit); rg.addColorStop(1, dark);
+    g.fillStyle = rg; g.fillRect(0, 0, 128, 128);
+    const planet = new THREE.Mesh(new THREE.SphereGeometry(R, 30, 22), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cc) }));
+    planet.position.set(x, y, z);
+    planet.add(new THREE.Mesh(new THREE.SphereGeometry(R * 1.16, 24, 16), new THREE.MeshBasicMaterial({ color: lit, transparent: true, opacity: 0.14, side: THREE.BackSide, blending: THREE.AdditiveBlending })));
+    if (ring) { const rm = new THREE.Mesh(new THREE.TorusGeometry(R * 1.8, R * 0.1, 2, 60), new THREE.MeshBasicMaterial({ color: ring, transparent: true, opacity: 0.55 })); rm.rotation.x = Math.PI * 0.44; rm.rotation.y = 0.3; planet.add(rm); }
+    planet.userData.sp = 0.0006 + Math.random() * 0.0008;
+    scene.add(planet); planets.push(planet);
+  }
+  addPlanet(44, 22, -82, 5.5, '#FFD9A0', '#4a2f0e', '#E8C078'); // amber gas giant + ring
+  addPlanet(-46, -20, -98, 7, '#A8CCFF', '#10233f');           // blue world
+  addPlanet(-34, 30, -70, 2.8, '#E2A6FF', '#3a1550');          // small violet
+  addPlanet(50, -30, -120, 4, '#FFB3A0', '#3a140c');           // distant red
+
   // ── Shooting stars ──
   interface Shoot { line: THREE.Line; mat: THREE.LineBasicMaterial; life: number; vx: number; vy: number; vz: number; }
   const shoot: Shoot[] = [];
@@ -191,6 +211,7 @@ export function startHubVortex() {
     starMat.size = 0.5 + warpAmt * 1.6;
     galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
     galaxy.rotation.x += ((-0.42 + my * 0.14) - galaxy.rotation.x) * 0.04;
+    for (const pl of planets) pl.rotation.y += pl.userData.sp;
 
     // shooting stars
     if (Math.random() < 0.028 && shoot.length < 6) spawnShoot();
