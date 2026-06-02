@@ -99,10 +99,6 @@ export function startHubVortex() {
   galaxy.position.z = GZ; galaxy.rotation.x = -1.15;
   scene.add(galaxy);
 
-  // glowing galactic core behind the logo
-  const core = new THREE.Mesh(new THREE.SphereGeometry(1.4, 18, 18), new THREE.MeshBasicMaterial({ color: 0xFFE3A0, transparent: true, opacity: .45, blending: THREE.AdditiveBlending }));
-  core.position.z = GZ; scene.add(core);
-
   let mx = 0, my = 0;
   document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
 
@@ -126,7 +122,6 @@ export function startHubVortex() {
     sg.attributes.position.needsUpdate = true;
     starMat.size = 0.5 + warpAmt * 1.6;
     galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
-    core.scale.setScalar(1 + 0.14 * Math.sin(tt * 1.6) + warpAmt * 2.2);
     // parallax + warp dolly forward (fly into the distance), drift toward the chosen era
     cam.position.x += ((mx * 1.3 + warpDir * warpAmt * 2.4) - cam.position.x) * 0.05;
     cam.position.y += (-my * 1.05 - cam.position.y) * 0.05;
