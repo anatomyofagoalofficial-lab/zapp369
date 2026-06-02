@@ -300,15 +300,54 @@ function startPresent() {
   const cv = document.getElementById('present-canvas') as HTMLCanvasElement | null; if (!cv) return;
   const par = document.getElementById('dim-present') as HTMLElement;
   const W = () => par.offsetWidth || innerWidth, H = () => par.scrollHeight || innerHeight;
-  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: false });
+  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(W(), H());
   const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(50, W() / H(), .1, 200); cam.position.z = 10;
-  scene.add(new THREE.Mesh(new THREE.SphereGeometry(3.2, 28, 18), new THREE.MeshBasicMaterial({ color: 0xCFE8FF, wireframe: true, transparent: true, opacity: .14 })));
-  const ng = new THREE.Group(); scene.add(ng); const npts: THREE.Vector3[] = [], nc = 80;
-  for (let i = 0; i < nc; i++) { const phi = Math.acos(-1 + 2 * i / nc), theta = Math.sqrt(nc * Math.PI) * phi; const x = 3.2 * Math.sin(phi) * Math.cos(theta), y = 3.2 * Math.cos(phi), z = 3.2 * Math.sin(phi) * Math.sin(theta); npts.push(new THREE.Vector3(x, y, z)); const nm = new THREE.Mesh(new THREE.SphereGeometry(.06, 6, 4), new THREE.MeshBasicMaterial({ color: 0xEAF3FC, transparent: true, opacity: .7 })); nm.position.set(x, y, z); nm.userData.ph = Math.random() * Math.PI * 2; ng.add(nm); }
-  const cp: number[] = []; for (let i = 0; i < nc; i++) for (let j = i + 1; j < nc; j++) if (npts[i].distanceTo(npts[j]) < 1.55) cp.push(npts[i].x, npts[i].y, npts[i].z, npts[j].x, npts[j].y, npts[j].z);
-  const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(cp), 3)); scene.add(new THREE.LineSegments(cg, new THREE.LineBasicMaterial({ color: 0xCFE8FF, transparent: true, opacity: .2 })));
-  let t = 0; (function anim() { requestAnimationFrame(anim); t += .004; ng.rotation.y = t * .09; ng.children.forEach(n => { if (n.userData.ph !== undefined) n.scale.setScalar(.65 + .55 * Math.sin(t * 2 + n.userData.ph)); }); renderer.render(scene, cam); })();
+
+  // ── Solana node network (sphere) ──
+  const ng = new THREE.Group(); scene.add(ng);
+  const npts: THREE.Vector3[] = [], nc = 92, RAD = 3.4;
+  for (let i = 0; i < nc; i++) {
+    const y = 1 - (i / (nc - 1)) * 2, rr = Math.sqrt(Math.max(0, 1 - y * y)), th = i * 2.399963;
+    const v = new THREE.Vector3(Math.cos(th) * rr, y, Math.sin(th) * rr).multiplyScalar(RAD); npts.push(v);
+    const nm = new THREE.Mesh(new THREE.SphereGeometry(.055, 6, 5), new THREE.MeshBasicMaterial({ color: 0xEAF3FC, transparent: true, opacity: .8 }));
+    nm.position.copy(v); nm.userData.ph = Math.random() * Math.PI * 2; ng.add(nm);
+  }
+  const pairs: [THREE.Vector3, THREE.Vector3][] = [];
+  const cp: number[] = [];
+  for (let i = 0; i < nc; i++) for (let j = i + 1; j < nc; j++) if (npts[i].distanceTo(npts[j]) < 1.7) { cp.push(npts[i].x, npts[i].y, npts[i].z, npts[j].x, npts[j].y, npts[j].z); if (pairs.length < 30 && Math.random() < .3) pairs.push([npts[i], npts[j]]); }
+  const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(cp), 3));
+  ng.add(new THREE.LineSegments(cg, new THREE.LineBasicMaterial({ color: 0xBFE0FF, transparent: true, opacity: .22 })));
+
+  // ── central emitter core ──
+  const core = new THREE.Mesh(new THREE.SphereGeometry(.4, 18, 18), new THREE.MeshBasicMaterial({ color: 0xEAF6FF, transparent: true, opacity: .95, blending: THREE.AdditiveBlending })); scene.add(core);
+
+  // ── broadcasting waves — expanding shells radiating from the core ──
+  const rings: THREE.Mesh[] = [];
+  for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 26, 16), new THREE.MeshBasicMaterial({ color: 0xBFE0FF, wireframe: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending })); m.userData.r = i / 4; scene.add(m); rings.push(m); }
+
+  // ── energy packets travelling between nodes ──
+  const packets = pairs.slice(0, 18).map(p => { const m = new THREE.Mesh(new THREE.SphereGeometry(.07, 6, 6), new THREE.MeshBasicMaterial({ color: 0xFFFFFF, transparent: true, opacity: .95, blending: THREE.AdditiveBlending })); scene.add(m); return { m, a: p[0], b: p[1], t: Math.random(), sp: .006 + Math.random() * .01 }; });
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
+  let t = 0;
+  (function anim() {
+    requestAnimationFrame(anim);
+    if (!document.getElementById('dim-present')?.classList.contains('active')) return;
+    t += .006;
+    ng.rotation.y = t * .12; ng.rotation.x = -0.1 + my * 0.15;
+    ng.children.forEach(n => { if (n.userData.ph !== undefined) n.scale.setScalar(.6 + .6 * Math.sin(t * 2 + n.userData.ph)); });
+    core.scale.setScalar(1 + .3 * Math.sin(t * 4));
+    rings.forEach(m => { let r = m.userData.r + t * 0.18; r %= 1; const s = r * 9 + 0.2; m.scale.setScalar(s); (m.material as THREE.MeshBasicMaterial).opacity = Math.max(0, (1 - r) * 0.3); m.rotation.copy(ng.rotation); });
+    packets.forEach(p => { p.t += p.sp; if (p.t > 1) p.t -= 1; p.m.position.lerpVectors(p.a, p.b, p.t).applyEuler(ng.rotation); });
+    const sp = dimScrollP;
+    cam.position.x += ((mx * 2) - cam.position.x) * 0.04;
+    cam.position.y += ((-my * 1.5) - cam.position.y) * 0.04;
+    cam.position.z += ((10 - sp * 3) - cam.position.z) * 0.05;
+    cam.lookAt(0, 0, 0);
+    renderer.render(scene, cam);
+  })();
 }
 
 function startFuture() {
