@@ -11,7 +11,7 @@ function softGlow(): THREE.Texture {
 
 export function buildZappCore(scene: THREE.Scene) {
   const group = new THREE.Group();
-  group.scale.setScalar(2.6); // modest — camera sits close (z≈20); bloom does the glowing
+  group.scale.setScalar(1.6); // small — sits inside the cleared galaxy core, behind the logo
 
   // 1. Inner crystalline core — small, sharp, bright
   const core = new THREE.Mesh(
@@ -31,7 +31,7 @@ export function buildZappCore(scene: THREE.Scene) {
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({
     map: softGlow(), color: 0xFFE890, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false,
   }));
-  glow.scale.set(2, 2, 1);
+  glow.scale.set(1.5, 1.5, 1);
   group.add(glow);
 
   // 4. Lightning arcs — the ZAPP signature
