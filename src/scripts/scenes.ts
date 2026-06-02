@@ -47,29 +47,94 @@ export function startHubArcs() {
   })();
 }
 
-/* HUB — 3D vortex */
+/* HUB — infinite galaxy with warp-travel into each dimension */
+let _warpHub: ((dir: number) => void) | null = null;
+/** Trigger a warp toward a dimension. dir: -1 past · 0 present · +1 future */
+export function warpHub(dir = 0) { _warpHub?.(dir); }
+
 export function startHubVortex() {
   const cv = document.getElementById('hub-cv') as HTMLCanvasElement | null;
   if (!cv) return;
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight);
-  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, .1, 200);
-  cam.position.z = 7;
-  const tkg = new THREE.TorusKnotGeometry(2, 0.5, 128, 16);
-  const tkm = new THREE.MeshBasicMaterial({ color: 0x7C3AED, wireframe: true, transparent: true, opacity: .18 });
-  const tk = new THREE.Mesh(tkg, tkm); scene.add(tk);
-  ([[3.5, .012, 100, 0xFFD700, .1], [4.2, .009, 80, 0x9945FF, .08], [2.8, .008, 60, 0x06B6D4, .09]] as const).forEach(([r, t, s, c, op]) => {
-    const m = new THREE.Mesh(new THREE.TorusGeometry(r, t, 4, s), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: op, blending: THREE.AdditiveBlending }));
-    m.rotation.x = Math.PI * (Math.random() * .5 + .2); scene.add(m); m.userData.sp = (Math.random() - .5) * .008;
-  });
-  const N = 1500, pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
-  const COLS = [new THREE.Color(0xFFD700), new THREE.Color(0x9945FF), new THREE.Color(0x06B6D4), new THREE.Color(0xEC4899)];
-  for (let i = 0; i < N; i++) { const a = Math.random() * Math.PI * 2, r = 2 + Math.random() * 6, h = (Math.random() - .5) * 8; pos[i * 3] = Math.cos(a) * r; pos[i * 3 + 1] = h; pos[i * 3 + 2] = Math.sin(a) * r; const c = COLS[Math.floor(Math.random() * COLS.length)]; col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b; }
-  const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pos, 3)); pg.setAttribute('color', new THREE.BufferAttribute(col, 3));
-  scene.add(new THREE.Points(pg, new THREE.PointsMaterial({ vertexColors: true, size: .05, transparent: true, opacity: .55, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
-  let mxn = 0;
-  document.addEventListener('mousemove', e => { mxn = (e.clientX / innerWidth - .5) * .5; }, { passive: true });
-  (function anim() { requestAnimationFrame(anim); tk.rotation.x += .004; tk.rotation.y += .006; scene.children.filter(c => c.type === 'Mesh' && (c as THREE.Mesh).geometry.type === 'TorusGeometry').forEach(m => m.rotation.z += m.userData.sp || 0); cam.position.x += (mxn - cam.position.x) * .04; cam.lookAt(0, 0, 0); renderer.render(scene, cam); })();
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, .1, 1200);
+  cam.position.z = 6;
+
+  // ── Infinite travelling starfield (recycles in z → endless) ──
+  const SN = 4200, DEPTH = 460;
+  const sp = new Float32Array(SN * 3), sc = new Float32Array(SN * 3);
+  const PAL = [new THREE.Color(0xFFFFFF), new THREE.Color(0xFFE08A), new THREE.Color(0xBFD4FF), new THREE.Color(0xC9A8FF), new THREE.Color(0x8FE6FF)];
+  for (let i = 0; i < SN; i++) {
+    sp[i * 3] = (Math.random() - .5) * 170;
+    sp[i * 3 + 1] = (Math.random() - .5) * 130;
+    sp[i * 3 + 2] = -Math.random() * DEPTH;
+    const c = PAL[Math.random() < .58 ? 0 : Math.floor(Math.random() * PAL.length)];
+    sc[i * 3] = c.r; sc[i * 3 + 1] = c.g; sc[i * 3 + 2] = c.b;
+  }
+  const sg = new THREE.BufferGeometry();
+  sg.setAttribute('position', new THREE.BufferAttribute(sp, 3));
+  sg.setAttribute('color', new THREE.BufferAttribute(sc, 3));
+  const starMat = new THREE.PointsMaterial({ vertexColors: true, size: .5, transparent: true, opacity: .9, blending: THREE.AdditiveBlending, sizeAttenuation: true });
+  scene.add(new THREE.Points(sg, starMat));
+
+  // ── Spiral galaxy disc (3 arms → 3·6·9), tilted, sitting behind the logo ──
+  const GN = 2800, GZ = -30;
+  const gp = new Float32Array(GN * 3), gc = new Float32Array(GN * 3);
+  const ARMS = 3;
+  for (let i = 0; i < GN; i++) {
+    const arm = i % ARMS;
+    const t = Math.pow(Math.random(), .5) * 24;
+    const ang = arm / ARMS * Math.PI * 2 + t * 0.42 + (Math.random() - .5) * (1.2 / (0.25 + t * 0.06));
+    gp[i * 3] = Math.cos(ang) * t + (Math.random() - .5) * 1.6;
+    gp[i * 3 + 1] = (Math.random() - .5) * 1.8 * Math.max(0, 1 - t / 34);
+    gp[i * 3 + 2] = Math.sin(ang) * t;
+    const c = new THREE.Color().lerpColors(new THREE.Color(0xFFE3A0), new THREE.Color(0x7C3AED), t / 24);
+    gc[i * 3] = c.r; gc[i * 3 + 1] = c.g; gc[i * 3 + 2] = c.b;
+  }
+  const gg = new THREE.BufferGeometry();
+  gg.setAttribute('position', new THREE.BufferAttribute(gp, 3));
+  gg.setAttribute('color', new THREE.BufferAttribute(gc, 3));
+  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ vertexColors: true, size: .34, transparent: true, opacity: .5, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
+  galaxy.position.z = GZ; galaxy.rotation.x = -1.15;
+  scene.add(galaxy);
+
+  // glowing galactic core behind the logo
+  const core = new THREE.Mesh(new THREE.SphereGeometry(1.4, 18, 18), new THREE.MeshBasicMaterial({ color: 0xFFE3A0, transparent: true, opacity: .45, blending: THREE.AdditiveBlending }));
+  core.position.z = GZ; scene.add(core);
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
+
+  let warpAmt = 0, warpDir = 0;
+  _warpHub = (dir: number) => { warpAmt = 1; warpDir = dir; };
+
+  const pa = sg.attributes.position.array as Float32Array;
+  let tt = 0;
+  (function anim() {
+    requestAnimationFrame(anim);
+    tt += .016;
+    const speed = 0.32 + warpAmt * 12;
+    for (let i = 0; i < SN; i++) {
+      pa[i * 3 + 2] += speed;
+      if (pa[i * 3 + 2] > cam.position.z + 6) {
+        pa[i * 3 + 2] = -DEPTH;
+        pa[i * 3] = (Math.random() - .5) * 170;
+        pa[i * 3 + 1] = (Math.random() - .5) * 130;
+      }
+    }
+    sg.attributes.position.needsUpdate = true;
+    starMat.size = 0.5 + warpAmt * 1.6;
+    galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
+    core.scale.setScalar(1 + 0.14 * Math.sin(tt * 1.6) + warpAmt * 2.2);
+    // parallax + warp dolly forward (fly into the distance), drift toward the chosen era
+    cam.position.x += ((mx * 1.3 + warpDir * warpAmt * 2.4) - cam.position.x) * 0.05;
+    cam.position.y += (-my * 1.05 - cam.position.y) * 0.05;
+    cam.position.z += ((6 - warpAmt * 5.5) - cam.position.z) * 0.14;
+    cam.lookAt(0, 0, GZ);
+    warpAmt *= 0.93; if (warpAmt < 0.001) warpAmt = 0;
+    renderer.render(scene, cam);
+  })();
   window.addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); });
 }
 
@@ -83,18 +148,99 @@ export function startDimCanvas(name: string) {
 
 function startPast() {
   const cv = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (!cv) return;
-  const par = cv.parentElement as HTMLElement;
-  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: false });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(par.offsetWidth || 500, par.offsetHeight || 600);
-  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(52, (par.offsetWidth || 500) / (par.offsetHeight || 600), .1, 100); cam.position.set(1.5, 1.5, 8); cam.lookAt(0, .5, 0);
-  const wm = (c: number, op: number) => new THREE.MeshBasicMaterial({ color: c, wireframe: true, transparent: true, opacity: op, blending: THREE.AdditiveBlending });
-  const tw = new THREE.Mesh(new THREE.CylinderGeometry(.08, .55, 4, 8, 5, true), wm(0xB87333, .3)); tw.position.y = -1; scene.add(tw);
-  const dm = new THREE.Mesh(new THREE.SphereGeometry(.62, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), wm(0xD4A820, .4)); dm.position.y = 1.05; scene.add(dm);
-  const glw = new THREE.Mesh(new THREE.SphereGeometry(.11, 8, 8), new THREE.MeshBasicMaterial({ color: 0xFFD700, transparent: true, opacity: .6, blending: THREE.AdditiveBlending })); glw.position.y = 1.7; scene.add(glw);
-  const arcG = new THREE.Group(); scene.add(arcG);
-  function arc() { arcG.clear(); for (let a = 0; a < 4; a++) { const ang = (a / 4) * Math.PI * 2 + Math.random() * .5, ex = Math.cos(ang) * (1.4 + Math.random() * 2), ey = .5 + Math.random() * 2, ez = Math.sin(ang) * (1.4 + Math.random() * 2); const pts = [new THREE.Vector3(0, 1.7, 0)]; for (let s = 1; s < 6; s++) pts.push(new THREE.Vector3(ex * (s / 6) + (Math.random() - .5) * .4, 1.7 + ey * (s / 6) + (Math.random() - .5) * .3, ez * (s / 6) + (Math.random() - .5) * .4)); pts.push(new THREE.Vector3(ex, 1.7 + ey, ez)); const cg = new THREE.BufferGeometry().setFromPoints(new THREE.CatmullRomCurve3(pts).getPoints(20)); arcG.add(new THREE.Line(cg, new THREE.LineBasicMaterial({ color: 0xD4A820, transparent: true, opacity: .4 + Math.random() * .4, blending: THREE.AdditiveBlending }))); } }
-  arc(); setInterval(arc, 900);
-  let t = 0; (function anim() { requestAnimationFrame(anim); t += .004; tw.rotation.y = t * .15; dm.rotation.y = -t * .1; arcG.rotation.y = t * .07; glw.scale.setScalar(.85 + .25 * Math.sin(t * 2.8)); renderer.render(scene, cam); })();
+  const ctx = cv.getContext('2d'); if (!ctx) return;
+  const c = ctx;
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  let W = 0, H = 0;
+  const size = () => {
+    const p = cv.parentElement as HTMLElement; const r = p.getBoundingClientRect();
+    W = cv.width = Math.max(1, Math.floor(r.width * DPR));
+    H = cv.height = Math.max(1, Math.floor(r.height * DPR));
+  };
+  size(); window.addEventListener('resize', size);
+
+  // recursive jagged lightning
+  function seg(ax: number, ay: number, bx: number, by: number, rr: number) {
+    const dx = bx - ax, dy = by - ay, d = Math.hypot(dx, dy);
+    if (d < 9 * DPR) { c.lineTo(bx, by); return; }
+    const mx = (ax + bx) / 2 + (-dy / d) * (Math.random() - .5) * rr;
+    const my = (ay + by) / 2 + (dx / d) * (Math.random() - .5) * rr;
+    seg(ax, ay, mx, my, rr * .55); seg(mx, my, bx, by, rr * .55);
+  }
+  function bolt(x1: number, y1: number, x2: number, y2: number, rough: number, w: number) {
+    c.beginPath(); c.moveTo(x1, y1); seg(x1, y1, x2, y2, rough);
+    c.lineWidth = w * 2.6; c.strokeStyle = 'rgba(232,212,170,.10)'; c.stroke();
+    c.lineWidth = w; c.strokeStyle = 'rgba(255,250,238,.92)';
+    c.shadowBlur = 16 * DPR; c.shadowColor = 'rgba(255,238,200,.9)'; c.stroke(); c.shadowBlur = 0;
+  }
+  function grid(x: number, y: number, w: number, h: number, cols: number, rows: number) {
+    c.strokeStyle = 'rgba(40,30,17,.92)'; c.lineWidth = 1 * DPR;
+    for (let i = 0; i <= cols; i++) { const gx = x + w * i / cols; c.beginPath(); c.moveTo(gx, y); c.lineTo(gx, y + h); c.stroke(); }
+    for (let j = 0; j <= rows; j++) { const gy = y + h * j / rows; c.beginPath(); c.moveTo(x, gy); c.lineTo(x + w, gy); c.stroke(); }
+  }
+
+  function room() {
+    const g = c.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, '#241c11'); g.addColorStop(.55, '#19130a'); g.addColorStop(1, '#0c0805');
+    c.fillStyle = g; c.fillRect(0, 0, W, H);
+    // back-wall planks
+    c.strokeStyle = 'rgba(120,95,55,.09)'; c.lineWidth = 1 * DPR;
+    for (let i = 1; i < 26; i++) { const x = W * i / 26; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, H * .74); c.stroke(); }
+    // floor + receding boards
+    const fg = c.createLinearGradient(0, H * .7, 0, H); fg.addColorStop(0, '#2a2013'); fg.addColorStop(1, '#160f08');
+    c.fillStyle = fg; c.fillRect(0, H * .72, W, H * .28);
+    c.strokeStyle = 'rgba(150,120,70,.09)';
+    for (let i = -6; i < 13; i++) { c.beginPath(); c.moveTo(W * .5 + i * W * .055, H * .72); c.lineTo(W * .5 + i * W * .17, H); c.stroke(); }
+    // left primary coil cage + sphere electrode (lightning source)
+    grid(W * .015, H * .30, W * .13, H * .42, 4, 9);
+    c.fillStyle = '#0b0805'; c.beginPath(); c.arc(W * .115, H * .265, W * .046, 0, 7); c.fill();
+    c.strokeStyle = 'rgba(90,70,40,.6)'; c.lineWidth = 1.5 * DPR; c.stroke();
+    // centre round coil
+    c.strokeStyle = 'rgba(52,40,23,.92)'; c.lineWidth = 2 * DPR;
+    c.beginPath(); c.ellipse(W * .42, H * .66, W * .065, H * .10, 0, 0, 7); c.stroke();
+    for (let i = 0; i < 11; i++) { const a = i / 11 * Math.PI * 2; const xx = W * .42 + Math.cos(a) * W * .065; c.beginPath(); c.moveTo(xx, H * .56); c.lineTo(xx, H * .76); c.stroke(); }
+    // right transmitter column
+    c.fillStyle = '#0a0704'; c.fillRect(W * .80, H * .16, W * .05, H * .54);
+    c.strokeStyle = 'rgba(90,70,40,.5)'; c.strokeRect(W * .80, H * .16, W * .05, H * .54);
+    // tripod
+    c.strokeStyle = 'rgba(60,46,26,.85)'; c.lineWidth = 2 * DPR;
+    c.beginPath(); c.moveTo(W * .60, H * .54); c.lineTo(W * .565, H * .86); c.moveTo(W * .60, H * .54); c.lineTo(W * .64, H * .86); c.moveTo(W * .60, H * .54); c.lineTo(W * .605, H * .84); c.stroke();
+    // seated Tesla — calm, reading
+    const fx = W * .205, fy = H * .70;
+    c.fillStyle = '#060402';
+    c.beginPath(); c.ellipse(fx, fy - H * .015, W * .017, H * .055, 0, 0, 7); c.fill();   // torso
+    c.beginPath(); c.arc(fx, fy - H * .085, W * .012, 0, 7); c.fill();                      // head
+    c.fillRect(fx - W * .022, fy + H * .03, W * .044, H * .018);                            // book on lap
+    c.lineWidth = 2.4 * DPR; c.strokeStyle = '#060402';
+    c.beginPath(); c.moveTo(fx - W * .02, fy + H * .055); c.lineTo(fx - W * .02, fy + H * .15);
+    c.moveTo(fx + W * .02, fy + H * .055); c.lineTo(fx + W * .02, fy + H * .15);
+    c.moveTo(fx - W * .022, fy - H * .07); c.lineTo(fx - W * .022, fy + H * .06); c.stroke(); // chair back
+  }
+
+  const SX = () => W * .115, SY = () => H * .255;
+  function draw() {
+    requestAnimationFrame(draw);
+    if (!document.getElementById('dim-past')?.classList.contains('active')) return;
+    room();
+    const sx = SX(), sy = SY();
+    // hot glow at the source
+    const gl = c.createRadialGradient(sx, sy, 0, sx, sy, W * .11);
+    gl.addColorStop(0, 'rgba(255,247,224,.75)'); gl.addColorStop(.5, 'rgba(255,225,170,.25)'); gl.addColorStop(1, 'transparent');
+    c.fillStyle = gl; c.beginPath(); c.arc(sx, sy, W * .11, 0, 7); c.fill();
+    // massive lightning spraying across the room (regenerates each frame → crackle)
+    const N = 7 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < N; i++) {
+      const ex = sx + W * (0.14 + Math.random() * 0.74);
+      const ey = sy + H * (-0.10 + Math.random() * 0.58);
+      bolt(sx, sy, ex, ey, W * 0.15, (0.8 + Math.random() * 1.3) * DPR);
+      if (Math.random() < .6) bolt(ex, ey, ex + (Math.random() - .5) * W * .2, ey + (Math.random() - .25) * H * .22, W * .055, .8 * DPR);
+    }
+    // vignette
+    const vg = c.createRadialGradient(W * .45, H * .46, H * .18, W * .5, H * .5, H * .85);
+    vg.addColorStop(0, 'transparent'); vg.addColorStop(1, 'rgba(0,0,0,.62)');
+    c.fillStyle = vg; c.fillRect(0, 0, W, H);
+  }
+  draw();
 }
 
 function startPresent() {

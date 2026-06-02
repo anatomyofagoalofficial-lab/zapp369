@@ -2,7 +2,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { CA, DEX_API, prefersReducedMotion, isTouch } from './constants';
-import { startHubArcs, startHubVortex, startDimCanvas } from './scenes';
+import { startHubVortex, startDimCanvas, warpHub } from './scenes';
+import { startHubLogo } from './hubLogo';
 import { initIntro } from './intro';
 import { initSound } from './sound';
 
@@ -32,6 +33,36 @@ function initCursor() {
 /* ───────── Reveal on scroll ───────── */
 const rvObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rvObs.unobserve(e.target); } }), { threshold: .08, rootMargin: '0px 0px -40px 0px' });
 function initReveals() { document.querySelectorAll('.rv:not(.in)').forEach(el => rvObs.observe(el)); }
+
+/* Draw the 3·6·9 triangle exactly through the live card centres */
+function syncTriangle() {
+  const portals = document.querySelector('.portals') as HTMLElement | null;
+  const main = document.getElementById('tri-main');
+  const ang = document.getElementById('tri-angle');
+  if (!portals || !main) return;
+  const pr = portals.getBoundingClientRect();
+  if (pr.width < 10 || pr.height < 10) return;
+  const centre = (sel: string) => {
+    const e = portals.querySelector(sel) as HTMLElement | null;
+    if (!e) return null;
+    const r = e.getBoundingClientRect();
+    return { x: (r.left + r.width / 2 - pr.left) / pr.width * 100, y: (r.top + r.height / 2 - pr.top) / pr.height * 100 };
+  };
+  const p3 = centre('.portal.past'), p6 = centre('.portal.present'), p9 = centre('.portal.future');
+  if (!p3 || !p6 || !p9) return;
+  const d = `M${p3.x.toFixed(2)} ${p3.y.toFixed(2)} L${p6.x.toFixed(2)} ${p6.y.toFixed(2)} L${p9.x.toFixed(2)} ${p9.y.toFixed(2)} Z`;
+  main.setAttribute('d', d);
+  document.getElementById('tri-flow')?.setAttribute('d', d);
+  if (ang) {
+    const ux = p3.x - p6.x, uy = p3.y - p6.y, vx = p9.x - p6.x, vy = p9.y - p6.y;
+    const ul = Math.hypot(ux, uy) || 1, vl = Math.hypot(vx, vy) || 1, s = 5.5;
+    const a = { x: p6.x + ux / ul * s, y: p6.y + uy / ul * s };
+    const b = { x: p6.x + vx / vl * s, y: p6.y + vy / vl * s };
+    const corner = { x: a.x + (b.x - p6.x), y: a.y + (b.y - p6.y) };
+    ang.setAttribute('d', `M${a.x.toFixed(2)} ${a.y.toFixed(2)} L${corner.x.toFixed(2)} ${corner.y.toFixed(2)} L${b.x.toFixed(2)} ${b.y.toFixed(2)}`);
+  }
+}
+const reTriangle = () => { syncTriangle(); requestAnimationFrame(syncTriangle); };
 
 /* ───────── Autoplay videos when visible ───────── */
 const vidObs = new IntersectionObserver(es => es.forEach(e => {
@@ -71,6 +102,7 @@ function showPage(id: string) {
     document.body.classList.remove('scrollable');
     document.getElementById('dim-nav')!.classList.remove('scrolled');
     lenis?.stop();
+    if (id === 'hub') setTimeout(reTriangle, 60);
   }
   currentPage = id;
 }
@@ -86,9 +118,11 @@ function withOverlay(color: string, mid: () => void, dur = .45) {
   } });
 }
 
-const DIM_COLORS: Record<string, string> = { past: '#0C0600', present: '#B3CCDA', future: '#F3EEFF', winter: '#0A1628' };
+const DIM_COLORS: Record<string, string> = { past: '#0C0600', present: '#2C5E8E', future: '#F3EEFF', winter: '#0A1628' };
+const DIM_DIR: Record<string, number> = { past: -1, present: 0, future: 1, winter: 0 };
 function enterDimension(name: string) {
-  withOverlay(DIM_COLORS[name] || '#000', () => { showPage('dim-' + name); startDimCanvas(name); });
+  warpHub(DIM_DIR[name] ?? 0); // fly into the distance toward that era
+  withOverlay(DIM_COLORS[name] || '#000', () => { showPage('dim-' + name); startDimCanvas(name); }, .55);
 }
 function backToHub() { withOverlay('#000', () => showPage('hub'), .4); }
 
@@ -149,10 +183,11 @@ function boot() {
   initCursor();
   initSound();
   wire();
-  startHubArcs();
+  startHubLogo();
   startHubVortex();
+  reTriangle(); window.addEventListener('resize', reTriangle);
   fetchData(); setInterval(fetchData, 60000);
-  initIntro(() => { initReveals(); });
+  initIntro(() => { initReveals(); reTriangle(); });
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

@@ -3,38 +3,29 @@
 ---
 <div id="hub" class="page active">
   <canvas id="hub-cv"></canvas>
-  <canvas id="hub-arc-cv"></canvas>
   <div class="hub-top">
-    <div class="hub-logo rv">
-      <span class="hub-bolt">
-        <svg viewBox="0 0 60 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M38 4 L14 46 L28 44 L16 86 L50 38 L34 40 Z" fill="none" stroke="rgba(180,220,255,.3)" stroke-width="8" stroke-linejoin="round"/>
-          <path d="M38 4 L14 46 L28 44 L16 86 L50 38 L34 40 Z" fill="none" stroke="rgba(255,220,80,.5)" stroke-width="4" stroke-linejoin="round"/>
-          <path d="M38 4 L14 46 L28 44 L16 86 L50 38 L34 40 Z" fill="url(#boltGrad)" stroke="rgba(255,255,220,.9)" stroke-width="1"/>
-          <path d="M32 8 L22 28 L30 27" fill="none" stroke="rgba(255,255,200,.4)" stroke-width=".8"/>
-          <path d="M20 54 L12 68 L18 65 L14 80" fill="none" stroke="rgba(255,240,150,.3)" stroke-width=".7"/>
-          <path d="M36 10 L18 44 L28 43 L20 78 L46 42 L34 43 Z" fill="rgba(255,255,255,.15)"/>
-          <defs>
-            <linearGradient id="boltGrad" x1="30" y1="0" x2="30" y2="90" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#FFF8E0"/>
-              <stop offset="15%" stop-color="#E8C84A"/>
-              <stop offset="40%" stop-color="#C8A012"/>
-              <stop offset="65%" stop-color="#9A6E00"/>
-              <stop offset="85%" stop-color="#C8960A"/>
-              <stop offset="100%" stop-color="#7A5200"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </span>
-      <span class="hub-zapp">ZAPP</span>
-    </div>
+    <h1 class="sr-only">⚡ZAPP — 3 · 6 · 9 · ∞</h1>
+    <canvas id="hub-logo-cv" class="rv" aria-hidden="true"></canvas>
     <span class="hub-tag rv d1">Tesla's Unfinished Revolution · On Solana</span>
     <div class="hub-sub rv d1">Choose your dimension</div>
   </div>
   <div class="portals rv d2">
+    <svg class="portal-tri" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="triG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#E8C878"/>
+          <stop offset=".5" stop-color="#FFD700"/>
+          <stop offset="1" stop-color="#C4B5FD"/>
+        </linearGradient>
+      </defs>
+      <path id="tri-main" d="M25 25 L25 75 L75 75 Z" pathLength="100" fill="none" stroke="url(#triG)" stroke-width="1.1" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+      <path id="tri-flow" d="M25 25 L25 75 L75 75 Z" pathLength="100" fill="none" stroke="url(#triG)" stroke-width="2.4" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+      <path id="tri-angle" d="M25 67 L33 67 L33 75" fill="none" stroke="url(#triG)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg>
     <div class="portal past" data-dim="past">
       <div class="portal-icon">🏛️</div>
       <div class="portal-num">3 · Past</div>
+      <div class="portal-hz">396 Hz · Root</div>
       <div class="portal-name">The Tower</div>
       <div class="portal-desc">Tesla. 1893. The idea that should have changed everything — and will.</div>
       <div class="portal-enter">Enter →</div>
@@ -42,6 +33,7 @@
     <div class="portal present" data-dim="present">
       <div class="portal-icon">⚡</div>
       <div class="portal-num">6 · Present</div>
+      <div class="portal-hz">639 Hz · Heart</div>
       <div class="portal-name">The Signal</div>
       <div class="portal-desc">Live on Solana. The frequency is transmitting right now.</div>
       <div class="portal-enter">Enter →</div>
@@ -49,6 +41,7 @@
     <div class="portal future" data-dim="future">
       <div class="portal-icon">🔮</div>
       <div class="portal-num">9 · Future</div>
+      <div class="portal-hz">963 Hz · Crown</div>
       <div class="portal-name">The Network</div>
       <div class="portal-desc">Free energy for everyone. No banks. No borders. Forever.</div>
       <div class="portal-enter">Enter →</div>

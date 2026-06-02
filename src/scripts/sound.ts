@@ -12,27 +12,33 @@ function build() {
   master.gain.value = 0;
   master.connect(ctx.destination);
 
-  // Low fundamental drone
+  // Sub-root drone (99 Hz = 396 / 4)
   const osc1 = ctx.createOscillator();
   osc1.type = 'sawtooth';
-  osc1.frequency.value = 36.9;
-  const g1 = ctx.createGain(); g1.gain.value = 0.06;
+  osc1.frequency.value = 99;
+  const g1 = ctx.createGain(); g1.gain.value = 0.05;
 
-  // Mid body
+  // Root chakra · 396 Hz
   const osc2 = ctx.createOscillator();
-  osc2.type = 'triangle';
-  osc2.frequency.value = 110.7; // 36.9 * 3
-  const g2 = ctx.createGain(); g2.gain.value = 0.025;
+  osc2.type = 'sine';
+  osc2.frequency.value = 396;
+  const g2 = ctx.createGain(); g2.gain.value = 0.03;
 
-  // High coil shimmer
+  // Heart chakra · 639 Hz
   const osc3 = ctx.createOscillator();
   osc3.type = 'sine';
-  osc3.frequency.value = 369;
-  const g3 = ctx.createGain(); g3.gain.value = 0.012;
+  osc3.frequency.value = 639;
+  const g3 = ctx.createGain(); g3.gain.value = 0.022;
 
-  // Gentle low-pass so it stays a hum, not a buzz
+  // Crown chakra · 963 Hz
+  const osc4 = ctx.createOscillator();
+  osc4.type = 'sine';
+  osc4.frequency.value = 963;
+  const g4 = ctx.createGain(); g4.gain.value = 0.013;
+
+  // Gentle low-pass so the chord stays soft, not piercing
   const lp = ctx.createBiquadFilter();
-  lp.type = 'lowpass'; lp.frequency.value = 600; lp.Q.value = 0.6;
+  lp.type = 'lowpass'; lp.frequency.value = 1200; lp.Q.value = 0.5;
 
   // Slow amplitude modulation (electric "breathing")
   const lfo = ctx.createOscillator();
@@ -41,11 +47,11 @@ function build() {
   const amDepth = ctx.createGain(); amDepth.gain.value = 0.5;
   lfo.connect(lfoGain); lfoGain.connect(amDepth.gain);
 
-  osc1.connect(g1); osc2.connect(g2); osc3.connect(g3);
-  g1.connect(lp); g2.connect(lp); g3.connect(lp);
+  osc1.connect(g1); osc2.connect(g2); osc3.connect(g3); osc4.connect(g4);
+  g1.connect(lp); g2.connect(lp); g3.connect(lp); g4.connect(lp);
   lp.connect(amDepth); amDepth.connect(master);
 
-  [osc1, osc2, osc3, lfo].forEach(o => o.start());
+  [osc1, osc2, osc3, osc4, lfo].forEach(o => o.start());
 }
 
 export function initSound() {
