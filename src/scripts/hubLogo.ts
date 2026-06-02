@@ -27,13 +27,11 @@ export function startHubLogo() {
   function build() {
     const oc = document.createElement('canvas'); oc.width = W; oc.height = H;
     const ox = oc.getContext('2d')!;
-    const fs = Math.min(W * 0.135, H * 0.5);
+    const fs = Math.min(W * 0.14, H * 0.62);
     ox.fillStyle = '#fff';
     ox.textAlign = 'center'; ox.textBaseline = 'middle';
     ox.font = `700 ${fs}px "Cormorant Garamond",serif`;
-    ox.fillText('⚡ZAPP', W / 2, H * 0.44);
-    ox.font = `500 ${fs * 0.13}px "JetBrains Mono",monospace`;
-    ox.fillText('3 · 6 · 9 · ∞', W / 2, H * 0.44 + fs * 0.6);
+    ox.fillText('⚡ZAPP', W / 2, H * 0.5);
     const d = ox.getImageData(0, 0, W, H).data;
     const step = Math.max(2, Math.floor(Math.min(W, H) / 200));
     pts = [];
