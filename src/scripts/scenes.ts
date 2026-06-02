@@ -62,7 +62,7 @@ export function startHubVortex() {
   cam.position.z = 6;
 
   // ── Infinite travelling starfield (recycles in z → endless) ──
-  const SN = 4200, DEPTH = 460;
+  const SN = 6000, DEPTH = 460;
   const sp = new Float32Array(SN * 3), sc = new Float32Array(SN * 3);
   const PAL = [new THREE.Color(0xFFFFFF), new THREE.Color(0xFFE08A), new THREE.Color(0xBFD4FF), new THREE.Color(0xC9A8FF), new THREE.Color(0x8FE6FF)];
   for (let i = 0; i < SN; i++) {
@@ -99,6 +99,41 @@ export function startHubVortex() {
   galaxy.position.z = GZ; galaxy.rotation.x = -1.15;
   scene.add(galaxy);
 
+  // ── Soft sprite texture (shared by nebula + glints) ──
+  const softTex = (() => {
+    const cc = document.createElement('canvas'); cc.width = cc.height = 128; const g2 = cc.getContext('2d')!;
+    const rg = g2.createRadialGradient(64, 64, 0, 64, 64, 64);
+    rg.addColorStop(0, 'rgba(255,255,255,.9)'); rg.addColorStop(.35, 'rgba(255,255,255,.3)'); rg.addColorStop(1, 'rgba(255,255,255,0)');
+    g2.fillStyle = rg; g2.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(cc);
+  })();
+
+  // ── Nebula clouds — colored cosmic gas that breathes ──
+  const NEB = [0x7C3AED, 0x06B6D4, 0xEC4899, 0xFFB020, 0x4F46E5, 0x10B981, 0x9945FF];
+  const nebula: THREE.Sprite[] = [];
+  for (let i = 0; i < 8; i++) {
+    const m = new THREE.SpriteMaterial({ map: softTex, color: NEB[i % NEB.length], transparent: true, opacity: 0.10 + Math.random() * 0.10, blending: THREE.AdditiveBlending, depthWrite: false });
+    const s = new THREE.Sprite(m);
+    const a = Math.random() * Math.PI * 2, r = 6 + Math.random() * 30;
+    s.position.set(Math.cos(a) * r, (Math.random() - .5) * 18, GZ + Math.sin(a) * r * 0.5 - Math.random() * 26);
+    const sc = 28 + Math.random() * 46; s.scale.set(sc, sc, 1);
+    s.userData = { ph: Math.random() * Math.PI * 2, sp: 0.15 + Math.random() * 0.4, baseOp: m.opacity, dx: (Math.random() - .5) * 0.012 };
+    nebula.push(s); scene.add(s);
+  }
+
+  // ── Shooting stars ──
+  interface Shoot { line: THREE.Line; mat: THREE.LineBasicMaterial; life: number; vx: number; vy: number; vz: number; }
+  const shoot: Shoot[] = [];
+  function spawnShoot() {
+    const sx = (Math.random() - .5) * 130, sy = 24 + Math.random() * 26, sz = -30 - Math.random() * 70;
+    const sp2 = 2.0 + Math.random() * 2.2, ang = Math.PI * (0.7 + Math.random() * 0.5);
+    const vx = Math.cos(ang) * sp2, vy = -(0.7 + Math.random() * 1.1) * sp2 * 0.5, vz = (0.2 + Math.random() * 0.5);
+    const geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(sx, sy, sz), new THREE.Vector3(sx, sy, sz)]);
+    const mat = new THREE.LineBasicMaterial({ color: 0xFFF3D0, transparent: true, opacity: 1, blending: THREE.AdditiveBlending });
+    const line = new THREE.Line(geo, mat); scene.add(line);
+    shoot.push({ line, mat, life: 1, vx, vy, vz });
+  }
+
   let mx = 0, my = 0;
   document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
 
@@ -122,6 +157,28 @@ export function startHubVortex() {
     sg.attributes.position.needsUpdate = true;
     starMat.size = 0.5 + warpAmt * 1.6;
     galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
+    galaxy.rotation.x += ((-1.15 + my * 0.12) - galaxy.rotation.x) * 0.04;
+
+    // nebula breathing + slow drift
+    for (const s of nebula) {
+      const u = s.userData;
+      (s.material as THREE.SpriteMaterial).opacity = u.baseOp * (0.55 + 0.45 * Math.sin(tt * u.sp + u.ph)) * (1 + warpAmt);
+      s.position.x += u.dx;
+      if (s.position.x > 40) s.position.x = -40; else if (s.position.x < -40) s.position.x = 40;
+    }
+
+    // shooting stars
+    if (Math.random() < 0.028 && shoot.length < 6) spawnShoot();
+    for (let i = shoot.length - 1; i >= 0; i--) {
+      const s = shoot[i]; s.life -= 0.012;
+      const arr = s.line.geometry.attributes.position.array as Float32Array;
+      arr[0] += s.vx; arr[1] += s.vy; arr[2] += s.vz;
+      arr[3] = arr[0] - s.vx * 7; arr[4] = arr[1] - s.vy * 7; arr[5] = arr[2] - s.vz * 7;
+      s.line.geometry.attributes.position.needsUpdate = true;
+      s.mat.opacity = Math.max(0, s.life);
+      if (s.life <= 0) { scene.remove(s.line); s.line.geometry.dispose(); s.mat.dispose(); shoot.splice(i, 1); }
+    }
+
     // parallax + warp dolly forward (fly into the distance), drift toward the chosen era
     cam.position.x += ((mx * 1.3 + warpDir * warpAmt * 2.4) - cam.position.x) * 0.05;
     cam.position.y += (-my * 1.05 - cam.position.y) * 0.05;
