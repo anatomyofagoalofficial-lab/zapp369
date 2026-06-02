@@ -36,8 +36,19 @@ html.lenis,html.lenis body{height:auto}
 #intro-skip:hover{color:rgba(255,255,255,.5)}
 
 /* ══ HUB ══ */
-#hub{background:radial-gradient(ellipse 100% 80% at 50% 50%,#0D0520,#020008);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}
+#hub{
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 44%,rgba(255,190,60,.10),transparent 60%),
+    radial-gradient(ellipse 70% 60% at 18% 22%,rgba(124,58,237,.16),transparent 60%),
+    radial-gradient(ellipse 65% 55% at 84% 78%,rgba(6,120,180,.14),transparent 60%),
+    radial-gradient(ellipse 100% 85% at 50% 50%,#0B0418,#020007 70%,#000 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}
+/* cinematic vignette to focus the eye on the wordmark */
+#hub::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 75% 70% at 50% 48%,transparent 45%,rgba(0,0,0,.55) 100%)}
 #hub-cv{position:absolute;inset:0;width:100%;height:100%}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#hub-logo-cv{display:block;width:min(860px,92vw);height:min(330px,40vh);margin:0 auto;filter:drop-shadow(0 0 30px rgba(255,200,40,.25))}
 .hub-top{position:relative;z-index:2;text-align:center;margin-bottom:3.5rem}
 .hub-logo{font-family:var(--serif);font-size:clamp(3.5rem,9vw,8rem);font-weight:700;letter-spacing:-.025em;line-height:.9;display:flex;align-items:center;justify-content:center;gap:.1em}
 .hub-bolt{display:inline-block;position:relative;width:.7em;height:.9em;flex-shrink:0}

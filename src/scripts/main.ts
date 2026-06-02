@@ -2,7 +2,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { CA, DEX_API, prefersReducedMotion, isTouch } from './constants';
-import { startHubArcs, startHubVortex, startDimCanvas, warpHub } from './scenes';
+import { startHubVortex, startDimCanvas, warpHub } from './scenes';
+import { startHubLogo } from './hubLogo';
 import { initIntro } from './intro';
 import { initSound } from './sound';
 
@@ -180,7 +181,7 @@ function boot() {
   initCursor();
   initSound();
   wire();
-  startHubArcs();
+  startHubLogo();
   startHubVortex();
   reTriangle(); window.addEventListener('resize', reTriangle);
   fetchData(); setInterval(fetchData, 60000);
