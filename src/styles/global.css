@@ -101,11 +101,13 @@ html.lenis,html.lenis body{height:auto}
    Past ↖ top-left · Present ↙ bottom-left · Future ↘ bottom-right */
 @media(min-width:901px){
   #hub{justify-content:center}
-  #hub .portals{position:absolute;inset:0;display:block;max-width:none;width:100%;height:100%;padding:0;margin:0;pointer-events:none}
-  #hub .portal{position:absolute;width:clamp(230px,19vw,278px);min-height:0;padding:1.7rem 1.6rem;pointer-events:auto}
-  #hub .portal.past{top:6.2rem;left:3.5vw}
-  #hub .portal.present{bottom:4.5rem;left:3.5vw}
-  #hub .portal.future{bottom:4.5rem;right:3.5vw}
+  /* 3·6·9 triangle, polar around the centre: 3 top-left (210°) · 9 top-right (330°) · 6 bottom (90°) */
+  #hub .portals{position:absolute;inset:0;display:block;max-width:none;width:100%;height:100%;padding:0;margin:0;pointer-events:none;--tri-radius:38vmin}
+  #hub .portal{position:absolute;width:clamp(228px,18vw,272px);min-height:0;padding:1.65rem 1.55rem;pointer-events:auto;transform:translate(-50%,-50%)}
+  #hub .portal.past{left:calc(50vw + var(--tri-radius) * cos(210deg));top:calc(50vh + var(--tri-radius) * sin(210deg))}
+  #hub .portal.future{left:calc(50vw + var(--tri-radius) * cos(330deg));top:calc(50vh + var(--tri-radius) * sin(330deg))}
+  #hub .portal.present{left:calc(50vw + var(--tri-radius) * cos(90deg));top:calc(50vh + var(--tri-radius) * sin(90deg))}
+  #hub .portal:hover{transform:translate(-50%,-50%) translateY(-14px) scale(1.03)}
 }
 .portal{border-radius:18px;padding:2.2rem 1.8rem;cursor:pointer;transition:all .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;align-items:center;gap:.85rem;text-align:center;position:relative;overflow:hidden;border:1px solid transparent;backdrop-filter:blur(14px) saturate(140%);min-height:235px;justify-content:center;box-shadow:0 0 40px rgba(255,200,80,.06),inset 0 1px 0 rgba(255,255,255,.06)}
 .portal::before{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;transition:opacity .4s}
