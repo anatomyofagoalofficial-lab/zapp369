@@ -76,6 +76,16 @@ html.lenis,html.lenis body{height:auto}
 .portal.past .portal-hz{color:#E8C878}
 .portal.present .portal-hz{color:var(--gold)}
 .portal.future .portal-hz{color:#C4B5FD}
+/* DESKTOP: cards pinned to the screen corners, logo + vortex fill the centre.
+   Past ↖ top-left · Present ↙ bottom-left · Future ↘ bottom-right */
+@media(min-width:901px){
+  #hub{justify-content:center}
+  #hub .portals{position:absolute;inset:0;display:block;max-width:none;width:100%;height:100%;padding:0;margin:0;pointer-events:none}
+  #hub .portal{position:absolute;width:clamp(230px,19vw,278px);min-height:0;padding:1.7rem 1.6rem;pointer-events:auto}
+  #hub .portal.past{top:6.2rem;left:3.5vw}
+  #hub .portal.present{bottom:4.5rem;left:3.5vw}
+  #hub .portal.future{bottom:4.5rem;right:3.5vw}
+}
 .portal{border-radius:20px;padding:2.2rem 1.8rem;cursor:pointer;transition:all .45s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;align-items:center;gap:.85rem;text-align:center;position:relative;overflow:hidden;border:1px solid transparent;backdrop-filter:blur(12px);min-height:235px;justify-content:center}
 .portal::before{content:'';position:absolute;inset:0;border-radius:20px;opacity:0;transition:opacity .4s}
 .portal::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;opacity:0;transition:opacity .4s}
