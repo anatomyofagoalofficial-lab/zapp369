@@ -143,99 +143,84 @@ export function startDimCanvas(name: string) {
 
 function startPast() {
   const cv = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (!cv) return;
-  const ctx = cv.getContext('2d'); if (!ctx) return;
-  const c = ctx;
-  const DPR = Math.min(devicePixelRatio || 1, 2);
-  let W = 0, H = 0;
-  const size = () => {
-    const p = cv.parentElement as HTMLElement; const r = p.getBoundingClientRect();
-    W = cv.width = Math.max(1, Math.floor(r.width * DPR));
-    H = cv.height = Math.max(1, Math.floor(r.height * DPR));
-  };
-  size(); window.addEventListener('resize', size);
+  const par = cv.parentElement as HTMLElement;
+  const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x120c06, 0.018);
+  const cam = new THREE.PerspectiveCamera(58, 1, 0.1, 400);
+  cam.position.set(0, 3, 16);
+  const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };
 
-  // recursive jagged lightning
-  function seg(ax: number, ay: number, bx: number, by: number, rr: number) {
-    const dx = bx - ax, dy = by - ay, d = Math.hypot(dx, dy);
-    if (d < 9 * DPR) { c.lineTo(bx, by); return; }
-    const mx = (ax + bx) / 2 + (-dy / d) * (Math.random() - .5) * rr;
-    const my = (ay + by) / 2 + (dx / d) * (Math.random() - .5) * rr;
-    seg(ax, ay, mx, my, rr * .55); seg(mx, my, bx, by, rr * .55);
-  }
-  function bolt(x1: number, y1: number, x2: number, y2: number, rough: number, w: number) {
-    c.beginPath(); c.moveTo(x1, y1); seg(x1, y1, x2, y2, rough);
-    c.lineWidth = w * 2.6; c.strokeStyle = 'rgba(232,212,170,.10)'; c.stroke();
-    c.lineWidth = w; c.strokeStyle = 'rgba(255,250,238,.92)';
-    c.shadowBlur = 16 * DPR; c.shadowColor = 'rgba(255,238,200,.9)'; c.stroke(); c.shadowBlur = 0;
-  }
-  function grid(x: number, y: number, w: number, h: number, cols: number, rows: number) {
-    c.strokeStyle = 'rgba(40,30,17,.92)'; c.lineWidth = 1 * DPR;
-    for (let i = 0; i <= cols; i++) { const gx = x + w * i / cols; c.beginPath(); c.moveTo(gx, y); c.lineTo(gx, y + h); c.stroke(); }
-    for (let j = 0; j <= rows; j++) { const gy = y + h * j / rows; c.beginPath(); c.moveTo(x, gy); c.lineTo(x + w, gy); c.stroke(); }
-  }
+  const basic = (col: number, opts: THREE.MeshBasicMaterialParameters = {}) => new THREE.MeshBasicMaterial({ color: col, ...opts });
+  const seg3 = (pts: THREE.Vector3[], m: THREE.LineBasicMaterial) => scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), m));
+  const lineMat = new THREE.LineBasicMaterial({ color: 0x5a4426, transparent: true, opacity: 0.4 });
+  const beamMat = new THREE.LineBasicMaterial({ color: 0x6a5230, transparent: true, opacity: 0.55 });
 
-  function room() {
-    const g = c.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, '#241c11'); g.addColorStop(.55, '#19130a'); g.addColorStop(1, '#0c0805');
-    c.fillStyle = g; c.fillRect(0, 0, W, H);
-    // back-wall planks
-    c.strokeStyle = 'rgba(120,95,55,.09)'; c.lineWidth = 1 * DPR;
-    for (let i = 1; i < 26; i++) { const x = W * i / 26; c.beginPath(); c.moveTo(x, 0); c.lineTo(x, H * .74); c.stroke(); }
-    // floor + receding boards
-    const fg = c.createLinearGradient(0, H * .7, 0, H); fg.addColorStop(0, '#2a2013'); fg.addColorStop(1, '#160f08');
-    c.fillStyle = fg; c.fillRect(0, H * .72, W, H * .28);
-    c.strokeStyle = 'rgba(150,120,70,.09)';
-    for (let i = -6; i < 13; i++) { c.beginPath(); c.moveTo(W * .5 + i * W * .055, H * .72); c.lineTo(W * .5 + i * W * .17, H); c.stroke(); }
-    // left primary coil cage + sphere electrode (lightning source)
-    grid(W * .015, H * .30, W * .13, H * .42, 4, 9);
-    c.fillStyle = '#0b0805'; c.beginPath(); c.arc(W * .115, H * .265, W * .046, 0, 7); c.fill();
-    c.strokeStyle = 'rgba(90,70,40,.6)'; c.lineWidth = 1.5 * DPR; c.stroke();
-    // centre round coil
-    c.strokeStyle = 'rgba(52,40,23,.92)'; c.lineWidth = 2 * DPR;
-    c.beginPath(); c.ellipse(W * .42, H * .66, W * .065, H * .10, 0, 0, 7); c.stroke();
-    for (let i = 0; i < 11; i++) { const a = i / 11 * Math.PI * 2; const xx = W * .42 + Math.cos(a) * W * .065; c.beginPath(); c.moveTo(xx, H * .56); c.lineTo(xx, H * .76); c.stroke(); }
-    // right transmitter column
-    c.fillStyle = '#0a0704'; c.fillRect(W * .80, H * .16, W * .05, H * .54);
-    c.strokeStyle = 'rgba(90,70,40,.5)'; c.strokeRect(W * .80, H * .16, W * .05, H * .54);
-    // tripod
-    c.strokeStyle = 'rgba(60,46,26,.85)'; c.lineWidth = 2 * DPR;
-    c.beginPath(); c.moveTo(W * .60, H * .54); c.lineTo(W * .565, H * .86); c.moveTo(W * .60, H * .54); c.lineTo(W * .64, H * .86); c.moveTo(W * .60, H * .54); c.lineTo(W * .605, H * .84); c.stroke();
-    // seated Tesla — calm, reading
-    const fx = W * .205, fy = H * .70;
-    c.fillStyle = '#060402';
-    c.beginPath(); c.ellipse(fx, fy - H * .015, W * .017, H * .055, 0, 0, 7); c.fill();   // torso
-    c.beginPath(); c.arc(fx, fy - H * .085, W * .012, 0, 7); c.fill();                      // head
-    c.fillRect(fx - W * .022, fy + H * .03, W * .044, H * .018);                            // book on lap
-    c.lineWidth = 2.4 * DPR; c.strokeStyle = '#060402';
-    c.beginPath(); c.moveTo(fx - W * .02, fy + H * .055); c.lineTo(fx - W * .02, fy + H * .15);
-    c.moveTo(fx + W * .02, fy + H * .055); c.lineTo(fx + W * .02, fy + H * .15);
-    c.moveTo(fx - W * .022, fy - H * .07); c.lineTo(fx - W * .022, fy + H * .06); c.stroke(); // chair back
-  }
+  // ── ROOM ──
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(90, 70), basic(0x241a0e)); floor.rotation.x = -Math.PI / 2; scene.add(floor);
+  const back = new THREE.Mesh(new THREE.PlaneGeometry(90, 34), basic(0x1c140a)); back.position.set(0, 17, -24); scene.add(back);
+  for (let i = -22; i <= 22; i++) seg3([new THREE.Vector3(i * 2.0, 0, -23.9), new THREE.Vector3(i * 2.0, 34, -23.9)], lineMat);
+  for (let i = -16; i <= 16; i++) seg3([new THREE.Vector3(i * 2.4, 0.02, -24), new THREE.Vector3(i * 4.4, 0.02, 24)], lineMat);
+  for (let z = -22; z <= 8; z += 3.2) { seg3([new THREE.Vector3(-30, 24, z), new THREE.Vector3(0, 33, z), new THREE.Vector3(30, 24, z)], beamMat); seg3([new THREE.Vector3(-30, 24, z), new THREE.Vector3(30, 24, z)], lineMat); }
+  for (let i = -13; i <= 13; i++) { const p = new THREE.Mesh(new THREE.BoxGeometry(0.14, 10, 0.14), basic(0x3a2c19)); p.position.set(i * 2.7, 5, -17); scene.add(p); }
 
-  const SX = () => W * .115, SY = () => H * .255;
-  function draw() {
-    requestAnimationFrame(draw);
-    if (!document.getElementById('dim-past')?.classList.contains('active')) return;
-    room();
-    const sx = SX(), sy = SY();
-    // hot glow at the source
-    const gl = c.createRadialGradient(sx, sy, 0, sx, sy, W * .11);
-    gl.addColorStop(0, 'rgba(255,247,224,.75)'); gl.addColorStop(.5, 'rgba(255,225,170,.25)'); gl.addColorStop(1, 'transparent');
-    c.fillStyle = gl; c.beginPath(); c.arc(sx, sy, W * .11, 0, 7); c.fill();
-    // massive lightning spraying across the room (regenerates each frame → crackle)
-    const N = 7 + Math.floor(Math.random() * 4);
-    for (let i = 0; i < N; i++) {
-      const ex = sx + W * (0.14 + Math.random() * 0.74);
-      const ey = sy + H * (-0.10 + Math.random() * 0.58);
-      bolt(sx, sy, ex, ey, W * 0.15, (0.8 + Math.random() * 1.3) * DPR);
-      if (Math.random() < .6) bolt(ex, ey, ex + (Math.random() - .5) * W * .2, ey + (Math.random() - .25) * H * .22, W * .055, .8 * DPR);
+  // ── LEFT primary coil + sphere electrode (lightning source) ──
+  const coil = new THREE.Mesh(new THREE.CylinderGeometry(3.0, 3.0, 9, 30, 1, true), basic(0x3a2c19, { wireframe: true, transparent: true, opacity: 0.6 }));
+  coil.position.set(-13, 4.5, -4); scene.add(coil);
+  const SRC = new THREE.Vector3(-13, 10.6, -4);
+  const electrode = new THREE.Mesh(new THREE.SphereGeometry(1.6, 24, 24), basic(0x12100a)); electrode.position.copy(SRC); scene.add(electrode);
+  const eglow = new THREE.Mesh(new THREE.SphereGeometry(2.3, 20, 20), basic(0xFFE8B0, { transparent: true, opacity: 0.25, blending: THREE.AdditiveBlending })); eglow.position.copy(SRC); scene.add(eglow);
+
+  // ── RIGHT magnifying transmitter ──
+  const col = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 13, 18), basic(0x0d0a05)); col.position.set(15, 6.5, -6); scene.add(col);
+  const colTop = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 1.2, 18), basic(0x161009)); colTop.position.set(15, 13, -6); scene.add(colTop);
+
+  // ── CENTRE round cage ──
+  const cage = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 6, 22, 1, true), basic(0x3a2c19, { wireframe: true, transparent: true, opacity: 0.55 })); cage.position.set(0, 3, -2); scene.add(cage);
+
+  // ── tripod ──
+  ([[-1.4, 1.4], [1.4, 1.4], [0, -1.6]] as const).forEach(([dx, dz]) => seg3([new THREE.Vector3(6 + dx, 0, -4 + dz), new THREE.Vector3(6, 7, -4)], beamMat));
+
+  // ── seated Tesla, reading ──
+  const man = new THREE.Group();
+  man.add(new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.8, 2.4, 10), basic(0x070402)));
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.5, 14, 14), basic(0x070402)); head.position.y = 1.7; man.add(head);
+  const legs = new THREE.Mesh(new THREE.BoxGeometry(1.1, 0.4, 1.6), basic(0x070402)); legs.position.set(0, -1.0, 0.7); man.add(legs);
+  const chair = new THREE.Mesh(new THREE.BoxGeometry(1.2, 2.2, 0.15), basic(0x0b0805)); chair.position.set(0, 0.2, -0.6); man.add(chair);
+  man.position.set(-7, 1.6, 5); man.rotation.y = 0.5; scene.add(man);
+
+  // ── LIGHTNING ──
+  const bolts = new THREE.Group(); scene.add(bolts);
+  const boltMat = () => new THREE.LineBasicMaterial({ color: 0xFFF6DC, transparent: true, opacity: 0.45 + Math.random() * 0.5, blending: THREE.AdditiveBlending });
+  function rebuild() {
+    bolts.clear();
+    for (let i = 0; i < 9; i++) {
+      const end = new THREE.Vector3(SRC.x + 8 + Math.random() * 22, SRC.y + (Math.random() - 0.6) * 9, SRC.z + (Math.random() - 0.5) * 11);
+      const segN = 9, pts = [SRC.clone()];
+      for (let s = 1; s < segN; s++) { const t = s / segN; pts.push(new THREE.Vector3(SRC.x + (end.x - SRC.x) * t + (Math.random() - 0.5) * 2.6, SRC.y + (end.y - SRC.y) * t + (Math.random() - 0.5) * 2.6, SRC.z + (end.z - SRC.z) * t + (Math.random() - 0.5) * 2.6)); }
+      pts.push(end);
+      bolts.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), boltMat()));
+      if (Math.random() < 0.5) { const f = pts[Math.floor(segN * 0.6)]; const fe = new THREE.Vector3(f.x + (Math.random() - 0.5) * 7, f.y + (Math.random() - 0.7) * 5, f.z + (Math.random() - 0.5) * 5); bolts.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([f.clone(), fe]), boltMat())); }
     }
-    // vignette
-    const vg = c.createRadialGradient(W * .45, H * .46, H * .18, W * .5, H * .5, H * .85);
-    vg.addColorStop(0, 'transparent'); vg.addColorStop(1, 'rgba(0,0,0,.62)');
-    c.fillStyle = vg; c.fillRect(0, 0, W, H);
   }
-  draw();
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - 0.5); my = (e.clientY / innerHeight - 0.5); }, { passive: true });
+  let frame = 0, t = 0;
+  function anim() {
+    requestAnimationFrame(anim);
+    if (!document.getElementById('dim-past')?.classList.contains('active')) return;
+    frame++; t += 0.016;
+    if (frame % 5 === 0) rebuild();
+    eglow.scale.setScalar(1 + 0.25 * Math.sin(t * 9) + Math.random() * 0.15);
+    cam.position.x += ((mx * 5 - 1) - cam.position.x) * 0.025;
+    cam.position.y += ((3 - my * 2.5) - cam.position.y) * 0.025;
+    cam.position.z = 16 + Math.sin(t * 0.15) * 1.2;
+    cam.lookAt(-2, 4.5, -4);
+    renderer.render(scene, cam);
+  }
+  resize(); window.addEventListener('resize', resize); rebuild(); anim();
 }
 
 function startPresent() {
