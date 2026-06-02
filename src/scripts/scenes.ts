@@ -95,8 +95,8 @@ export function startHubVortex() {
   const gg = new THREE.BufferGeometry();
   gg.setAttribute('position', new THREE.BufferAttribute(gp, 3));
   gg.setAttribute('color', new THREE.BufferAttribute(gc, 3));
-  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ vertexColors: true, size: .34, transparent: true, opacity: .5, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
-  galaxy.position.z = GZ; galaxy.rotation.x = -1.15;
+  const galaxy = new THREE.Points(gg, new THREE.PointsMaterial({ vertexColors: true, size: .42, transparent: true, opacity: .62, blending: THREE.AdditiveBlending, sizeAttenuation: true }));
+  galaxy.position.z = GZ; galaxy.rotation.x = -0.42;
   scene.add(galaxy);
 
   // ── Soft sprite texture (shared by nebula + glints) ──
@@ -112,7 +112,7 @@ export function startHubVortex() {
   const NEB = [0x7C3AED, 0x06B6D4, 0xEC4899, 0xFFB020, 0x4F46E5, 0x10B981, 0x9945FF];
   const nebula: THREE.Sprite[] = [];
   for (let i = 0; i < 8; i++) {
-    const m = new THREE.SpriteMaterial({ map: softTex, color: NEB[i % NEB.length], transparent: true, opacity: 0.10 + Math.random() * 0.10, blending: THREE.AdditiveBlending, depthWrite: false });
+    const m = new THREE.SpriteMaterial({ map: softTex, color: NEB[i % NEB.length], transparent: true, opacity: 0.16 + Math.random() * 0.12, blending: THREE.AdditiveBlending, depthWrite: false });
     const s = new THREE.Sprite(m);
     const a = Math.random() * Math.PI * 2, r = 6 + Math.random() * 30;
     s.position.set(Math.cos(a) * r, (Math.random() - .5) * 18, GZ + Math.sin(a) * r * 0.5 - Math.random() * 26);
@@ -157,7 +157,7 @@ export function startHubVortex() {
     sg.attributes.position.needsUpdate = true;
     starMat.size = 0.5 + warpAmt * 1.6;
     galaxy.rotation.z += 0.0006 + warpAmt * 0.012;
-    galaxy.rotation.x += ((-1.15 + my * 0.12) - galaxy.rotation.x) * 0.04;
+    galaxy.rotation.x += ((-0.42 + my * 0.14) - galaxy.rotation.x) * 0.04;
 
     // nebula breathing + slow drift
     for (const s of nebula) {
