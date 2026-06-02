@@ -3,28 +3,36 @@ import { DIMENSIONS } from './dimensions.config';
 
 export type EnergyLine = { line: THREE.Line; material: THREE.LineDashedMaterial; id: string };
 
-// Curved dashed beams streaming from the ⚡ZAPP core out to each dimension.
+const SEG = 60;
+
+// Dashed beams streaming from the ⚡ZAPP core out to each dimension card.
+// Endpoints are set later (and on resize) from the cards' on-screen positions.
 export function buildEnergyLines(scene: THREE.Scene): EnergyLine[] {
-  const out: EnergyLine[] = [];
-  DIMENSIONS.forEach(dim => {
-    const start = new THREE.Vector3(0, 0, 0);
-    const end = dim.position.clone();
-    const mid = start.clone().lerp(end, 0.5); mid.y += 10; // organic upward arc
-    const pts = new THREE.QuadraticBezierCurve3(start, mid, end).getPoints(60);
-    const geo = new THREE.BufferGeometry().setFromPoints(pts);
-    const material = new THREE.LineDashedMaterial({ color: new THREE.Color(dim.color), dashSize: 0.9, gapSize: 1.3, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
+  return DIMENSIONS.map(dim => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array((SEG + 1) * 3), 3));
+    const material = new THREE.LineDashedMaterial({ color: new THREE.Color(dim.color), dashSize: 0.9, gapSize: 1.3, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending });
     const line = new THREE.Line(geo, material);
-    line.computeLineDistances();
     scene.add(line);
-    out.push({ line, material, id: dim.id });
+    return { line, material, id: dim.id };
   });
-  return out;
 }
 
-export function animateEnergyLines(lines: EnergyLine[], t: number, hoveredId: string | null) {
+const START = new THREE.Vector3(0, 0, 0);
+export function setEnergyLineEnd(el: EnergyLine, end: THREE.Vector3) {
+  const mid = START.clone().lerp(end, 0.5); mid.y += 6; // gentle upward arc
+  const pts = new THREE.QuadraticBezierCurve3(START, mid, end).getPoints(SEG);
+  const pos = el.line.geometry.attributes.position as THREE.BufferAttribute;
+  pts.forEach((p, i) => pos.setXYZ(i, p.x, p.y, p.z));
+  pos.needsUpdate = true;
+  el.line.computeLineDistances();
+}
+
+export function animateEnergyLines(lines: EnergyLine[], t: number, hoveredId: string | null, flying = false) {
   lines.forEach(({ material, id }, i) => {
+    if (flying) { material.opacity = Math.max(0, material.opacity - 0.06); return; }
     const hot = id === hoveredId;
     material.dashSize = (hot ? 1.6 : 0.9) + 0.3 * Math.sin(t * 2 + i);
-    material.opacity = hot ? 1 : 0.45 + 0.3 * Math.sin(t * 1.5 + i * 2);
+    material.opacity = hot ? 1 : 0.4 + 0.25 * Math.sin(t * 1.5 + i * 2);
   });
 }

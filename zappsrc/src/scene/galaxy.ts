@@ -28,7 +28,7 @@ export function buildGalaxy(scene: THREE.Scene): { points: THREE.Points; materia
     const mix = new THREE.Color().lerpColors(cGold, cPurple, (distance - INNER) / (OUTER - INNER));
     if (Math.random() > 0.95) mix.copy(cWhite);
     colors[i * 3] = mix.r; colors[i * 3 + 1] = mix.g; colors[i * 3 + 2] = mix.b;
-    sizes[i] = Math.random() < 0.92 ? 1.0 + Math.random() * 1.5 : 4.0 + Math.random() * 3.0; // few bright anchors
+    sizes[i] = Math.random() < 0.95 ? 0.8 + Math.random() * 1.1 : 2.4 + Math.random() * 1.6; // sharp stars, no big bokeh discs
     twinkles[i] = Math.random();
   }
   const geo = new THREE.BufferGeometry();

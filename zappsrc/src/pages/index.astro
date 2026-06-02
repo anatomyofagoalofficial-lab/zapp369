@@ -2,6 +2,10 @@
 import Base from '../layouts/Base.astro';
 import Cursor from '../components/Cursor.astro';
 import SoundToggle from '../components/SoundToggle.astro';
+import { DIMENSIONS } from '../scene/dimensions.config';
+
+// number → fixed viewport corner (3 = top-left, 9 = top-right, 6 = bottom-centre)
+const corner: Record<number, string> = { 3: 'card-3', 9: 'card-9', 6: 'card-6' };
 ---
 <Base>
   <Cursor />
@@ -9,11 +13,24 @@ import SoundToggle from '../components/SoundToggle.astro';
 
   <div id="starmap-wrap">
     <canvas id="starmap"></canvas>
+
     <div class="sm-center">
       <h1 class="sm-logo">⚡ZAPP</h1>
       <div class="sm-369">3 · 6 · 9 · ∞</div>
       <div class="sm-tag">Tesla's Revolution</div>
       <div class="sm-sub">Choose your dimension</div>
+    </div>
+
+    <!-- fixed HTML overlays — anchored to the viewport, never drift with the camera -->
+    <div id="dimension-cards">
+      {DIMENSIONS.map(d => (
+        <a class={`dimension-card ${corner[d.number]}`} href={d.route} data-go={d.route} style={`--dc:${d.color}`}>
+          <div class="dc-meta">{d.number} · {d.subtitle}</div>
+          <div class="dc-title">{d.icon} {d.title}</div>
+          <div class="dc-desc">{d.description}</div>
+          <span class="enter-cta">Enter →</span>
+        </a>
+      ))}
     </div>
   </div>
 
