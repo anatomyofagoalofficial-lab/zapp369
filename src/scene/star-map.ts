@@ -101,6 +101,10 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   { const n = Math.hypot(vx, vy); vx /= n; vy /= n; }
   let lastT = 0;
 
+  // ── parallax depth: the galaxy breathes around the cursor (cards stay fixed) ──
+  let tmx = 0, tmy = 0, mx = 0, my = 0;
+  if (!MOBILE) addEventListener('pointermove', e => { tmx = (e.clientX / innerWidth) * 2 - 1; tmy = -((e.clientY / innerHeight) * 2 - 1); }, { passive: true });
+
   const clock = new THREE.Clock();
   function animate() {
     requestAnimationFrame(animate);
@@ -109,6 +113,11 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     const BEAT = 9.0; // the 9 of 3·6·9
     zappCore.update(t);
     galaxyMat.uniforms.uTime.value = t;
+    mx += (tmx - mx) * 0.045; my += (tmy - my) * 0.045;        // smooth easing toward the cursor
+    galaxy.position.x = mx * 2.4; galaxy.position.y = my * 1.8;
+    zappCore.group.position.x = mx * 0.9; zappCore.group.position.y = my * 0.7;
+    if (starLayers[0]) { starLayers[0].position.x = mx * 1.0; starLayers[0].position.y = my * 0.8; }
+    if (starLayers[2]) { starLayers[2].position.x = mx * 3.0; starLayers[2].position.y = my * 2.2; }
     galaxy.rotation.y = (t / BEAT) * Math.PI * 0.4;           // alive — the galaxy spins, the camera stays calm
     galaxy.rotation.x = Math.PI * 0.22 + Math.sin(t / 14) * 0.04;
     animateStarLayers(starLayers, t);

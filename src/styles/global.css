@@ -190,6 +190,14 @@ html.lenis,html.lenis body{height:auto}
   background:radial-gradient(ellipse 55% 46% at 26% 24%,rgba(206,232,255,.55),transparent 60%),radial-gradient(ellipse 48% 40% at 74% 30%,rgba(228,214,255,.4),transparent 62%)}
 #dim-past.active .past-storm{animation:teslaArc 11s ease-out infinite}
 @keyframes teslaArc{0%,46%,100%{opacity:0}2%{opacity:.55}4%{opacity:.08}6%{opacity:.7}8%{opacity:.12}9%{opacity:.4}11%{opacity:0}50%{opacity:.5}52%{opacity:.06}54%{opacity:.45}56%{opacity:0}}
+/* The Archive — recovered vintage documents, pinned like museum prints */
+.past-archive{max-width:1100px;margin:5.5rem auto 4rem;padding:0 6vw}
+.archive-grid{display:flex;flex-direction:column;gap:2.6rem;align-items:center;margin-top:1.8rem}
+.arch{margin:0;max-width:720px;width:100%;background:#1a120a;padding:.85rem .85rem 0;border:1px solid rgba(232,200,120,.22);box-shadow:0 26px 64px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.04)}
+.arch:nth-child(odd){transform:rotate(-.5deg)}.arch:nth-child(even){transform:rotate(.5deg)}
+.arch img{width:100%;display:block;filter:sepia(.5) contrast(1.05) brightness(.96)}
+.arch figcaption{font-family:var(--mono);font-size:.64rem;letter-spacing:.04em;color:rgba(245,230,200,.5);padding:.75rem .3rem 1rem;line-height:1.6;text-align:center}
+.arch figcaption em{color:rgba(245,220,150,.78);font-style:normal}
 .past-tribute{margin:6.5rem auto 5rem;max-width:560px;padding:0 6vw;text-align:center}
 .past-tribute img{width:100%;max-width:460px;border-radius:14px;border:1px solid rgba(232,200,120,.4);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 56px rgba(232,200,120,.2);filter:sepia(.1) contrast(1.03)}
 .past-tribute figcaption{margin-top:1.4rem;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(245,230,200,.55);max-width:34ch;margin-left:auto;margin-right:auto;line-height:1.6}
@@ -507,24 +515,14 @@ html.lenis,html.lenis body{height:auto}
   background-size:180px 180px;animation:grain 1.1s steps(5) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,-2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,3%)}80%{transform:translate(3%,2%)}100%{transform:translate(0,0)}}
 
-/* ⚡ WARP — the energy jump between dimensions */
-#warp{position:fixed;inset:0;z-index:99999;pointer-events:none;display:grid;place-items:center;overflow:hidden;
-  background:radial-gradient(circle at 50% 50%,#140d34 0%,#070420 48%,#020009 100%);
-  animation:warpOpen .95s cubic-bezier(.19,1,.22,1) both}
-.warp-mark{font-family:var(--serif);font-weight:700;font-size:clamp(3.4rem,11vw,8rem);line-height:1;
-  background:linear-gradient(170deg,#FFF8E6,#FFE9A8 32%,#E8C84A 58%,#C8960A 82%,#8A5E0A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 34px rgba(255,214,120,.75));transform:translateZ(0)}
-.warp-369{position:absolute;margin-top:10.5rem;font-family:var(--mono);font-size:clamp(.7rem,1.6vw,1rem);letter-spacing:.6em;padding-left:.6em;color:#FFDA6E;text-shadow:0 0 18px rgba(255,200,60,.7)}
-.warp-ring{position:absolute;width:34vmin;height:34vmin;border-radius:50%;border:1px solid rgba(255,210,120,.5);box-shadow:0 0 30px rgba(255,200,90,.25) inset,0 0 24px rgba(255,200,90,.2)}
-.warp-ring:nth-child(2){width:52vmin;height:52vmin;border-color:rgba(159,232,255,.32)}
-.warp-ring:nth-child(3){width:72vmin;height:72vmin;border-color:rgba(200,150,255,.26)}
-#warp .warp-ring{animation:warpSpin 6s linear infinite}
-#warp .warp-ring:nth-child(2){animation-direction:reverse;animation-duration:9s}
-@keyframes warpSpin{to{transform:rotate(360deg) scale(1.04)}}
-@keyframes warpOpen{0%{opacity:1;transform:scale(1);visibility:visible}70%{opacity:.5}100%{opacity:0;transform:scale(1.45);visibility:hidden;pointer-events:none}}
-body.warp-closing #warp{animation:warpClose .58s cubic-bezier(.6,0,.75,0) forwards;pointer-events:all}
-@keyframes warpClose{0%{opacity:0;transform:scale(1.5);visibility:visible}100%{opacity:1;transform:scale(1);visibility:visible}}
-@media(prefers-reduced-motion:reduce){#warp{animation-duration:.4s}body.warp-closing #warp{animation-duration:.3s}.warp-ring{animation:none}}
+/* ⚡ Native cross-document View Transitions — buttery, app-like jumps between dimensions
+   (old page warps out into light, new page rises in; graceful instant fallback on old browsers) */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:vtOut .5s cubic-bezier(.7,0,.84,0) both}
+::view-transition-new(root){animation:vtIn .62s cubic-bezier(.16,1,.3,1) both}
+@keyframes vtOut{to{opacity:0;transform:scale(1.06);filter:brightness(1.7) saturate(1.2)}}
+@keyframes vtIn{from{opacity:0;transform:scale(.985);filter:brightness(.6)}}
+@media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
 
 /* gold text selection */
 ::selection{background:rgba(255,205,60,.32);color:#fff}
