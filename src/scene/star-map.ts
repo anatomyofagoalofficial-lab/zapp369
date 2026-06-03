@@ -32,7 +32,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   // curved paths — a divine current circulating Tower → Network → Signal → Tower.
   const EDGES: [number, number][] = [[0, 1], [1, 2], [2, 0]];
   const EDGE_COLORS = [0xF4D27A, 0x9FE8FF, 0xC896FF];
-  const DOTS = 28;
+  const DOTS = 42;
   const dotTex = (() => {
     const c = document.createElement('canvas'); c.width = c.height = 64;
     const x = c.getContext('2d')!;
@@ -64,7 +64,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     if (worlds[0] && worlds[1] && worlds[2]) {
       EDGES.forEach(([a, b], ei) => {
         const A = worlds[a], B = worlds[b];
-        const mid = A.clone().add(B).multiplyScalar(0.5).multiplyScalar(0.8); // bow gently toward the ⚡ZAPP core
+        const mid = A.clone().add(B).multiplyScalar(0.5).multiplyScalar(0.92); // gentle arc — clearly links the two cards
         triEdges[ei].curve = new THREE.QuadraticBezierCurve3(A, mid, B);
       });
     }
