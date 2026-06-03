@@ -30,12 +30,18 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   const starLayers = buildStarLayers(scene);
   const energyLines = buildEnergyLines(scene);
 
-  // The 3·6·9 triangle — a dashed loop linking the three cards (incl. the hypotenuse).
-  const triGeo = new THREE.BufferGeometry();
-  triGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(4 * 3), 3));
-  const triMat = new THREE.LineDashedMaterial({ color: 0xFFE08A, transparent: true, opacity: 0.26, dashSize: 1.1, gapSize: 1.0, blending: THREE.AdditiveBlending });
-  const triLine = new THREE.Line(triGeo, triMat);
-  scene.add(triLine);
+  // The 3·6·9 links — soft, transparent curved arcs between every pair of cards
+  // (Tower↔Network, Network↔Signal, Signal↔Tower) — incl. the hypotenuse.
+  const EDGE_SEG = 44;
+  const EDGES: [number, number][] = [[0, 1], [1, 2], [2, 0]];
+  const triEdges = EDGES.map(() => {
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array((EDGE_SEG + 1) * 3), 3));
+    const m = new THREE.LineBasicMaterial({ color: 0xFFE08A, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending, depthWrite: false });
+    const line = new THREE.Line(g, m);
+    scene.add(line);
+    return { g, m };
+  });
 
   // Each energy beam ends at its dimension card's on-screen position (unprojected to 3D).
   const cardEls = DIMENSIONS.map(d => ({ id: d.id, el: document.querySelector(`[data-go="${d.route}"]`) as HTMLElement | null }));
@@ -51,10 +57,14 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       worlds[i] = world;
     });
     if (worlds[0] && worlds[1] && worlds[2]) {
-      const pos = triGeo.attributes.position as THREE.BufferAttribute;
-      [worlds[0], worlds[1], worlds[2], worlds[0]].forEach((w, i) => pos.setXYZ(i, w.x, w.y, w.z));
-      pos.needsUpdate = true;
-      triLine.computeLineDistances();
+      EDGES.forEach(([a, b], ei) => {
+        const A = worlds[a], B = worlds[b];
+        const mid = A.clone().add(B).multiplyScalar(0.5).multiplyScalar(0.8); // bow gently toward the ⚡ZAPP core
+        const pts = new THREE.QuadraticBezierCurve3(A, mid, B).getPoints(EDGE_SEG);
+        const pos = triEdges[ei].g.attributes.position as THREE.BufferAttribute;
+        pts.forEach((p, i) => pos.setXYZ(i, p.x, p.y, p.z));
+        pos.needsUpdate = true;
+      });
     }
   }
   // cards are laid out by CSS — wait a frame so getBoundingClientRect is correct
@@ -91,7 +101,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     animateStarLayers(starLayers, t);
     if (flying) refreshLineTargets();                          // keep beams attached while diving
     animateEnergyLines(energyLines, t, hoveredId, flying);
-    triMat.opacity = flying ? Math.max(0, triMat.opacity - 0.04) : 0.2 + 0.12 * Math.sin(t * 1.1);  // 3·6·9 triangle breathes
+    const triOp = flying ? 0 : 0.13 + 0.07 * Math.sin(t * 1.1);  // soft arcs breathe
+    triEdges.forEach(e => { e.m.opacity = flying ? Math.max(0, e.m.opacity - 0.04) : triOp; });
     composer.render();
   }
   animate();
