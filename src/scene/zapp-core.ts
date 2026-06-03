@@ -11,7 +11,7 @@ function softGlow(): THREE.Texture {
 
 export function buildZappCore(scene: THREE.Scene) {
   const group = new THREE.Group();
-  group.scale.setScalar(1.85); // the electric jewel at the heart of the galaxy
+  group.scale.setScalar(1.25); // a compact electric jewel — sits cleanly behind the wordmark
 
   // 1. Inner crystalline core — sharp, bright, white-gold
   const core = new THREE.Mesh(
@@ -35,12 +35,7 @@ export function buildZappCore(scene: THREE.Scene) {
   ring.rotation.x = Math.PI * 0.42;
   group.add(ring);
 
-  // 3. Tight luminous heart — small, never a giant blob
-  const glow = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: softGlow(), color: 0xFFE6A0, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false,
-  }));
-  glow.scale.set(1.9, 1.9, 1);
-  group.add(glow);
+  // (No glow sprite — the wireframe + bloom give a clean halo, no yellow bubble.)
 
   // 4. Crackling Tesla electricity — the ⚡ZAPP signature
   const arcs = buildLightningArcs();
@@ -54,7 +49,6 @@ export function buildZappCore(scene: THREE.Scene) {
       core.rotation.x = t * 0.5; core.rotation.y = t * 0.3;
       cage.rotation.x = -t * 0.2; cage.rotation.z = t * 0.15;
       ring.rotation.z = t * 0.3;
-      (glow.material as THREE.SpriteMaterial).opacity = 0.55 + 0.2 * Math.sin(t * 2);
       animateArcs(arcs, t);
     },
   };

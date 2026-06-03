@@ -23,7 +23,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   composer.setPixelRatio(PR);
   composer.setSize(innerWidth, innerHeight);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.52, 0.42, 0.86));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.42, 0.4, 0.88));
 
   // ── 3D layers: ⚡ZAPP core, spiral galaxy, parallax stars, shooting stars ──
   const zappCore = buildZappCore(scene);

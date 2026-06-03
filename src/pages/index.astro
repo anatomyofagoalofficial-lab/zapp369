@@ -2,12 +2,14 @@
 import Base from '../layouts/Base.astro';
 import Cursor from '../components/Cursor.astro';
 import SoundToggle from '../components/SoundToggle.astro';
+import Intro from '../components/Intro.astro';
 import { DIMENSIONS } from '../scene/dimensions.config';
 
 // number → fixed viewport corner (3 = top-left, 9 = top-right, 6 = bottom-centre)
 const corner: Record<number, string> = { 3: 'card-3', 9: 'card-9', 6: 'card-6' };
 ---
 <Base>
+  <Intro />
   <Cursor />
   <SoundToggle />
 
@@ -41,9 +43,17 @@ const corner: Record<number, string> = { 3: 'card-3', 9: 'card-9', 6: 'card-6' }
     import { initStarMap } from '../scene/star-map';
     import { initCursor } from '../scripts/ui';
     import { initSound } from '../scripts/sound';
+    import { initIntro } from '../scripts/intro';
     const cv = document.getElementById('starmap') as HTMLCanvasElement;
-    if (cv) initStarMap(cv);
+    if (cv) initStarMap(cv);   // star map runs behind the intro, revealed when it finishes
     initCursor();
     initSound();
+    // Spectacular electric ⚡ZAPP intro — plays once per session (skips when returning from a dimension)
+    if (sessionStorage.getItem('zapp-intro-seen')) {
+      document.getElementById('intro')?.remove();
+    } else {
+      sessionStorage.setItem('zapp-intro-seen', '1');
+      initIntro(() => {});
+    }
   </script>
 </Base>
