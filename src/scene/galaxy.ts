@@ -13,9 +13,9 @@ const TEX = roundTex();
 // 12k-particle tilted spiral galaxy with an EMPTY core (logo lives in the hole).
 // Each particle is a sharp twinkling star (diffraction spikes via shader).
 export function buildGalaxy(scene: THREE.Scene): { points: THREE.Points; material: THREE.ShaderMaterial } {
-  const N = 12000, INNER = 15, OUTER = 46;
+  const N = 15000, INNER = 15, OUTER = 46;
   const positions = new Float32Array(N * 3), colors = new Float32Array(N * 3), sizes = new Float32Array(N), twinkles = new Float32Array(N);
-  const cGold = new THREE.Color('#F4D27A'), cPurple = new THREE.Color('#9D6CFF'), cWhite = new THREE.Color('#FFFFFF');
+  const cGold = new THREE.Color('#F4D27A'), cPurple = new THREE.Color('#9D6CFF'), cWhite = new THREE.Color('#FFFFFF'), cCyan = new THREE.Color('#7FE8FF');
   for (let i = 0; i < N; i++) {
     const arm = i % 3;
     const armAngle = (arm / 3) * Math.PI * 2;
@@ -26,7 +26,9 @@ export function buildGalaxy(scene: THREE.Scene): { points: THREE.Points; materia
     positions[i * 3 + 1] = (Math.random() - 0.5) * 2.5;
     positions[i * 3 + 2] = Math.sin(angle) * distance;
     const mix = new THREE.Color().lerpColors(cGold, cPurple, (distance - INNER) / (OUTER - INNER));
-    if (Math.random() > 0.95) mix.copy(cWhite);
+    const r = Math.random();
+    if (r > 0.95) mix.copy(cWhite);
+    else if (r > 0.87) mix.lerp(cCyan, 0.7); // cyan accents — the 3·6·9 palette
     colors[i * 3] = mix.r; colors[i * 3 + 1] = mix.g; colors[i * 3 + 2] = mix.b;
     sizes[i] = Math.random() < 0.95 ? 0.8 + Math.random() * 1.1 : 2.4 + Math.random() * 1.6; // sharp stars, no big bokeh discs
     twinkles[i] = Math.random();

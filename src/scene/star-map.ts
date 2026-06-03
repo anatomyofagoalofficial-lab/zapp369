@@ -21,12 +21,13 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   composer.setPixelRatio(Math.min(devicePixelRatio, 2));
   composer.setSize(innerWidth, innerHeight);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.45, 0.35, 0.9));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.62, 0.5, 0.82));
 
-  // ── 3D layers only: ⚡ZAPP core, spiral galaxy, parallax stars, energy beams ──
+  // ── 3D layers: ⚡ZAPP core, spiral galaxy, parallax stars, shooting stars ──
   const zappCore = buildZappCore(scene);
   const { points: galaxy, material: galaxyMat } = buildGalaxy(scene);
   const starLayers = buildStarLayers(scene);
+  // (Shooting stars are rendered as CSS overlays in the markup — reliable on every GPU.)
 
   // The connections between dimensions: fine streams of glowing dots that flow along
   // curved paths — a divine current circulating Tower → Network → Signal → Tower.
@@ -102,6 +103,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
+    const dt = Math.min(0.05, t - lastT);
     const BEAT = 9.0; // the 9 of 3·6·9
     zappCore.update(t);
     galaxyMat.uniforms.uTime.value = t;
@@ -124,7 +126,6 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     });
 
     if (smEl && !flying && !reduceMotion) {
-      const dt = Math.min(0.05, t - lastT);
       const speed = Math.min(380, 20 + t * 2.4);          // smooth start → accelerates the longer you watch
       const maxX = Math.max(40, (innerWidth - smEl.offsetWidth) / 2 - 8);
       const maxY = Math.max(40, (innerHeight - smEl.offsetHeight) / 2 - 8);

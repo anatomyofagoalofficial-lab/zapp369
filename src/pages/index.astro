@@ -14,9 +14,12 @@ const corner: Record<number, string> = { 3: 'card-3', 9: 'card-9', 6: 'card-6' }
   <div id="starmap-wrap">
     <canvas id="starmap"></canvas>
 
+    <!-- shooting stars (CSS overlay — reliable on every GPU) -->
+    <div class="shooting-stars" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
     <div class="sm-center">
       <h1 class="sm-logo">⚡ZAPP</h1>
-      <div class="sm-369">3 · 6 · 9 · ∞</div>
+      <div class="sm-369">∞ · 3 · 6 · 9 · ∞</div>
       <div class="sm-tag">Tesla's Revolution</div>
       <div class="sm-sub">Choose your dimension</div>
     </div>

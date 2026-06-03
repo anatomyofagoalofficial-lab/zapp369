@@ -13,25 +13,31 @@ export function buildZappCore(scene: THREE.Scene) {
   const group = new THREE.Group();
   group.scale.setScalar(1.6); // small — sits inside the cleared galaxy core, behind the logo
 
+  // 0. Nebula heart — a luminous focal glow so the centre reads clearly
+  const nebGold = new THREE.Sprite(new THREE.SpriteMaterial({ map: softGlow(), color: 0xFFD27A, transparent: true, opacity: 0.24, blending: THREE.AdditiveBlending, depthWrite: false }));
+  nebGold.scale.set(9, 9, 1); group.add(nebGold);
+  const nebViolet = new THREE.Sprite(new THREE.SpriteMaterial({ map: softGlow(), color: 0x8E5BFF, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending, depthWrite: false }));
+  nebViolet.scale.set(6.5, 6.5, 1); nebViolet.position.set(0.7, -0.4, -0.2); group.add(nebViolet);
+
   // 1. Inner crystalline core — small, sharp, bright
   const core = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(0.6, 1),
-    new THREE.MeshBasicMaterial({ color: 0xFFE890, wireframe: true, transparent: true, opacity: 0.9 }),
+    new THREE.IcosahedronGeometry(0.62, 1),
+    new THREE.MeshBasicMaterial({ color: 0xFFF2C0, wireframe: true, transparent: true, opacity: 1 }),
   );
   group.add(core);
 
   // 2. Counter-rotating outer cage
   const cage = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(1.1, 0),
-    new THREE.MeshBasicMaterial({ color: 0xC896FF, wireframe: true, transparent: true, opacity: 0.4 }),
+    new THREE.IcosahedronGeometry(1.12, 0),
+    new THREE.MeshBasicMaterial({ color: 0xC896FF, wireframe: true, transparent: true, opacity: 0.55 }),
   );
   group.add(cage);
 
-  // 3. Tight glow sprite — modest, not a giant sun
+  // 3. Glow sprite — the bright heart of the core
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: softGlow(), color: 0xFFE890, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false,
+    map: softGlow(), color: 0xFFE890, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false,
   }));
-  glow.scale.set(1.5, 1.5, 1);
+  glow.scale.set(2.4, 2.4, 1);
   group.add(glow);
 
   // 4. Lightning arcs — the ZAPP signature
@@ -45,7 +51,9 @@ export function buildZappCore(scene: THREE.Scene) {
     update(t: number) {
       core.rotation.x = t * 0.5; core.rotation.y = t * 0.3;
       cage.rotation.x = -t * 0.2; cage.rotation.z = t * 0.15;
-      (glow.material as THREE.SpriteMaterial).opacity = 0.4 + 0.15 * Math.sin(t * 2);
+      (glow.material as THREE.SpriteMaterial).opacity = 0.62 + 0.2 * Math.sin(t * 2);
+      (nebGold.material as THREE.SpriteMaterial).opacity = 0.2 + 0.06 * Math.sin(t * 0.8);
+      nebGold.material.rotation = t * 0.04;
       animateArcs(arcs, t);
     },
   };

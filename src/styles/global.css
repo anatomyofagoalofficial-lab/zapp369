@@ -523,6 +523,15 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 /* ══════════ STAR MAP (landing) ══════════ */
 #starmap-wrap{position:fixed;inset:0;background:radial-gradient(ellipse 72% 60% at 50% 45%,#0b0820,#04030f 70%,#010007)}
 #starmap{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:1;pointer-events:none}
+/* shooting stars — CSS meteors streaking diagonally across the sky */
+.shooting-stars{position:fixed;inset:0;z-index:6;pointer-events:none;overflow:hidden}
+.shooting-stars span{position:absolute;width:130px;height:2px;border-radius:2px;opacity:0;background:linear-gradient(90deg,rgba(255,244,214,0),#FFF6DC);filter:drop-shadow(0 0 6px rgba(255,238,196,.85))}
+@keyframes shootFly{0%{opacity:0;transform:translate(0,0) rotate(var(--ang)) scaleX(.25)}6%{opacity:1}55%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--ang)) scaleX(1)}}
+.shooting-stars span:nth-child(1){top:9%;left:60%;--dx:-560px;--dy:380px;--ang:146deg;animation:shootFly 4.5s ease-in 2s infinite}
+.shooting-stars span:nth-child(2){top:5%;left:36%;--dx:-420px;--dy:560px;--ang:142deg;animation:shootFly 5.5s ease-in 6s infinite}
+.shooting-stars span:nth-child(3){top:13%;left:84%;--dx:-740px;--dy:330px;--ang:156deg;animation:shootFly 6s ease-in 10s infinite}
+.shooting-stars span:nth-child(4){top:22%;left:50%;--dx:-360px;--dy:470px;--ang:150deg;animation:shootFly 5s ease-in 14s infinite}
+@media(prefers-reduced-motion:reduce){.shooting-stars{display:none}}
 .sm-center{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:10;text-align:center;pointer-events:none;max-width:90vw;padding:40px 52px;background:radial-gradient(ellipse at center,rgba(8,6,16,.66) 0%,rgba(8,6,16,.34) 42%,rgba(8,6,16,0) 75%);will-change:transform}
 /* ⚡ZAPP ricochets around the whole screen like an air-hockey puck (linear = straight travel, sharp wall bounces) */
 @keyframes smFloat{
