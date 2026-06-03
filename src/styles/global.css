@@ -537,8 +537,7 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 .dimension-card:hover{transform:translateY(-5px) scale(1.04);border-color:var(--dc,#F4D27A);box-shadow:0 24px 64px rgba(0,0,0,.55),0 0 44px color-mix(in srgb,var(--dc,#F4D27A) 42%,transparent)}
 .card-3{top:var(--safe-y);left:var(--safe-x)}
 .card-9{top:var(--safe-y);right:var(--safe-x)}
-.card-6{bottom:var(--safe-y);left:50%;transform:translateX(-50%)}
-.card-6:hover{transform:translateX(-50%) translateY(-5px) scale(1.04)}
+.card-6{bottom:var(--safe-y);left:var(--safe-x)}
 .dc-meta{font-family:var(--mono);font-size:10px;letter-spacing:.18em;opacity:.6;text-transform:uppercase}
 .dc-title{font-family:var(--serif);font-size:1.4rem;font-weight:600;margin:.3rem 0;color:var(--dc,#F4D27A)}
 .dc-desc{font-size:.78rem;line-height:1.5;color:rgba(245,240,230,.6);margin:.2rem auto .85rem;max-width:26ch}
