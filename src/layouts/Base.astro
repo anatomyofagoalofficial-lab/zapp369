@@ -36,5 +36,20 @@ const og = '/zapp-social-preview.jpg';
 <body>
   <slot />
   <div class="grain" aria-hidden="true"></div>
+
+  <!-- ⚡ Warp transition veil — dissolves on arrival, gathers on departure (a 3·6·9 energy jump) -->
+  <div id="warp" aria-hidden="true">
+    <span class="warp-ring"></span><span class="warp-ring"></span><span class="warp-ring"></span>
+    <div class="warp-mark">⚡</div>
+    <div class="warp-369">3 · 6 · 9 · ∞</div>
+  </div>
+  <script is:inline>
+    // Departure: gather the veil, then navigate. Arrival reveal is pure CSS (auto-plays on load).
+    window.zappWarp = function (url) {
+      if (document.body.classList.contains('warp-closing')) return;
+      document.body.classList.add('warp-closing');
+      setTimeout(function () { location.href = url; }, 560);
+    };
+  </script>
 </body>
 </html>

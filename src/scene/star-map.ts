@@ -89,7 +89,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     flying = true;
     document.getElementById('dimension-cards')?.classList.add('flying');
     (document.querySelector('.sm-center') as HTMLElement | null)?.style.setProperty('opacity', '0');
-    flyTo(camera, dim.position, () => { window.location.href = route; });
+    flyTo(camera, dim.position, () => { (window as any).zappWarp ? (window as any).zappWarp(route) : (window.location.href = route); });
   });
 
   // ── ⚡ZAPP title as an air-hockey puck: smooth & slow at first, faster the longer you stay ──
@@ -112,7 +112,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     animateStarLayers(starLayers, t);
     if (flying) refreshLineTargets();                          // keep lines attached while diving
     const hi = DIMENSIONS.findIndex(d => d.id === hoveredId);  // hovering a card lights its two streams
-    const flow = t * 0.12;                                     // the divine current circulates, smooth & endless
+    const flow = t * 0.072;                                    // the divine current circulates — slow, smooth & endless
     triEdges.forEach((e, ei) => {
       if (!e.curve) return;
       const pos = e.g.attributes.position as THREE.BufferAttribute;
@@ -126,7 +126,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     });
 
     if (smEl && !flying && !reduceMotion) {
-      const speed = Math.min(380, 20 + t * 2.4);          // smooth start → accelerates the longer you watch
+      const speed = Math.min(54, 9 + t * 0.4);            // a slow, luxurious drift — barely accelerates
       const maxX = Math.max(40, (innerWidth - smEl.offsetWidth) / 2 - 8);
       const maxY = Math.max(40, (innerHeight - smEl.offsetHeight) / 2 - 8);
       px += vx * speed * dt; py += vy * speed * dt;

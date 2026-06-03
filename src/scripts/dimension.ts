@@ -45,8 +45,9 @@ function boot() {
   document.addEventListener('click', e => {
     const t = (e.target as HTMLElement).closest('[data-hub],[data-era],[data-copy-ca],[data-scroll-buy],[data-sc]') as HTMLElement | null;
     if (!t) return;
-    if (t.hasAttribute('data-hub')) { e.preventDefault(); location.href = '/'; }
-    else if (t.hasAttribute('data-era')) { e.preventDefault(); const er = t.getAttribute('data-era')!; if (er !== name) location.href = ROUTE[er] || '/'; }
+    const go = (u: string) => (window as any).zappWarp ? (window as any).zappWarp(u) : (location.href = u);
+    if (t.hasAttribute('data-hub')) { e.preventDefault(); go('/'); }
+    else if (t.hasAttribute('data-era')) { e.preventDefault(); const er = t.getAttribute('data-era')!; if (er !== name) go(ROUTE[er] || '/'); }
     else if (t.hasAttribute('data-copy-ca')) { navigator.clipboard.writeText(CA).then(() => { const m = document.getElementById('ca-msg'); if (m) { m.textContent = '✓ Copied!'; m.style.opacity = '1'; setTimeout(() => m.style.opacity = '0', 2500); } }); }
     else if (t.hasAttribute('data-scroll-buy')) { e.preventDefault(); const b = document.getElementById('buy-section'); if (b) lenis ? lenis.scrollTo(b) : b.scrollIntoView({ behavior: 'smooth' }); }
     else if (t.hasAttribute('data-sc')) { const el = cinEl(); if (el) { el.value = Number(t.getAttribute('data-sc')).toLocaleString('en-US'); uc(); } }

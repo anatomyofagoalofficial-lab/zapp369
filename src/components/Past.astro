@@ -2,6 +2,7 @@
 import BuySection from './BuySection.astro';
 ---
 <div id="dim-past" class="page">
+  <div class="past-storm" aria-hidden="true"></div>
   <div class="past-hero">
     <canvas id="past-canvas"></canvas>
     <div class="past-hero-text">
@@ -26,6 +27,10 @@ import BuySection from './BuySection.astro';
         <p>J.P. Morgan's question when Tesla pitched energy free for the whole world. Free has no meter — so the money stopped. Wardenclyffe was demolished in 1917. The monopoly survived 100 more years.</p>
       </div>
     </div>
+    <figure class="past-tribute rv">
+      <img src="/illustrations/tribute.jpg" alt="A tribute to Nikola Tesla — the man who saw the future" loading="lazy" onerror="this.closest('.past-tribute').style.display='none'">
+      <figcaption>In memory of the man who gave it all away — so it could belong to everyone.</figcaption>
+    </figure>
     <div class="past-tesla-q">
       <div class="tq-369 rv" aria-hidden="true">3 · 6 · 9</div>
       <img class="tq-figure rv" src="/illustrations/369-sacred.jpg" alt="Tesla and the sacred 3·6·9" loading="lazy">
