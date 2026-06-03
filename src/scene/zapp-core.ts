@@ -11,36 +11,38 @@ function softGlow(): THREE.Texture {
 
 export function buildZappCore(scene: THREE.Scene) {
   const group = new THREE.Group();
-  group.scale.setScalar(1.6); // small — sits inside the cleared galaxy core, behind the logo
+  group.scale.setScalar(1.85); // the electric jewel at the heart of the galaxy
 
-  // 0. Nebula heart — a luminous focal glow so the centre reads clearly
-  const nebGold = new THREE.Sprite(new THREE.SpriteMaterial({ map: softGlow(), color: 0xFFD27A, transparent: true, opacity: 0.24, blending: THREE.AdditiveBlending, depthWrite: false }));
-  nebGold.scale.set(9, 9, 1); group.add(nebGold);
-  const nebViolet = new THREE.Sprite(new THREE.SpriteMaterial({ map: softGlow(), color: 0x8E5BFF, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending, depthWrite: false }));
-  nebViolet.scale.set(6.5, 6.5, 1); nebViolet.position.set(0.7, -0.4, -0.2); group.add(nebViolet);
-
-  // 1. Inner crystalline core — small, sharp, bright
+  // 1. Inner crystalline core — sharp, bright, white-gold
   const core = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(0.62, 1),
-    new THREE.MeshBasicMaterial({ color: 0xFFF2C0, wireframe: true, transparent: true, opacity: 1 }),
+    new THREE.IcosahedronGeometry(0.7, 1),
+    new THREE.MeshBasicMaterial({ color: 0xFFF6D8, wireframe: true, transparent: true, opacity: 0.95 }),
   );
   group.add(core);
 
-  // 2. Counter-rotating outer cage
+  // 2. Counter-rotating outer cage — violet sacred geometry
   const cage = new THREE.Mesh(
-    new THREE.IcosahedronGeometry(1.12, 0),
-    new THREE.MeshBasicMaterial({ color: 0xC896FF, wireframe: true, transparent: true, opacity: 0.55 }),
+    new THREE.IcosahedronGeometry(1.18, 0),
+    new THREE.MeshBasicMaterial({ color: 0xC9A2FF, wireframe: true, transparent: true, opacity: 0.5 }),
   );
   group.add(cage);
 
-  // 3. Glow sprite — the bright heart of the core
+  // 2b. Tilted golden halo ring — a single elegant orbit
+  const ring = new THREE.Mesh(
+    new THREE.TorusGeometry(1.5, 0.012, 8, 110),
+    new THREE.MeshBasicMaterial({ color: 0xFFD27A, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending, depthWrite: false }),
+  );
+  ring.rotation.x = Math.PI * 0.42;
+  group.add(ring);
+
+  // 3. Tight luminous heart — small, never a giant blob
   const glow = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: softGlow(), color: 0xFFE890, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false,
+    map: softGlow(), color: 0xFFE6A0, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false,
   }));
-  glow.scale.set(2.4, 2.4, 1);
+  glow.scale.set(1.9, 1.9, 1);
   group.add(glow);
 
-  // 4. Lightning arcs — the ZAPP signature
+  // 4. Crackling Tesla electricity — the ⚡ZAPP signature
   const arcs = buildLightningArcs();
   group.add(arcs);
 
@@ -51,9 +53,8 @@ export function buildZappCore(scene: THREE.Scene) {
     update(t: number) {
       core.rotation.x = t * 0.5; core.rotation.y = t * 0.3;
       cage.rotation.x = -t * 0.2; cage.rotation.z = t * 0.15;
-      (glow.material as THREE.SpriteMaterial).opacity = 0.62 + 0.2 * Math.sin(t * 2);
-      (nebGold.material as THREE.SpriteMaterial).opacity = 0.2 + 0.06 * Math.sin(t * 0.8);
-      nebGold.material.rotation = t * 0.04;
+      ring.rotation.z = t * 0.3;
+      (glow.material as THREE.SpriteMaterial).opacity = 0.55 + 0.2 * Math.sin(t * 2);
       animateArcs(arcs, t);
     },
   };
@@ -61,19 +62,20 @@ export function buildZappCore(scene: THREE.Scene) {
 
 function buildLightningArcs(): THREE.Group {
   const arcs = new THREE.Group();
-  for (let i = 0; i < 6; i++) {
+  const ARCS = 12, SEG = 11;
+  for (let i = 0; i < ARCS; i++) {
     const points: THREE.Vector3[] = [];
-    const angle = (i / 6) * Math.PI * 2;
-    for (let j = 0; j <= 8; j++) {
-      const r = 0.6 + (j / 8) * 1.0 + (Math.random() - 0.5) * 0.15;
+    const angle = (i / ARCS) * Math.PI * 2;
+    for (let j = 0; j <= SEG; j++) {
+      const r = 0.5 + (j / SEG) * 1.15 + (Math.random() - 0.5) * 0.24;     // jagged bolt
       points.push(new THREE.Vector3(
-        Math.cos(angle) * r + (Math.random() - 0.5) * 0.1,
-        (j / 8 - 0.5) * 0.4,
-        Math.sin(angle) * r + (Math.random() - 0.5) * 0.1,
+        Math.cos(angle) * r + (Math.random() - 0.5) * 0.2,
+        (j / SEG - 0.5) * 0.5 + (Math.random() - 0.5) * 0.12,
+        Math.sin(angle) * r + (Math.random() - 0.5) * 0.2,
       ));
     }
     const geo = new THREE.BufferGeometry().setFromPoints(points);
-    const mat = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending });
+    const mat = new THREE.LineBasicMaterial({ color: 0xDCEEFF, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending });
     arcs.add(new THREE.Line(geo, mat));
   }
   return arcs;
@@ -82,7 +84,8 @@ function buildLightningArcs(): THREE.Group {
 function animateArcs(arcs: THREE.Group, t: number) {
   arcs.children.forEach((arc, i) => {
     const line = arc as THREE.Line;
-    (line.material as THREE.LineBasicMaterial).opacity = Math.random() > 0.7 ? 0.9 : 0.2;
-    line.rotation.y = t * (0.1 + i * 0.05);
+    // each bolt flickers independently — a live Tesla-coil crackle
+    (line.material as THREE.LineBasicMaterial).opacity = Math.random() > 0.62 ? 0.95 : 0.12;
+    line.rotation.y = t * (0.12 + i * 0.04);
   });
 }

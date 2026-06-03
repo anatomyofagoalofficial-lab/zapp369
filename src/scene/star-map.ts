@@ -13,15 +13,17 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   camera.position.set(0, 0, 20);
   camera.lookAt(0, 0, 0);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const MOBILE = innerWidth < 768;
+  const PR = Math.min(devicePixelRatio, MOBILE ? 1.5 : 2); // lighter on phones = smoother
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !MOBILE, alpha: true });
+  renderer.setPixelRatio(PR);
   renderer.setSize(innerWidth, innerHeight);
 
   const composer = new EffectComposer(renderer);
-  composer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  composer.setPixelRatio(PR);
   composer.setSize(innerWidth, innerHeight);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.62, 0.5, 0.82));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.52, 0.42, 0.86));
 
   // ── 3D layers: ⚡ZAPP core, spiral galaxy, parallax stars, shooting stars ──
   const zappCore = buildZappCore(scene);
@@ -112,7 +114,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     animateStarLayers(starLayers, t);
     if (flying) refreshLineTargets();                          // keep lines attached while diving
     const hi = DIMENSIONS.findIndex(d => d.id === hoveredId);  // hovering a card lights its two streams
-    const flow = t * 0.072;                                    // the divine current circulates — slow, smooth & endless
+    const flow = t * 0.092;                                    // the divine current circulates — smooth & alive
     triEdges.forEach((e, ei) => {
       if (!e.curve) return;
       const pos = e.g.attributes.position as THREE.BufferAttribute;
@@ -125,8 +127,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       e.m.opacity = flying ? Math.max(0, e.m.opacity - 0.05) : (hot ? 1 : 0.85);
     });
 
-    if (smEl && !flying && !reduceMotion) {
-      const speed = Math.min(54, 9 + t * 0.4);            // a slow, luxurious drift — barely accelerates
+    if (smEl && !flying && !reduceMotion && !MOBILE) {
+      const speed = Math.min(92, 20 + t * 0.55);          // a lively, smooth glide — alive but never frantic
       const maxX = Math.max(40, (innerWidth - smEl.offsetWidth) / 2 - 8);
       const maxY = Math.max(40, (innerHeight - smEl.offsetHeight) / 2 - 8);
       px += vx * speed * dt; py += vy * speed * dt;

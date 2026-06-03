@@ -13,7 +13,7 @@ const TEX = roundTex();
 // 12k-particle tilted spiral galaxy with an EMPTY core (logo lives in the hole).
 // Each particle is a sharp twinkling star (diffraction spikes via shader).
 export function buildGalaxy(scene: THREE.Scene): { points: THREE.Points; material: THREE.ShaderMaterial } {
-  const N = 15000, INNER = 15, OUTER = 46;
+  const N = (innerWidth < 768 ? 7000 : 14000), INNER = 15, OUTER = 46;
   const positions = new Float32Array(N * 3), colors = new Float32Array(N * 3), sizes = new Float32Array(N), twinkles = new Float32Array(N);
   const cGold = new THREE.Color('#F4D27A'), cPurple = new THREE.Color('#9D6CFF'), cWhite = new THREE.Color('#FFFFFF'), cCyan = new THREE.Color('#7FE8FF');
   for (let i = 0; i < N; i++) {
