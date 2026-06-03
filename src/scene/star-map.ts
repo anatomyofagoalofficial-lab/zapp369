@@ -30,9 +30,17 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   const starLayers = buildStarLayers(scene);
   const energyLines = buildEnergyLines(scene);
 
+  // The 3·6·9 triangle — a dashed loop linking the three cards (incl. the hypotenuse).
+  const triGeo = new THREE.BufferGeometry();
+  triGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(4 * 3), 3));
+  const triMat = new THREE.LineDashedMaterial({ color: 0xFFE08A, transparent: true, opacity: 0.26, dashSize: 1.1, gapSize: 1.0, blending: THREE.AdditiveBlending });
+  const triLine = new THREE.Line(triGeo, triMat);
+  scene.add(triLine);
+
   // Each energy beam ends at its dimension card's on-screen position (unprojected to 3D).
   const cardEls = DIMENSIONS.map(d => ({ id: d.id, el: document.querySelector(`[data-go="${d.route}"]`) as HTMLElement | null }));
   function refreshLineTargets() {
+    const worlds: THREE.Vector3[] = [];
     cardEls.forEach((c, i) => {
       if (!c.el) return;
       const r = c.el.getBoundingClientRect();
@@ -40,7 +48,14 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       const ndcY = -((r.top + r.height / 2) / innerHeight) * 2 + 1;
       const world = new THREE.Vector3(ndcX, ndcY, 0.5).unproject(camera);
       setEnergyLineEnd(energyLines[i], world);
+      worlds[i] = world;
     });
+    if (worlds[0] && worlds[1] && worlds[2]) {
+      const pos = triGeo.attributes.position as THREE.BufferAttribute;
+      [worlds[0], worlds[1], worlds[2], worlds[0]].forEach((w, i) => pos.setXYZ(i, w.x, w.y, w.z));
+      pos.needsUpdate = true;
+      triLine.computeLineDistances();
+    }
   }
   // cards are laid out by CSS — wait a frame so getBoundingClientRect is correct
   requestAnimationFrame(refreshLineTargets);
@@ -76,6 +91,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     animateStarLayers(starLayers, t);
     if (flying) refreshLineTargets();                          // keep beams attached while diving
     animateEnergyLines(energyLines, t, hoveredId, flying);
+    triMat.opacity = flying ? Math.max(0, triMat.opacity - 0.04) : 0.2 + 0.12 * Math.sin(t * 1.1);  // 3·6·9 triangle breathes
     composer.render();
   }
   animate();
