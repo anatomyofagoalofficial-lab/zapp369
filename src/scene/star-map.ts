@@ -4,7 +4,6 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { DIMENSIONS } from './dimensions.config';
 import { flyTo } from './camera-controller';
-import { buildZappCore } from './zapp-core';
 import { buildGalaxy, buildStarLayers, animateStarLayers } from './galaxy';
 
 export function initStarMap(canvas: HTMLCanvasElement) {
@@ -25,8 +24,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   composer.addPass(new RenderPass(scene, camera));
   composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.42, 0.4, 0.88));
 
-  // ── 3D layers: ⚡ZAPP core, spiral galaxy, parallax stars, shooting stars ──
-  const zappCore = buildZappCore(scene);
+  // ── 3D layers: spiral galaxy + parallax stars. The HTML ⚡ZAPP wordmark IS the centre —
+  //    nothing 3D lives at the origin, so it can never crowd the logo. ──
   const { points: galaxy, material: galaxyMat } = buildGalaxy(scene);
   const starLayers = buildStarLayers(scene);
   // (Shooting stars are rendered as CSS overlays in the markup — reliable on every GPU.)
@@ -44,7 +43,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     x.fillStyle = g; x.fillRect(0, 0, 64, 64);
     return new THREE.CanvasTexture(c);
   })();
-  const triEdges = EDGES.map((_, i) => {
+  // Connections are a desktop flourish; on mobile the cards stack vertically so they'd be meaningless.
+  const triEdges = MOBILE ? [] : EDGES.map((_, i) => {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(DOTS * 3), 3));
     const m = new THREE.PointsMaterial({ color: EDGE_COLORS[i], size: 7, sizeAttenuation: false, map: dotTex, transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false });
@@ -64,10 +64,15 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       const ndcY = -((r.top + r.height / 2) / innerHeight) * 2 + 1;
       worlds[i] = new THREE.Vector3(ndcX, ndcY, 0.5).unproject(camera);
     });
-    if (worlds[0] && worlds[1] && worlds[2]) {
+    if (!MOBILE && worlds[0] && worlds[1] && worlds[2]) {
       EDGES.forEach(([a, b], ei) => {
         const A = worlds[a], B = worlds[b];
-        const mid = A.clone().add(B).multiplyScalar(0.5).multiplyScalar(0.92); // gentle arc — clearly links the two cards
+        const mid = A.clone().add(B).multiplyScalar(0.5);
+        // bulge the arc AWAY from centre so it frames the logo instead of crossing it
+        const edge = B.clone().sub(A);
+        const perp = new THREE.Vector3(-edge.y, edge.x, 0).normalize();
+        if (mid.dot(perp) < 0) perp.negate();
+        mid.addScaledVector(perp, edge.length() * 0.32);
         triEdges[ei].curve = new THREE.QuadraticBezierCurve3(A, mid, B);
       });
     }
@@ -111,11 +116,9 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     const t = clock.getElapsedTime();
     const dt = Math.min(0.05, t - lastT);
     const BEAT = 9.0; // the 9 of 3·6·9
-    zappCore.update(t);
     galaxyMat.uniforms.uTime.value = t;
     mx += (tmx - mx) * 0.045; my += (tmy - my) * 0.045;        // smooth easing toward the cursor
     galaxy.position.x = mx * 2.4; galaxy.position.y = my * 1.8;
-    zappCore.group.position.x = mx * 0.9; zappCore.group.position.y = my * 0.7;
     if (starLayers[0]) { starLayers[0].position.x = mx * 1.0; starLayers[0].position.y = my * 0.8; }
     if (starLayers[2]) { starLayers[2].position.x = mx * 3.0; starLayers[2].position.y = my * 2.2; }
     galaxy.rotation.y = (t / BEAT) * Math.PI * 0.4;           // alive — the galaxy spins, the camera stays calm

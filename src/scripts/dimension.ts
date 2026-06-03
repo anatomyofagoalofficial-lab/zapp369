@@ -5,6 +5,7 @@ import { CA, DEX_API, prefersReducedMotion } from './constants';
 import { startDimCanvas, setDimScroll } from './scenes';
 import { initCursor } from './ui';
 import { initSound } from './sound';
+import { initTeslaArc } from './teslaArc';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,6 +59,7 @@ function boot() {
   if (lenis) lenis.on('scroll', onScroll);
 
   startDimCanvas(name);
+  if (name === 'past') { const ta = document.getElementById('tesla-arc') as HTMLCanvasElement | null; if (ta) initTeslaArc(ta); }
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
 }
