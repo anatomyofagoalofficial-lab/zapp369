@@ -5,7 +5,7 @@ export function flyTo(
   camera: THREE.PerspectiveCamera,
   target: THREE.Vector3,
   onArrive: () => void,
-  duration = 2200,
+  duration = 1400,
 ) {
   const startPos = camera.position.clone();
   const dir = target.clone().sub(startPos).normalize();
