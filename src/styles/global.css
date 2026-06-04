@@ -213,11 +213,11 @@ html.lenis,html.lenis body{height:auto}
 .past-tribute img{width:100%;max-width:460px;border-radius:14px;border:1px solid rgba(232,200,120,.4);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 56px rgba(232,200,120,.2);filter:sepia(.1) contrast(1.03)}
 .past-tribute figcaption{margin-top:1.4rem;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(245,230,200,.55);max-width:34ch;margin-left:auto;margin-right:auto;line-height:1.6}
 @media(prefers-reduced-motion:reduce){.past-storm{animation:none!important;opacity:0}}
-#dim-past::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:repeating-linear-gradient(45deg,rgba(184,115,51,.03) 0,rgba(184,115,51,.03) 1px,transparent 0,transparent 50%),repeating-linear-gradient(-45deg,rgba(184,115,51,.03) 0,rgba(184,115,51,.03) 1px,transparent 0,transparent 50%);
-  background-size:10px 10px}
+#dim-past::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.7;
+  background-image:repeating-linear-gradient(45deg,rgba(180,182,188,.05) 0,rgba(180,182,188,.05) 1px,transparent 1px,transparent 6px),repeating-linear-gradient(-45deg,rgba(180,182,188,.045) 0,rgba(180,182,188,.045) 1px,transparent 1px,transparent 6px);
+  background-size:7px 7px}
 .past-hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;overflow:hidden}
-#past-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+#past-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;filter:grayscale(1) contrast(1.12) brightness(1.04)}
 .past-hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(10,6,0,.88) 0%,rgba(10,6,0,.6) 34%,rgba(10,6,0,.12) 62%,transparent 100%)}
 .past-hero-text{position:relative;z-index:2;max-width:600px;padding:9rem 4rem 5rem 6vw;display:flex;flex-direction:column;justify-content:center}
 .era-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--copper);border:1px solid rgba(184,115,51,.3);padding:.28rem .85rem;border-radius:2px;margin-bottom:2rem}
@@ -241,9 +241,9 @@ html.lenis,html.lenis body{height:auto}
 .pc-p{font-size:.9rem;line-height:1.85;color:rgba(245,230,200,.64)}
 .blueprint{background:#1B3A5C;border:1px solid rgba(100,160,220,.18);padding:3rem 4rem;max-width:1200px;margin:0 auto 4rem;position:relative;overflow:hidden;display:grid;grid-template-columns:300px 1fr;gap:3rem;align-items:center}
 .bp-img{position:relative;z-index:1;border-radius:8px;overflow:hidden;border:1px solid rgba(120,180,240,.22);box-shadow:0 18px 44px rgba(0,0,0,.45)}
-.bp-img img{display:block;width:100%;height:auto;filter:sepia(.28) contrast(1.04) saturate(.92)}
+.bp-img img{display:block;width:100%;height:auto;filter:grayscale(.95) contrast(1.08)}
 .bp-text{position:relative;z-index:1}
-.tq-figure{display:block;width:min(280px,68vw);margin:0 auto 2.4rem;border-radius:12px;border:1px solid rgba(184,115,51,.25);box-shadow:0 22px 60px rgba(0,0,0,.5),0 0 50px rgba(255,200,60,.12);filter:sepia(.26) contrast(1.03);animation:floaty 7s ease-in-out infinite;will-change:transform}
+.tq-figure{display:block;width:min(280px,68vw);margin:0 auto 2.4rem;border-radius:12px;border:1px solid rgba(184,115,51,.25);box-shadow:0 22px 60px rgba(0,0,0,.5),0 0 50px rgba(255,200,60,.12);filter:grayscale(.92) contrast(1.06);animation:floaty 7s ease-in-out infinite;will-change:transform}
 .blueprint::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(80,160,240,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(80,160,240,.06) 1px,transparent 1px);background-size:30px 30px}
 .blueprint-q{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.8rem);font-style:italic;color:#B8D4F0;margin-bottom:1rem;position:relative;z-index:1}
 .blueprint-q em{color:#7CB9F0;font-style:normal}
@@ -682,4 +682,4 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 @keyframes scrollBounce{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
 
 /* coded Tesla-coil discharge overlay (Past hero) */
-.tesla-arc{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen}
+.tesla-arc{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen;filter:grayscale(1) contrast(1.1)}
