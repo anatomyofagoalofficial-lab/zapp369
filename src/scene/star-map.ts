@@ -102,12 +102,9 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     flyTo(camera, dim.position, () => { (window as any).zappWarp ? (window as any).zappWarp(route) : (window.location.href = route); });
   });
 
-  // ── ⚡ZAPP title as an air-hockey puck: smooth & slow at first, faster the longer you stay ──
+  // ── ⚡ZAPP title — pinned dead-centre (the HTML wordmark IS the centre of the star-map) ──
   const smEl = document.querySelector('.sm-center') as HTMLElement | null;
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let px = 0, py = 0, vx = 0.66, vy = 0.42;
-  { const n = Math.hypot(vx, vy); vx /= n; vy /= n; }
-  let lastT = 0;
 
   // ── parallax depth: the galaxy breathes around the cursor (cards stay fixed) ──
   let tmx = 0, tmy = 0, mx = 0, my = 0;
@@ -117,7 +114,6 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   function animate() {
     requestAnimationFrame(animate);
     const t = clock.getElapsedTime();
-    const dt = Math.min(0.05, t - lastT);
     const BEAT = 9.0; // the 9 of 3·6·9
     galaxyMat.uniforms.uTime.value = t;
     mx += (tmx - mx) * 0.045; my += (tmy - my) * 0.045;        // smooth easing toward the cursor
@@ -148,16 +144,12 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       e.m.opacity = flying ? Math.max(0, e.m.opacity - 0.05) : 0.85;
     });
 
+    // ⚡ZAPP stays pinned dead-centre (no drifting) so the full wordmark is always visible
+    // and never collides with the corner cards. A gentle breathing scale keeps it alive.
     if (smEl && !flying && !reduceMotion && !MOBILE) {
-      const speed = Math.min(92, 20 + t * 0.55);          // a lively, smooth glide — alive but never frantic
-      const maxX = Math.max(40, (innerWidth - smEl.offsetWidth) / 2 - 8);
-      const maxY = Math.max(40, (innerHeight - smEl.offsetHeight) / 2 - 8);
-      px += vx * speed * dt; py += vy * speed * dt;
-      if (px > maxX) { px = maxX; vx = -vx; } else if (px < -maxX) { px = -maxX; vx = -vx; }
-      if (py > maxY) { py = maxY; vy = -vy; } else if (py < -maxY) { py = -maxY; vy = -vy; }
-      smEl.style.transform = `translate(calc(-50% + ${px.toFixed(1)}px), calc(-50% + ${py.toFixed(1)}px))`;
+      const s = 1 + Math.sin(t * 0.8) * 0.012;
+      smEl.style.transform = `translate(-50%, -50%) scale(${s.toFixed(4)})`;
     }
-    lastT = t;
 
     composer.render();
   }
