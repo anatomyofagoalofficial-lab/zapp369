@@ -14,6 +14,9 @@ body.scrollable{overflow-y:auto;overflow-x:hidden}
 ::-webkit-scrollbar-track{background:rgba(0,0,0,.25)}
 ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(255,215,120,.55),rgba(200,150,60,.42));border-radius:10px;border:2px solid transparent;background-clip:padding-box}
 ::-webkit-scrollbar-thumb:hover{background:rgba(255,220,140,.8)}
+/* keyboard accessibility — visible focus rings (only for keyboard nav) */
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid rgba(255,216,130,.85);outline-offset:3px;border-radius:6px}
+.dimension-card:focus-visible{outline:none;transform:translateY(-5px) scale(1.03);border-color:var(--dc,#F4D27A);box-shadow:0 24px 64px rgba(0,0,0,.55),0 0 44px color-mix(in srgb,var(--dc,#F4D27A) 42%,transparent)}
 /* Lenis */
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
