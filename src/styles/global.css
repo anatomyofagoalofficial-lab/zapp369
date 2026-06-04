@@ -270,12 +270,18 @@ html.lenis,html.lenis body{height:auto}
 .vid-cap{position:absolute;left:1.2rem;bottom:1rem;z-index:2;font-family:var(--mono);font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.7);text-shadow:0 1px 6px #000;pointer-events:none}
 
 /* ══ PRESENT dimension ══ */
-#dim-present{background:linear-gradient(180deg,#3E7EBC 0%,#356FA8 60%,#2C5E8E 100%);color:#EAF3FC}
+#dim-present{background:radial-gradient(ellipse 95% 70% at 50% 8%,#5AB0F0 0%,transparent 52%),linear-gradient(180deg,#3A8AD8 0%,#2D72BE 52%,#1E5390 100%);color:#EAF3FC}
 #dim-present::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");opacity:.35}
 #present-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.5}
 /* Present mascot — floats on the royal-blue field, blends seamlessly */
-.p-mascot{display:block;width:min(150px,34vw);height:auto;margin:1.5rem auto 1.1rem;filter:drop-shadow(0 0 28px rgba(120,180,220,.38)) drop-shadow(0 14px 26px rgba(8,28,52,.4));animation:floaty 6s ease-in-out infinite;will-change:transform}
+.p-mascot-wrap{position:relative;width:min(168px,38vw);margin:1.6rem auto 1.3rem;display:grid;place-items:center}
+.p-mascot{display:block;width:100%;height:auto;position:relative;z-index:2;filter:drop-shadow(0 0 34px rgba(130,205,255,.55)) drop-shadow(0 14px 26px rgba(8,28,52,.45));animation:floaty 6s ease-in-out infinite;will-change:transform}
+/* the signal — concentric rings transmitting outward from the mascot */
+.sig-ring{position:absolute;width:78%;height:78%;border:1.5px solid rgba(160,225,255,.55);border-radius:50%;opacity:0;animation:sigPulse 3s cubic-bezier(.2,.6,.3,1) infinite}
+.sig-ring:nth-child(2){animation-delay:1s}.sig-ring:nth-child(3){animation-delay:2s}
+@keyframes sigPulse{0%{transform:scale(.7);opacity:.85}100%{transform:scale(2.6);opacity:0}}
+@media(prefers-reduced-motion:reduce){.sig-ring{animation:none;opacity:0}}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .p-hero{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem}
 .p-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:#EAF3FC;border:1px solid rgba(231,242,252,.25);padding:.3rem .9rem;border-radius:4px;margin-bottom:2rem;background:rgba(231,242,252,.07)}
@@ -319,9 +325,9 @@ html.lenis,html.lenis body{height:auto}
 .todo-paper{position:relative;width:min(440px,86vw);background-color:#E7F1CD;background-image:linear-gradient(170deg,rgba(255,255,255,.5),rgba(120,150,70,.12)),repeating-linear-gradient(transparent,transparent 47px,rgba(120,150,70,.3) 47px,rgba(120,150,70,.3) 48px);color:#2A3A12;border-radius:6px;padding:2.6rem 2.4rem 3.4rem;transform:rotate(-2.2deg);box-shadow:0 30px 60px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.5) inset}
 .todo-paper::before{content:'';position:absolute;left:14%;top:0;bottom:0;width:1px;background:rgba(200,90,90,.35)}
 .todo-tape{position:absolute;top:-16px;left:50%;transform:translateX(-50%) rotate(-3deg);width:118px;height:30px;background:rgba(255,255,255,.34);border:1px solid rgba(255,255,255,.2);box-shadow:0 2px 8px rgba(0,0,0,.18)}
-.todo-title{font-family:'Caveat',cursive;font-weight:700;font-size:clamp(2.4rem,7vw,3.4rem);line-height:1;color:#1F2D0C;margin:0 0 .2rem;text-align:center;border-bottom:3px solid #1F2D0C;padding-bottom:.4rem;display:inline-block;position:relative;left:50%;transform:translateX(-50%)}
+.todo-title{font-family:var(--serif);font-weight:700;font-size:clamp(2.4rem,7vw,3.4rem);line-height:1;color:#1F2D0C;margin:0 0 .2rem;text-align:center;border-bottom:3px solid #1F2D0C;padding-bottom:.4rem;display:inline-block;position:relative;left:50%;transform:translateX(-50%)}
 .todo-items{list-style:none;margin:1.8rem 0 0;padding:0;display:flex;flex-direction:column;gap:1.15rem}
-.todo-i{display:flex;align-items:center;gap:1rem;font-family:'Caveat',cursive;font-weight:700;font-size:clamp(1.7rem,5vw,2.3rem);color:#26340F}
+.todo-i{display:flex;align-items:center;gap:1rem;font-family:var(--serif);font-weight:700;font-size:clamp(1.7rem,5vw,2.3rem);color:#26340F}
 .todo-box{flex:0 0 auto;width:34px;height:34px;border:3px solid #26340F;border-radius:5px;display:grid;place-items:center}
 .todo-box svg{width:26px;height:26px;fill:none;stroke:#1E7A2E;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48}
 .todo-meme.in .todo-box svg{animation:todoCheck .5s cubic-bezier(.65,0,.35,1) forwards;animation-delay:calc(.5s + var(--i) * .45s)}
