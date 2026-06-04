@@ -37,6 +37,89 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
   // rare drifting "filaments" of light (tiny energy sparks crossing the rays)
   const sparks: { x: number; y: number; vx: number; vy: number; life: number; max: number }[] = [];
 
+  // ── Wardenclyffe tower — a glowing lattice mast + dome, alive with electric discharge ──
+  type Bolt = { pts: { x: number; y: number }[]; life: number; w: number };
+  const bolts: Bolt[] = [];
+  function towerGeom() {
+    const cx = W * 0.76;
+    const baseY = H * 1.03;
+    const h = Math.min(H * 0.66, 560);
+    const wBase = Math.min(W * 0.14, H * 0.13);
+    const wTop = Math.min(W * 0.085, H * 0.08);
+    return { cx, baseY, topY: baseY - h, wBase, wTop };
+  }
+  function jag(x1: number, y1: number, x2: number, y2: number, r: number, out: { x: number; y: number }[]) {
+    const dx = x2 - x1, dy = y2 - y1, d = Math.hypot(dx, dy);
+    if (d < 9 || r < 1.2) { out.push({ x: x2, y: y2 }); return; }
+    const mx = (x1 + x2) / 2 + (-dy / d) * (Math.random() - .5) * r;
+    const my = (y1 + y2) / 2 + (dx / d) * (Math.random() - .5) * r;
+    jag(x1, y1, mx, my, r * .55, out); jag(mx, my, x2, y2, r * .55, out);
+  }
+  function drawTower(): { x: number; y: number } {
+    const { cx, baseY, topY, wBase, wTop } = towerGeom();
+    // backing aura
+    const gg = ctx!.createRadialGradient(cx, topY, 0, cx, topY, (baseY - topY) * 0.8);
+    gg.addColorStop(0, 'rgba(255,206,120,.14)'); gg.addColorStop(1, 'transparent');
+    ctx!.save(); ctx!.globalCompositeOperation = 'lighter';
+    ctx!.fillStyle = gg; ctx!.fillRect(cx - W, topY - H, 2 * W, 2 * H);
+    ctx!.restore();
+    // lattice
+    ctx!.save();
+    ctx!.strokeStyle = 'rgba(255,210,128,.5)'; ctx!.lineWidth = 1.5; ctx!.lineJoin = 'round';
+    ctx!.shadowBlur = 7; ctx!.shadowColor = 'rgba(255,190,90,.5)';
+    const blx = cx - wBase / 2, brx = cx + wBase / 2, tlx = cx - wTop / 2, trx = cx + wTop / 2;
+    ctx!.beginPath(); ctx!.moveTo(blx, baseY); ctx!.lineTo(tlx, topY); ctx!.moveTo(brx, baseY); ctx!.lineTo(trx, topY); ctx!.stroke();
+    const cells = 10;
+    for (let i = 0; i <= cells; i++) {
+      const f = i / cells, fy = baseY + (topY - baseY) * f;
+      const lx = blx + (tlx - blx) * f, rx = brx + (trx - brx) * f;
+      ctx!.beginPath(); ctx!.moveTo(lx, fy); ctx!.lineTo(rx, fy); ctx!.stroke();
+      if (i < cells) {
+        const f2 = (i + 1) / cells, fy2 = baseY + (topY - baseY) * f2;
+        const lx2 = blx + (tlx - blx) * f2, rx2 = brx + (trx - brx) * f2;
+        ctx!.globalAlpha = .55;
+        ctx!.beginPath(); ctx!.moveTo(lx, fy); ctx!.lineTo(rx2, fy2); ctx!.moveTo(rx, fy); ctx!.lineTo(lx2, fy2); ctx!.stroke();
+        ctx!.globalAlpha = 1;
+      }
+    }
+    // mushroom dome cage on top
+    const domeR = wTop * 1.25, domeTop = topY - domeR * 0.62;
+    ctx!.beginPath(); ctx!.ellipse(cx, topY, domeR, domeR * 0.62, 0, Math.PI, 0); ctx!.stroke();
+    for (let i = 1; i < 6; i++) { const a = Math.PI + (i / 6) * Math.PI; ctx!.beginPath(); ctx!.moveTo(cx + Math.cos(a) * domeR, topY); ctx!.lineTo(cx, domeTop); ctx!.stroke(); }
+    ctx!.beginPath(); ctx!.ellipse(cx, topY - domeR * 0.28, domeR * 0.66, domeR * 0.4, 0, Math.PI, 0); ctx!.stroke();
+    ctx!.shadowBlur = 0; ctx!.restore();
+    return { x: cx, y: domeTop };
+  }
+  function towerEnergy(apex: { x: number; y: number }) {
+    // pulsing corona at the dome
+    const pulse = 0.5 + 0.5 * Math.sin(t * 7);
+    ctx!.save(); ctx!.globalCompositeOperation = 'lighter';
+    const cg = ctx!.createRadialGradient(apex.x, apex.y, 0, apex.x, apex.y, 44 + pulse * 26);
+    cg.addColorStop(0, `rgba(255,250,224,${.45 + pulse * .3})`); cg.addColorStop(.4, 'rgba(255,210,120,.22)'); cg.addColorStop(1, 'transparent');
+    ctx!.fillStyle = cg; ctx!.beginPath(); ctx!.arc(apex.x, apex.y, 70, 0, Math.PI * 2); ctx!.fill();
+    // spawn fresh discharge
+    if (!reduce && Math.random() < 0.55) {
+      const n = 1 + (Math.random() < .4 ? 1 : 0);
+      for (let i = 0; i < n; i++) {
+        const ang = -Math.PI / 2 + (Math.random() - .5) * 2.5;
+        const len = 60 + Math.random() * 190;
+        const ex = apex.x + Math.cos(ang) * len, ey = apex.y + Math.sin(ang) * len;
+        const pts: { x: number; y: number }[] = [{ x: apex.x, y: apex.y }];
+        jag(apex.x, apex.y, ex, ey, 32, pts);
+        bolts.push({ pts, life: 1, w: 0.8 + Math.random() * 1.5 });
+      }
+    }
+    for (let i = bolts.length - 1; i >= 0; i--) {
+      const b = bolts[i]; b.life -= 0.085; const a = Math.max(0, b.life);
+      ctx!.beginPath(); ctx!.moveTo(b.pts[0].x, b.pts[0].y);
+      for (let k = 1; k < b.pts.length; k++) ctx!.lineTo(b.pts[k].x, b.pts[k].y);
+      ctx!.strokeStyle = `rgba(255,238,184,${a * .9})`; ctx!.lineWidth = b.w; ctx!.shadowBlur = 10; ctx!.shadowColor = 'rgba(255,200,90,.9)'; ctx!.stroke();
+      ctx!.strokeStyle = `rgba(255,255,255,${a * .7})`; ctx!.lineWidth = b.w * .5; ctx!.shadowBlur = 0; ctx!.stroke();
+      if (b.life <= 0) bolts.splice(i, 1);
+    }
+    ctx!.restore();
+  }
+
   let t = 0, raf = 0;
 
   function godRays() {
@@ -122,6 +205,8 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
     ctx!.clearRect(0, 0, W, H);
     godRays();
     bloom();
+    const apex = drawTower();
+    towerEnergy(apex);
     dust();
     sparkLife();
   }
@@ -129,7 +214,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
   if (reduce) {
     // one calm static pass — still luminous, just not animated
     ctx.clearRect(0, 0, W, H);
-    godRays(); bloom();
+    godRays(); bloom(); const apex = drawTower(); towerEnergy(apex);
   } else {
     frame();
   }
