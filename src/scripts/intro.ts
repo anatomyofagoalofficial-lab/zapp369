@@ -10,8 +10,10 @@ export function initIntro(onComplete: () => void) {
   if (!cv) { onComplete(); return; }
 
   let finished = false;
+  let safety: ReturnType<typeof setTimeout> | undefined;
   const finish = () => {
     if (finished) return; finished = true;
+    clearTimeout(safety);
     cancelAnimationFrame(raf);
     intro.style.transition = 'opacity .35s'; intro.style.opacity = '0';
     setTimeout(() => { intro.style.display = 'none'; document.body.style.overflow = ''; onComplete(); }, 360);
@@ -22,6 +24,7 @@ export function initIntro(onComplete: () => void) {
   if (prefersReducedMotion()) { finish(); return; }
 
   document.body.style.overflow = 'hidden';
+  safety = setTimeout(finish, 8000); // hard cap — the intro can NEVER trap a visitor
   const ctx = cv.getContext('2d')!;
   let W = cv.width = innerWidth, H = cv.height = innerHeight;
   window.addEventListener('resize', () => { W = cv.width = innerWidth; H = cv.height = innerHeight; });
@@ -197,5 +200,9 @@ export function initIntro(onComplete: () => void) {
     }
   }
 
-  document.fonts.ready.then(() => setTimeout(() => requestAnimationFrame(frame), 150));
+  // Start as soon as fonts are ready — but never wait more than 1.2s for them.
+  let kicked = false;
+  const kick = () => { if (kicked) return; kicked = true; requestAnimationFrame(frame); };
+  document.fonts.ready.then(() => setTimeout(kick, 120));
+  setTimeout(kick, 1200);
 }
