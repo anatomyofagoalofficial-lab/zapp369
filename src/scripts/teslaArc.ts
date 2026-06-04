@@ -19,6 +19,12 @@ export function initTeslaArc(canvas: HTMLCanvasElement) {
   type Bolt = { pts: { x: number; y: number }[]; born: number; life: number; w: number };
   const bolts: Bolt[] = [];
 
+  // drifting embers / dust glowing in the lab air
+  const embers = Array.from({ length: 54 }, () => ({
+    fx: Math.random(), fy: Math.random(), vy: 0.0005 + Math.random() * 0.0013,
+    sway: Math.random() * 6.283, r: 0.6 + Math.random() * 1.7, a: 0.16 + Math.random() * 0.5,
+  }));
+
   // recursive midpoint-displacement — a jagged bolt that occasionally forks
   function jag(x1: number, y1: number, x2: number, y2: number, disp: number, out: { x: number; y: number }[], forks: Bolt[] | null, now: number) {
     const dx = x2 - x1, dy = y2 - y1, d = Math.hypot(dx, dy);
@@ -49,6 +55,19 @@ export function initTeslaArc(canvas: HTMLCanvasElement) {
   function loop(now: number) {
     raf = requestAnimationFrame(loop);
     ctx!.clearRect(0, 0, W, H);
+    // embers first (behind the bolts)
+    for (const e of embers) {
+      e.fy -= e.vy;
+      if (e.fy < -0.02) { e.fy = 1.02; e.fx = Math.random(); }
+      const x = e.fx * W + Math.sin(now * 0.0011 + e.sway) * 16;
+      const y = e.fy * H;
+      const fl = e.a * (0.55 + 0.45 * Math.sin(now * 0.004 + e.sway));   // warm flicker
+      ctx!.beginPath();
+      ctx!.fillStyle = `rgba(255,200,110,${fl})`;
+      ctx!.shadowBlur = 6; ctx!.shadowColor = `rgba(255,180,90,${fl})`;
+      ctx!.arc(x, y, e.r, 0, Math.PI * 2); ctx!.fill();
+    }
+    ctx!.shadowBlur = 0;
     if (now > next) { strike(now, false); next = now + (90 + Math.random() * 220); }
     if (now > nextBig) { strike(now, true); nextBig = now + (1500 + Math.random() * 2400); }
     ctx!.lineCap = 'round'; ctx!.lineJoin = 'round';
