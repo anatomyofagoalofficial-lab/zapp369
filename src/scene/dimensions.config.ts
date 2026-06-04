@@ -18,19 +18,19 @@ const D = 60; // how far the cards sit from the core
 export const DIMENSIONS: Dimension[] = [
   {
     id: 'tower', number: 3, title: 'The Tower', subtitle: 'PAST · 396 HZ · ROOT',
-    description: 'Tesla. 1893. The idea that should have changed everything — and will.',
+    description: 'Tesla, 1893 — he drew lightning from the sky to give it away. They buried the tower, never the frequency.',
     position: new Vector3(-D * 0.9, D * 0.55, -D * 0.6), // top-left
     color: '#F4D27A', icon: '🏛️', route: '/dimensions/tower', scene: 'past',
   },
   {
     id: 'network', number: 9, title: 'The Network', subtitle: 'FUTURE · 963 HZ · CROWN',
-    description: 'Free energy for everyone. No banks. No borders. Forever.',
+    description: 'Free energy for all. No banks, no borders — the current Tesla was never allowed to send.',
     position: new Vector3(D * 0.9, D * 0.55, -D * 0.6), // top-right
     color: '#9FE8FF', icon: '🔮', route: '/dimensions/network', scene: 'future',
   },
   {
     id: 'signal', number: 6, title: 'The Signal', subtitle: 'PRESENT · 639 HZ · HEART',
-    description: 'Live on Solana. The frequency is transmitting right now.',
+    description: 'The frequency is transmitting — live on Solana, owned by no one, answerable only to the math.',
     position: new Vector3(0, -D * 0.65, -D * 0.5), // bottom-centre, the "now"
     color: '#C896FF', icon: '⚡', route: '/dimensions/signal', scene: 'present',
   },
