@@ -424,6 +424,47 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .hm-sign{font-family:var(--mono);font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#E8B85C;margin-top:2.3rem;opacity:.82}
 .btn-hold{margin-top:2.4rem;display:inline-block;cursor:pointer;background:transparent;border:1px solid rgba(232,184,92,.42);color:#F5E6C8;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;padding:.72rem 1.7rem;border-radius:100px;transition:all .3s}
 .btn-hold:hover{background:rgba(232,184,92,.14);border-color:rgba(232,184,92,.7);transform:translateY(-2px)}
+
+/* ── WHY ⚡ZAPP manifesto ── */
+.manifesto{position:relative;z-index:2;max-width:760px;margin:2rem auto;padding:4.5rem 6vw 3rem;text-align:center}
+.mf-title{font-family:var(--serif);font-size:clamp(2.4rem,5vw,4rem);font-weight:700;color:#241A06;margin-bottom:2.4rem}
+.mf-zap{background:linear-gradient(118deg,#E0951C,#2FA85A 60%,#1C9CC8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.mf-lines p{font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.4vw,1.7rem);line-height:1.5;color:rgba(58,44,18,.84);margin:0 0 .9rem}
+.mf-lines em{font-style:italic;color:#B07A12;font-weight:600}
+.mf-tag{margin-top:2.4rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.4em;text-transform:uppercase;color:#1E8A4C}
+
+/* ── WORLD CLOCK — live local times in every zone ── */
+.worldclock{position:relative;z-index:2;max-width:1080px;margin:3rem auto;padding:3rem 5vw 4rem;text-align:center}
+.wc-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#1C6E8C;margin-bottom:.9rem}
+.wc-title{font-family:var(--serif);font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:700;color:#241A06;margin-bottom:2.4rem}
+.wc-title em{font-style:italic;color:#B07A12}
+.wc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}
+.wc-c{border:1px solid rgba(150,110,40,.24);border-radius:12px;padding:1.3rem 1.2rem;background:rgba(255,250,234,.66);backdrop-filter:blur(6px);text-align:left;transition:all .3s}
+.wc-c:hover{border-color:rgba(150,110,40,.5);background:rgba(255,250,234,.92);transform:translateY(-3px);box-shadow:0 16px 36px rgba(120,80,20,.14)}
+.wc-top{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(80,60,24,.85);margin-bottom:.7rem}
+.wc-flag{font-size:1rem}.wc-city{flex:1;font-weight:600}.wc-ic{font-size:.95rem}
+.wc-time{font-family:var(--mono);font-size:1.7rem;font-weight:700;color:#241A06;font-variant-numeric:tabular-nums;letter-spacing:.02em;line-height:1}
+.wc-day{margin-top:.45rem;font-family:var(--mono);font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(80,60,24,.55)}
+.wc-note{margin-top:2.2rem;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(58,44,18,.62)}
+@media(max-width:760px){.wc-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.wc-grid{grid-template-columns:1fr}}
+
+/* ── HOW TO BUY ── */
+.howto{position:relative;z-index:2;max-width:900px;margin:3rem auto;padding:3rem 6vw 4rem;text-align:center}
+.ht-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#1E8A4C;margin-bottom:.9rem}
+.ht-title{font-family:var(--serif);font-size:clamp(1.9rem,3.6vw,2.8rem);font-weight:700;color:#241A06;margin-bottom:2.4rem}
+.ht-title em{font-style:italic;color:#B07A12}
+.ht-steps{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;text-align:left}
+.ht-step{display:flex;gap:1.1rem;align-items:flex-start;border:1px solid rgba(150,110,40,.22);border-radius:14px;padding:1.5rem 1.6rem;background:rgba(255,250,234,.6);transition:all .3s}
+.ht-step:hover{border-color:rgba(150,110,40,.46);transform:translateY(-3px);box-shadow:0 16px 36px rgba(120,80,20,.14)}
+.ht-n{flex:0 0 auto;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#E0951C,#B07A12);color:#1a1000;font-family:var(--mono);font-weight:700;font-size:1rem;box-shadow:0 6px 16px rgba(176,122,18,.4)}
+.ht-step h3{font-family:var(--serif);font-size:1.15rem;font-weight:700;color:#241A06;margin-bottom:.35rem}
+.ht-step p{font-size:.86rem;line-height:1.7;color:rgba(58,44,18,.78)}
+.ht-step strong{color:#B07A12}
+.ht-cta{margin-top:2.4rem;cursor:pointer;display:inline-block;font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:#1a1000;background:linear-gradient(135deg,#FFD24A,#E0951C);border:none;padding:.95rem 2rem;border-radius:100px;font-weight:700;box-shadow:0 14px 34px rgba(224,149,28,.36);transition:all .3s}
+.ht-cta:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(224,149,28,.5)}
+@media(max-width:680px){.ht-steps{grid-template-columns:1fr}}
+
 .p-bridge{text-align:center;padding:3rem 2rem 8rem;position:relative;z-index:2}
 .p-bridge h2{font-family:var(--serif);font-size:clamp(2rem,4.5vw,4rem);margin-bottom:1rem;color:#241A06}
 .p-bridge h2 em{color:#1C9CC8;font-style:italic}

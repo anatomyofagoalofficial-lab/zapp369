@@ -17,6 +17,8 @@ function boot() {
   const dimEl = document.querySelector('#dim-past,#dim-present,#dim-future') as HTMLElement | null;
   if (!dimEl) return;
   const name = dimEl.id.replace('dim-', '');
+  // mark that we're inside a dimension → the hub skips its intro when we return (no repeats)
+  try { sessionStorage.setItem('zapp-from-dim', '1'); } catch {}
   dimEl.classList.add('active');
   document.body.classList.add('scrollable');
   document.getElementById('dim-nav')?.classList.add('show');
@@ -80,6 +82,28 @@ function boot() {
   if (name === 'future') { const mr = document.getElementById('matrix-rain') as HTMLCanvasElement | null; if (mr) initMatrixRain(mr); }
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
+  initWorldClock();
+}
+
+// ── live World Clock: local time in every zone, updating each second ──
+function initWorldClock() {
+  const cells = Array.from(document.querySelectorAll<HTMLElement>('.wc-c'));
+  if (!cells.length) return;
+  const mk = (tz: string) => new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  const hr = (tz: string) => new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', hour12: false });
+  const cache = cells.map(c => ({ c, tz: c.dataset.tz!, t: c.querySelector('.wc-time'), d: c.querySelector('.wc-day'), i: c.querySelector('.wc-ic') }));
+  const tick = () => cache.forEach(({ tz, t, d, i }) => {
+    if (t) t.textContent = mk(tz).format();
+    const h = parseInt(hr(tz).format(), 10);
+    let label = 'Night', ic = '🌙';
+    if (h >= 5 && h < 8) { label = 'Sunrise'; ic = '🌅'; }
+    else if (h >= 8 && h < 12) { label = 'Morning'; ic = '☀️'; }
+    else if (h >= 12 && h < 18) { label = 'Afternoon'; ic = '☀️'; }
+    else if (h >= 18 && h < 21) { label = 'Evening'; ic = '🌇'; }
+    if (d) d.textContent = label;
+    if (i) i.textContent = ic;
+  });
+  tick(); setInterval(tick, 1000);
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();

@@ -52,10 +52,11 @@ const corner: Record<number, string> = { 3: 'card-3', 9: 'card-9', 6: 'card-6' }
     initSound();
     // choreographed reveal of the three dimensions, fired the moment the intro lifts
     const reveal = () => document.getElementById('dimension-cards')?.classList.add('revealed');
-    // Spectacular electric ⚡ZAPP intro plays on every fresh landing — but is skipped
-    // when you click "Hub"/back from a dimension, so it never feels repetitive.
-    const fromDimension = document.referrer.includes('/dimensions/');
-    if (fromDimension) {
+    // Spectacular electric ⚡ZAPP intro plays on every fresh visit. It's only skipped right
+    // after returning from a dimension (a flag the dimension pages set) so it never repeats.
+    let fromDim = false;
+    try { fromDim = sessionStorage.getItem('zapp-from-dim') === '1'; sessionStorage.removeItem('zapp-from-dim'); } catch {}
+    if (fromDim) {
       document.getElementById('intro')?.remove();
       reveal();
     } else {

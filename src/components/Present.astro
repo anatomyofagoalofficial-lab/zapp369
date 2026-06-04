@@ -2,6 +2,17 @@
 import BuySection from './BuySection.astro';
 import TodoMeme from './TodoMeme.astro';
 const IMG = '/illustrations';
+const CITIES = [
+  { name: 'New York', flag: '🇺🇸', tz: 'America/New_York' },
+  { name: 'São Paulo', flag: '🇧🇷', tz: 'America/Sao_Paulo' },
+  { name: 'London', flag: '🇬🇧', tz: 'Europe/London' },
+  { name: 'Barcelona', flag: '🇪🇸', tz: 'Europe/Madrid' },
+  { name: 'Cluj-Napoca', flag: '🇷🇴', tz: 'Europe/Bucharest' },
+  { name: 'Dubai', flag: '🇦🇪', tz: 'Asia/Dubai' },
+  { name: 'Mumbai', flag: '🇮🇳', tz: 'Asia/Kolkata' },
+  { name: 'Shanghai', flag: '🇨🇳', tz: 'Asia/Shanghai' },
+  { name: 'Tokyo', flag: '🇯🇵', tz: 'Asia/Tokyo' },
+];
 ---
 <div id="dim-present" class="page">
   <canvas id="present-canvas"></canvas>
@@ -59,6 +70,51 @@ const IMG = '/illustrations';
       </div>
     </div>
   </div>
+  <!-- ⚡ WHY ZAPP — manifesto -->
+  <section class="manifesto">
+    <h2 class="mf-title rv">Why <span class="mf-zap">⚡ZAPP</span>?</h2>
+    <div class="mf-lines">
+      <p class="rv">Money is energy.</p>
+      <p class="rv">Energy travels at the speed of light.</p>
+      <p class="rv">So why does it still take <em>days</em> to reach Africa, Asia, the Americas?</p>
+      <p class="rv">One idea: <em>free energy should mean free money</em>.</p>
+      <p class="rv">No banks. No borders.</p>
+      <p class="rv">Zapped instantly to anyone, anywhere on Earth.</p>
+      <p class="rv">Tesla understood this a century ago.</p>
+      <p class="rv">The code was always there — hidden in plain sight.</p>
+    </div>
+    <p class="mf-tag rv">One Frequency · One Signal · One World</p>
+  </section>
+
+  <!-- 🌍 WORLD CLOCK — the frequency reaches every time zone -->
+  <section class="worldclock rv">
+    <p class="wc-eyebrow">The signal reaches every time zone</p>
+    <h2 class="wc-title">⚡ One frequency. <em>One world.</em></h2>
+    <div class="wc-grid" id="wc-grid">
+      {CITIES.map(c => (
+        <div class="wc-c" data-tz={c.tz}>
+          <div class="wc-top"><span class="wc-flag">{c.flag}</span><span class="wc-city">{c.name}</span><span class="wc-ic" aria-hidden="true">☀️</span></div>
+          <div class="wc-time">--:--:--</div>
+          <div class="wc-day">—</div>
+        </div>
+      ))}
+    </div>
+    <p class="wc-note">⚡ Tesla's frequency reaches every time zone — at the speed of light.</p>
+  </section>
+
+  <!-- 🛒 HOW TO BUY -->
+  <section class="howto rv">
+    <p class="ht-eyebrow">From zero to ⚡ZAPP — four steps</p>
+    <h2 class="ht-title">How to <em>hold the frequency</em>.</h2>
+    <div class="ht-steps">
+      <div class="ht-step"><span class="ht-n">1</span><div><h3>Get a Solana wallet</h3><p>Install <strong>Phantom</strong> (phantom.com) on your phone or browser — 60 seconds. Save your seed phrase. Never share it with anyone.</p></div></div>
+      <div class="ht-step"><span class="ht-n">2</span><div><h3>Fund it with SOL</h3><p>Buy SOL inside Phantom with a card, or send it from any exchange (Coinbase, Binance). A few dollars is enough to start.</p></div></div>
+      <div class="ht-step"><span class="ht-n">3</span><div><h3>Swap SOL for ⚡ZAPP</h3><p>Open <strong>Pump.fun</strong> or <strong>Jupiter</strong>, paste the contract address below, and swap. If it fails, raise slippage to ~5%.</p></div></div>
+      <div class="ht-step"><span class="ht-n">4</span><div><h3>Hold the frequency</h3><p>That's it — you're holding for Tesla now. Keep your keys, keep the faith. <strong>3 · 6 · 9 · ∞</strong></p></div></div>
+    </div>
+    <button class="ht-cta" data-scroll-buy>⚡ Get ⚡ZAPP — contract &amp; links below ↓</button>
+  </section>
+
   <!-- 🕯️ THE REASON TO HOLD — like Hachiko at the station, we hold for the man who gave it all away -->
   <section class="hold-memorial">
     <div class="hm-inner">
