@@ -56,10 +56,13 @@ function boot() {
     else if (t.hasAttribute('data-sc')) { const el = cinEl(); if (el) { el.value = Number(t.getAttribute('data-sc')).toLocaleString('en-US'); uc(); } }
   });
 
+  // on the light Present page, fade the ziggurat canvas out as you scroll so the content reads cleanly
+  const presentCv = name === 'present' ? document.getElementById('present-canvas') as HTMLElement | null : null;
   const onScroll = () => {
     const y = window.scrollY;
     document.getElementById('dim-nav')?.classList.toggle('scrolled', y > 60);
     setDimScroll(y / Math.max(1, innerHeight * 0.9));
+    if (presentCv) presentCv.style.opacity = String(Math.max(0.08, 0.92 - (y / innerHeight) * 1.05));
     const prog = document.getElementById('scroll-prog');
     if (prog) { const max = document.documentElement.scrollHeight - innerHeight; prog.style.width = (max > 4 ? Math.min(100, (y / max) * 100) : 0) + '%'; }
   };

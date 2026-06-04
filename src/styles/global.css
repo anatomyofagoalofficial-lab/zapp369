@@ -409,6 +409,21 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .hc .dc{font-size:.75rem;color:rgba(80,60,24,.6);font-style:italic;line-height:1.55}
 .hc.zapp{border-color:rgba(224,149,28,.6);background:rgba(255,236,180,.7)}
 .hc.zapp .nm{color:#C8860A}
+/* ── "We hold for him" — a candlelit memorial band before the buy CTA ── */
+.hold-memorial{position:relative;z-index:2;text-align:center;padding:6.5rem 2rem 7.5rem;overflow:hidden;background:radial-gradient(ellipse 72% 86% at 50% 28%,#2c1d08 0%,#160d02 72%)}
+.hold-memorial::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 24%,rgba(255,202,96,.18),transparent 54%)}
+.hold-memorial::after{content:'⚡';position:absolute;top:2.4rem;left:50%;transform:translateX(-50%);font-size:1.4rem;color:#FFD98A;opacity:.5;filter:drop-shadow(0 0 14px rgba(255,200,90,.7));animation:bl 3s ease-in-out infinite}
+.hm-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.hm-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.42em;text-transform:uppercase;color:#E8B85C;opacity:.85;margin-bottom:1.7rem}
+.hm-h{font-family:var(--serif);font-size:clamp(2.1rem,4.6vw,3.6rem);font-weight:600;line-height:1.05;color:#F8EBD0;margin-bottom:1.9rem}
+.hm-h em{font-style:italic;background:linear-gradient(120deg,#FFDD92,#E0951C);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hm-p{font-family:var(--serif);font-style:italic;font-size:clamp(1rem,1.7vw,1.18rem);line-height:1.85;color:rgba(245,230,200,.68);max-width:52ch;margin:0 auto 1.1rem}
+.hm-p em{color:#FFD98A;font-style:italic}
+.hm-line{font-family:var(--serif);font-size:clamp(1.05rem,1.9vw,1.32rem);line-height:1.7;color:#F5E6C8;max-width:46ch;margin:2.1rem auto 0}
+.hm-line em{font-style:italic;color:#FFD98A}
+.hm-sign{font-family:var(--mono);font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#E8B85C;margin-top:2.3rem;opacity:.82}
+.btn-hold{margin-top:2.4rem;display:inline-block;cursor:pointer;background:transparent;border:1px solid rgba(232,184,92,.42);color:#F5E6C8;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;padding:.72rem 1.7rem;border-radius:100px;transition:all .3s}
+.btn-hold:hover{background:rgba(232,184,92,.14);border-color:rgba(232,184,92,.7);transform:translateY(-2px)}
 .p-bridge{text-align:center;padding:3rem 2rem 8rem;position:relative;z-index:2}
 .p-bridge h2{font-family:var(--serif);font-size:clamp(2rem,4.5vw,4rem);margin-bottom:1rem;color:#241A06}
 .p-bridge h2 em{color:#1C9CC8;font-style:italic}
