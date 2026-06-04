@@ -40,11 +40,18 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
   // ── Wardenclyffe tower — a glowing lattice mast + dome, alive with electric discharge ──
   type Bolt = { pts: { x: number; y: number }[]; life: number; w: number };
   const bolts: Bolt[] = [];
+  const groundPulses: { r: number; life: number }[] = [];
+  // warm embers rising near the tower base
+  const embers = Array.from({ length: reduce ? 0 : 28 }, () => ({
+    x: 0.62 + Math.random() * 0.28, y: 1 + Math.random() * 0.3,
+    vy: 0.3 + Math.random() * 0.9, drift: (Math.random() - .5) * 0.5,
+    ph: Math.random() * Math.PI * 2, r: 0.7 + Math.random() * 1.8,
+  }));
   function towerGeom() {
     const cx = W * 0.76;
-    const baseY = H * 1.03;
-    const h = Math.min(H * 0.66, 560);
-    const wBase = Math.min(W * 0.14, H * 0.13);
+    const baseY = H * 0.985;
+    const h = Math.min(H * 0.62, 540);
+    const wBase = Math.min(W * 0.155, H * 0.145);
     const wTop = Math.min(W * 0.085, H * 0.08);
     return { cx, baseY, topY: baseY - h, wBase, wTop };
   }
@@ -87,6 +94,19 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
     ctx!.beginPath(); ctx!.ellipse(cx, topY, domeR, domeR * 0.62, 0, Math.PI, 0); ctx!.stroke();
     for (let i = 1; i < 6; i++) { const a = Math.PI + (i / 6) * Math.PI; ctx!.beginPath(); ctx!.moveTo(cx + Math.cos(a) * domeR, topY); ctx!.lineTo(cx, domeTop); ctx!.stroke(); }
     ctx!.beginPath(); ctx!.ellipse(cx, topY - domeR * 0.28, domeR * 0.66, domeR * 0.4, 0, Math.PI, 0); ctx!.stroke();
+    // splayed foundation footing at the base
+    const footW = wBase * 1.55;
+    ctx!.beginPath();
+    ctx!.moveTo(cx - footW / 2, baseY); ctx!.lineTo(blx, baseY - wBase * 0.32);
+    ctx!.moveTo(cx + footW / 2, baseY); ctx!.lineTo(brx, baseY - wBase * 0.32);
+    ctx!.moveTo(cx - footW / 2, baseY); ctx!.lineTo(cx + footW / 2, baseY);
+    ctx!.stroke();
+    // guy-wires anchoring the mast to the ground
+    ctx!.globalAlpha = .3;
+    ([[cx - W * 0.2, baseY], [cx - W * 0.11, baseY], [cx + W * 0.17, baseY], [cx + W * 0.09, baseY]] as const).forEach(([ax, ay]) => {
+      ctx!.beginPath(); ctx!.moveTo(cx, topY + wTop * 0.5); ctx!.lineTo(ax, ay); ctx!.stroke();
+    });
+    ctx!.globalAlpha = 1;
     ctx!.shadowBlur = 0; ctx!.restore();
     return { x: cx, y: domeTop };
   }
@@ -107,6 +127,14 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
         const pts: { x: number; y: number }[] = [{ x: apex.x, y: apex.y }];
         jag(apex.x, apex.y, ex, ey, 32, pts);
         bolts.push({ pts, life: 1, w: 0.8 + Math.random() * 1.5 });
+        // a branching fork off the middle of the bolt
+        if (Math.random() < 0.55 && pts.length > 3) {
+          const f = pts[(pts.length / 2) | 0];
+          const fx = f.x + (Math.random() - .5) * 130, fy = f.y - Math.random() * 90;
+          const fp: { x: number; y: number }[] = [{ x: f.x, y: f.y }];
+          jag(f.x, f.y, fx, fy, 20, fp);
+          bolts.push({ pts: fp, life: 1, w: 0.5 + Math.random() * 0.9 });
+        }
       }
     }
     for (let i = bolts.length - 1; i >= 0; i--) {
@@ -116,6 +144,48 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
       ctx!.strokeStyle = `rgba(255,238,184,${a * .9})`; ctx!.lineWidth = b.w; ctx!.shadowBlur = 10; ctx!.shadowColor = 'rgba(255,200,90,.9)'; ctx!.stroke();
       ctx!.strokeStyle = `rgba(255,255,255,${a * .7})`; ctx!.lineWidth = b.w * .5; ctx!.shadowBlur = 0; ctx!.stroke();
       if (b.life <= 0) bolts.splice(i, 1);
+    }
+    ctx!.restore();
+  }
+
+  // warm earth + glowing horizon filling the lower frame
+  function drawGround() {
+    const { baseY } = towerGeom();
+    const g = ctx!.createLinearGradient(0, baseY - 40, 0, H);
+    g.addColorStop(0, 'rgba(60,38,12,0)'); g.addColorStop(.6, 'rgba(46,28,8,.34)'); g.addColorStop(1, 'rgba(26,15,4,.55)');
+    ctx!.fillStyle = g; ctx!.fillRect(0, baseY - 40, W, H - baseY + 40);
+    ctx!.save(); ctx!.globalCompositeOperation = 'lighter';
+    const lg = ctx!.createLinearGradient(0, 0, W, 0);
+    lg.addColorStop(0, 'transparent'); lg.addColorStop(.5, 'rgba(255,200,96,.22)'); lg.addColorStop(1, 'transparent');
+    ctx!.strokeStyle = lg; ctx!.lineWidth = 1.6; ctx!.beginPath(); ctx!.moveTo(0, baseY); ctx!.lineTo(W, baseY); ctx!.stroke();
+    ctx!.restore();
+  }
+
+  // rings of energy spreading through the Earth from the tower base
+  function drawGroundPulses() {
+    const { cx, baseY } = towerGeom();
+    if (!reduce && Math.random() < 0.04 && groundPulses.length < 6) groundPulses.push({ r: 0, life: 1 });
+    ctx!.save(); ctx!.globalCompositeOperation = 'lighter';
+    for (let i = groundPulses.length - 1; i >= 0; i--) {
+      const p = groundPulses[i]; p.r += W * 0.006; p.life -= 0.011; const a = Math.max(0, p.life);
+      ctx!.strokeStyle = `rgba(255,206,110,${a * .4})`; ctx!.lineWidth = 1.4;
+      ctx!.beginPath(); ctx!.ellipse(cx, baseY, p.r, p.r * 0.16, 0, Math.PI, 0); ctx!.stroke();
+      if (p.life <= 0) groundPulses.splice(i, 1);
+    }
+    ctx!.restore();
+  }
+
+  // glowing embers rising near the tower
+  function drawEmbers() {
+    if (!embers.length) return;
+    ctx!.save(); ctx!.globalCompositeOperation = 'lighter';
+    for (const e of embers) {
+      e.y -= e.vy * 0.0009; e.x += e.drift * 0.0004;
+      if (e.y < -0.05) { e.y = 1.05; e.x = 0.62 + Math.random() * 0.28; }
+      const px = (e.x + Math.sin(t * 0.5 + e.ph) * 0.01) * W, py = e.y * H;
+      const a = 0.3 + 0.6 * Math.abs(Math.sin(t * 1.6 + e.ph));
+      ctx!.beginPath(); ctx!.arc(px, py, e.r, 0, Math.PI * 2);
+      ctx!.fillStyle = `rgba(255,196,96,${a * .7})`; ctx!.fill();
     }
     ctx!.restore();
   }
@@ -205,8 +275,11 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
     ctx!.clearRect(0, 0, W, H);
     godRays();
     bloom();
+    drawGround();
     const apex = drawTower();
+    drawGroundPulses();
     towerEnergy(apex);
+    drawEmbers();
     dust();
     sparkLife();
   }
@@ -214,7 +287,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
   if (reduce) {
     // one calm static pass — still luminous, just not animated
     ctx.clearRect(0, 0, W, H);
-    godRays(); bloom(); const apex = drawTower(); towerEnergy(apex);
+    godRays(); bloom(); drawGround(); const apex = drawTower(); towerEnergy(apex);
   } else {
     frame();
   }
