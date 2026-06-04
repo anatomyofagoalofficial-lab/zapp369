@@ -54,7 +54,13 @@ function boot() {
     else if (t.hasAttribute('data-sc')) { const el = cinEl(); if (el) { el.value = Number(t.getAttribute('data-sc')).toLocaleString('en-US'); uc(); } }
   });
 
-  const onScroll = () => { const y = window.scrollY; document.getElementById('dim-nav')?.classList.toggle('scrolled', y > 60); setDimScroll(y / Math.max(1, innerHeight * 0.9)); };
+  const onScroll = () => {
+    const y = window.scrollY;
+    document.getElementById('dim-nav')?.classList.toggle('scrolled', y > 60);
+    setDimScroll(y / Math.max(1, innerHeight * 0.9));
+    const prog = document.getElementById('scroll-prog');
+    if (prog) { const max = document.documentElement.scrollHeight - innerHeight; prog.style.width = (max > 4 ? Math.min(100, (y / max) * 100) : 0) + '%'; }
+  };
   window.addEventListener('scroll', onScroll, { passive: true });
   if (lenis) lenis.on('scroll', onScroll);
 

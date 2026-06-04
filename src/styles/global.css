@@ -8,6 +8,8 @@
 html{font-size:16px;-webkit-font-smoothing:antialiased}
 body{font-family:var(--sans);overflow:hidden;cursor:none;background:#000;color:#fff}
 body.scrollable{overflow-y:auto;overflow-x:hidden}
+/* scroll-progress bar (gold) — fills as you read the long dimension pages */
+#scroll-prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:9998;pointer-events:none;background:linear-gradient(90deg,var(--gold2),var(--gold));box-shadow:0 0 12px rgba(255,215,0,.55);transition:width .12s linear}
 /* premium gold scrollbar */
 *{scrollbar-color:rgba(255,200,90,.45) transparent;scrollbar-width:thin}
 ::-webkit-scrollbar{width:10px;height:10px}

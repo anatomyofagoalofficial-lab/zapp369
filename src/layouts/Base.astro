@@ -36,5 +36,19 @@ const og = '/zapp-social-preview.jpg';
 <body>
   <slot />
   <div class="grain" aria-hidden="true"></div>
+  <div id="scroll-prog" aria-hidden="true"></div>
+  <script is:inline>
+    (function () {
+      var p = document.getElementById('scroll-prog');
+      if (!p) return;
+      var upd = function () {
+        var max = document.documentElement.scrollHeight - innerHeight;
+        p.style.width = (max > 4 ? Math.min(100, (scrollY / max) * 100) : 0) + '%';
+      };
+      addEventListener('scroll', upd, { passive: true });
+      addEventListener('resize', upd, { passive: true });
+      upd();
+    })();
+  </script>
 </body>
 </html>
