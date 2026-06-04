@@ -190,14 +190,14 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}
 .rv.in{opacity:1;transform:none;filter:none}
 
-/* ══ PAST dimension ══ */
-#dim-past{background:#0C0600;color:#F5E6C8}
-/* vintage-photograph vignette over the whole Past world */
+/* ══ PAST dimension — "the man who saw the future": a luminous golden tribute ══ */
+#dim-past{background:radial-gradient(ellipse 110% 72% at 82% -10%,rgba(168,108,28,.55),transparent 54%),radial-gradient(ellipse 80% 64% at 16% 112%,rgba(74,46,12,.5),transparent 60%),linear-gradient(180deg,#1d1308 0%,#160e05 46%,#0d0700 100%);color:#F6E8CC}
+/* warm cinematic vignette over the whole Past world */
 #dim-past::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:3;mix-blend-mode:multiply;
-  background:radial-gradient(ellipse 128% 108% at 50% 40%,transparent 42%,rgba(14,7,0,.62) 100%)}
+  background:radial-gradient(ellipse 130% 110% at 50% 42%,transparent 46%,rgba(12,6,0,.52) 100%)}
 /* the lab alive with Tesla-coil discharges — bluish-white arcs flickering across the room */
 .past-storm{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:0;mix-blend-mode:screen;
-  background:radial-gradient(ellipse 55% 46% at 26% 24%,rgba(206,232,255,.55),transparent 60%),radial-gradient(ellipse 48% 40% at 74% 30%,rgba(228,214,255,.4),transparent 62%)}
+  background:radial-gradient(ellipse 56% 48% at 78% 16%,rgba(255,226,150,.5),transparent 60%),radial-gradient(ellipse 48% 40% at 30% 28%,rgba(255,200,108,.34),transparent 62%)}
 #dim-past.active .past-storm{animation:teslaArc 11s ease-out infinite}
 @keyframes teslaArc{0%,46%,100%{opacity:0}2%{opacity:.55}4%{opacity:.08}6%{opacity:.7}8%{opacity:.12}9%{opacity:.4}11%{opacity:0}50%{opacity:.5}52%{opacity:.06}54%{opacity:.45}56%{opacity:0}}
 /* The Archive — recovered vintage documents, pinned like museum prints */
@@ -208,15 +208,28 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .arch img{width:100%;display:block;filter:sepia(.5) contrast(1.05) brightness(.96)}
 .arch figcaption{font-family:var(--mono);font-size:.64rem;letter-spacing:.04em;color:rgba(245,230,200,.5);padding:.75rem .3rem 1rem;line-height:1.6;text-align:center}
 .arch figcaption em{color:rgba(245,220,150,.78);font-style:normal}
-.past-tribute{margin:6.5rem auto 5rem;max-width:560px;padding:0 6vw;text-align:center}
-.past-tribute img{width:100%;max-width:460px;border-radius:14px;border:1px solid rgba(232,200,120,.4);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 56px rgba(232,200,120,.2);filter:sepia(.1) contrast(1.03)}
-.past-tribute figcaption{margin-top:1.4rem;font-family:var(--serif);font-style:italic;font-size:1.05rem;color:rgba(245,230,200,.55);max-width:34ch;margin-left:auto;margin-right:auto;line-height:1.6}
+/* ── THE TRIBUTE ALTAR — the heart of the page: "the man who saw the future" ── */
+.tribute-altar{position:relative;margin:8rem auto 6rem;max-width:760px;padding:2rem 6vw;text-align:center;display:flex;flex-direction:column;align-items:center}
+.tribute-altar .altar-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold,#F4D27A);opacity:.85;margin-bottom:1.6rem;padding-left:.5em}
+/* rotating sacred-geometry halo of light behind the portrait */
+.altar-halo{position:absolute;top:clamp(40px,8vw,90px);left:50%;width:min(560px,92vw);aspect-ratio:1;transform:translateX(-50%);pointer-events:none;z-index:0}
+.altar-halo::before,.altar-halo::after{content:'';position:absolute;inset:0;border-radius:50%;}
+.altar-halo::before{background:radial-gradient(circle at 50% 42%,rgba(255,224,150,.32),rgba(255,200,90,.08) 38%,transparent 66%)}
+.altar-halo::after{background:conic-gradient(from 0deg,transparent 0,rgba(255,214,120,.22) 8%,transparent 16%,transparent 25%,rgba(255,214,120,.18) 33%,transparent 41%,transparent 50%,rgba(255,214,120,.22) 58%,transparent 66%,transparent 75%,rgba(255,214,120,.18) 83%,transparent 91%);-webkit-mask:radial-gradient(circle,transparent 38%,#000 40%,#000 62%,transparent 66%);mask:radial-gradient(circle,transparent 38%,#000 40%,#000 62%,transparent 66%);animation:haloSpin 44s linear infinite}
+@keyframes haloSpin{to{transform:rotate(360deg)}}
+/* ornate gilded frame around the portrait */
+.altar-frame{position:relative;z-index:1;width:min(440px,84vw);padding:14px;border-radius:20px;background:linear-gradient(160deg,rgba(255,224,150,.5),rgba(150,98,24,.25) 48%,rgba(255,224,150,.4));box-shadow:0 50px 130px rgba(0,0,0,.62),0 0 100px rgba(255,200,90,.22);animation:floaty 8s ease-in-out infinite;will-change:transform}
+.altar-frame::after{content:'';position:absolute;inset:6px;border-radius:14px;border:1px solid rgba(255,236,180,.45);pointer-events:none}
+.altar-frame img{display:block;width:100%;border-radius:13px;filter:contrast(1.04) saturate(1.06)}
+.tribute-altar figcaption{position:relative;z-index:1;margin-top:2.2rem;font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.2vw,1.5rem);color:rgba(248,234,198,.7);max-width:30ch;line-height:1.6}
+@media(prefers-reduced-motion:reduce){.altar-halo::after,.altar-frame{animation:none}}
 @media(prefers-reduced-motion:reduce){.past-storm{animation:none!important;opacity:0}}
-#dim-past::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.7;
-  background-image:repeating-linear-gradient(45deg,rgba(180,182,188,.05) 0,rgba(180,182,188,.05) 1px,transparent 1px,transparent 6px),repeating-linear-gradient(-45deg,rgba(180,182,188,.045) 0,rgba(180,182,188,.045) 1px,transparent 1px,transparent 6px);
-  background-size:7px 7px}
+/* faint warm parchment weave instead of cold graphite cross-hatch */
+#dim-past::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:repeating-linear-gradient(0deg,rgba(190,150,80,.028) 0,rgba(190,150,80,.028) 1px,transparent 1px,transparent 7px),repeating-linear-gradient(90deg,rgba(190,150,80,.022) 0,rgba(190,150,80,.022) 1px,transparent 1px,transparent 7px);
+  background-size:8px 8px}
 .past-hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;overflow:hidden}
-#past-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;filter:grayscale(1) contrast(1.12) brightness(1.04)}
+#past-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
 .past-hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(10,6,0,.88) 0%,rgba(10,6,0,.6) 34%,rgba(10,6,0,.12) 62%,transparent 100%)}
 .past-hero-text{position:relative;z-index:2;max-width:600px;padding:9rem 4rem 5rem 6vw;display:flex;flex-direction:column;justify-content:center}
 .era-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--copper);border:1px solid rgba(184,115,51,.3);padding:.28rem .85rem;border-radius:2px;margin-bottom:2rem}
@@ -240,9 +253,10 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .pc-p{font-size:.9rem;line-height:1.85;color:rgba(245,230,200,.64)}
 .blueprint{background:#1B3A5C;border:1px solid rgba(100,160,220,.18);padding:3rem 4rem;max-width:1200px;margin:0 auto 4rem;position:relative;overflow:hidden;display:grid;grid-template-columns:300px 1fr;gap:3rem;align-items:center}
 .bp-img{position:relative;z-index:1;border-radius:8px;overflow:hidden;border:1px solid rgba(120,180,240,.22);box-shadow:0 18px 44px rgba(0,0,0,.45)}
-.bp-img img{display:block;width:100%;height:auto;filter:grayscale(.95) contrast(1.08)}
+.bp-img img{display:block;width:100%;height:auto;filter:sepia(.3) contrast(1.05) saturate(1.05)}
 .bp-text{position:relative;z-index:1}
-.tq-figure{display:block;width:min(280px,68vw);margin:0 auto 2.4rem;border-radius:12px;border:1px solid rgba(184,115,51,.25);box-shadow:0 22px 60px rgba(0,0,0,.5),0 0 50px rgba(255,200,60,.12);filter:grayscale(.92) contrast(1.06);animation:floaty 7s ease-in-out infinite;will-change:transform}
+.tq-figure{display:block;width:min(320px,74vw);margin:0 auto 2.4rem;border-radius:16px;border:1px solid rgba(232,196,120,.35);box-shadow:0 26px 70px rgba(0,0,0,.55),0 0 70px rgba(255,206,96,.22);animation:floaty 7s ease-in-out infinite,tqHalo 5s ease-in-out infinite;will-change:transform,box-shadow}
+@keyframes tqHalo{0%,100%{box-shadow:0 26px 70px rgba(0,0,0,.55),0 0 60px rgba(255,206,96,.18)}50%{box-shadow:0 26px 70px rgba(0,0,0,.55),0 0 110px rgba(255,214,110,.4)}}
 .blueprint::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(80,160,240,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(80,160,240,.06) 1px,transparent 1px);background-size:30px 30px}
 .blueprint-q{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.8rem);font-style:italic;color:#B8D4F0;margin-bottom:1rem;position:relative;z-index:1}
 .blueprint-q em{color:#7CB9F0;font-style:normal}
@@ -274,6 +288,22 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .ttrack{display:flex;width:max-content;animation:tk 32s linear infinite}
 .ttrack span{font-family:var(--mono);font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:#050208;padding:0 2rem;white-space:nowrap;font-weight:600}
 @keyframes tk{to{transform:translateX(-50%)}}
+
+/* ── PROMETHEUS — the torch / fire-bringer moment ── */
+.prometheus{position:relative;z-index:2;max-width:1100px;margin:5.5rem auto;padding:0 6vw;display:grid;grid-template-columns:minmax(0,360px) 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
+.prom-img{position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(255,170,70,.28);box-shadow:0 44px 120px rgba(0,0,0,.6),0 0 80px rgba(255,140,40,.2);animation:floaty 7.5s ease-in-out infinite;will-change:transform}
+.prom-img img{display:block;width:100%}
+.prom-img::after{content:'';position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(ellipse 64% 46% at 70% 24%,rgba(255,176,68,.22),transparent 60%);animation:flameFlicker 3.4s ease-in-out infinite}
+@keyframes flameFlicker{0%,100%{opacity:.55}40%{opacity:1}70%{opacity:.7}}
+.prom-eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.36em;text-transform:uppercase;color:#FFAE5C;margin-bottom:1rem;opacity:.85}
+.prom-h{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:600;line-height:.98;color:#F8EAD2;margin-bottom:1.1rem}
+.prom-h em{background:linear-gradient(135deg,#FFD06A,#FF8A2B);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic}
+.prom-p{font-size:.96rem;line-height:1.9;color:rgba(245,230,200,.66);max-width:48ch}
+@media(max-width:760px){.prometheus{grid-template-columns:1fr;gap:1.6rem}.prom-img{max-width:320px;margin:0 auto}}
+
+/* gold-foil shimmer on the Past hero title */
+.past-h1 em{background:linear-gradient(100deg,#C8960A 0%,#FFE8A6 30%,#FFF7DC 50%,#FFE8A6 70%,#C8960A 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:goldFoil 7s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){.past-h1 em{animation:none}}
 
 /* video frame (shared) */
 .vid-frame{position:relative;border-radius:14px;overflow:hidden;max-width:1100px;margin:0 auto 4rem;box-shadow:0 30px 90px rgba(0,0,0,.6)}
@@ -681,4 +711,4 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 @keyframes scrollBounce{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(7px);opacity:1}}
 
 /* coded Tesla-coil discharge overlay (Past hero) */
-.tesla-arc{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen;filter:grayscale(1) contrast(1.1)}
+.tesla-arc{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen;filter:contrast(1.08) saturate(1.1)}

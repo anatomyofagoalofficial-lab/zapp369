@@ -7,6 +7,7 @@ import { initCursor } from './ui';
 import { initSound } from './sound';
 import { initTeslaArc } from './teslaArc';
 import { initMatrixRain } from './matrixRain';
+import { initGoldenAtmos } from './goldenAtmos';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,8 +66,14 @@ function boot() {
   window.addEventListener('scroll', onScroll, { passive: true });
   if (lenis) lenis.on('scroll', onScroll);
 
-  startDimCanvas(name);
-  if (name === 'past') { const ta = document.getElementById('tesla-arc') as HTMLCanvasElement | null; if (ta) initTeslaArc(ta); }
+  if (name === 'past') {
+    // Past = a luminous golden tribute: god-rays + gold dust (2D) replace the dark 3D barn,
+    // with foreground Tesla-coil lightning layered on top.
+    const ga = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (ga) initGoldenAtmos(ga);
+    const ta = document.getElementById('tesla-arc') as HTMLCanvasElement | null; if (ta) initTeslaArc(ta);
+  } else {
+    startDimCanvas(name);
+  }
   if (name === 'future') { const mr = document.getElementById('matrix-rain') as HTMLCanvasElement | null; if (mr) initMatrixRain(mr); }
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
