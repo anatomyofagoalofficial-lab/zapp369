@@ -9,10 +9,12 @@ const DEX = `https://dexscreener.com/solana/${CA}`;
 <div class="buy-section" id="buy-section">
   <div class="buy-glow"></div>
   <div class="buy-in">
+    <p class="buy-eyebrow rv">3 · 6 · 9 · ∞</p>
     <h2 class="buy-h rv">Join the<br><em>frequency</em>.</h2>
     <p class="buy-sub rv d1">{sub}</p>
     <div class="ca-pill rv d2" data-copy-ca>
-      <div><span class="ca-l">Contract Address</span><div class="ca-a">{CA}</div></div>
+      <div class="ca-tick" aria-hidden="true"></div>
+      <div><span class="ca-l">Contract Address · Solana</span><div class="ca-a">{CA}</div></div>
       <span class="ca-i">⎘</span>
     </div>
     {showMsg && <div id="ca-msg" style="opacity:0"></div>}
