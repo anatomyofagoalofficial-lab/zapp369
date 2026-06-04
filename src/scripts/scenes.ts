@@ -351,14 +351,23 @@ function startPresent() {
   const GOLD = 0xB07A12, GOLD2 = 0xD79A1E, GREEN = 0x2E9E54, SKY = 0x2C9FCF;
 
   // ── the 3·6·9 pyramid — a glowing wireframe with layered tiers (advanced, technological) ──
-  const pyr = new THREE.Group(); pyr.position.y = -0.4; scene.add(pyr);
-  const PH = 3.4, PB = 2.6;
+  const pyr = new THREE.Group(); pyr.position.y = -0.6; scene.add(pyr);
+  const PH = 4.2, PB = 3.2;
   const apex = new THREE.Vector3(0, PH, 0);
   const base = [new THREE.Vector3(-PB, 0, -PB), new THREE.Vector3(PB, 0, -PB), new THREE.Vector3(PB, 0, PB), new THREE.Vector3(-PB, 0, PB)];
-  const edgePts: THREE.Vector3[] = [];
-  base.forEach((b, i) => { edgePts.push(b, base[(i + 1) % 4]); edgePts.push(b, apex); });
-  pyr.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(edgePts), new THREE.LineBasicMaterial({ color: GOLD2, transparent: true, opacity: .62 })));
-  for (let tier = 1; tier <= 5; tier++) { const f = tier / 6, y = PH * f, s = PB * (1 - f); const r = [new THREE.Vector3(-s, y, -s), new THREE.Vector3(s, y, -s), new THREE.Vector3(s, y, s), new THREE.Vector3(-s, y, s), new THREE.Vector3(-s, y, -s)]; pyr.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(r), new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: .26 }))); }
+  // a stepped Babylonian ziggurat — stacked square tiers, narrowing as they rise
+  const STEPS = 6, stepH = PH / STEPS;
+  const sq = (sz: number, y: number) => [new THREE.Vector3(-sz, y, -sz), new THREE.Vector3(sz, y, -sz), new THREE.Vector3(sz, y, sz), new THREE.Vector3(-sz, y, sz), new THREE.Vector3(-sz, y, -sz)];
+  const zigMat = (op: number) => new THREE.LineBasicMaterial({ color: 0x9A6A0A, transparent: true, opacity: op });
+  for (let s = 0; s < STEPS; s++) {
+    const sz = PB * (1 - s / (STEPS + 0.6));
+    const yB = s * stepH, yT = (s + 1) * stepH;
+    pyr.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(sq(sz, yB)), zigMat(.88)));
+    pyr.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(sq(sz, yT)), zigMat(.5)));
+    const riser: THREE.Vector3[] = [];
+    ([[-sz, -sz], [sz, -sz], [sz, sz], [-sz, sz]] as const).forEach(([x, z]) => riser.push(new THREE.Vector3(x, yB, z), new THREE.Vector3(x, yT, z)));
+    pyr.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(riser), zigMat(.72)));
+  }
   const cap = new THREE.Mesh(new THREE.SphereGeometry(.13, 14, 14), new THREE.MeshBasicMaterial({ color: 0xFFD24A })); cap.position.copy(apex); pyr.add(cap);
 
   // ── two slow sacred-geometry rings behind the pyramid ──

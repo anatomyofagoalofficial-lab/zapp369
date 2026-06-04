@@ -316,7 +316,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 #dim-present{background:radial-gradient(ellipse 64% 46% at 50% -8%,#FFE7A0 0%,rgba(255,231,160,0) 54%),radial-gradient(ellipse 86% 58% at 90% 6%,rgba(126,206,250,.55) 0%,rgba(126,206,250,0) 46%),radial-gradient(ellipse 80% 58% at 8% 104%,rgba(110,196,128,.42) 0%,transparent 56%),linear-gradient(172deg,#FBF4DD 0%,#F6EBC8 44%,#EFE0B6 100%);color:#3A2C12}
 #dim-present::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");opacity:.16}
-#present-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.72}
+#present-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.92}
 /* Present mascot — floats on the royal-blue field, blends seamlessly */
 .p-mascot-wrap{position:relative;width:min(168px,38vw);margin:1.6rem auto 1.3rem;display:grid;place-items:center}
 .p-mascot{display:block;width:100%;height:auto;position:relative;z-index:2;filter:drop-shadow(0 0 36px rgba(255,206,110,.6)) drop-shadow(0 14px 26px rgba(120,80,20,.35));animation:floaty 6s ease-in-out infinite;will-change:transform}
