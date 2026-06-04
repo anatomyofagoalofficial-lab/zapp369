@@ -341,37 +341,37 @@ function startPast() {
 
 function startPresent() {
   const cv = document.getElementById('present-canvas') as HTMLCanvasElement | null; if (!cv) return;
-  const par = document.getElementById('dim-present') as HTMLElement;
-  const W = () => par.offsetWidth || innerWidth, H = () => par.scrollHeight || innerHeight;
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(W(), H());
-  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(50, W() / H(), .1, 200); cam.position.z = 10;
-  const composer = makeBloom(renderer, scene, cam, W(), H(), 0.75, 0.5, 0.08);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(innerWidth, innerHeight);
+  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, .1, 200); cam.position.set(0, 1.6, 12);
+  const resize = () => { renderer.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); };
+  resize(); window.addEventListener('resize', resize);
 
-  // ── Solana node network (sphere) ──
-  const ng = new THREE.Group(); scene.add(ng);
-  const npts: THREE.Vector3[] = [], nc = 92, RAD = 3.4;
-  for (let i = 0; i < nc; i++) {
-    const y = 1 - (i / (nc - 1)) * 2, rr = Math.sqrt(Math.max(0, 1 - y * y)), th = i * 2.399963;
-    const v = new THREE.Vector3(Math.cos(th) * rr, y, Math.sin(th) * rr).multiplyScalar(RAD); npts.push(v);
-    const nm = new THREE.Mesh(new THREE.SphereGeometry(.055, 6, 5), new THREE.MeshBasicMaterial({ color: 0xEAF3FC, transparent: true, opacity: .8 }));
-    nm.position.copy(v); nm.userData.ph = Math.random() * Math.PI * 2; ng.add(nm);
-  }
-  const pairs: [THREE.Vector3, THREE.Vector3][] = [];
-  const cp: number[] = [];
-  for (let i = 0; i < nc; i++) for (let j = i + 1; j < nc; j++) if (npts[i].distanceTo(npts[j]) < 1.7) { cp.push(npts[i].x, npts[i].y, npts[i].z, npts[j].x, npts[j].y, npts[j].z); if (pairs.length < 30 && Math.random() < .3) pairs.push([npts[i], npts[j]]); }
-  const cg = new THREE.BufferGeometry(); cg.setAttribute('position', new THREE.BufferAttribute(new Float32Array(cp), 3));
-  ng.add(new THREE.LineSegments(cg, new THREE.LineBasicMaterial({ color: 0xBFE0FF, transparent: true, opacity: .22 })));
+  // warm, sunlit palette that reads on the cream page (normal blending — not additive)
+  const GOLD = 0xB07A12, GOLD2 = 0xD79A1E, GREEN = 0x2E9E54, SKY = 0x2C9FCF;
 
-  // ── central emitter core ──
-  const core = new THREE.Mesh(new THREE.SphereGeometry(.4, 18, 18), new THREE.MeshBasicMaterial({ color: 0xEAF6FF, transparent: true, opacity: .95, blending: THREE.AdditiveBlending })); scene.add(core);
+  // ── the 3·6·9 pyramid — a glowing wireframe with layered tiers (advanced, technological) ──
+  const pyr = new THREE.Group(); pyr.position.y = -0.4; scene.add(pyr);
+  const PH = 3.4, PB = 2.6;
+  const apex = new THREE.Vector3(0, PH, 0);
+  const base = [new THREE.Vector3(-PB, 0, -PB), new THREE.Vector3(PB, 0, -PB), new THREE.Vector3(PB, 0, PB), new THREE.Vector3(-PB, 0, PB)];
+  const edgePts: THREE.Vector3[] = [];
+  base.forEach((b, i) => { edgePts.push(b, base[(i + 1) % 4]); edgePts.push(b, apex); });
+  pyr.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(edgePts), new THREE.LineBasicMaterial({ color: GOLD2, transparent: true, opacity: .62 })));
+  for (let tier = 1; tier <= 5; tier++) { const f = tier / 6, y = PH * f, s = PB * (1 - f); const r = [new THREE.Vector3(-s, y, -s), new THREE.Vector3(s, y, -s), new THREE.Vector3(s, y, s), new THREE.Vector3(-s, y, s), new THREE.Vector3(-s, y, -s)]; pyr.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(r), new THREE.LineBasicMaterial({ color: GOLD, transparent: true, opacity: .26 }))); }
+  const cap = new THREE.Mesh(new THREE.SphereGeometry(.13, 14, 14), new THREE.MeshBasicMaterial({ color: 0xFFD24A })); cap.position.copy(apex); pyr.add(cap);
 
-  // ── broadcasting waves — expanding shells radiating from the core ──
-  const rings: THREE.Mesh[] = [];
-  for (let i = 0; i < 4; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 26, 16), new THREE.MeshBasicMaterial({ color: 0xBFE0FF, wireframe: true, transparent: true, opacity: 0, blending: THREE.AdditiveBlending })); m.userData.r = i / 4; scene.add(m); rings.push(m); }
+  // ── two slow sacred-geometry rings behind the pyramid ──
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(4.7, .016, 6, 90), new THREE.MeshBasicMaterial({ color: GOLD2, transparent: true, opacity: .32 })); ring.position.y = 1.2; ring.rotation.x = Math.PI / 2.2; scene.add(ring);
+  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.5, .011, 6, 70), new THREE.MeshBasicMaterial({ color: SKY, transparent: true, opacity: .28 })); ring2.position.y = 1.2; ring2.rotation.x = Math.PI / 2.5; scene.add(ring2);
 
-  // ── energy packets travelling between nodes ──
-  const packets = pairs.slice(0, 18).map(p => { const m = new THREE.Mesh(new THREE.SphereGeometry(.07, 6, 6), new THREE.MeshBasicMaterial({ color: 0xFFFFFF, transparent: true, opacity: .95, blending: THREE.AdditiveBlending })); scene.add(m); return { m, a: p[0], b: p[1], t: Math.random(), sp: .006 + Math.random() * .01 }; });
+  // ── perspective tech grid floor ──
+  const gridPts: THREE.Vector3[] = []; const GS = 9, GW = 12;
+  for (let i = -GS; i <= GS; i++) { gridPts.push(new THREE.Vector3(-GW, 0, i * 1.3), new THREE.Vector3(GW, 0, i * 1.3), new THREE.Vector3(i * 1.3, 0, -GW), new THREE.Vector3(i * 1.3, 0, GW)); }
+  const grid = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(gridPts), new THREE.LineBasicMaterial({ color: GREEN, transparent: true, opacity: .12 })); grid.position.y = -0.42; scene.add(grid);
+
+  // ── free-energy packets climbing the four pyramid edges ──
+  const packets = base.map((b, i) => { const m = new THREE.Mesh(new THREE.SphereGeometry(.08, 8, 8), new THREE.MeshBasicMaterial({ color: 0xFFCE3A })); scene.add(m); return { m, a: b.clone(), t: Math.random(), sp: .0045 + i * .0006 }; });
 
   let mx = 0, my = 0;
   document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });
@@ -379,18 +379,16 @@ function startPresent() {
   (function anim() {
     requestAnimationFrame(anim);
     if (!document.getElementById('dim-present')?.classList.contains('active')) return;
-    t += .006;
-    ng.rotation.y = t * .12; ng.rotation.x = -0.1 + my * 0.15;
-    ng.children.forEach(n => { if (n.userData.ph !== undefined) n.scale.setScalar(.6 + .6 * Math.sin(t * 2 + n.userData.ph)); });
-    core.scale.setScalar(1 + .3 * Math.sin(t * 4));
-    rings.forEach(m => { let r = m.userData.r + t * 0.18; r %= 1; const s = r * 9 + 0.2; m.scale.setScalar(s); (m.material as THREE.MeshBasicMaterial).opacity = Math.max(0, (1 - r) * 0.3); m.rotation.copy(ng.rotation); });
-    packets.forEach(p => { p.t += p.sp; if (p.t > 1) p.t -= 1; p.m.position.lerpVectors(p.a, p.b, p.t).applyEuler(ng.rotation); });
+    t += .008;
+    pyr.rotation.y = t * .3;
+    ring.rotation.z += .0022; ring2.rotation.z -= .003;
+    cap.scale.setScalar(1 + .4 * Math.sin(t * 5));
+    packets.forEach(p => { p.t += p.sp; if (p.t > 1) p.t -= 1; const a = p.a.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), pyr.rotation.y).add(pyr.position); const apx = apex.clone().add(pyr.position); p.m.position.lerpVectors(a, apx, p.t); });
     const sp = dimScrollP;
-    cam.position.x += ((mx * 2) - cam.position.x) * 0.04;
-    cam.position.y += ((-my * 1.5) - cam.position.y) * 0.04;
-    cam.position.z += ((10 - sp * 3) - cam.position.z) * 0.05;
-    cam.lookAt(0, 0, 0);
-    composer.render();
+    cam.position.x += ((mx * 2.2) - cam.position.x) * 0.04;
+    cam.position.y += ((1.6 - my * 1.6 + sp * 2.2) - cam.position.y) * 0.04;
+    cam.lookAt(0, 1.1, 0);
+    renderer.render(scene, cam);
   })();
 }
 
