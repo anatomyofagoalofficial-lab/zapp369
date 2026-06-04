@@ -22,10 +22,10 @@ function dotTexture() {
 /** Cinematic bloom composer — the glow that makes it feel expensive */
 function makeBloom(renderer: THREE.WebGLRenderer, scene: THREE.Scene, cam: THREE.Camera, w: number, h: number, strength = 0.8, radius = 0.55, threshold = 0.12) {
   const comp = new EffectComposer(renderer);
-  comp.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  comp.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   comp.setSize(w || 1, h || 1);
   comp.addPass(new RenderPass(scene, cam));
-  comp.addPass(new UnrealBloomPass(new THREE.Vector2(w || 1, h || 1), strength, radius, threshold));
+  comp.addPass(new UnrealBloomPass(new THREE.Vector2(Math.max(1,(w||1)*0.5), Math.max(1,(h||1)*0.5)), strength, radius, threshold));
   return comp;
 }
 
@@ -83,17 +83,17 @@ export function startHubVortex() {
   const cv = document.getElementById('hub-cv') as HTMLCanvasElement | null;
   if (!cv) return;
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setSize(innerWidth, innerHeight);
   const scene = new THREE.Scene();
   const cam = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, .1, 1200);
   cam.position.z = 6;
 
   // cinematic bloom — the "$150k" glow
   const composer = new EffectComposer(renderer);
-  composer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  composer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   composer.setSize(innerWidth, innerHeight);
   composer.addPass(new RenderPass(scene, cam));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.85, 0.55, 0.12);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth*0.5, innerHeight*0.5), 0.85, 0.55, 0.12);
   composer.addPass(bloom);
 
   // soft round point sprite → smooth particles, not blocky squares
@@ -248,7 +248,7 @@ function startPast() {
   const cv = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (!cv) return;
   const par = cv.parentElement as HTMLElement;
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   const scene = new THREE.Scene();
   scene.fog = new THREE.FogExp2(0x0e0a05, 0.015);
   const cam = new THREE.PerspectiveCamera(56, 1, 0.1, 500);
@@ -398,7 +398,7 @@ function startFuture() {
   const cv = document.getElementById('future-canvas') as HTMLCanvasElement | null; if (!cv) return;
   const par = (cv.parentElement as HTMLElement) || document.getElementById('dim-future')!;
   const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   const scene = new THREE.Scene();
   const cam = new THREE.PerspectiveCamera(50, 1, 0.1, 240); cam.position.set(0, 1, 22);
   const resize = () => { const r = par.getBoundingClientRect(); renderer.setSize(r.width || 1, r.height || 1); composer.setSize(r.width || 1, r.height || 1); cam.aspect = (r.width || 1) / (r.height || 1); cam.updateProjectionMatrix(); };

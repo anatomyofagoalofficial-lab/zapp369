@@ -13,7 +13,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   camera.lookAt(0, 0, 0);
 
   const MOBILE = innerWidth < 768;
-  const PR = Math.min(devicePixelRatio, MOBILE ? 1.5 : 2); // lighter on phones = smoother
+  const PR = Math.min(devicePixelRatio, MOBILE ? 1.25 : 1.5); // lighter on phones = smoother
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: !MOBILE, alpha: true });
   renderer.setPixelRatio(PR);
   renderer.setSize(innerWidth, innerHeight);
@@ -22,7 +22,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   composer.setPixelRatio(PR);
   composer.setSize(innerWidth, innerHeight);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.42, 0.4, 0.88));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth*0.5, innerHeight*0.5), 0.42, 0.4, 0.88));
 
   // ── 3D layers: spiral galaxy + parallax stars. The HTML ⚡ZAPP wordmark IS the centre —
   //    nothing 3D lives at the origin, so it can never crowd the logo. ──

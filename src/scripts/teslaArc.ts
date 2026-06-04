@@ -20,7 +20,7 @@ export function initTeslaArc(canvas: HTMLCanvasElement) {
   const bolts: Bolt[] = [];
 
   // drifting embers / dust glowing in the lab air
-  const embers = Array.from({ length: 54 }, () => ({
+  const embers = Array.from({ length: 34 }, () => ({
     fx: Math.random(), fy: Math.random(), vy: 0.0005 + Math.random() * 0.0013,
     sway: Math.random() * 6.283, r: 0.6 + Math.random() * 1.7, a: 0.16 + Math.random() * 0.5,
   }));
@@ -63,11 +63,9 @@ export function initTeslaArc(canvas: HTMLCanvasElement) {
       const y = e.fy * H;
       const fl = e.a * (0.55 + 0.45 * Math.sin(now * 0.004 + e.sway));   // warm flicker
       ctx!.beginPath();
-      ctx!.fillStyle = `rgba(255,200,110,${fl})`;
-      ctx!.shadowBlur = 6; ctx!.shadowColor = `rgba(255,180,90,${fl})`;
-      ctx!.arc(x, y, e.r, 0, Math.PI * 2); ctx!.fill();
+      ctx!.fillStyle = `rgba(255,206,122,${fl})`;
+      ctx!.arc(x, y, e.r * 1.4, 0, Math.PI * 2); ctx!.fill();          // no per-ember shadowBlur — huge canvas perf win
     }
-    ctx!.shadowBlur = 0;
     if (now > next) { strike(now, false); next = now + (90 + Math.random() * 220); }
     if (now > nextBig) { strike(now, true); nextBig = now + (1500 + Math.random() * 2400); }
     ctx!.lineCap = 'round'; ctx!.lineJoin = 'round';
