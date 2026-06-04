@@ -382,6 +382,18 @@ html.lenis,html.lenis body{height:auto}
 .future-hero .f-tag{color:#C4B5FD;border-color:rgba(196,181,253,.4)}
 .future-hero .f-h1{color:#F6F2FF;text-shadow:0 2px 30px rgba(0,0,0,.5)}
 .future-hero .f-lead{color:rgba(236,230,255,.78)}
+/* ── FUTURE = holographic. Synthwave neon grid floor + scanlines + glow ── */
+.f-grid{position:absolute;left:-25%;right:-25%;bottom:0;height:62%;z-index:1;pointer-events:none;
+  background-image:linear-gradient(rgba(124,58,237,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(6,182,212,.4) 1px,transparent 1px);
+  background-size:46px 46px;transform:perspective(340px) rotateX(64deg);transform-origin:bottom center;
+  -webkit-mask-image:linear-gradient(to top,#000 6%,transparent 78%);mask-image:linear-gradient(to top,#000 6%,transparent 78%);
+  animation:fGrid 2.6s linear infinite}
+@keyframes fGrid{to{background-position:0 46px,0 46px}}
+.f-scan{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:overlay;opacity:.4;
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(0,0,0,.35) 3px,transparent 4px)}
+.future-hero .f-h1{text-shadow:0 0 24px rgba(159,232,255,.45),0 0 60px rgba(124,58,237,.4),0 2px 30px rgba(0,0,0,.5);animation:holoFlicker 7s steps(60) infinite}
+@keyframes holoFlicker{0%,100%{opacity:1}48%{opacity:1}49%{opacity:.86}50%{opacity:1}71%{opacity:1}72%{opacity:.9}73%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.f-grid{animation:none}.future-hero .f-h1{animation:none}}
 .f-split{position:relative;z-index:2;min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:8rem 5vw 6rem;gap:4rem}
 .f-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:#7C3AED;border:1px solid rgba(124,58,237,.2);padding:.28rem .85rem;border-radius:4px;margin-bottom:2rem}
 .f-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#06B6D4)}
