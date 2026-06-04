@@ -8,6 +8,12 @@
 html{font-size:16px;-webkit-font-smoothing:antialiased}
 body{font-family:var(--sans);overflow:hidden;cursor:none;background:#000;color:#fff}
 body.scrollable{overflow-y:auto;overflow-x:hidden}
+/* premium gold scrollbar */
+*{scrollbar-color:rgba(255,200,90,.45) transparent;scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:rgba(0,0,0,.25)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(255,215,120,.55),rgba(200,150,60,.42));border-radius:10px;border:2px solid transparent;background-clip:padding-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,220,140,.8)}
 /* Lenis */
 html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
