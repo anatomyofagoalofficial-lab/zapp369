@@ -492,6 +492,10 @@ html.lenis,html.lenis body{height:auto}
 
 /* SHARED buttons */
 .bg{position:relative;overflow:hidden;padding:1rem 2.6rem;border-radius:100px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#050208;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-decoration:none;transition:all .3s;box-shadow:0 0 40px #FFD70028}
+.bg::after{content:'';position:absolute;top:0;left:-150%;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:bgShine 5s ease-in-out infinite;pointer-events:none}
+@keyframes bgShine{0%{left:-150%}16%{left:170%}100%{left:170%}}
+.bg:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 64px #FFD70055}
+@media(prefers-reduced-motion:reduce){.bg::after{animation:none;opacity:0}}
 .bg::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none}
 .bg:hover{box-shadow:0 0 80px #FFD70060;transform:translateY(-3px) scale(1.02)}
 .bg:hover::after{left:130%}
