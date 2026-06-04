@@ -34,7 +34,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   // curved paths — a divine current circulating Tower → Network → Signal → Tower.
   const EDGES: [number, number][] = [[0, 1], [1, 2], [2, 0]];
   const EDGE_COLORS = [0xF4D27A, 0x9FE8FF, 0xC896FF];
-  const DOTS = 42;
+  const edgeCol = EDGE_COLORS.map(c => new THREE.Color(c));
+  const DOTS = 80;   // many tiny dots → a fine, continuous current rather than chunky beads
   const dotTex = (() => {
     const c = document.createElement('canvas'); c.width = c.height = 64;
     const x = c.getContext('2d')!;
@@ -44,10 +45,11 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     return new THREE.CanvasTexture(c);
   })();
   // Connections are a desktop flourish; on mobile the cards stack vertically so they'd be meaningless.
-  const triEdges = MOBILE ? [] : EDGES.map((_, i) => {
+  const triEdges = MOBILE ? [] : EDGES.map(() => {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(DOTS * 3), 3));
-    const m = new THREE.PointsMaterial({ color: EDGE_COLORS[i], size: 7, sizeAttenuation: false, map: dotTex, transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false });
+    g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(DOTS * 3), 3));
+    const m = new THREE.PointsMaterial({ size: 3.2, sizeAttenuation: false, map: dotTex, transparent: true, opacity: 0.85, vertexColors: true, blending: THREE.AdditiveBlending, depthWrite: false });
     const points = new THREE.Points(g, m);
     scene.add(points);
     return { g, m, curve: null as THREE.QuadraticBezierCurve3 | null };
@@ -72,7 +74,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
         const edge = B.clone().sub(A);
         const perp = new THREE.Vector3(-edge.y, edge.x, 0).normalize();
         if (mid.dot(perp) < 0) perp.negate();
-        mid.addScaledVector(perp, edge.length() * 0.32);
+        // bulge away from centre to frame the logo — but capped so a long diagonal never shoots off-screen
+        mid.addScaledVector(perp, Math.min(edge.length() * 0.2, 4.5));
         triEdges[ei].curve = new THREE.QuadraticBezierCurve3(A, mid, B);
       });
     }
@@ -130,13 +133,19 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     triEdges.forEach((e, ei) => {
       if (!e.curve) return;
       const pos = e.g.attributes.position as THREE.BufferAttribute;
+      const col = e.g.attributes.color as THREE.BufferAttribute;
+      const hot = hi === EDGES[ei][0] || hi === EDGES[ei][1];
+      const base = edgeCol[ei];
       for (let i = 0; i < DOTS; i++) {
         const p = e.curve.getPoint(((i / DOTS) + flow) % 1);
         pos.setXYZ(i, p.x, p.y, p.z);
+        // sharp pulses of light travel along the stream → a living, electric current
+        const b = 0.22 + 0.78 * Math.pow(0.5 + 0.5 * Math.sin((i / DOTS - flow) * Math.PI * 6), 3);
+        const m = hot ? b * 1.5 : b;
+        col.setXYZ(i, base.r * m, base.g * m, base.b * m);
       }
-      pos.needsUpdate = true;
-      const hot = hi === EDGES[ei][0] || hi === EDGES[ei][1];
-      e.m.opacity = flying ? Math.max(0, e.m.opacity - 0.05) : (hot ? 1 : 0.85);
+      pos.needsUpdate = true; col.needsUpdate = true;
+      e.m.opacity = flying ? Math.max(0, e.m.opacity - 0.05) : 0.85;
     });
 
     if (smEl && !flying && !reduceMotion && !MOBILE) {

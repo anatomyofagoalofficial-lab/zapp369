@@ -45,14 +45,25 @@ export function initIntro(onComplete: () => void) {
     ox.fillStyle = '#fff';
     ox.font = `700 ${fs}px "Cormorant Garamond",serif`;
     ox.textAlign = 'center'; ox.textBaseline = 'middle';
-    ox.fillText('⚡ZAPP', W / 2, H / 2 - fs * .06);
-    ox.font = `500 ${fs * .1}px "JetBrains Mono",monospace`;
-    ox.fillStyle = 'rgba(255,215,0,.8)';
-    ox.fillText('3  ·  6  ·  9  ·  ∞', W / 2, H / 2 + fs * .58);
+    ox.fillText('⚡ZAPP', W / 2, H / 2 - fs * .06);   // only the wordmark forms from particles (the 3·6·9 is drawn crisp below)
     const d = ox.getImageData(0, 0, W, H).data;
     targets = [];
     const step = Math.max(2, Math.floor(Math.min(W, H) / 180));
     for (let x = 0; x < W; x += step) for (let y = 0; y < H; y += step) if (d[(y * W + x) * 4 + 3] > 80) targets.push({ x, y });
+  }
+
+  // crisp, readable 3·6·9·∞ drawn directly (not from particles) so it's never blurry
+  function drawNumerology(alpha: number) {
+    if (alpha <= 0) return;
+    const fs = Math.min(W * .16, H * .26);
+    ctx.save();
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = `500 ${Math.max(15, fs * .12)}px "JetBrains Mono", monospace`;
+    ctx.shadowBlur = 16 * alpha; ctx.shadowColor = 'rgba(255,200,70,.75)';
+    ctx.fillStyle = `rgba(255,221,124,${alpha})`;
+    ctx.fillText('3    ·    6    ·    9    ·    ∞', W / 2, H / 2 + fs * .52);
+    ctx.shadowBlur = 0;
+    ctx.restore();
   }
 
   class Pt {
@@ -171,6 +182,7 @@ export function initIntro(onComplete: () => void) {
 
     if (t >= DUR.form && t < DUR.glow) {
       particles.forEach(pt => pt.draw());
+      drawNumerology(e01(t, DUR.form, DUR.glow));   // crisp 3·6·9·∞ fades in below the wordmark
       const p = e01(t, DUR.form, DUR.glow);
       const gl = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * .6);
       gl.addColorStop(0, `rgba(255,215,0,${.28 * p})`); gl.addColorStop(.4, `rgba(200,100,0,${.12 * p})`); gl.addColorStop(1, 'transparent');
@@ -190,6 +202,7 @@ export function initIntro(onComplete: () => void) {
 
     if (t >= DUR.glow && !finished) {
       particles.forEach(pt => pt.draw());
+      drawNumerology(1);   // fully lit 3·6·9·∞ during the reveal
       const p = e01(t, DUR.glow, DUR.reveal);
       if (p > .2 && TOP.style.display === 'none') { TOP.style.display = 'block'; BOT.style.display = 'block'; }
       const cp = Math.max(0, (p - .2) / .8);
