@@ -1,31 +1,5 @@
 ---
-// Torch cursor + flashlight beam (desktop / pointer devices only)
+// Minimal gold cursor: a precise dot + a smooth trailing ring (desktop / pointer devices only)
 ---
-<div id="cur">
-  <svg id="cur-svg" viewBox="0 0 20 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="7" y="14" width="6" height="12" rx="2" fill="#8B6914" stroke="#C8A012" stroke-width=".5"/>
-    <rect x="5" y="8" width="10" height="8" rx="2" fill="#A07018" stroke="#E8C84A" stroke-width=".6"/>
-    <ellipse cx="10" cy="9" rx="4" ry="2.5" fill="#FFF8DC" opacity=".9"/>
-    <ellipse cx="10" cy="7" rx="3" ry="2" fill="url(#flameG)" opacity=".95"/>
-    <defs>
-      <radialGradient id="flameG" cx="50%" cy="60%" r="50%">
-        <stop offset="0%" stop-color="#FFFFFF"/>
-        <stop offset="40%" stop-color="#FFE566"/>
-        <stop offset="100%" stop-color="#FF9900" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-  </svg>
-</div>
-<div id="curt">
-  <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-    <defs>
-      <radialGradient id="beamG" cx="50%" cy="0%" r="70%">
-        <stop offset="0%" stop-color="rgba(255,240,180,.18)"/>
-        <stop offset="60%" stop-color="rgba(255,215,0,.06)"/>
-        <stop offset="100%" stop-color="transparent"/>
-      </radialGradient>
-    </defs>
-    <ellipse cx="40" cy="40" rx="38" ry="38" fill="url(#beamG)"/>
-    <circle cx="40" cy="40" r="6" fill="rgba(255,240,180,.15)"/>
-  </svg>
-</div>
+<div id="cur"></div>
+<div id="curt"></div>

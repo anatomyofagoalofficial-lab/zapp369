@@ -25,12 +25,11 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-stopped{overflow:hidden}
 @media(hover:none){body{cursor:auto}}
 
-/* CURSOR — flashlight / torch */
-#cur{position:fixed;z-index:9999;pointer-events:none;transform:translate(-50%,-100%);transition:transform .1s;width:20px;height:28px}
-#cur-svg{width:100%;height:100%;filter:drop-shadow(0 0 6px #FFD700) drop-shadow(0 0 12px rgba(255,180,0,.7))}
-/* Flashlight beam */
-#curt{position:fixed;z-index:9997;pointer-events:none;transform:translate(-50%,-8%);transition:left .07s ease-out,top .07s ease-out}
-#curt svg{display:block}
+/* CURSOR — precise gold dot + smooth trailing ring (premium, unmistakably a cursor) */
+#cur{position:fixed;z-index:9999;pointer-events:none;width:7px;height:7px;border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,#FFF8DC,#F4D27A 55%,#C8960A);box-shadow:0 0 8px rgba(255,212,122,.95),0 0 20px rgba(255,180,60,.45)}
+#curt{position:fixed;z-index:9997;pointer-events:none;width:32px;height:32px;border-radius:50%;transform:translate(-50%,-50%);border:1.5px solid rgba(255,210,120,.5);box-shadow:0 0 12px rgba(255,200,90,.14);transition:width .25s ease,height .25s ease,border-color .25s,opacity .25s}
+body.cur-hot #curt{width:50px;height:50px;border-color:rgba(255,224,150,.85)}
+body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 @media(hover:none){#cur,#curt{display:none}}
 
 /* PAGES */
