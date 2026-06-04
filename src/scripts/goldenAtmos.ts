@@ -76,7 +76,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
     ctx!.shadowBlur = 7; ctx!.shadowColor = 'rgba(255,190,90,.5)';
     const blx = cx - wBase / 2, brx = cx + wBase / 2, tlx = cx - wTop / 2, trx = cx + wTop / 2;
     ctx!.beginPath(); ctx!.moveTo(blx, baseY); ctx!.lineTo(tlx, topY); ctx!.moveTo(brx, baseY); ctx!.lineTo(trx, topY); ctx!.stroke();
-    const cells = 10;
+    const cells = 13;
     for (let i = 0; i <= cells; i++) {
       const f = i / cells, fy = baseY + (topY - baseY) * f;
       const lx = blx + (tlx - blx) * f, rx = brx + (trx - brx) * f;
@@ -84,16 +84,30 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
       if (i < cells) {
         const f2 = (i + 1) / cells, fy2 = baseY + (topY - baseY) * f2;
         const lx2 = blx + (tlx - blx) * f2, rx2 = brx + (trx - brx) * f2;
-        ctx!.globalAlpha = .55;
+        ctx!.globalAlpha = .5;
         ctx!.beginPath(); ctx!.moveTo(lx, fy); ctx!.lineTo(rx2, fy2); ctx!.moveTo(rx, fy); ctx!.lineTo(lx2, fy2); ctx!.stroke();
         ctx!.globalAlpha = 1;
       }
     }
-    // mushroom dome cage on top
-    const domeR = wTop * 1.25, domeTop = topY - domeR * 0.62;
-    ctx!.beginPath(); ctx!.ellipse(cx, topY, domeR, domeR * 0.62, 0, Math.PI, 0); ctx!.stroke();
-    for (let i = 1; i < 6; i++) { const a = Math.PI + (i / 6) * Math.PI; ctx!.beginPath(); ctx!.moveTo(cx + Math.cos(a) * domeR, topY); ctx!.lineTo(cx, domeTop); ctx!.stroke(); }
-    ctx!.beginPath(); ctx!.ellipse(cx, topY - domeR * 0.28, domeR * 0.66, domeR * 0.4, 0, Math.PI, 0); ctx!.stroke();
+    // inner vertical legs — octagonal lattice density
+    for (const s of [-0.5, 0.5]) { ctx!.beginPath(); ctx!.moveTo(cx + s * wBase * 0.5, baseY); ctx!.lineTo(cx + s * wTop * 0.5, topY); ctx!.stroke(); }
+
+    // ── the wide mushroom cupola — Wardenclyffe's signature overhanging dome ──
+    const capR = wTop * 1.8, domeH = capR * 0.64, apexY = topY - domeH;
+    // overhang struts from the cap rim back down to the narrow mast top
+    ctx!.beginPath();
+    ctx!.moveTo(cx - capR, topY); ctx!.lineTo(tlx, topY + wTop * 0.55);
+    ctx!.moveTo(cx + capR, topY); ctx!.lineTo(trx, topY + wTop * 0.55);
+    ctx!.stroke();
+    // the wide platform rim, seen in perspective
+    ctx!.beginPath(); ctx!.ellipse(cx, topY, capR, capR * 0.17, 0, 0, Math.PI * 2); ctx!.stroke();
+    // the domed top
+    ctx!.beginPath(); ctx!.moveTo(cx - capR, topY); ctx!.quadraticCurveTo(cx, apexY - domeH * 0.5, cx + capR, topY); ctx!.stroke();
+    // dome ribs converging on the finial
+    for (let i = -2; i <= 2; i++) { const fx = i / 2.6; ctx!.beginPath(); ctx!.moveTo(cx + fx * capR, topY); ctx!.quadraticCurveTo(cx + fx * capR * 0.4, apexY - domeH * 0.2, cx, apexY); ctx!.stroke(); }
+    // finial sphere at the very top
+    ctx!.beginPath(); ctx!.arc(cx, apexY, Math.max(2, wTop * 0.07), 0, Math.PI * 2); ctx!.stroke();
+    const domeTop = apexY;
     // splayed foundation footing at the base
     const footW = wBase * 1.55;
     ctx!.beginPath();
