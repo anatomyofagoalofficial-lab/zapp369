@@ -386,7 +386,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .todo-mascot{position:absolute;right:-14px;bottom:-26px;width:clamp(86px,22vw,118px);height:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.3));transform:rotate(6deg);animation:floaty 6s ease-in-out infinite}
 /* To-Do pinned slick in the hero's lower-right on desktop */
 .p-hero .todo-meme{padding:0}
-@media(min-width:1180px){.p-hero{overflow:visible}.p-hero .todo-meme{position:absolute;right:2.5vw;top:60%;transform:translateY(-50%) rotate(3deg) scale(.56);transform-origin:right center;z-index:4}}
+@media(min-width:1180px){.p-hero{overflow:visible}.p-hero .todo-meme{position:absolute;left:2.5vw;top:60%;transform:translateY(-50%) rotate(-3deg) scale(.56);transform-origin:left center;z-index:4}}
 @media(max-width:1179px){.p-hero .todo-meme{margin-top:1.5rem;transform:scale(.82)}}
 .todo-pencil{position:absolute;top:8%;right:-22px;font-size:2rem;transform:rotate(34deg);filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
 .todo-cap{margin-top:2.4rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(80,60,24,.5)}
