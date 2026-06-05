@@ -165,6 +165,16 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 #dim-nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:1.1rem 2rem;display:none;align-items:center;justify-content:space-between;transition:all .5s}
 #dim-nav.show{display:flex}
 #dim-nav.scrolled{background:rgba(0,0,0,.7);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.05)}
+/* light-page nav (Present / Future) — matches the warm page instead of a dark band */
+#dim-nav.dn-light.scrolled{background:rgba(255,250,234,.85);border-bottom-color:rgba(150,110,40,.16)}
+#dim-nav.dn-light .dn-logo{color:#241A06}
+#dim-nav.dn-light .dn-logo span{color:#C8860A}
+#dim-nav.dn-light .dn-link,#dim-nav.dn-light .dn-links a{color:rgba(58,44,18,.62)}
+#dim-nav.dn-light .dn-link:hover,#dim-nav.dn-light .dn-links a:hover{color:#241A06}
+#dim-nav.dn-light #dn-price{color:rgba(176,122,18,.9)}
+#dim-nav.dn-light .dn-era{background:rgba(255,250,234,.7);border-color:rgba(150,110,40,.2)}
+#dim-nav.dn-light .dn-era button{color:rgba(58,44,18,.55)}
+#dim-nav.dn-light .dn-era button:hover{color:#241A06}
 .dn-logo{font-family:var(--serif);font-size:1.4rem;font-weight:700;color:#fff;text-decoration:none}
 .dn-logo span{color:var(--gold)}
 .dn-links{display:flex;gap:1.75rem;list-style:none}

@@ -22,7 +22,9 @@ function boot() {
   try { sessionStorage.setItem('zapp-from-dim', '1'); } catch {}
   dimEl.classList.add('active');
   document.body.classList.add('scrollable');
-  document.getElementById('dim-nav')?.classList.add('show');
+  const navEl = document.getElementById('dim-nav');
+  navEl?.classList.add('show');
+  if (name === 'present' || name === 'future') navEl?.classList.add('dn-light'); // light pages → light nav
   document.querySelectorAll('.dn-era [data-era]').forEach(b => b.classList.toggle('on', b.getAttribute('data-era') === name));
 
   let lenis: Lenis | null = null;

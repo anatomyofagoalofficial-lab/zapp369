@@ -350,25 +350,27 @@ function startPresent() {
   // warm, sunlit palette that reads on the cream page (normal blending — not additive)
   const GOLD = 0xB07A12, GOLD2 = 0xD79A1E, GREEN = 0x2E9E54, SKY = 0x2C9FCF;
 
-  // ── the 3·6·9 pyramid — a glowing wireframe with layered tiers (advanced, technological) ──
+  // ── the 3·6·9 pyramid — a SOLID stepped Babylonian ziggurat (filled gold tiers, not a wireframe) ──
   const pyr = new THREE.Group(); pyr.position.y = -0.8; scene.add(pyr);
   const PH = 5.2, PB = 4.1;
   const apex = new THREE.Vector3(0, PH, 0);
   const base = [new THREE.Vector3(-PB, 0, -PB), new THREE.Vector3(PB, 0, -PB), new THREE.Vector3(PB, 0, PB), new THREE.Vector3(-PB, 0, PB)];
-  // a stepped Babylonian ziggurat — stacked square tiers, narrowing as they rise
   const STEPS = 6, stepH = PH / STEPS;
-  const sq = (sz: number, y: number) => [new THREE.Vector3(-sz, y, -sz), new THREE.Vector3(sz, y, -sz), new THREE.Vector3(sz, y, sz), new THREE.Vector3(-sz, y, sz), new THREE.Vector3(-sz, y, -sz)];
-  const zigMat = (op: number) => new THREE.LineBasicMaterial({ color: 0x9A6A0A, transparent: true, opacity: op });
+  // a real light so the solid faces actually read as 3D (top-lit, warm)
+  const sun = new THREE.DirectionalLight(0xfff0d0, 1.5); sun.position.set(-3, 8, 5); scene.add(sun);
+  scene.add(new THREE.AmbientLight(0xffe6b0, 0.65));
   for (let s = 0; s < STEPS; s++) {
     const sz = PB * (1 - s / (STEPS + 0.6));
     const yB = s * stepH, yT = (s + 1) * stepH;
-    pyr.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(sq(sz, yB)), zigMat(.88)));
-    pyr.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(sq(sz, yT)), zigMat(.5)));
-    const riser: THREE.Vector3[] = [];
-    ([[-sz, -sz], [sz, -sz], [sz, sz], [-sz, sz]] as const).forEach(([x, z]) => riser.push(new THREE.Vector3(x, yB, z), new THREE.Vector3(x, yT, z)));
-    pyr.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(riser), zigMat(.72)));
+    const geo = new THREE.BoxGeometry(sz * 2, stepH, sz * 2);
+    // solid sandstone-gold tier, lit for depth
+    const face = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0xCB9A2A, roughness: 0.85, metalness: 0.15, transparent: true, opacity: 0.9 }));
+    face.position.y = (yB + yT) / 2; pyr.add(face);
+    // crisp darker edges to define each block
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: 0x6E4A06, transparent: true, opacity: 0.7 }));
+    edges.position.y = (yB + yT) / 2; pyr.add(edges);
   }
-  const cap = new THREE.Mesh(new THREE.SphereGeometry(.13, 14, 14), new THREE.MeshBasicMaterial({ color: 0xFFD24A })); cap.position.copy(apex); pyr.add(cap);
+  const cap = new THREE.Mesh(new THREE.SphereGeometry(.18, 16, 16), new THREE.MeshBasicMaterial({ color: 0xFFE08A })); cap.position.copy(apex); pyr.add(cap);
 
   // ── two slow sacred-geometry rings behind the pyramid ──
   const ring = new THREE.Mesh(new THREE.TorusGeometry(4.7, .016, 6, 90), new THREE.MeshBasicMaterial({ color: GOLD2, transparent: true, opacity: .32 })); ring.position.y = 1.2; ring.rotation.x = Math.PI / 2.2; scene.add(ring);
