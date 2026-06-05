@@ -156,15 +156,15 @@ export function initStarMap(canvas: HTMLCanvasElement) {
 
     // ── the warp dive: fly into the galaxy, twist, and bloom into the dimension's light ──
     if (flying && warpStart >= 0) {
-      const wt = Math.min(1, (t - warpStart) / 1.25);
+      const wt = Math.min(1, (t - warpStart) / 0.8);          // quick teleport
       const ew = wt < 0.5 ? 4 * wt * wt * wt : 1 - Math.pow(-2 * wt + 2, 3) / 2;
-      camera.position.z = 20 - ew * 27;                       // dolly through the galaxy
+      camera.position.z = 20 - ew * 30;                       // snap-dolly through the galaxy
       const tx = (warpDim ? warpDim.position.x : 0) * 0.35, ty = (warpDim ? warpDim.position.y : 0) * 0.35;
-      camera.position.x += (tx - camera.position.x) * 0.06;
-      camera.position.y += (ty - camera.position.y) * 0.06;
+      camera.position.x += (tx - camera.position.x) * 0.08;
+      camera.position.y += (ty - camera.position.y) * 0.08;
       camera.lookAt(0, 0, 0);
-      galaxy.rotation.z += 0.012 + ew * 0.05;                 // warp twist
-      if (flashEl) flashEl.style.opacity = String(Math.max(0, (wt - 0.4) / 0.6));  // bloom to light in the 2nd half
+      galaxy.rotation.z += 0.02 + ew * 0.07;                  // warp twist
+      if (flashEl) flashEl.style.opacity = String(Math.max(0, (wt - 0.45) / 0.55));  // quick white flash near the end
       if (wt >= 1 && !navigated) {
         navigated = true;
         (window as any).zappWarp ? (window as any).zappWarp(warpRoute) : (window.location.href = warpRoute);

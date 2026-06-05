@@ -201,12 +201,15 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 #dim-past.active .past-storm{animation:teslaArc 11s ease-out infinite}
 @keyframes teslaArc{0%,46%,100%{opacity:0}2%{opacity:.55}4%{opacity:.08}6%{opacity:.7}8%{opacity:.12}9%{opacity:.4}11%{opacity:0}50%{opacity:.5}52%{opacity:.06}54%{opacity:.45}56%{opacity:0}}
 /* The Archive — recovered vintage documents, pinned like museum prints */
-.past-archive{max-width:1100px;margin:5.5rem auto 4rem;padding:0 6vw}
-.archive-grid{display:flex;flex-direction:column;gap:2.6rem;align-items:center;margin-top:1.8rem}
-.arch{margin:0;max-width:720px;width:100%;background:#1a120a;padding:.85rem .85rem 0;border:1px solid rgba(232,200,120,.22);box-shadow:0 26px 64px rgba(0,0,0,.58),inset 0 1px 0 rgba(255,255,255,.04)}
-.arch:nth-child(odd){transform:rotate(-.5deg)}.arch:nth-child(even){transform:rotate(.5deg)}
-.arch img{width:100%;display:block;filter:sepia(.5) contrast(1.05) brightness(.96)}
-.arch figcaption{font-family:var(--mono);font-size:.64rem;letter-spacing:.04em;color:rgba(245,230,200,.5);padding:.75rem .3rem 1rem;line-height:1.6;text-align:center}
+.past-archive{max-width:920px;margin:5rem auto 4rem;padding:0 6vw}
+/* a curated gallery wall — masonry so mixed print sizes pack tightly */
+.archive-grid{column-count:2;column-gap:1.8rem;margin-top:2rem}
+.arch{break-inside:avoid;display:inline-block;width:100%;margin:0 0 1.8rem;background:linear-gradient(160deg,#251708,#150c04);padding:.7rem .7rem 0;border:1px solid rgba(232,200,120,.26);border-radius:5px;box-shadow:0 20px 46px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s}
+.arch:nth-child(odd){transform:rotate(-.8deg)}.arch:nth-child(even){transform:rotate(.8deg)}
+.arch:hover{transform:rotate(0) translateY(-4px) scale(1.03);box-shadow:0 30px 68px rgba(0,0,0,.58),0 0 48px rgba(232,200,120,.18);position:relative;z-index:2}
+.arch img{width:100%;display:block;border-radius:3px;filter:sepia(.38) contrast(1.07) brightness(1.02) saturate(1.06)}
+.arch figcaption{font-family:var(--mono);font-size:.58rem;letter-spacing:.03em;color:rgba(245,230,200,.55);padding:.6rem .3rem .85rem;line-height:1.55;text-align:center}
+@media(max-width:680px){.archive-grid{column-count:1;max-width:340px;margin-left:auto;margin-right:auto}}
 .arch figcaption em{color:rgba(245,220,150,.78);font-style:normal}
 /* ── THE TRIBUTE ALTAR — the heart of the page: "the man who saw the future" ── */
 .tribute-altar{position:relative;margin:8rem auto 6rem;max-width:760px;padding:2rem 6vw;text-align:center;display:flex;flex-direction:column;align-items:center}
@@ -336,6 +339,8 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .ph-cell{background:rgba(36,26,10,.86);padding:1.5rem 1.25rem;text-align:center;transition:background .3s;backdrop-filter:blur(8px)}
 .ph-cell:hover{background:rgba(48,34,12,.9)}
 .ph-l{font-family:var(--mono);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,214,130,.72);margin-bottom:.55rem}
+.ph-n{color:#FFCE3A;font-weight:700;opacity:.92}
+.ph-freq{color:#FFD98A;letter-spacing:.06em}
 .ph-v{font-family:var(--mono);font-size:1.4rem;color:#FFF3D6;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.01em}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(150,110,40,.3);max-width:900px;margin:1.5rem auto 0;border:1px solid rgba(150,110,40,.34);border-radius:12px;overflow:hidden}
 .stats-row.three{grid-template-columns:repeat(3,1fr);max-width:700px}
@@ -671,14 +676,14 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 /* ⚡ Native cross-document View Transitions — buttery, app-like jumps between dimensions
    (old page warps out into light, new page rises in; graceful instant fallback on old browsers) */
 @view-transition{navigation:auto}
-::view-transition-old(root){animation:vtOut .55s cubic-bezier(.7,0,.84,0) both}
-::view-transition-new(root){animation:vtIn .8s cubic-bezier(.16,1,.3,1) both}
-@keyframes vtOut{to{opacity:0;transform:scale(1.1);filter:brightness(2.3) saturate(1.1)}}
-@keyframes vtIn{from{opacity:0;transform:scale(1.035);filter:brightness(1.8)}}
+::view-transition-old(root){animation:vtOut .38s cubic-bezier(.7,0,.84,0) both}
+::view-transition-new(root){animation:vtIn .5s cubic-bezier(.16,1,.3,1) both}
+@keyframes vtOut{to{opacity:0;transform:scale(1.05);filter:brightness(1.55)}}
+@keyframes vtIn{from{opacity:0;transform:scale(1.02);filter:brightness(1.3)}}
 @media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
-/* warp bloom overlay on the hub — driven by star-map.ts as you dive into a dimension */
+/* teleport flash on the hub — a quick white bloom (only a whisper of the destination's colour) */
 #warp-flash{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;will-change:opacity;
-  background:radial-gradient(circle at 50% 50%,#fff 0%,color-mix(in srgb,var(--wc,#F4D27A) 55%,#fff) 28%,var(--wc,#F4D27A) 72%)}
+  background:radial-gradient(circle at 50% 50%,#fff 0%,#fff 44%,color-mix(in srgb,var(--wc,#F4D27A) 24%,#fff) 100%)}
 
 /* floating Buy dock — always one tap from buying (dimension pages) */
 #buy-dock{position:fixed;left:50%;bottom:18px;transform:translate(-50%,160%);z-index:50;display:flex;gap:.4rem;align-items:center;padding:.4rem;border-radius:100px;background:rgba(20,12,4,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,210,120,.28);box-shadow:0 16px 40px rgba(0,0,0,.42);opacity:0;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s}
