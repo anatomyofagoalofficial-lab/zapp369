@@ -33,7 +33,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   // The connections between dimensions: fine streams of glowing dots that flow along
   // curved paths — a divine current circulating Tower → Network → Signal → Tower.
   const EDGES: [number, number][] = [[0, 1], [1, 2], [2, 0]];
-  const EDGE_COLORS = [0xF4D27A, 0x9FE8FF, 0xC896FF];
+  const EDGE_COLORS = [0xF4D27A, 0xA875FF, 0x4FCB82]; // Tower→Network gold, Network→Signal purple, Signal→Tower green
   const edgeCol = EDGE_COLORS.map(c => new THREE.Color(c));
   const DOTS = 80;   // many tiny dots → a fine, continuous current rather than chunky beads
   const dotTex = (() => {
