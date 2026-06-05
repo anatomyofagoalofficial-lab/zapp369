@@ -21,10 +21,10 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
 
   // The light pours in from the upper-right — the same direction as the tribute artwork.
   const src = () => ({ x: W * 0.82, y: -H * 0.16 });
-  const RAYS = 10;
+  const RAYS = 7;
 
-  // floating motes of gold dust — many, but tiny
-  const N = reduce ? 0 : 80;
+  // floating motes of gold dust — fewer now (perf + less "dust")
+  const N = reduce ? 0 : 36;
   const motes = Array.from({ length: N }, () => ({
     x: Math.random(), y: Math.random(),
     r: 0.5 + Math.random() * 1.9,
@@ -42,7 +42,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
   const bolts: Bolt[] = [];
   const groundPulses: { r: number; life: number }[] = [];
   // warm embers rising near the tower base
-  const embers = Array.from({ length: reduce ? 0 : 28 }, () => ({
+  const embers = Array.from({ length: reduce ? 0 : 14 }, () => ({
     x: 0.62 + Math.random() * 0.28, y: 1 + Math.random() * 0.3,
     vy: 0.3 + Math.random() * 0.9, drift: (Math.random() - .5) * 0.5,
     ph: Math.random() * Math.PI * 2, r: 0.7 + Math.random() * 1.8,
@@ -72,8 +72,8 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
     ctx!.restore();
     // lattice
     ctx!.save();
-    ctx!.strokeStyle = 'rgba(255,210,128,.5)'; ctx!.lineWidth = 1.5; ctx!.lineJoin = 'round';
-    ctx!.shadowBlur = 7; ctx!.shadowColor = 'rgba(255,190,90,.5)';
+    ctx!.strokeStyle = 'rgba(255,214,134,.6)'; ctx!.lineWidth = 1.5; ctx!.lineJoin = 'round';
+    // (no shadowBlur on the lattice — far cheaper; the backing aura carries the glow)
     const blx = cx - wBase / 2, brx = cx + wBase / 2, tlx = cx - wTop / 2, trx = cx + wTop / 2;
     ctx!.beginPath(); ctx!.moveTo(blx, baseY); ctx!.lineTo(tlx, topY); ctx!.moveTo(brx, baseY); ctx!.lineTo(trx, topY); ctx!.stroke();
     const cells = 13;
@@ -155,8 +155,9 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
       const b = bolts[i]; b.life -= 0.085; const a = Math.max(0, b.life);
       ctx!.beginPath(); ctx!.moveTo(b.pts[0].x, b.pts[0].y);
       for (let k = 1; k < b.pts.length; k++) ctx!.lineTo(b.pts[k].x, b.pts[k].y);
-      ctx!.strokeStyle = `rgba(255,238,184,${a * .9})`; ctx!.lineWidth = b.w; ctx!.shadowBlur = 10; ctx!.shadowColor = 'rgba(255,200,90,.9)'; ctx!.stroke();
-      ctx!.strokeStyle = `rgba(255,255,255,${a * .7})`; ctx!.lineWidth = b.w * .5; ctx!.shadowBlur = 0; ctx!.stroke();
+      // additive double-stroke glow (no shadowBlur — much cheaper)
+      ctx!.strokeStyle = `rgba(255,206,110,${a * .35})`; ctx!.lineWidth = b.w * 3.4; ctx!.stroke();
+      ctx!.strokeStyle = `rgba(255,248,214,${a * .95})`; ctx!.lineWidth = b.w; ctx!.stroke();
       if (b.life <= 0) bolts.splice(i, 1);
     }
     ctx!.restore();

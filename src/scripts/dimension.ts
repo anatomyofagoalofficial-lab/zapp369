@@ -74,10 +74,9 @@ function boot() {
   if (lenis) lenis.on('scroll', onScroll);
 
   if (name === 'past') {
-    // Past = a luminous golden tribute: god-rays + gold dust (2D) replace the dark 3D barn,
-    // with foreground Tesla-coil lightning layered on top.
+    // Past = one luminous golden canvas (god-rays + a living Wardenclyffe tower).
+    // (The separate teslaArc canvas was redundant with the tower's own discharge — dropped for perf.)
     const ga = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (ga) initGoldenAtmos(ga);
-    const ta = document.getElementById('tesla-arc') as HTMLCanvasElement | null; if (ta) initTeslaArc(ta);
   } else {
     startDimCanvas(name);
   }
