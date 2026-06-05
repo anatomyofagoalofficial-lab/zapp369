@@ -49,13 +49,14 @@ function boot() {
   ci?.addEventListener('input', () => { const v = ci.value.replace(/[^0-9]/g, ''); if (v) ci.value = Number(v).toLocaleString('en-US'); uc(); });
 
   document.addEventListener('click', e => {
-    const t = (e.target as HTMLElement).closest('[data-hub],[data-era],[data-copy-ca],[data-scroll-buy],[data-sc]') as HTMLElement | null;
+    const t = (e.target as HTMLElement).closest('[data-hub],[data-era],[data-copy-ca],[data-scroll-buy],[data-scroll-howto],[data-sc]') as HTMLElement | null;
     if (!t) return;
     const go = (u: string) => (window as any).zappWarp ? (window as any).zappWarp(u) : (location.href = u);
     if (t.hasAttribute('data-hub')) { e.preventDefault(); go('/'); }
     else if (t.hasAttribute('data-era')) { e.preventDefault(); const er = t.getAttribute('data-era')!; if (er !== name) go(ROUTE[er] || '/'); }
     else if (t.hasAttribute('data-copy-ca')) { navigator.clipboard.writeText(CA).then(() => { const m = document.getElementById('ca-msg'); if (m) { m.textContent = '✓ Copied!'; m.style.opacity = '1'; setTimeout(() => m.style.opacity = '0', 2500); } }); }
     else if (t.hasAttribute('data-scroll-buy')) { e.preventDefault(); const b = document.getElementById('buy-section'); if (b) lenis ? lenis.scrollTo(b) : b.scrollIntoView({ behavior: 'smooth' }); }
+    else if (t.hasAttribute('data-scroll-howto')) { e.preventDefault(); const h = document.querySelector('.howto') as HTMLElement | null; if (h) lenis ? lenis.scrollTo(h) : h.scrollIntoView({ behavior: 'smooth' }); }
     else if (t.hasAttribute('data-sc')) { const el = cinEl(); if (el) { el.value = Number(t.getAttribute('data-sc')).toLocaleString('en-US'); uc(); } }
   });
 
@@ -84,6 +85,29 @@ function boot() {
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
   initWorldClock(); initReferral();
+  injectBuyDock();
+}
+
+// ── floating Buy dock: always one tap from buying, smart-routed ──
+function injectBuyDock() {
+  if (document.getElementById('buy-dock')) return;
+  const hasBuy = !!document.getElementById('buy-section');
+  const hasHow = !!document.querySelector('.howto');
+  const pump = `https://pump.fun/coin/${CA}`;
+  const dock = document.createElement('div');
+  dock.id = 'buy-dock';
+  const how = hasHow ? '<button class="bd-how" type="button" data-scroll-howto>How to buy</button>' : '';
+  const buy = hasBuy
+    ? '<a class="bd-buy" href="#buy-section" data-scroll-buy>⚡ Buy ZAPP</a>'
+    : `<a class="bd-buy" href="${pump}" target="_blank" rel="noopener">⚡ Buy ZAPP</a>`;
+  dock.innerHTML = how + buy;
+  document.body.appendChild(dock);
+  const onScr = () => {
+    const buyEl = document.getElementById('buy-section');
+    const nearBuy = !!buyEl && buyEl.getBoundingClientRect().top < innerHeight * 0.9;
+    dock.classList.toggle('show', window.scrollY > innerHeight * 0.55 && !nearBuy);
+  };
+  onScr(); window.addEventListener('scroll', onScr, { passive: true });
 }
 
 // ── live World Clock: local time in every zone, updating each second ──
