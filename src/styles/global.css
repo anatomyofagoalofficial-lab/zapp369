@@ -636,12 +636,11 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 #ca-msg{font-family:var(--mono);font-size:.62rem;color:#10B981;height:1.1rem;transition:opacity .3s;margin-bottom:1rem}
 .buy-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
 .buy-lnks{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem}
-.bl{padding:.5rem 1.4rem;border-radius:100px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.38);font-size:.67rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:all .3s}
-.bl:hover{border-color:rgba(255,255,255,.35);color:#fff}
-.bl.sol{border-color:rgba(153,69,255,.3);color:#9945FF}
-.bl.sol:hover{background:rgba(153,69,255,.1);border-color:#9945FF}
+.bl{padding:.5rem 1.4rem;border-radius:100px;border:1px solid rgba(255,210,120,.24);color:rgba(255,226,150,.66);font-size:.67rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.bl:hover{border-color:rgba(255,210,120,.6);color:#FFE6A6}
+.bl.sol:hover{background:rgba(255,210,120,.1);border-color:rgba(255,210,120,.6)}
 .socials{display:flex;gap:1.1rem;justify-content:center;margin-bottom:3.5rem;flex-wrap:wrap}
-.sc{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(255,255,255,.32);font-size:.72rem;font-family:var(--mono);transition:all .3s}
+.sc{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,210,120,.26);display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(255,226,150,.6);font-size:.72rem;font-family:var(--mono);transition:all .3s}
 .sc:hover{border-color:rgba(255,215,0,.45);color:var(--gold);transform:translateY(-2px)}
 .disc{font-size:.67rem;color:rgba(255,255,255,.12);max-width:56ch;margin:0 auto;line-height:1.85}
 
@@ -654,8 +653,8 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .bg::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-18deg);transition:left .6s ease;pointer-events:none}
 .bg:hover{box-shadow:0 0 80px #FFD70060;transform:translateY(-3px) scale(1.02)}
 .bg:hover::after{left:130%}
-.bo{padding:1rem 2.6rem;border-radius:100px;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.6);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer}
-.bo:hover{border-color:rgba(255,255,255,.4);color:#fff}
+.bo{padding:1rem 2.6rem;border-radius:100px;border:1px solid rgba(255,210,120,.3);color:rgba(255,235,190,.8);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:pointer}
+.bo:hover{border-color:rgba(255,210,120,.66);color:#FFE6A6}
 
 /* ══ SOUND TOGGLE ══ */
 #snd{position:fixed;bottom:1.4rem;left:1.6rem;z-index:600;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,215,0,.25);background:rgba(0,0,0,.5);backdrop-filter:blur(8px);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;transition:all .3s}
