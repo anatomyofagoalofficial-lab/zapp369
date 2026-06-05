@@ -646,11 +646,14 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 /* ⚡ Native cross-document View Transitions — buttery, app-like jumps between dimensions
    (old page warps out into light, new page rises in; graceful instant fallback on old browsers) */
 @view-transition{navigation:auto}
-::view-transition-old(root){animation:vtOut .5s cubic-bezier(.7,0,.84,0) both}
-::view-transition-new(root){animation:vtIn .62s cubic-bezier(.16,1,.3,1) both}
-@keyframes vtOut{to{opacity:0;transform:scale(1.06);filter:brightness(1.7) saturate(1.2)}}
-@keyframes vtIn{from{opacity:0;transform:scale(.985);filter:brightness(.6)}}
+::view-transition-old(root){animation:vtOut .55s cubic-bezier(.7,0,.84,0) both}
+::view-transition-new(root){animation:vtIn .8s cubic-bezier(.16,1,.3,1) both}
+@keyframes vtOut{to{opacity:0;transform:scale(1.1);filter:brightness(2.3) saturate(1.1)}}
+@keyframes vtIn{from{opacity:0;transform:scale(1.035);filter:brightness(1.8)}}
 @media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
+/* warp bloom overlay on the hub — driven by star-map.ts as you dive into a dimension */
+#warp-flash{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;will-change:opacity;
+  background:radial-gradient(circle at 50% 50%,#fff 0%,color-mix(in srgb,var(--wc,#F4D27A) 55%,#fff) 28%,var(--wc,#F4D27A) 72%)}
 
 /* gold text selection */
 ::selection{background:rgba(255,205,60,.32);color:#fff}

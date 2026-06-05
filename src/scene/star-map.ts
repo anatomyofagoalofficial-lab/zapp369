@@ -88,18 +88,21 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   document.addEventListener('mouseover', e => { const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null; if (t) hoveredId = DIMENSIONS.find(d => d.route === t.getAttribute('data-go'))?.id ?? null; });
   document.addEventListener('mouseout', e => { if ((e.target as HTMLElement).closest('[data-go]')) hoveredId = null; });
 
-  // ── click a card → dive through space toward that dimension → navigate ──
-  let flying = false;
+  // ── click a card → smooth warp through the galaxy, bloom to the dimension's light, then navigate ──
+  let flying = false, warpStart = -1, warpRoute = '', navigated = false;
+  let warpDim: (typeof DIMENSIONS)[number] | null = null;
+  const flashEl = document.getElementById('warp-flash') as HTMLElement | null;
   document.addEventListener('click', e => {
     const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null;
     if (!t || flying) return;
     e.preventDefault();
-    const route = t.getAttribute('data-go')!;
-    const dim = DIMENSIONS.find(d => d.route === route)!;
+    warpRoute = t.getAttribute('data-go')!;
+    warpDim = DIMENSIONS.find(d => d.route === warpRoute) || null;
     flying = true;
+    warpStart = clock.getElapsedTime();
+    if (flashEl && warpDim) flashEl.style.setProperty('--wc', warpDim.color);
     document.getElementById('dimension-cards')?.classList.add('flying');
     (document.querySelector('.sm-center') as HTMLElement | null)?.style.setProperty('opacity', '0');
-    flyTo(camera, dim.position, () => { (window as any).zappWarp ? (window as any).zappWarp(route) : (window.location.href = route); });
   });
 
   // ── ⚡ZAPP title — pinned dead-centre (the HTML wordmark IS the centre of the star-map) ──
@@ -149,6 +152,23 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     if (smEl && !flying && !reduceMotion && !MOBILE) {
       const s = 1 + Math.sin(t * 0.8) * 0.012;
       smEl.style.transform = `translate(-50%, -50%) scale(${s.toFixed(4)})`;
+    }
+
+    // ── the warp dive: fly into the galaxy, twist, and bloom into the dimension's light ──
+    if (flying && warpStart >= 0) {
+      const wt = Math.min(1, (t - warpStart) / 1.25);
+      const ew = wt < 0.5 ? 4 * wt * wt * wt : 1 - Math.pow(-2 * wt + 2, 3) / 2;
+      camera.position.z = 20 - ew * 27;                       // dolly through the galaxy
+      const tx = (warpDim ? warpDim.position.x : 0) * 0.35, ty = (warpDim ? warpDim.position.y : 0) * 0.35;
+      camera.position.x += (tx - camera.position.x) * 0.06;
+      camera.position.y += (ty - camera.position.y) * 0.06;
+      camera.lookAt(0, 0, 0);
+      galaxy.rotation.z += 0.012 + ew * 0.05;                 // warp twist
+      if (flashEl) flashEl.style.opacity = String(Math.max(0, (wt - 0.4) / 0.6));  // bloom to light in the 2nd half
+      if (wt >= 1 && !navigated) {
+        navigated = true;
+        (window as any).zappWarp ? (window as any).zappWarp(warpRoute) : (window.location.href = warpRoute);
+      }
     }
 
     composer.render();
