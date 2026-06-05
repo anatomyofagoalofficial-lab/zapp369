@@ -470,6 +470,28 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .ht-cta:hover{transform:translateY(-2px);box-shadow:0 18px 42px rgba(224,149,28,.5)}
 @media(max-width:680px){.ht-steps{grid-template-columns:1fr}}
 
+/* ── THE 3·6·9 PYRAMID — every tier a function, widening to the BUY base ── */
+.pyramid-hub{position:relative;z-index:2;max-width:680px;margin:2.5rem auto;padding:3rem 5vw 3.5rem;text-align:center}
+.ph2-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#B07A12;margin-bottom:1.6rem}
+.pyramid{position:relative;display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.pyramid::before{content:'';position:absolute;left:50%;top:-6%;bottom:-6%;width:128%;transform:translateX(-50%);background:radial-gradient(ellipse 56% 78% at 50% 62%,rgba(255,206,96,.14),transparent 70%);pointer-events:none;z-index:-1}
+.pyr-cap{display:flex;flex-direction:column;align-items:center;gap:.15rem;margin-bottom:.4rem}
+.pyr-bolt{font-size:1.7rem;filter:drop-shadow(0 0 12px rgba(255,200,90,.7))}
+.pyr-369{font-family:var(--mono);font-size:.6rem;letter-spacing:.34em;color:#B07A12}
+.pyr-step{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;min-height:52px;padding:0 1.1rem;border-radius:12px;border:1px solid rgba(150,110,40,.3);background:rgba(255,250,234,.74);color:#3A2C12;font-family:var(--mono);font-weight:700;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .26s;backdrop-filter:blur(4px)}
+.pyr-step:hover{transform:translateY(-2px);border-color:#E0951C;box-shadow:0 14px 30px rgba(120,80,20,.18);background:rgba(255,250,234,.96)}
+.s1{width:44%}.s2{width:58%}.s3{width:72%}.s4{width:86%}.s5{width:100%}
+.pyr-soc{gap:.7rem;font-size:.72rem}
+.pyr-soc a{color:#3A2C12;text-decoration:none;transition:color .2s}.pyr-soc a:hover{color:#1C9CC8}
+.pyr-soc span{opacity:.4}
+.pyr-ca{justify-content:space-between;font-size:.74rem}
+.pyr-addr{font-weight:700;letter-spacing:.04em}
+.pyr-copy{font-size:.58rem;background:rgba(176,122,18,.16);padding:.3rem .7rem;border-radius:100px;color:#7A5410}
+.pyr-buy{background:linear-gradient(135deg,#FFD24A,#E0951C);color:#1a1000;border:none;min-height:64px;font-size:1.02rem;box-shadow:0 14px 34px rgba(224,149,28,.4)}
+.pyr-buy:hover{transform:translateY(-3px);box-shadow:0 20px 46px rgba(224,149,28,.6)}
+.pyr-msg{margin-top:1rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#1E8A4C;opacity:0;transition:opacity .3s}
+@media(max-width:560px){.s1{width:74%}.s2{width:84%}.s3{width:94%}.s4,.s5{width:100%}.pyr-soc{flex-wrap:wrap}.pyr-ca{font-size:.66rem}}
+
 /* ── REFER & EARN ── */
 .referral{position:relative;z-index:2;max-width:760px;margin:3rem auto;padding:3rem 6vw 4rem;text-align:center}
 .rf-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:#1C6E8C;margin-bottom:.9rem}

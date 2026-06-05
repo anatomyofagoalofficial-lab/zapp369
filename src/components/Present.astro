@@ -2,6 +2,7 @@
 import BuySection from './BuySection.astro';
 import TodoMeme from './TodoMeme.astro';
 import Referral from './Referral.astro';
+import PyramidHub from './PyramidHub.astro';
 const IMG = '/illustrations';
 const CITIES = [
   { name: 'New York', flag: '🇺🇸', tz: 'America/New_York' },
@@ -37,6 +38,7 @@ const CITIES = [
     </div>
   </div>
   <div class="vbar rv"><div class="vi"><span class="vd"></span>Mint Revoked</div><div class="vi"><span class="vd"></span>LP Burned</div><div class="vi"><span class="vd"></span>Freeze Revoked</div></div>
+  <PyramidHub />
   <div class="p-scenes">
     <div class="p-row rv"><div class="p-img"><img src={`${IMG}/not-just-memecoin.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Difference</p><h3 class="p-h3">Not just <em>another memecoin</em>.</h3><p class="p-p">Doge had a meme. Pepe had a cult. ⚡ZAPP has 130 years of suppressed history and a frequency that was always meant to reach everyone.</p></div></div>
     <div class="p-row flip rv"><div class="p-img"><img src={`${IMG}/vault-v2.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">Trust On-Chain</p><h3 class="p-h3">Nobody touches<br>the <em>liquidity</em>.</h3><p class="p-p">LP permanently burned. Mint revoked. Freeze revoked. 0% tax. The vault is sealed — not even the founders can open it.</p></div></div>

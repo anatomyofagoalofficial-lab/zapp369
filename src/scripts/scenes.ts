@@ -351,8 +351,8 @@ function startPresent() {
   const GOLD = 0xB07A12, GOLD2 = 0xD79A1E, GREEN = 0x2E9E54, SKY = 0x2C9FCF;
 
   // ── the 3·6·9 pyramid — a glowing wireframe with layered tiers (advanced, technological) ──
-  const pyr = new THREE.Group(); pyr.position.y = -0.6; scene.add(pyr);
-  const PH = 4.2, PB = 3.2;
+  const pyr = new THREE.Group(); pyr.position.y = -0.8; scene.add(pyr);
+  const PH = 5.2, PB = 4.1;
   const apex = new THREE.Vector3(0, PH, 0);
   const base = [new THREE.Vector3(-PB, 0, -PB), new THREE.Vector3(PB, 0, -PB), new THREE.Vector3(PB, 0, PB), new THREE.Vector3(-PB, 0, PB)];
   // a stepped Babylonian ziggurat — stacked square tiers, narrowing as they rise
