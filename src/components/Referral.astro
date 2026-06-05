@@ -1,0 +1,31 @@
+---
+// ⚡ Refer & earn — share your link, grow the signal. Logic in scripts/referral.ts
+---
+<section class="referral" id="referral">
+  <p class="rf-eyebrow rv">Spread the frequency</p>
+  <h2 class="rf-title rv">Refer &amp; <em>earn</em>.</h2>
+  <p class="rf-sub rv d1">Share your link. Every holder who joins through it grows the network — and the top conductors get rewarded from the community pool.</p>
+
+  <div class="rf-stats rv d1">
+    <div class="rf-cell"><div class="rf-l">Your Code</div><div class="rf-v" id="rf-code">—</div></div>
+    <div class="rf-cell"><div class="rf-l">Referred By</div><div class="rf-v" id="rf-by">—</div></div>
+  </div>
+
+  <div class="rf-panel rv d2">
+    <label class="rf-label" for="rf-handle">Create your referral code</label>
+    <div class="rf-row">
+      <input id="rf-handle" type="text" maxlength="16" placeholder="yourname" autocomplete="off" spellcheck="false" />
+      <button class="rf-gen" id="rf-gen" type="button">⚡ Generate link</button>
+    </div>
+    <div class="rf-linkrow" id="rf-linkrow" hidden>
+      <input id="rf-link" type="text" readonly aria-label="Your referral link" />
+      <button class="rf-copy" id="rf-copy" type="button">Copy</button>
+    </div>
+    <div class="rf-share" id="rf-share" hidden>
+      <a id="rf-x" target="_blank" rel="noopener" class="rf-sbtn rf-x">Share on 𝕏</a>
+      <a id="rf-tg" target="_blank" rel="noopener" class="rf-sbtn rf-tg">Share on Telegram</a>
+    </div>
+  </div>
+
+  <p class="rf-note rv d3">⚡ Referrals are tracked by your code. Top conductors are rewarded from the community pool — leaderboard coming. Not financial advice.</p>
+</section>

@@ -8,6 +8,7 @@ import { initSound } from './sound';
 import { initTeslaArc } from './teslaArc';
 import { initMatrixRain } from './matrixRain';
 import { initGoldenAtmos } from './goldenAtmos';
+import { initReferral } from './referral';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,7 +83,7 @@ function boot() {
   if (name === 'future') { const mr = document.getElementById('matrix-rain') as HTMLCanvasElement | null; if (mr) initMatrixRain(mr); }
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
-  initWorldClock();
+  initWorldClock(); initReferral();
 }
 
 // ── live World Clock: local time in every zone, updating each second ──

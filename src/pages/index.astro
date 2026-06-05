@@ -49,6 +49,8 @@ const corner: Record<number, string> = { 3: 'card-3', 9: 'card-9', 6: 'card-6' }
     import { initCursor } from '../scripts/ui';
     import { initSound } from '../scripts/sound';
     import { initIntro } from '../scripts/intro';
+    import { captureReferral } from '../scripts/referral';
+    captureReferral();   // first-touch: a friend's ?ref=code lands here
     const cv = document.getElementById('starmap') as HTMLCanvasElement;
     if (cv) initStarMap(cv);   // star map runs behind the intro, revealed when it finishes
     initCursor();
