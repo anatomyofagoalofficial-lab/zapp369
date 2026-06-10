@@ -9,6 +9,7 @@ import { initTeslaArc } from './teslaArc';
 import { initMatrixRain } from './matrixRain';
 import { initGoldenAtmos } from './goldenAtmos';
 import { initReferral } from './referral';
+import { initZappChart } from './zappChart';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,6 +88,7 @@ function boot() {
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
   initWorldClock(); initReferral();
+  if (name === 'present') initZappChart();
   injectBuyDock();
 }
 
@@ -95,7 +97,8 @@ function injectBuyDock() {
   if (document.getElementById('buy-dock')) return;
   const hasBuy = !!document.getElementById('buy-section');
   const hasHow = !!document.querySelector('.howto');
-  const pump = `https://pump.fun/coin/${CA}`;
+  const touch = matchMedia('(pointer: coarse)').matches;
+  const pump = touch ? `https://phantom.app/ul/browse/${encodeURIComponent('https://pump.fun/coin/' + CA)}?ref=${encodeURIComponent('https://zapp369.energy')}` : `https://pump.fun/coin/${CA}`;
   const dock = document.createElement('div');
   dock.id = 'buy-dock';
   const how = hasHow ? '<button class="bd-how" type="button" data-scroll-howto>How to buy</button>' : '';

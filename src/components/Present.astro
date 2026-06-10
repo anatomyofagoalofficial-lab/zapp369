@@ -46,7 +46,8 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
     <p class="ht-eyebrow">The signal, live</p>
     <h2 class="ht-title">Watch the <em>frequency</em>.</h2>
     <div class="chart-frame">
-      <iframe src={`https://dexscreener.com/solana/${CA}?embed=1&theme=dark&trades=0&info=0`} title="⚡ZAPP live chart" loading="lazy" allow="clipboard-write"></iframe>
+      <canvas id="zchart" style="display:none;width:100%;height:clamp(340px,52vh,520px)"></canvas>
+      <iframe id="zchart-fb" src={`https://pump.fun/coin/${CA}`} title="⚡ZAPP live on pump.fun" loading="lazy" allow="clipboard-write"></iframe>
       <div class="chart-cap">⚡ZAPP · live on pump.fun · 3 · 6 · 9 · ∞</div>
     </div>
   </section>
