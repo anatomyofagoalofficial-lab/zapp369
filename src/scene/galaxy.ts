@@ -15,7 +15,7 @@ const TEX = roundTex();
 export function buildGalaxy(scene: THREE.Scene): { points: THREE.Points; material: THREE.ShaderMaterial } {
   const N = (innerWidth < 768 ? 7000 : 14000), INNER = 15, OUTER = 46;
   const positions = new Float32Array(N * 3), colors = new Float32Array(N * 3), sizes = new Float32Array(N), twinkles = new Float32Array(N);
-  const cGold = new THREE.Color('#F4D27A'), cPurple = new THREE.Color('#C8923A'), cWhite = new THREE.Color('#FFFFFF'), cCyan = new THREE.Color('#FFE6B0'); // warm brand starlight only
+  const cGold = new THREE.Color('#F4D27A'), cPurple = new THREE.Color('#9D6CFF'), cWhite = new THREE.Color('#FFFFFF'), cCyan = new THREE.Color('#7FE8FF'); // cosmic — space keeps its purple
   for (let i = 0; i < N; i++) {
     const arm = i % 3;
     const armAngle = (arm / 3) * Math.PI * 2;
@@ -62,7 +62,7 @@ export function buildStarLayers(scene: THREE.Scene): THREE.Points[] {
     scene.add(layer); return layer;
   };
   return [
-    make(2600, 600, 1.4, 0xF2E2C0, 0.5),
+    make(2600, 600, 1.4, 0xCCCCFF, 0.5),
     make(1400, 360, 2.0, 0xFFFFFF, 0.7),
     make(500, 220, 2.6, 0xFFF0C8, 0.85),
   ];
