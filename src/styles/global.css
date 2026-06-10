@@ -154,7 +154,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 
 .hub-price{position:relative;z-index:2;margin-top:2.4rem;font-family:var(--mono);font-size:.66rem;color:rgba(255,255,255,.62);display:inline-flex;align-items:center;gap:.6rem;padding:.5rem 1rem;border-radius:100px;background:rgba(0,0,0,.4);border:1px solid rgba(255,215,0,.14);backdrop-filter:blur(8px);text-shadow:0 1px 6px rgba(0,0,0,.9)}
 #hub-price-val{color:var(--gold)}
-.hub-price .live-dot{width:6px;height:6px;border-radius:50%;background:#10B981;box-shadow:0 0 6px #10B981;animation:bl 1.5s infinite}
+.hub-price .live-dot{width:6px;height:6px;border-radius:50%;background:#E0A93C;box-shadow:0 0 6px #E0A93C;animation:bl 1.5s infinite}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.25}}
 
 /* ══ BACK BUTTON ══ */
@@ -313,9 +313,9 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .prom-img img{display:block;width:100%}
 .prom-img::after{content:'';position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(ellipse 64% 46% at 70% 24%,rgba(255,176,68,.22),transparent 60%);animation:flameFlicker 3.4s ease-in-out infinite}
 @keyframes flameFlicker{0%,100%{opacity:.55}40%{opacity:1}70%{opacity:.7}}
-.prom-eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.36em;text-transform:uppercase;color:#FFAE5C;margin-bottom:1rem;opacity:.85}
+.prom-eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.36em;text-transform:uppercase;color:#E8C07A;margin-bottom:1rem;opacity:.85}
 .prom-h{font-family:var(--serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:600;line-height:.98;color:#F8EAD2;margin-bottom:1.1rem}
-.prom-h em{background:linear-gradient(135deg,#FFD06A,#FF8A2B);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic}
+.prom-h em{background:linear-gradient(135deg,#FFD06A,#C8860A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-style:italic}
 .prom-p{font-size:.96rem;line-height:1.9;color:rgba(245,230,200,.66);max-width:48ch}
 @media(max-width:760px){.prometheus{grid-template-columns:1fr;gap:1.6rem}.prom-img{max-width:320px;margin:0 auto}}
 
@@ -386,18 +386,18 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .p-p{font-size:.94rem;line-height:1.9;color:rgba(58,44,18,.8);max-width:44ch}
 /* ── native "TO-DO LIST" meme — crisp, animated, 3·6·9 ── */
 .todo-meme{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:4rem 5vw 5rem}
-.todo-paper{position:relative;width:min(440px,86vw);background-color:#E7F1CD;background-image:linear-gradient(170deg,rgba(255,255,255,.5),rgba(120,150,70,.12)),repeating-linear-gradient(transparent,transparent 47px,rgba(120,150,70,.3) 47px,rgba(120,150,70,.3) 48px);color:#2A3A12;border-radius:6px;padding:2.6rem 2.4rem 3.4rem;transform:rotate(-2.2deg);box-shadow:0 30px 60px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.5) inset}
-.todo-paper::before{content:'';position:absolute;left:14%;top:0;bottom:0;width:1px;background:rgba(200,90,90,.35)}
+.todo-paper{position:relative;width:min(440px,86vw);background-color:#FBF2D9;background-image:linear-gradient(170deg,rgba(255,255,255,.55),rgba(176,122,18,.10)),repeating-linear-gradient(transparent,transparent 47px,rgba(176,122,18,.28) 47px,rgba(176,122,18,.28) 48px);color:#3A2C12;border-radius:6px;padding:2.6rem 2.4rem 3.4rem;transform:rotate(-2.2deg);box-shadow:0 30px 60px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.5) inset}
+.todo-paper::before{content:'';position:absolute;left:14%;top:0;bottom:0;width:1px;background:rgba(200,134,10,.3)}
 .todo-tape{position:absolute;top:-16px;left:50%;transform:translateX(-50%) rotate(-3deg);width:118px;height:30px;background:rgba(255,255,255,.34);border:1px solid rgba(255,255,255,.2);box-shadow:0 2px 8px rgba(0,0,0,.18)}
-.todo-title{font-family:var(--serif);font-weight:700;font-size:clamp(2.4rem,7vw,3.4rem);line-height:1;color:#1F2D0C;margin:0 0 .2rem;text-align:center;border-bottom:3px solid #1F2D0C;padding-bottom:.4rem;display:inline-block;position:relative;left:50%;transform:translateX(-50%)}
+.todo-title{font-family:var(--serif);font-weight:700;font-size:clamp(2.4rem,7vw,3.4rem);line-height:1;color:#2E2008;margin:0 0 .2rem;text-align:center;border-bottom:3px solid #2E2008;padding-bottom:.4rem;display:inline-block;position:relative;left:50%;transform:translateX(-50%)}
 .todo-items{list-style:none;margin:1.8rem 0 0;padding:0;display:flex;flex-direction:column;gap:1.15rem}
-.todo-i{display:flex;align-items:center;gap:1rem;font-family:var(--serif);font-weight:700;font-size:clamp(1.7rem,5vw,2.3rem);color:#26340F}
-.todo-box{flex:0 0 auto;width:34px;height:34px;border:3px solid #26340F;border-radius:5px;display:grid;place-items:center}
-.todo-box svg{width:26px;height:26px;fill:none;stroke:#1E7A2E;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48}
+.todo-i{display:flex;align-items:center;gap:1rem;font-family:var(--serif);font-weight:700;font-size:clamp(1.7rem,5vw,2.3rem);color:#2E2008}
+.todo-box{flex:0 0 auto;width:34px;height:34px;border:3px solid #2E2008;border-radius:5px;display:grid;place-items:center}
+.todo-box svg{width:26px;height:26px;fill:none;stroke:#C8860A;stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:48;stroke-dashoffset:48}
 .todo-meme.in .todo-box svg{animation:todoCheck .5s cubic-bezier(.65,0,.35,1) forwards;animation-delay:calc(.5s + var(--i) * .45s)}
 @keyframes todoCheck{to{stroke-dashoffset:0}}
-.todo-i .zb{font-family:var(--serif);font-weight:700;font-style:italic;color:#1F2D0C}
-.todo-i .z369{font-family:var(--mono);font-weight:500;font-size:.62em;letter-spacing:.12em;color:#7A5A0A;white-space:nowrap}
+.todo-i .zb{font-family:var(--serif);font-weight:700;font-style:italic;color:#2E2008}
+.todo-i .z369{font-family:var(--mono);font-weight:500;font-size:.62em;letter-spacing:.12em;color:#9A6A0A;white-space:nowrap}
 .todo-mascot{position:absolute;right:-14px;bottom:-26px;width:clamp(86px,22vw,118px);height:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.3));transform:rotate(6deg);animation:floaty 6s ease-in-out infinite}
 /* To-Do pinned slick in the hero's lower-right on desktop */
 .p-hero .todo-meme{padding:0}
@@ -569,6 +569,16 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .pz-msg{margin-top:.7rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#B07A12;opacity:0;transition:opacity .3s}
 .present-classic .price-hud{margin-top:2.4rem}
 
+/* the Tesla 'future is mine' quote, restyled for Future's light parchment */
+.fq blockquote{color:#241A06!important;text-shadow:none!important}
+.fq blockquote em{background:linear-gradient(135deg,#C8860A,#8A5A10);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.fq cite{color:#8A5A10!important}
+.fq .tq-369{background:linear-gradient(180deg,rgba(176,122,18,.3),rgba(122,78,12,.08));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:none;animation:none}
+.fq::before{background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(224,169,60,.14),transparent 70%)}
+/* live market-cap bar under the Hall-of-Fame artwork */
+.f-live{position:absolute;left:0;right:0;bottom:0;padding:.8rem 1rem;text-align:center;font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:#FFE6A6;background:linear-gradient(0deg,rgba(26,16,4,.92),rgba(26,16,4,.55) 70%,transparent)}
+.f-live #zv2{color:#FFD24A;font-weight:700}
+
 /* ══ FUTURE dimension ══ */
 #dim-future{background:#F7F0DC;color:#241A06}
 .f-grad{position:fixed;inset:0;background:radial-gradient(ellipse 80% 65% at 15% 10%,rgba(244,210,122,.6),transparent 55%),radial-gradient(ellipse 70% 55% at 85% 85%,rgba(250,240,210,.7),transparent 55%),radial-gradient(ellipse 60% 50% at 60% 30%,rgba(255,236,200,.5),transparent 50%),#F7F0DC;animation:fmove 20s ease-in-out infinite alternate;pointer-events:none;z-index:0}
@@ -628,7 +638,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .f-close h2 em{background:linear-gradient(135deg,#B07A12,#E0A93C,#F4D27A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:italic}
 .f-close p{color:rgba(58,44,18,.4);max-width:50ch;margin:0 auto 1rem;line-height:1.85}
 .f-close .freq{font-family:var(--mono);font-size:.65rem;letter-spacing:.5em;color:rgba(176,122,18,.45);display:block;margin-bottom:2.5rem}
-.btn-future{padding:.95rem 2.6rem;border-radius:100px;background:linear-gradient(135deg,#B07A12,#E0A93C);color:#fff;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-decoration:none;display:inline-block;transition:all .3s;box-shadow:0 0 40px rgba(176,122,18,.25);cursor:pointer}
+.btn-future{padding:.95rem 2.6rem;border-radius:100px;background:linear-gradient(135deg,#E0A93C,#C8860A);color:#1a1000;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-decoration:none;display:inline-block;transition:all .3s;box-shadow:0 0 40px rgba(176,122,18,.25);cursor:pointer}
 .btn-future:hover{box-shadow:0 0 80px rgba(176,122,18,.45);transform:translateY(-3px) scale(1.02)}
 
 /* ══ WINTER dimension ══ */
@@ -676,7 +686,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .ca-l{font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,230,200,.42);display:block;margin-bottom:.25rem}
 .ca-a{font-family:var(--mono);font-size:.7rem;color:var(--gold);text-align:left;letter-spacing:.04em;word-break:break-all}
 .ca-i{font-size:.85rem;color:rgba(255,215,0,.35);flex-shrink:0}
-#ca-msg{font-family:var(--mono);font-size:.62rem;color:#10B981;height:1.1rem;transition:opacity .3s;margin-bottom:1rem}
+#ca-msg{font-family:var(--mono);font-size:.62rem;color:#B07A12;height:1.1rem;transition:opacity .3s;margin-bottom:1rem}
 .buy-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
 .buy-lnks{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem}
 .bl{padding:.5rem 1.4rem;border-radius:100px;border:1px solid rgba(255,210,120,.24);color:rgba(255,226,150,.66);font-size:.67rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:all .3s}
