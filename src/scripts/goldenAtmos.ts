@@ -48,7 +48,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
     ph: Math.random() * Math.PI * 2, r: 0.7 + Math.random() * 1.8,
   }));
   function towerGeom() {
-    const cx = W * 0.76;
+    const cx = W * 0.56;   // centre-right — leaves the right edge clear for the tribute photo
     const baseY = H * 0.985;
     const h = Math.min(H * 0.62, 540);
     const wBase = Math.min(W * 0.155, H * 0.145);
