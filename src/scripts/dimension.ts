@@ -88,7 +88,7 @@ function boot() {
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
   initWorldClock(); initReferral();
-  if (name === 'present') initZappChart();
+  initZappChart();   // runs wherever a #zchart canvas exists (Present + Future)
   injectBuyDock();
 }
 

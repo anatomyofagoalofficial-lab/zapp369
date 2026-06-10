@@ -1,6 +1,7 @@
 ---
 const IMG = '/illustrations';
-const PUMP = 'https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump';
+const CA = 'Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump';
+const PUMP = `https://pump.fun/coin/${CA}`;
 ---
 <div id="dim-future" class="page">
   <div class="f-grad"></div>
@@ -20,6 +21,16 @@ const PUMP = 'https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump
     <div class="f-row flip rv"><div class="f-img"><img src={`${IMG}/future-world-v2.jpg`} alt="" onerror="this.parentElement.style.background='#F2E6C4'"></div><div><p class="f-kicker">The Infrastructure</p><h3 class="f-h3">The network<br>already <em>exists</em>.</h3><p class="f-p">65,000 payments a second. A fee of a fraction of a cent. Done in under a second. Tesla's dream, running on Solana right now.</p></div></div>
     <div class="f-row rv f-solo"><div><p class="f-kicker">The Signal Lives</p><h3 class="f-h3">They silenced the tower.<br>Not the <em>frequency</em>.</h3><p class="f-p">Owned by no one. Available to everyone. The frequency Wardenclyffe was built to transmit, now permanent on the blockchain.</p><div class="rm-list"><div class="rm-i rv"><div class="rm-d"></div><p>Instant ⚡ZAPP payments at live events worldwide</p></div><div class="rm-i rv d1"><div class="rm-d"></div><p>Humanitarian partnerships and NGO integrations</p></div><div class="rm-i rv d2"><div class="rm-d"></div><p>Micro grants. No bank, no middleman, no border</p></div></div></div></div>
   </div>
+  <!-- 📈 the signal, climbing into the future -->
+  <section class="live-chart rv">
+    <p class="ht-eyebrow">9 · The signal climbs</p>
+    <h2 class="ht-title">The future, <em>ticking</em>.</h2>
+    <div class="chart-frame">
+      <canvas id="zchart" style="display:none;width:100%;height:clamp(340px,52vh,520px)"></canvas>
+      <iframe id="zchart-fb" src={`https://pump.fun/coin/${CA}`} title="⚡ZAPP live on pump.fun" loading="lazy" allow="clipboard-write"></iframe>
+      <div class="chart-cap">⚡ZAPP · live on pump.fun · 3 · 6 · 9 · ∞</div>
+    </div>
+  </section>
   <div class="past-tesla-q fq">
     <div class="tq-369 rv" aria-hidden="true">3 · 6 · 9</div>
     <img class="tq-figure rv" src="/illustrations/369-sacred.jpg" alt="Tesla and the sacred 3·6·9" loading="lazy">
