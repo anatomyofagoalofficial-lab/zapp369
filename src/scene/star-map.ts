@@ -31,11 +31,13 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   // (Shooting stars are rendered as CSS overlays in the markup — reliable on every GPU.)
 
   // The connections between dimensions: fine streams of glowing dots that flow along
-  // curved paths — a divine current circulating Tower → Network → Signal → Tower.
+  // curved paths — a divine current circulating Tower → Signal → Network → Tower.
+  // Each arc bows OUTWARD from the centre so the three lines frame the ⚡ZAPP logo in a
+  // soft rounded triangle, never crossing the wordmark.
   const EDGES: [number, number][] = [[0, 1], [1, 2], [2, 0]];
   const EDGE_COLORS = [0xF4D27A, 0xE8B85C, 0xB87333]; // tonal golds — one brand, three shades
   const edgeCol = EDGE_COLORS.map(c => new THREE.Color(c));
-  const DOTS = 80;   // many tiny dots → a fine, continuous current rather than chunky beads
+  const DOTS = 110;   // many tiny dots → a fine, continuous current rather than chunky beads
   const dotTex = (() => {
     const c = document.createElement('canvas'); c.width = c.height = 64;
     const x = c.getContext('2d')!;
@@ -49,7 +51,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(DOTS * 3), 3));
     g.setAttribute('color', new THREE.BufferAttribute(new Float32Array(DOTS * 3), 3));
-    const m = new THREE.PointsMaterial({ size: 3.2, sizeAttenuation: false, map: dotTex, transparent: true, opacity: 0.85, vertexColors: true, blending: THREE.AdditiveBlending, depthWrite: false });
+    const m = new THREE.PointsMaterial({ size: 2.3, sizeAttenuation: false, map: dotTex, transparent: true, opacity: 0.7, vertexColors: true, blending: THREE.AdditiveBlending, depthWrite: false });
     const points = new THREE.Points(g, m);
     scene.add(points);
     return { g, m, curve: null as THREE.QuadraticBezierCurve3 | null };
@@ -70,20 +72,22 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       EDGES.forEach(([a, b], ei) => {
         const A = worlds[a], B = worlds[b];
         const mid = A.clone().add(B).multiplyScalar(0.5);
-        // bulge the arc AWAY from centre so it frames the logo instead of crossing it
-        const edge = B.clone().sub(A);
-        const perp = new THREE.Vector3(-edge.y, edge.x, 0).normalize();
-        if (mid.dot(perp) < 0) perp.negate();
-        // bulge away from centre to frame the logo — but capped so a long diagonal never shoots off-screen
-        mid.addScaledVector(perp, Math.min(edge.length() * 0.2, 4.5));
+        // push the control point radially OUTWARD from centre so the arc bows well clear of
+        // the logo — a generous, smooth bulge that frames the wordmark instead of crossing it
+        const radial = new THREE.Vector3(mid.x, mid.y, 0);
+        const dist = radial.length() || 1;
+        radial.multiplyScalar(1 / dist);
+        const bulge = Math.max(edgeBulge(A, B), 16);
+        mid.addScaledVector(radial, bulge);
         triEdges[ei].curve = new THREE.QuadraticBezierCurve3(A, mid, B);
       });
     }
   }
+  const edgeBulge = (A: THREE.Vector3, B: THREE.Vector3) => B.clone().sub(A).length() * 0.42;
   // cards are laid out by CSS — wait a frame so getBoundingClientRect is correct
   requestAnimationFrame(refreshLineTargets);
 
-  // ── hover brightens the matching beam ──
+  // ── hover brightens the matching stream ──
   let hoveredId: string | null = null;
   document.addEventListener('mouseover', e => { const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null; if (t) hoveredId = DIMENSIONS.find(d => d.route === t.getAttribute('data-go'))?.id ?? null; });
   document.addEventListener('mouseout', e => { if ((e.target as HTMLElement).closest('[data-go]')) hoveredId = null; });
@@ -138,13 +142,13 @@ export function initStarMap(canvas: HTMLCanvasElement) {
       for (let i = 0; i < DOTS; i++) {
         const p = e.curve.getPoint(((i / DOTS) + flow) % 1);
         pos.setXYZ(i, p.x, p.y, p.z);
-        // sharp pulses of light travel along the stream → a living, electric current
-        const b = 0.22 + 0.78 * Math.pow(0.5 + 0.5 * Math.sin((i / DOTS - flow) * Math.PI * 6), 3);
-        const m = hot ? b * 1.5 : b;
+        // a soft glow travels along the stream → a smooth, flowing current (gentle, not blinky)
+        const b = 0.5 + 0.5 * Math.pow(0.5 + 0.5 * Math.sin((i / DOTS - flow) * Math.PI * 4), 2);
+        const m = hot ? b * 1.4 : b;
         col.setXYZ(i, base.r * m, base.g * m, base.b * m);
       }
       pos.needsUpdate = true; col.needsUpdate = true;
-      e.m.opacity = flying ? Math.max(0, e.m.opacity - 0.05) : 0.85;
+      e.m.opacity = flying ? Math.max(0, e.m.opacity - 0.05) : 0.7;
     });
 
     // ⚡ZAPP stays pinned dead-centre (no drifting) so the full wordmark is always visible
