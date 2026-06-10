@@ -15,26 +15,35 @@ const CITIES = [
   { name: 'Shanghai', flag: '🇨🇳', tz: 'Asia/Shanghai' },
   { name: 'Tokyo', flag: '🇯🇵', tz: 'Asia/Tokyo' },
 ];
+const CA = 'Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump';
+const PUMP = `https://pump.fun/coin/${CA}`;
+const TG = 'https://t.me/ZAPP369';
+const short = CA.slice(0, 4) + '…' + CA.slice(-4);
 ---
-<div id="dim-present" class="page">
+<div id="dim-present" class="page present-classic">
+  <div class="pz-ticker" aria-hidden="true"><div class="pz-track">
+    <span>· &nbsp;Tesla's Revolution&nbsp; · &nbsp;Free Energy&nbsp; · &nbsp;3 · 6 · 9&nbsp; · &nbsp;No Banks&nbsp; · &nbsp;Free Money&nbsp; · &nbsp;On Solana&nbsp; </span>
+    <span>· &nbsp;Tesla's Revolution&nbsp; · &nbsp;Free Energy&nbsp; · &nbsp;3 · 6 · 9&nbsp; · &nbsp;No Banks&nbsp; · &nbsp;Free Money&nbsp; · &nbsp;On Solana&nbsp; </span>
+  </div></div>
   <canvas id="present-canvas"></canvas>
-  <div class="p-hero">
-    <div class="p-tag rv">6 · Present · Solana · Live</div>
-    <h1 class="p-h rv d1">The signal is<br><em>already running</em>.</h1>
-    <p class="p-sub rv d2">⚡ZAPP is live on Solana. Verifiable on-chain. Owned by no one.</p>
-    <div class="p-mascot-wrap rv d2">
-      <span class="sig-ring"></span><span class="sig-ring"></span><span class="sig-ring"></span>
-      <img class="p-mascot" src="/img/zapp-mascot.png" alt="⚡ZAPP mascot" width="230" height="230" loading="lazy" />
+  <div class="p-hero pz-hero">
+    <img class="pz-mascot rv" src="/img/zapp-mascot.png" alt="⚡ZAPP mascot" width="200" height="200" />
+    <h1 class="pz-word rv d1">ZAPP<span class="pz-bolt">⚡</span></h1>
+    <p class="pz-eq rv d1">Free Energy = Free Money</p>
+    <div class="pz-inf rv d2">∞</div>
+    <blockquote class="pz-quote rv d2">"If you knew the magnificence of <em>3, 6 and 9</em>, you would have a key to the <em>universe</em>."<cite>— Nikola Tesla</cite></blockquote>
+    <div class="pz-btns rv d3">
+      <a class="pz-buy" href={PUMP} target="_blank" rel="noopener">⚡ Buy ZAPP</a>
+      <a class="pz-ghost" href={TG} target="_blank" rel="noopener">Socials</a>
+      <a class="pz-ghost" href="/whitepaper" target="_blank" rel="noopener">Whitepaper</a>
     </div>
-    <div class="price-hud rv d3">
+    <p class="pz-silence rv d3">— The Frequency They Tried To Silence —</p>
+    <button class="pz-ca rv d3" type="button" data-copy-ca><span class="pz-ca-l">Contract · Solana</span><span class="pz-ca-a">{short}</span><span class="pz-ca-c">Copy</span></button>
+    <div id="ca-msg" class="pz-msg"></div>
+    <div class="price-hud rv d4">
       <div class="ph-cell"><div class="ph-l"><span class="ph-n">3</span> ⚡ZAPP Price</div><div class="ph-v" id="p-price">—</div></div>
       <div class="ph-cell"><div class="ph-l"><span class="ph-n">6</span> Market Cap</div><div class="ph-v" id="p-mcap">—</div></div>
       <div class="ph-cell"><div class="ph-l"><span class="ph-n">9</span> The Frequency</div><div class="ph-v ph-freq">3 · 6 · 9 · ∞</div></div>
-    </div>
-    <div class="stats-row three rv d4">
-      <div class="sr-c"><div class="sr-v">0%</div><div class="sr-l">Tax</div></div>
-      <div class="sr-c"><div class="sr-v">$0.00025</div><div class="sr-l">Fee / tx</div></div>
-      <div class="sr-c"><div class="sr-v">65K+</div><div class="sr-l">Solana TPS</div></div>
     </div>
     <TodoMeme />
   </div>

@@ -329,7 +329,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 #dim-present{background:radial-gradient(ellipse 64% 46% at 50% -8%,#FFE7A0 0%,rgba(255,231,160,0) 54%),radial-gradient(ellipse 70% 50% at 50% 112%,rgba(140,95,30,.18) 0%,transparent 60%),linear-gradient(172deg,#FBF4DD 0%,#F3E7C6 48%,#E8D6A8 100%);color:#3A2C12}
 #dim-present::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");opacity:.16}
-#present-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.92}
+#present-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.5}
 /* Present mascot — floats on the royal-blue field, blends seamlessly */
 .p-mascot-wrap{position:relative;width:min(168px,38vw);margin:1.6rem auto 1.3rem;display:grid;place-items:center}
 .p-mascot{display:block;width:100%;height:auto;position:relative;z-index:2;filter:drop-shadow(0 0 36px rgba(255,206,110,.6)) drop-shadow(0 14px 26px rgba(120,80,20,.35));animation:floaty 6s ease-in-out infinite;will-change:transform}
@@ -535,6 +535,34 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .p-bridge h2{font-family:var(--serif);font-size:clamp(2rem,4.5vw,4rem);margin-bottom:1rem;color:#241A06}
 .p-bridge h2 em{color:#B07A12;font-style:italic}
 .p-bridge p{color:rgba(58,44,18,.66);max-width:46ch;margin:0 auto 2.5rem;line-height:1.9;font-size:.92rem}
+
+/* ── Present "classic" hero — the zapp369.energy look, in the brand brown/gold ── */
+.pz-ticker{position:relative;z-index:4;overflow:hidden;background:linear-gradient(90deg,#7A4E0C,#B07A12,#E0A93C,#B07A12,#7A4E0C);background-size:200% 100%;animation:tshift 8s linear infinite;padding:.5rem 0;border-bottom:1px solid rgba(0,0,0,.12)}
+.pz-track{display:flex;width:max-content;animation:tk 34s linear infinite;font-family:var(--mono);font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#1a1000;font-weight:600}
+.pz-track span{white-space:nowrap;padding-right:1rem}
+.pz-hero{padding-top:3rem!important}
+.pz-mascot{width:min(176px,40vw);height:auto;filter:drop-shadow(0 14px 26px rgba(120,80,20,.32));animation:floaty 6s ease-in-out infinite;margin-bottom:.4rem}
+.pz-word{font-family:var(--serif);font-weight:700;font-size:clamp(4rem,13vw,9rem);line-height:.9;color:#3A2207;letter-spacing:-.01em;display:flex;align-items:center;gap:.08em;margin:0}
+.pz-bolt{font-size:.6em;filter:drop-shadow(0 0 18px rgba(255,200,80,.7));animation:floaty 3.6s ease-in-out infinite}
+.pz-eq{font-family:var(--serif);font-style:italic;font-size:clamp(1.4rem,3.2vw,2.2rem);color:#B07A12;margin-top:.4rem}
+.pz-inf{font-family:var(--serif);font-size:1.4rem;color:#C8860A;margin:.7rem 0 0}
+.pz-inf::after{content:'';display:block;width:64px;height:1px;margin:.8rem auto 0;background:linear-gradient(90deg,transparent,rgba(176,122,18,.6),transparent)}
+.pz-quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.2rem,2.4vw,1.7rem);line-height:1.5;color:#3A2C12;max-width:24ch;margin:2rem auto 0}
+.pz-quote em{font-style:italic;color:#B07A12}
+.pz-quote cite{display:block;margin-top:1.2rem;font-family:var(--mono);font-style:normal;font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(176,122,18,.85)}
+.pz-btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-top:2.6rem}
+.pz-buy{padding:.95rem 2.2rem;border-radius:10px;background:linear-gradient(135deg,#FFD24A,#E0951C);color:#1a1000;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;text-decoration:none;box-shadow:0 12px 30px rgba(224,149,28,.4);transition:all .25s}
+.pz-buy:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(224,149,28,.55)}
+.pz-ghost{padding:.95rem 1.8rem;border-radius:10px;border:1px solid rgba(150,110,40,.4);color:#7A5410;font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;text-decoration:none;background:rgba(255,250,234,.5);transition:all .25s}
+.pz-ghost:hover{border-color:#C8860A;color:#241A06;transform:translateY(-2px)}
+.pz-silence{font-family:var(--serif);font-style:italic;color:rgba(120,84,16,.6);margin-top:2rem;font-size:1rem}
+.pz-ca{margin-top:1rem;display:inline-flex;align-items:center;gap:1rem;cursor:pointer;border:1px solid rgba(150,110,40,.3);background:rgba(255,250,234,.6);border-radius:10px;padding:.85rem 1.4rem;font-family:var(--mono);transition:all .25s}
+.pz-ca:hover{border-color:#C8860A;transform:translateY(-1px)}
+.pz-ca-l{font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(80,60,24,.6)}
+.pz-ca-a{font-size:.82rem;font-weight:700;color:#241A06}
+.pz-ca-c{font-size:.6rem;background:rgba(176,122,18,.16);padding:.3rem .7rem;border-radius:100px;color:#7A5410}
+.pz-msg{margin-top:.7rem;font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:#B07A12;opacity:0;transition:opacity .3s}
+.present-classic .price-hud{margin-top:2.4rem}
 
 /* ══ FUTURE dimension ══ */
 #dim-future{background:#F7F0DC;color:#241A06}

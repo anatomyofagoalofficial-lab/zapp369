@@ -403,6 +403,18 @@ function startPresent() {
   })();
 }
 
+
+// ⚡ bolt sprite — so the globe is covered in tiny ZAPP marks instead of plain dots
+let _bolt: THREE.Texture | null = null;
+function boltTexture() {
+  if (_bolt) return _bolt;
+  const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d')!;
+  x.fillStyle = '#fff'; x.font = '700 52px serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.shadowBlur = 8; x.shadowColor = '#fff';
+  x.fillText('\u26A1', 32, 34);
+  _bolt = new THREE.CanvasTexture(c); return _bolt;
+}
+
 function startFuture() {
   const cv = document.getElementById('future-canvas') as HTMLCanvasElement | null; if (!cv) return;
   const par = (cv.parentElement as HTMLElement) || document.getElementById('dim-future')!;
@@ -430,7 +442,7 @@ function startFuture() {
     const c = pal[(Math.random() * pal.length) | 0]; pcc[i * 3] = c.r; pcc[i * 3 + 1] = c.g; pcc[i * 3 + 2] = c.b;
   }
   const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3)); pg.setAttribute('color', new THREE.BufferAttribute(pcc, 3));
-  earth.add(new THREE.Points(pg, new THREE.PointsMaterial({ map: dotTexture(), vertexColors: true, size: 0.2, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
+  earth.add(new THREE.Points(pg, new THREE.PointsMaterial({ map: boltTexture(), vertexColors: true, size: 0.34, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true })));
 
   // Tesla towers on the surface + glowing tips
   const towers: THREE.Vector3[] = [];

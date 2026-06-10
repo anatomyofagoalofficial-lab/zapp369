@@ -68,7 +68,7 @@ function boot() {
     const y = window.scrollY;
     document.getElementById('dim-nav')?.classList.toggle('scrolled', y > 60);
     setDimScroll(y / Math.max(1, innerHeight * 0.9));
-    if (presentCv) presentCv.style.opacity = String(Math.max(0.08, 0.92 - (y / innerHeight) * 1.05));
+    if (presentCv) presentCv.style.opacity = String(Math.max(0.06, 0.5 - (y / innerHeight) * 0.7));
     const prog = document.getElementById('scroll-prog');
     if (prog) { const max = document.documentElement.scrollHeight - innerHeight; prog.style.width = (max > 4 ? Math.min(100, (y / max) * 100) : 0) + '%'; }
   };
