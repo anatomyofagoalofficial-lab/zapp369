@@ -28,6 +28,12 @@ const og = '/zapp-social-preview.jpg';
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={og} />
 
+  <!-- Prefetch the other eras + hub → era-to-era taps swap instantly (no network wait) -->
+  <link rel="prefetch" href="/" />
+  <link rel="prefetch" href="/dimensions/tower" />
+  <link rel="prefetch" href="/dimensions/signal" />
+  <link rel="prefetch" href="/dimensions/network" />
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
