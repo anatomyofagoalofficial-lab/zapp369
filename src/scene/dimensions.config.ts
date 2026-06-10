@@ -32,6 +32,6 @@ export const DIMENSIONS: Dimension[] = [
     id: 'network', number: 9, title: 'The Network', subtitle: 'FUTURE · 9 · THE COMPLETION',
     description: 'Free energy for all. No banks. No borders.',
     position: new Vector3(0, -D * 0.65, -D * 0.5), // bottom — the road ahead
-    color: '#B87333', icon: '🛰️', route: '/dimensions/network', scene: 'future',
+    color: '#E89A4A', icon: '🛰️', route: '/dimensions/network', scene: 'future',
   },
 ];
