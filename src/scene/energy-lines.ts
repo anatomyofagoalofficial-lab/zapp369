@@ -18,10 +18,13 @@ export function buildEnergyLines(scene: THREE.Scene): EnergyLine[] {
   });
 }
 
-const START = new THREE.Vector3(0, 0, 0);
+const CORE = new THREE.Vector3(0, 0, 0);
+const CLEAR = 18; // begin the beam this far out from the core so it never cuts across the ⚡ZAPP wordmark
 export function setEnergyLineEnd(el: EnergyLine, end: THREE.Vector3) {
-  const mid = START.clone().lerp(end, 0.5); mid.y += 6; // gentle upward arc
-  const pts = new THREE.QuadraticBezierCurve3(START, mid, end).getPoints(SEG);
+  const dir = end.clone().sub(CORE).normalize();
+  const start = CORE.clone().addScaledVector(dir, CLEAR); // radiate from the core's glow edge, leaving a clean halo around the logo
+  const mid = start.clone().lerp(end, 0.5); mid.y += 6; // gentle upward arc
+  const pts = new THREE.QuadraticBezierCurve3(start, mid, end).getPoints(SEG);
   const pos = el.line.geometry.attributes.position as THREE.BufferAttribute;
   pts.forEach((p, i) => pos.setXYZ(i, p.x, p.y, p.z));
   pos.needsUpdate = true;
