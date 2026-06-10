@@ -54,7 +54,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     const m = new THREE.PointsMaterial({ size: 2.3, sizeAttenuation: false, map: dotTex, transparent: true, opacity: 0.7, vertexColors: true, blending: THREE.AdditiveBlending, depthWrite: false });
     const points = new THREE.Points(g, m);
     scene.add(points);
-    return { g, m, curve: null as THREE.QuadraticBezierCurve3 | null };
+    return { g, m, curve: null as THREE.Curve<THREE.Vector3> | null };
   });
 
   // Anchor each line end to a card's on-screen position (unprojected into 3D).
@@ -71,19 +71,26 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     if (!MOBILE && worlds[0] && worlds[1] && worlds[2]) {
       EDGES.forEach(([a, b], ei) => {
         const A = worlds[a], B = worlds[b];
-        const mid = A.clone().add(B).multiplyScalar(0.5);
-        // push the control point radially OUTWARD from centre so the arc bows well clear of
-        // the logo — a generous, smooth bulge that frames the wordmark instead of crossing it
-        const radial = new THREE.Vector3(mid.x, mid.y, 0);
-        const dist = radial.length() || 1;
-        radial.multiplyScalar(1 / dist);
-        const bulge = Math.max(edgeBulge(A, B), 16);
-        mid.addScaledVector(radial, bulge);
-        triEdges[ei].curve = new THREE.QuadraticBezierCurve3(A, mid, B);
+        // Route each link as an ARC that sweeps ANGULARLY around the centre (an orbital path),
+        // so it physically curves around the ⚡ZAPP logo and can never cross the middle.
+        const rA = Math.hypot(A.x, A.y), rB = Math.hypot(B.x, B.y);
+        const angA = Math.atan2(A.y, A.x);
+        let dAng = Math.atan2(B.y, B.x) - angA;
+        while (dAng > Math.PI) dAng -= Math.PI * 2;        // always sweep the short way
+        while (dAng < -Math.PI) dAng += Math.PI * 2;
+        const zMid = (A.z + B.z) / 2;
+        const N = 30, pts: THREE.Vector3[] = [];
+        for (let i = 0; i <= N; i++) {
+          const f = i / N;
+          const ang = angA + dAng * f;
+          // radius eases card→card, with a gentle outward swell in the middle to round the arc
+          const rad = rA + (rB - rA) * f + Math.sin(f * Math.PI) * 7;
+          pts.push(new THREE.Vector3(Math.cos(ang) * rad, Math.sin(ang) * rad, zMid));
+        }
+        triEdges[ei].curve = new THREE.CatmullRomCurve3(pts);
       });
     }
   }
-  const edgeBulge = (A: THREE.Vector3, B: THREE.Vector3) => B.clone().sub(A).length() * 0.42;
   // cards are laid out by CSS — wait a frame so getBoundingClientRect is correct
   requestAnimationFrame(refreshLineTargets);
 
