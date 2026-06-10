@@ -136,7 +136,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
       const n = 1 + (Math.random() < .4 ? 1 : 0);
       for (let i = 0; i < n; i++) {
         const ang = -Math.PI / 2 + (Math.random() - .5) * 2.5;
-        const len = 60 + Math.random() * 190;
+        const len = 50 + Math.random() * 120;   // stays inside the hero frame
         const ex = apex.x + Math.cos(ang) * len, ey = apex.y + Math.sin(ang) * len;
         const pts: { x: number; y: number }[] = [{ x: apex.x, y: apex.y }];
         jag(apex.x, apex.y, ex, ey, 32, pts);

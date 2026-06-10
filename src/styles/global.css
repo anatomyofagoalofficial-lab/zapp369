@@ -211,15 +211,15 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 #dim-past.active .past-storm{animation:teslaArc 11s ease-out infinite}
 @keyframes teslaArc{0%,46%,100%{opacity:0}2%{opacity:.55}4%{opacity:.08}6%{opacity:.7}8%{opacity:.12}9%{opacity:.4}11%{opacity:0}50%{opacity:.5}52%{opacity:.06}54%{opacity:.45}56%{opacity:0}}
 /* The Archive — recovered vintage documents, pinned like museum prints */
-.past-archive{max-width:920px;margin:5rem auto 4rem;padding:0 6vw}
-/* a curated gallery wall — masonry so mixed print sizes pack tightly */
-.archive-grid{column-count:2;column-gap:1.8rem;margin-top:2rem}
-.arch{break-inside:avoid;display:inline-block;width:100%;margin:0 0 1.8rem;background:linear-gradient(160deg,#251708,#150c04);padding:.7rem .7rem 0;border:1px solid rgba(232,200,120,.26);border-radius:5px;box-shadow:0 20px 46px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s}
-.arch:nth-child(odd){transform:rotate(-.8deg)}.arch:nth-child(even){transform:rotate(.8deg)}
+.past-archive{max-width:1060px;margin:3.5rem auto;padding:0 6vw}
+/* a calm museum row — three equal framed prints */
+.archive-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2rem;align-items:start}
+.arch{width:100%;margin:0;background:linear-gradient(160deg,#251708,#150c04);padding:.7rem .7rem 0;border:1px solid rgba(232,200,120,.26);border-radius:5px;box-shadow:0 20px 46px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s}
+
 .arch:hover{transform:rotate(0) translateY(-4px) scale(1.03);box-shadow:0 30px 68px rgba(0,0,0,.58),0 0 48px rgba(232,200,120,.18);position:relative;z-index:2}
-.arch img{width:100%;display:block;border-radius:3px;filter:sepia(.38) contrast(1.07) brightness(1.02) saturate(1.06)}
+.arch img{width:100%;display:block;border-radius:3px;aspect-ratio:4/5;object-fit:cover;filter:sepia(.42) contrast(1.04) brightness(.92)}
 .arch figcaption{font-family:var(--mono);font-size:.58rem;letter-spacing:.03em;color:rgba(245,230,200,.55);padding:.6rem .3rem .85rem;line-height:1.55;text-align:center}
-@media(max-width:680px){.archive-grid{column-count:1;max-width:340px;margin-left:auto;margin-right:auto}}
+@media(max-width:680px){.archive-grid{grid-template-columns:1fr;max-width:320px;margin-left:auto;margin-right:auto}}
 .arch figcaption em{color:rgba(245,220,150,.78);font-style:normal}
 /* ── THE TRIBUTE ALTAR — the heart of the page: "the man who saw the future" ── */
 .tribute-altar{position:relative;margin:8rem auto 6rem;max-width:760px;padding:2rem 6vw;text-align:center;display:flex;flex-direction:column;align-items:center}
@@ -293,7 +293,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .past-tesla-q blockquote{position:relative;font-family:var(--serif);font-size:clamp(1.9rem,4vw,3.6rem);font-style:italic;line-height:1.28;color:#F8EDD4;text-shadow:0 2px 30px rgba(0,0,0,.6);max-width:18ch;margin:0 auto}
 .past-tesla-q blockquote em{font-style:italic;background:linear-gradient(135deg,#FFE27A,var(--gold),#C8960A);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .past-tesla-q cite{display:block;margin-top:2rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;color:var(--gold);font-style:normal;text-transform:uppercase;opacity:.85}
-.past-bridge{text-align:center;padding:4rem 2rem 8rem;position:relative;z-index:2}
+.past-bridge{text-align:center;padding:3rem 2rem 3.5rem;position:relative;z-index:2}
 .past-bridge h2{font-family:var(--serif);font-size:clamp(2rem,4.5vw,4rem);color:#F5E6C8;margin-bottom:1rem}
 .past-bridge h2 em{color:var(--gold);font-style:italic}
 .past-bridge p{color:rgba(245,230,200,.4);max-width:46ch;margin:0 auto 2.5rem;line-height:1.9;font-size:.9rem}
@@ -308,7 +308,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 @keyframes tk{to{transform:translateX(-50%)}}
 
 /* ── PROMETHEUS — the torch / fire-bringer moment ── */
-.prometheus{position:relative;z-index:2;max-width:1100px;margin:5.5rem auto;padding:0 6vw;display:grid;grid-template-columns:minmax(0,360px) 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
+.prometheus{position:relative;z-index:2;max-width:1100px;margin:3.5rem auto;padding:0 6vw;display:grid;grid-template-columns:minmax(0,360px) 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
 .prom-img{position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(255,170,70,.28);box-shadow:0 44px 120px rgba(0,0,0,.6),0 0 80px rgba(255,140,40,.2);animation:floaty 7.5s ease-in-out infinite;will-change:transform}
 .prom-img img{display:block;width:100%}
 .prom-img::after{content:'';position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;background:radial-gradient(ellipse 64% 46% at 70% 24%,rgba(255,176,68,.22),transparent 60%);animation:flameFlicker 3.4s ease-in-out infinite}
@@ -671,7 +671,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .btn-ice:hover{box-shadow:0 0 80px rgba(45,122,175,.5);transform:translateY(-3px) scale(1.02)}
 
 /* ══ BUY section (shared) ══ */
-.buy-section{background:radial-gradient(ellipse 72% 80% at 50% 22%,#2a1c08 0%,#150d03 70%);padding:8rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.buy-section{background:radial-gradient(ellipse 72% 80% at 50% 22%,#2a1c08 0%,#150d03 70%);padding:5rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
 .buy-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 40%,rgba(255,206,110,.08),transparent 65%)}
 .buy-in{position:relative;z-index:2}
 .buy-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.5em;padding-left:.5em;text-transform:uppercase;color:var(--gold);opacity:.72;margin-bottom:1.1rem;text-shadow:0 0 18px rgba(255,200,60,.35)}
