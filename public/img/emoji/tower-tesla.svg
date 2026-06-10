@@ -1,0 +1,24 @@
+<svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tesla Wardenclyffe tower">
+  <defs>
+    <linearGradient id="zt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF1B8"/>
+      <stop offset=".5" stop-color="#F4D27A"/>
+      <stop offset="1" stop-color="#C8860A"/>
+    </linearGradient>
+  </defs>
+  <!-- finial mast -->
+  <path d="M18 8.5 V3.4" stroke="url(#zt)" stroke-width="1.4" stroke-linecap="round"/>
+  <circle cx="18" cy="2.5" r="1.15" fill="url(#zt)"/>
+  <!-- hemispherical dome (the Wardenclyffe mushroom cap) -->
+  <path d="M7.5 12.6 Q18 4.2 28.5 12.6 Z" fill="url(#zt)"/>
+  <!-- lattice tower -->
+  <g stroke="url(#zt)" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13.4 12.8 L11 31.4"/>
+    <path d="M22.6 12.8 L25 31.4"/>
+    <path d="M9.4 31.6 H26.6"/>
+    <path d="M13 17.6 H23"/>
+    <path d="M12.5 22.4 H23.5"/>
+    <path d="M12 27.2 H24"/>
+    <path d="M13.2 13 L24 27.2 M22.8 13 L12 27.2" stroke-width="1"/>
+  </g>
+</svg>

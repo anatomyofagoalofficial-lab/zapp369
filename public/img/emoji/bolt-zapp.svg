@@ -1,0 +1,11 @@
+<svg viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="lightning bolt">
+  <defs>
+    <linearGradient id="zb" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF1B8"/>
+      <stop offset=".45" stop-color="#FFD700"/>
+      <stop offset="1" stop-color="#C8860A"/>
+    </linearGradient>
+  </defs>
+  <path d="M22.4 2 L7.8 20.6 H15.4 L12.8 34 L28.2 13.4 H20.4 L24.4 2 Z"
+        fill="url(#zb)" stroke="#FFE89A" stroke-width=".6" stroke-linejoin="round"/>
+</svg>

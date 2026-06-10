@@ -7,8 +7,8 @@ import { DIMENSIONS } from '../scene/dimensions.config';
 
 // number → fixed viewport corner (3 = top-left, 9 = top-right, 6 = bottom-centre)
 const corner: Record<number, string> = { 3: 'card-3', 9: 'card-9', 6: 'card-6' };
-// number → vendored Twemoji SVG (crisp, identical on every device): 🗼 / ⚡ / 🛰️
-const icon: Record<number, string> = { 3: '1f5fc', 6: '26a1', 9: '1f6f0' };
+// number → card icon SVG: custom gold Tesla tower (3) + brand bolt (6), Twemoji satellite (9)
+const icon: Record<number, string> = { 3: 'tower-tesla', 6: 'bolt-zapp', 9: '1f6f0' };
 ---
 <Base>
   <Intro />
