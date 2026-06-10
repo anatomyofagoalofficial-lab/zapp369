@@ -332,8 +332,8 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 /* ══ PRESENT dimension ══ */
 /* PRESENT — a warm, sunlit, "old-paper but advanced" day: cream parchment, summer sky + sun, a breath of green */
 #dim-present{background:radial-gradient(ellipse 64% 46% at 50% -8%,#FFE7A0 0%,rgba(255,231,160,0) 54%),radial-gradient(ellipse 70% 50% at 50% 112%,rgba(140,95,30,.18) 0%,transparent 60%),linear-gradient(172deg,#FBF4DD 0%,#F3E7C6 48%,#E8D6A8 100%);color:#3A2C12}
-#dim-present::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");opacity:.16}
+#dim-present::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;
+  background-image:repeating-linear-gradient(0deg,rgba(176,122,18,.07) 0,rgba(176,122,18,.07) 1px,transparent 1px,transparent 64px),repeating-linear-gradient(90deg,rgba(176,122,18,.07) 0,rgba(176,122,18,.07) 1px,transparent 1px,transparent 64px)}
 #present-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.3}
 /* Present mascot — floats on the royal-blue field, blends seamlessly */
 .p-mascot-wrap{position:relative;width:min(168px,38vw);margin:1.6rem auto 1.3rem;display:grid;place-items:center}

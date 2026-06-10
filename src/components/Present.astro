@@ -20,7 +20,6 @@ const TG = 'https://t.me/ZAPP369';
 const short = CA.slice(0, 4) + '…' + CA.slice(-4);
 ---
 <div id="dim-present" class="page present-classic">
-  <canvas id="present-canvas"></canvas>
   <div class="p-hero pz-hero">
     <img class="pz-mascot rv" src="/img/zapp-mascot.png" alt="⚡ZAPP mascot" width="200" height="200" />
     <h1 class="pz-word rv d1">ZAPP<span class="pz-bolt">⚡</span></h1>
@@ -57,21 +56,6 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
       <p class="rv">The code was always there — hidden in plain sight.</p>
     </div>
     <p class="mf-tag rv">One Frequency · One Signal · One World</p>
-  </section>
-  <!-- 🌍 WORLD CLOCK — the frequency reaches every time zone -->
-  <section class="worldclock rv">
-    <p class="wc-eyebrow">The signal reaches every time zone</p>
-    <h2 class="wc-title">⚡ One frequency. <em>One world.</em></h2>
-    <div class="wc-grid" id="wc-grid">
-      {CITIES.map(c => (
-        <div class="wc-c" data-tz={c.tz}>
-          <div class="wc-top"><span class="wc-flag">{c.flag}</span><span class="wc-city">{c.name}</span><span class="wc-ic" aria-hidden="true">☀️</span></div>
-          <div class="wc-time">--:--:--</div>
-          <div class="wc-day">—</div>
-        </div>
-      ))}
-    </div>
-    <p class="wc-note">⚡ Tesla's frequency reaches every time zone — at the speed of light.</p>
   </section>
   <div class="p-scenes">
     <div class="p-row rv"><div class="p-img"><img src={`${IMG}/not-just-memecoin.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Difference</p><h3 class="p-h3">Not just <em>another memecoin</em>.</h3><p class="p-p">Doge had a meme. Pepe had a cult. ⚡ZAPP has 130 years of suppressed history and a frequency that was always meant to reach everyone.</p></div></div>
@@ -123,6 +107,21 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
 
   <Referral />
 
+  <!-- 🌍 WORLD CLOCK — the frequency reaches every time zone -->
+  <section class="worldclock rv">
+    <p class="wc-eyebrow">The signal reaches every time zone</p>
+    <h2 class="wc-title">⚡ One frequency. <em>One world.</em></h2>
+    <div class="wc-grid" id="wc-grid">
+      {CITIES.map(c => (
+        <div class="wc-c" data-tz={c.tz}>
+          <div class="wc-top"><span class="wc-flag">{c.flag}</span><span class="wc-city">{c.name}</span><span class="wc-ic" aria-hidden="true">☀️</span></div>
+          <div class="wc-time">--:--:--</div>
+          <div class="wc-day">—</div>
+        </div>
+      ))}
+    </div>
+    <p class="wc-note">⚡ Tesla's frequency reaches every time zone — at the speed of light.</p>
+  </section>
   <!-- 🕯️ THE REASON TO HOLD — like Hachiko at the station, we hold for the man who gave it all away -->
   <section class="hold-memorial">
     <div class="hm-inner">

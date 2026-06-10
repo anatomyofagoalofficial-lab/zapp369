@@ -79,8 +79,8 @@ function boot() {
     // Past = one luminous golden canvas (god-rays + a living Wardenclyffe tower).
     // (The separate teslaArc canvas was redundant with the tower's own discharge — dropped for perf.)
     const ga = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (ga) initGoldenAtmos(ga);
-  } else {
-    startDimCanvas(name);
+  } else if (name !== 'present') {
+    startDimCanvas(name);   // Present is clean parchment — no 3D scene
   }
   if (name === 'future') { const mr = document.getElementById('matrix-rain') as HTMLCanvasElement | null; if (mr) initMatrixRain(mr); }
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
