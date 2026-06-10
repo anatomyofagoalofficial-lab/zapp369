@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Era Currents — ⚡ZAPP Generative Art Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Anthropic Brand Colors */
+        :root {
+            --anthropic-dark: #141413;
+            --anthropic-light: #faf9f5;
+            --anthropic-mid-gray: #b0aea5;
+            --anthropic-light-gray: #e8e6dc;
+            --anthropic-orange: #d97757;
+            --anthropic-blue: #6a9bcc;
+            --anthropic-green: #788c5d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--anthropic-light) 0%, #f5f3ee 100%);
+            min-height: 100vh;
+            color: var(--anthropic-dark);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(20, 20, 19, 0.1);
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .sidebar h1 {
+            font-family: 'Lora', serif;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--anthropic-dark);
+            margin-bottom: 8px;
+        }
+
+        .sidebar .subtitle {
+            color: var(--anthropic-mid-gray);
+            font-size: 14px;
+            margin-bottom: 32px;
+            line-height: 1.4;
+        }
+
+        /* Control Sections */
+        .control-section {
+            margin-bottom: 32px;
+        }
+
+        .control-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--anthropic-dark);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-section h3::before {
+            content: '•';
+            color: var(--anthropic-orange);
+            font-weight: bold;
+        }
+
+        /* Seed Controls */
+        .seed-input {
+            width: 100%;
+            background: var(--anthropic-light);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            margin-bottom: 12px;
+            border: 1px solid var(--anthropic-light-gray);
+            text-align: center;
+        }
+
+        .seed-input:focus {
+            outline: none;
+            border-color: var(--anthropic-orange);
+            box-shadow: 0 0 0 2px rgba(217, 119, 87, 0.1);
+            background: white;
+        }
+
+        .seed-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .regen-button {
+            margin-bottom: 0;
+        }
+
+        /* Era Selector */
+        .era-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 8px;
+        }
+
+        .era-button {
+            background: var(--anthropic-light);
+            color: var(--anthropic-dark);
+            border: 1px solid var(--anthropic-light-gray);
+            padding: 10px 0;
+            border-radius: 6px;
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .era-button:hover {
+            border-color: var(--anthropic-orange);
+        }
+
+        .era-button.active {
+            background: var(--anthropic-orange);
+            color: white;
+            border-color: var(--anthropic-orange);
+        }
+
+        .era-caption {
+            font-size: 11px;
+            color: var(--anthropic-mid-gray);
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        /* Parameter Controls */
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--anthropic-dark);
+            margin-bottom: 8px;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .slider-container input[type="range"] {
+            flex: 1;
+            height: 4px;
+            background: var(--anthropic-light-gray);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--anthropic-orange);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+            background: #c86641;
+        }
+
+        .slider-container input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--anthropic-orange);
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .value-display {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--anthropic-mid-gray);
+            min-width: 60px;
+            text-align: right;
+        }
+
+        /* Buttons */
+        .button {
+            background: var(--anthropic-orange);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .button:hover {
+            background: #c86641;
+            transform: translateY(-1px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button.secondary {
+            background: var(--anthropic-blue);
+        }
+
+        .button.secondary:hover {
+            background: #5a8bb8;
+        }
+
+        .button.tertiary {
+            background: var(--anthropic-green);
+        }
+
+        .button.tertiary:hover {
+            background: #6b7b52;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .button-row .button {
+            flex: 1;
+        }
+
+        /* Canvas Area */
+        .canvas-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        #canvas-container {
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(20, 20, 19, 0.1);
+            background: white;
+        }
+
+        #canvas-container canvas {
+            display: block;
+            width: 100% !important;
+            height: auto !important;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--anthropic-mid-gray);
+        }
+
+        /* Responsive - Stack on mobile */
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .canvas-area {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Control Sidebar -->
+        <div class="sidebar">
+            <h1>Era Currents</h1>
+            <div class="subtitle">⚡ZAPP · one seeded algorithm in four tenses — 3 past · 6 present · 9 future · ∞ between</div>
+
+            <!-- Seed Section -->
+            <div class="control-section">
+                <h3>Seed</h3>
+                <input type="number" id="seed-input" class="seed-input" value="369" onchange="updateSeed()">
+                <div class="seed-controls">
+                    <button class="button secondary" onclick="previousSeed()">← Prev</button>
+                    <button class="button secondary" onclick="nextSeed()">Next →</button>
+                </div>
+                <div class="seed-controls">
+                    <button class="button tertiary regen-button" onclick="randomSeedAndUpdate()">↻ Random</button>
+                    <button class="button tertiary regen-button" onclick="updateSeed()">⤳ Jump</button>
+                </div>
+            </div>
+
+            <!-- Era Section -->
+            <div class="control-section">
+                <h3>Era</h3>
+                <div class="era-row">
+                    <button class="era-button active" id="era-3" onclick="setEra('3')">3</button>
+                    <button class="era-button" id="era-6" onclick="setEra('6')">6</button>
+                    <button class="era-button" id="era-9" onclick="setEra('9')">9</button>
+                    <button class="era-button" id="era-inf" onclick="setEra('inf')">∞</button>
+                </div>
+                <div class="era-caption" id="era-caption">3 · PAST — candle physics: god-rays, rising gold dust, embers, recursive-midpoint discharge.</div>
+            </div>
+
+            <!-- Parameters Section -->
+            <div class="control-section">
+                <h3>Parameters</h3>
+
+                <div class="control-group">
+                    <label>Particle Count</label>
+                    <div class="slider-container">
+                        <input type="range" id="particleCount" min="200" max="4000" step="100" value="1500" oninput="updateParam('particleCount', this.value)">
+                        <span class="value-display" id="particleCount-value">1500</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Drift Speed</label>
+                    <div class="slider-container">
+                        <input type="range" id="driftSpeed" min="0.2" max="3.0" step="0.1" value="1.0" oninput="updateParam('driftSpeed', this.value)">
+                        <span class="value-display" id="driftSpeed-value">1.0</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Glyph Density</label>
+                    <div class="slider-container">
+                        <input type="range" id="glyphDensity" min="0.3" max="2.0" step="0.1" value="1.0" oninput="updateParam('glyphDensity', this.value)">
+                        <span class="value-display" id="glyphDensity-value">1.0</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label>Beat (seconds)</label>
+                    <div class="slider-container">
+                        <input type="range" id="beat" min="3" max="18" step="1" value="9" oninput="updateParam('beat', this.value)">
+                        <span class="value-display" id="beat-value">9</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="control-section">
+                <h3>Actions</h3>
+                <div class="button-row">
+                    <button class="button" onclick="regenerate()">Regenerate</button>
+                    <button class="button" onclick="resetParameters()">Reset</button>
+                </div>
+                <button class="button secondary" onclick="downloadArt()">↓ Download PNG</button>
+            </div>
+        </div>
+
+        <!-- Main Canvas Area -->
+        <div class="canvas-area">
+            <div id="canvas-container">
+                <div class="loading">Initializing generative art...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════════
+        // ERA CURRENTS — one seeded algorithm in four tenses (⚡ZAPP · 3 6 9 ∞)
+        // ═══════════════════════════════════════════════════════════════════════
+
+        let params = {
+            seed: 369,
+            era: '3',              // '3' past | '6' present | '9' future | 'inf' hub
+            particleCount: 1500,
+            driftSpeed: 1.0,
+            glyphDensity: 1.0,
+            beat: 9                // the 9-second pulse that governs every era
+        };
+
+        let defaultParams = {...params};
+
+        // Brand palette — espresso, three golds, cream; purple+cyan only in ∞
+        const PAL = {
+            espresso: [21, 13, 3],
+            goldHi:   [244, 210, 122],   // #F4D27A
+            gold:     [224, 169, 60],    // #E0A93C
+            goldDeep: [200, 134, 10],    // #C8860A
+            cream:    [248, 235, 208],   // #F8EBD0
+            purple:   [157, 108, 255],   // #9D6CFF
+            cyan:     [127, 232, 255]    // #7FE8FF
+        };
+
+        const ERA_CAPTIONS = {
+            '3':   '3 · PAST — candle physics: god-rays, rising gold dust, embers, recursive-midpoint discharge.',
+            '6':   '6 · PRESENT — paper stillness: parchment, ledger grid, nine clocks, data ticking once a second.',
+            '9':   '9 · FUTURE — signal rain: gold glyph rain, a fibonacci-sphere of bolts, great-circle arcs.',
+            'inf': '∞ · HUB — three-armed spiral galaxy, gold + purple/cyan starlight, the 9-second beat.'
+        };
+
+        // Deterministic hash (does not consume the p5 random stream)
+        function hash1(n) {
+            const s = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+            return s - Math.floor(s);
+        }
+
+        // ─── State containers ────────────────────────────────────────────────
+        let t0 = 0;                 // epoch of current system (ms)
+        let dust = [], embers = [], rays = [], bolts = [], pulses = [];
+        let rainCols = [], spherePts = [], packets = [];
+        let stars = [], streamArcs = [];
+        let ledger = null;
+        let needClear = true;
+
+        function era() { return params.era; }
+        function now() { return (millis() - t0) / 1000; }
+
+        function setup() {
+            const canvas = createCanvas(1200, 1200);
+            canvas.parent('canvas-container');
+            pixelDensity(1);                 // capped — craft law
+            frameRate(60);
+            textFont('Courier New');
+            initializeSystem();
+            document.querySelector('.loading').style.display = 'none';
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // SYSTEM INITIALISATION — same seed, same world, every time
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function initializeSystem() {
+            randomSeed(params.seed);
+            noiseSeed(params.seed);
+            t0 = millis();
+            needClear = true;
+            dust = []; embers = []; rays = []; bolts = []; pulses = [];
+            rainCols = []; spherePts = []; packets = [];
+            stars = []; streamArcs = []; ledger = null;
+
+            if (era() === '3') initPast();
+            else if (era() === '6') initPresent();
+            else if (era() === '9') initFuture();
+            else initHub();
+        }
+
+        // ─── 3 · PAST — candle physics ───────────────────────────────────────
+        function initPast() {
+            // Seven god-rays from a single off-frame source (the candle, the lab window)
+            for (let i = 0; i < 7; i++) {
+                rays.push({
+                    a: -0.92 + i * 0.135 + random(-0.02, 0.02),
+                    w: random(0.045, 0.10),
+                    ph: random(1000)
+                });
+            }
+            const n = Math.round(params.particleCount * 0.5);
+            for (let i = 0; i < n; i++) {
+                dust.push({
+                    x: random(width), y: random(height),
+                    r: random(0.7, 2.2), ph: random(1000),
+                    vy: random(0.12, 0.5)
+                });
+            }
+            for (let i = 0; i < 14; i++) {       // 14 embers — a decision, not a default
+                embers.push({
+                    x: random(width * 0.15, width * 0.85), y: height + random(200),
+                    r: random(2.2, 4.5), ph: random(1000),
+                    vy: random(0.6, 1.5), sway: random(20, 55)
+                });
+            }
+        }
+
+        // ─── 6 · PRESENT — paper stillness ───────────────────────────────────
+        function initPresent() {
+            const cities = ['NEW YORK','LONDON','BELGRADE','SMILJAN','SHANGHAI','TOKYO','SYDNEY','ZÜRICH','COLORADO'];
+            const rows = Math.round(9 + params.glyphDensity * 6);
+            const entries = [];
+            for (let r = 0; r < rows; r++) {
+                entries.push({
+                    label: nf(floor(random(100, 999)), 3) + '-' + nf(floor(random(10, 99)), 2),
+                    base: random(0.0369, 36.9),
+                    drift: random(0.002, 0.05)
+                });
+            }
+            ledger = {
+                cities: cities,
+                offs: [-4, 1, 2, 2, 8, 9, 10, 1, -6],
+                entries: entries,
+                basePrice: random(0.00369, 0.0369),
+                baseCap: random(3.69, 36.9)
+            };
+        }
+
+        // ─── 9 · FUTURE — signal rain ────────────────────────────────────────
+        const RAIN_GLYPHS = '369369369ZAPPｱｶｻﾀﾅﾊﾏﾔﾗｦｲｸｺｿﾁﾄ';
+        function initFuture() {
+            const spacing = Math.max(18, 30 / params.glyphDensity);
+            const nCols = floor(width / spacing);
+            for (let i = 0; i < nCols; i++) {
+                rainCols.push({
+                    x: i * spacing + spacing / 2,
+                    y: random(-height, 0),
+                    speed: random(4, 11),
+                    size: spacing * random(0.62, 0.8),
+                    last: 0,
+                    glyph: RAIN_GLYPHS.charAt(floor(random(RAIN_GLYPHS.length))),
+                    bolt: random() < 0.06          // a few columns rain ⚡ bolts
+                });
+            }
+            // Fibonacci sphere — each surface point a tiny bolt
+            const N = Math.round(constrain(params.particleCount * 0.18, 90, 480));
+            const ga = Math.PI * (3 - Math.sqrt(5));   // golden angle
+            for (let i = 0; i < N; i++) {
+                const yy = 1 - (i / (N - 1)) * 2;
+                const rad = Math.sqrt(1 - yy * yy);
+                const th = ga * i;
+                spherePts.push({ x: Math.cos(th) * rad, y: yy, z: Math.sin(th) * rad, tw: random(1000) });
+            }
+            // Energy packets on great-circle arcs between towers (sphere points)
+            for (let i = 0; i < 6; i++) {
+                packets.push({
+                    a: floor(random(N)), b: floor(random(N)),
+                    t: random(1), speed: random(0.0035, 0.008)
+                });
+            }
+        }
+
+        // ─── ∞ · HUB — the space between ─────────────────────────────────────
+        function initHub() {
+            const N = params.particleCount;
+            for (let i = 0; i < N; i++) {
+                const arm = i % 3;                            // the arms are the 3, the 6, the 9
+                const r = Math.sqrt(random()) * 540 + 8;
+                const cRoll = random();
+                stars.push({
+                    arm: arm,
+                    r: r,
+                    th0: arm * (TWO_PI / 3) + r * 0.0062 + random(-0.16, 0.16) * (1 - r / 700),
+                    sz: random(0.8, 2.6),
+                    // gold majority; purple and cyan open only here
+                    col: cRoll < 0.62 ? PAL.gold : (cRoll < 0.72 ? PAL.goldHi : (cRoll < 0.87 ? PAL.purple : PAL.cyan)),
+                    tw: random(1000)
+                });
+            }
+            // Three connection streams — 80 fine pulsing dots arcing between eras
+            for (let s = 0; s < 3; s++) {
+                const a0 = s * (TWO_PI / 3) - HALF_PI + random(-0.1, 0.1);
+                streamArcs.push({ a0: a0, dots: 80, bend: random(120, 200) });
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // DRAW — dispatch per era
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function draw() {
+            if (era() === '3') drawPast();
+            else if (era() === '6') drawPresent();
+            else if (era() === '9') drawFuture();
+            else drawHub();
+        }
+
+        function espressoFade(alpha) {
+            blendMode(BLEND);
+            noStroke();
+            fill(PAL.espresso[0], PAL.espresso[1], PAL.espresso[2], alpha);
+            rect(0, 0, width, height);
+        }
+
+        // ─── 3 · PAST ────────────────────────────────────────────────────────
+        function drawPast() {
+            const t = now();
+            if (needClear) { background(PAL.espresso); needClear = false; }
+            espressoFade(58);
+
+            blendMode(ADD);
+            // God-rays — volumetric wedges from one off-frame source, candle flicker
+            const sx = -140, sy = -180, L = 2600;
+            noStroke();
+            for (let i = 0; i < rays.length; i++) {
+                const r = rays[i];
+                const fl = noise(r.ph, t * 0.55);
+                const a = r.a + Math.PI / 4 + noise(r.ph + 50, t * 0.18) * 0.03;
+                fill(PAL.goldHi[0], PAL.goldHi[1], PAL.goldHi[2], 5 + 11 * fl);
+                triangle(sx, sy,
+                    sx + Math.cos(a - r.w) * L, sy + Math.sin(a - r.w) * L,
+                    sx + Math.cos(a + r.w) * L, sy + Math.sin(a + r.w) * L);
+            }
+
+            // Rising gold dust on convection
+            const ds = params.driftSpeed;
+            for (let i = 0; i < dust.length; i++) {
+                const p = dust[i];
+                p.x += (noise(p.ph, t * 0.3) - 0.5) * 1.6 * ds;
+                p.y -= p.vy * ds;
+                if (p.y < -4) { p.y = height + 4; p.x = random(width); }
+                const tw = noise(p.ph + 9, t * 0.9);
+                fill(PAL.gold[0], PAL.gold[1], PAL.gold[2], 26 + 90 * tw);
+                circle(p.x, p.y, p.r);
+            }
+
+            // Embers — brighter, double-stroked glow (no shadowBlur, ever)
+            for (let i = 0; i < embers.length; i++) {
+                const e = embers[i];
+                e.y -= e.vy * ds;
+                const ex = e.x + Math.sin(t * 0.8 + e.ph) * e.sway * 0.3;
+                if (e.y < -20) { e.y = height + random(60); e.x = random(width * 0.15, width * 0.85); }
+                const fl = 0.55 + 0.45 * noise(e.ph, t * 2.2);
+                fill(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], 38 * fl);
+                circle(ex, e.y, e.r * 5);
+                fill(PAL.goldHi[0], PAL.goldHi[1], PAL.goldHi[2], 150 * fl);
+                circle(ex, e.y, e.r * 1.6);
+                fill(PAL.cream[0], PAL.cream[1], PAL.cream[2], 120 * fl);
+                circle(ex, e.y, e.r * 0.7);
+            }
+
+            // Wireframe Wardenclyffe at the foot of the frame
+            const bx = width * 0.5, by = height, topY = height - 330;
+            stroke(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], 70);
+            strokeWeight(1.2);
+            noFill();
+            for (let i = 0; i <= 4; i++) {
+                const f = i / 4;
+                const hw = lerp(96, 26, f);
+                const yy = lerp(by, topY, f);
+                line(bx - hw, yy, bx + hw, yy);
+                if (i < 4) {
+                    const hw2 = lerp(96, 26, (i + 1) / 4);
+                    const y2 = lerp(by, topY, (i + 1) / 4);
+                    line(bx - hw, yy, bx + hw2, y2);
+                    line(bx + hw, yy, bx - hw2, y2);
+                    line(bx - hw, yy, bx - hw2, y2);
+                    line(bx + hw, yy, bx + hw2, y2);
+                }
+            }
+            arc(bx, topY - 18, 110, 86, Math.PI, TWO_PI);
+            line(bx - 55, topY - 18, bx - 26, topY);
+            line(bx + 55, topY - 18, bx + 26, topY);
+
+            // Discharge — recursive midpoint displacement, probability 0.55
+            if (frameCount % 42 === 0 && random() < 0.55) {
+                const tipX = bx, tipY = topY - 60;
+                const endX = tipX + random(-420, 420);
+                const endY = tipY - random(260, 560);
+                bolts.push({ pts: midpointBolt(tipX, tipY, endX, endY, 7, 130), life: 13 });
+                pulses.push({ r: 10, life: 70 });
+                if (random() < 0.4) {
+                    bolts.push({ pts: midpointBolt(tipX, tipY, tipX + random(-300, 300), tipY - random(150, 380), 6, 90), life: 9 });
+                }
+            }
+            for (let i = bolts.length - 1; i >= 0; i--) {
+                const b = bolts[i];
+                const fade = b.life / 13;
+                drawBoltPath(b.pts, fade);
+                if (--b.life <= 0) bolts.splice(i, 1);
+            }
+            // Ground pulses spreading through the Earth
+            noFill();
+            for (let i = pulses.length - 1; i >= 0; i--) {
+                const g = pulses[i];
+                g.r += 4.2 * ds;
+                const a = 60 * (g.life / 70);
+                stroke(PAL.gold[0], PAL.gold[1], PAL.gold[2], a);
+                strokeWeight(2);
+                ellipse(bx, by - 4, g.r * 2, g.r * 0.5);
+                if (--g.life <= 0) pulses.splice(i, 1);
+            }
+            blendMode(BLEND);
+        }
+
+        function midpointBolt(x1, y1, x2, y2, depth, disp) {
+            let pts = [[x1, y1], [x2, y2]];
+            for (let d = 0; d < depth; d++) {
+                const next = [pts[0]];
+                for (let i = 1; i < pts.length; i++) {
+                    const [ax, ay] = pts[i - 1], [bx2, by2] = pts[i];
+                    const mx = (ax + bx2) / 2, my = (ay + by2) / 2;
+                    const dx = bx2 - ax, dy = by2 - ay;
+                    const len = Math.sqrt(dx * dx + dy * dy) || 1;
+                    const off = random(-1, 1) * disp;
+                    next.push([mx - (dy / len) * off, my + (dx / len) * off]);
+                    next.push(pts[i]);
+                }
+                pts = next;
+                disp *= 0.52;
+            }
+            return pts;
+        }
+
+        function drawBoltPath(pts, fade) {
+            noFill();
+            // additive double-stroke: a wide dim aura, then the hot core
+            stroke(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], 46 * fade);
+            strokeWeight(5.5);
+            beginShape(); for (const p of pts) vertex(p[0], p[1]); endShape();
+            stroke(PAL.goldHi[0], PAL.goldHi[1], PAL.goldHi[2], 170 * fade);
+            strokeWeight(2);
+            beginShape(); for (const p of pts) vertex(p[0], p[1]); endShape();
+            stroke(PAL.cream[0], PAL.cream[1], PAL.cream[2], 210 * fade);
+            strokeWeight(0.8);
+            beginShape(); for (const p of pts) vertex(p[0], p[1]); endShape();
+        }
+
+        // ─── 6 · PRESENT ─────────────────────────────────────────────────────
+        function drawPresent() {
+            const sec = floor(now());
+            blendMode(BLEND);
+            background(PAL.cream);
+
+            // Fine 64px ledger grid
+            stroke(PAL.espresso[0], PAL.espresso[1], PAL.espresso[2], 16);
+            strokeWeight(1);
+            for (let x = 64; x < width; x += 64) line(x, 0, x, height);
+            for (let y = 64; y < height; y += 64) line(0, y, width, y);
+            stroke(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], 60);
+            line(64, 192, width - 64, 192);
+            line(64, height - 128, width - 64, height - 128);
+
+            noStroke();
+            fill(PAL.espresso);
+            textAlign(LEFT, BASELINE);
+            textSize(20);
+            text('⚡ZAPP — LEDGER OF THE PRESENT', 64, 110);
+            textSize(13);
+            fill(PAL.goldDeep);
+            text('3 · 6 · 9 — the present is the only era that holds still', 64, 140);
+
+            // Price + market cap — data being alive, one tick a second
+            const pw = (n, f) => noise(n * 0.37 + f * 100) - 0.5;
+            const price = ledger.basePrice * (1 + pw(sec, 1) * 0.06);
+            const cap = ledger.baseCap * (1 + pw(sec, 2) * 0.04);
+            fill(PAL.espresso);
+            textSize(54);
+            text('$' + price.toFixed(6), 64, 300);
+            textSize(18);
+            fill(PAL.goldDeep);
+            text('MCAP  $' + cap.toFixed(2) + 'M', 64, 336);
+            const up = pw(sec, 1) > pw(sec - 1, 1);
+            fill(up ? PAL.goldDeep : PAL.espresso);
+            text(up ? '▲ +' : '▼ -', 64 + textWidth('MCAP  $' + cap.toFixed(2) + 'M  '), 336);
+
+            // Ledger column — figures that breathe once per second, no faster
+            textSize(15);
+            const x0 = 64, y0 = 408;
+            for (let r = 0; r < ledger.entries.length; r++) {
+                const e = ledger.entries[r];
+                const v = e.base * (1 + (hash1(r * 7 + sec) - 0.5) * e.drift);
+                const changed = hash1(r * 13 + sec) > 0.72;
+                fill(PAL.espresso[0], PAL.espresso[1], PAL.espresso[2], changed ? 255 : 150);
+                text(e.label, x0, y0 + r * 36);
+                text(v.toFixed(4), x0 + 140, y0 + r * 36);
+                fill(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], changed ? 230 : 90);
+                text(changed ? '·' + nf(floor(hash1(r + sec * 3) * 999), 3) : '···', x0 + 290, y0 + r * 36);
+            }
+
+            // Nine world clocks at one-second resolution
+            const utcSec = floor(Date.now() / 1000);
+            textAlign(CENTER, BASELINE);
+            for (let i = 0; i < 9; i++) {
+                const cx = width - 360 + (i % 3) * 130;
+                const cy = 460 + floor(i / 3) * 180;
+                const local = utcSec + ledger.offs[i] * 3600;
+                const hh = floor(local / 3600) % 12;
+                const mm = floor(local / 60) % 60;
+                const ss = local % 60;
+                noFill();
+                stroke(PAL.espresso[0], PAL.espresso[1], PAL.espresso[2], 110);
+                strokeWeight(1.4);
+                circle(cx, cy, 92);
+                // hands — the seconds hand ticks, it never sweeps
+                const ah = (hh + mm / 60) / 12 * TWO_PI - HALF_PI;
+                const am = mm / 60 * TWO_PI - HALF_PI;
+                const as = ss / 60 * TWO_PI - HALF_PI;
+                stroke(PAL.espresso); strokeWeight(2.4);
+                line(cx, cy, cx + Math.cos(ah) * 22, cy + Math.sin(ah) * 22);
+                strokeWeight(1.6);
+                line(cx, cy, cx + Math.cos(am) * 34, cy + Math.sin(am) * 34);
+                stroke(PAL.goldDeep); strokeWeight(1);
+                line(cx, cy, cx + Math.cos(as) * 40, cy + Math.sin(as) * 40);
+                noStroke();
+                fill(PAL.espresso[0], PAL.espresso[1], PAL.espresso[2], 190);
+                textSize(11);
+                text(ledger.cities[i], cx, cy + 66);
+                fill(PAL.goldDeep);
+                text(nf((hh === 0 ? 12 : hh), 2) + ':' + nf(mm, 2) + ':' + nf(ss, 2), cx, cy + 82);
+            }
+
+            // Footer rule of nine
+            noStroke();
+            fill(PAL.espresso[0], PAL.espresso[1], PAL.espresso[2], 160);
+            textAlign(LEFT, BASELINE);
+            textSize(13);
+            text('SEED ' + params.seed + '   ·   T+' + nf(sec, 4) + 's   ·   stillness is the algorithm', 64, height - 88);
+        }
+
+        // ─── 9 · FUTURE ──────────────────────────────────────────────────────
+        function drawFuture() {
+            const t = now();
+            if (needClear) { background(PAL.espresso); needClear = false; }
+            espressoFade(64);
+            blendMode(ADD);
+
+            // Signal rain — throttled to ~22 steps a second, deterministic chaos
+            textAlign(CENTER, CENTER);
+            const ds = params.driftSpeed;
+            for (let i = 0; i < rainCols.length; i++) {
+                const c = rainCols[i];
+                if (t - c.last > 1 / 22) {
+                    c.last = t;
+                    c.y += c.speed * 3.2 * ds;
+                    if (random() < 0.18) c.glyph = RAIN_GLYPHS.charAt(floor(random(RAIN_GLYPHS.length)));
+                    if (c.y > height + 30) { c.y = random(-300, -20); c.speed = random(4, 11); }
+                }
+                if (c.y < -20 || c.y > height + 20) continue;
+                if (c.bolt) {
+                    drawTinyBolt(c.x, c.y, c.size * 0.9, PAL.goldHi, 200);
+                } else {
+                    fill(PAL.cream[0], PAL.cream[1], PAL.cream[2], 215);
+                    textSize(c.size);
+                    text(c.glyph, c.x, c.y);
+                    fill(PAL.gold[0], PAL.gold[1], PAL.gold[2], 95);
+                    text(c.glyph, c.x, c.y - c.size * 1.15);
+                }
+            }
+
+            // Fibonacci-sphere Earth — every surface point a tiny ⚡ bolt
+            const cx = width / 2, cy = height * 0.47, R = 268;
+            const rot = t * 0.22 * ds;
+            const proj = [];
+            for (let i = 0; i < spherePts.length; i++) {
+                const p = spherePts[i];
+                const x = p.x * Math.cos(rot) + p.z * Math.sin(rot);
+                const z = -p.x * Math.sin(rot) + p.z * Math.cos(rot);
+                const px = cx + x * R, py = cy + p.y * R;
+                proj.push([px, py, z]);
+                if (z > -0.1) {
+                    const lum = map(z, -0.1, 1, 0.18, 1);
+                    const tw = 0.7 + 0.3 * noise(p.tw, t * 1.4);
+                    drawTinyBolt(px, py, 7 * lum + 2, lum > 0.6 ? PAL.goldHi : PAL.goldDeep, 200 * lum * tw);
+                } else {
+                    fill(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], 26);
+                    noStroke();
+                    circle(px, py, 1.6);
+                }
+            }
+            // Limb of the sphere — additive double ring instead of any blur
+            noFill();
+            stroke(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], 34);
+            strokeWeight(7);
+            circle(cx, cy, R * 2 + 10);
+            stroke(PAL.gold[0], PAL.gold[1], PAL.gold[2], 70);
+            strokeWeight(1.4);
+            circle(cx, cy, R * 2 + 10);
+
+            // Energy packets on great-circle arcs between towers
+            for (let i = 0; i < packets.length; i++) {
+                const k = packets[i];
+                k.t += k.speed * ds;
+                if (k.t > 1) { k.t = 0; k.a = k.b; k.b = floor(random(spherePts.length)); }
+                const A = spherePts[k.a], B = spherePts[k.b];
+                const pos = slerpPoint(A, B, k.t);
+                const x = pos.x * Math.cos(rot) + pos.z * Math.sin(rot);
+                const z = -pos.x * Math.sin(rot) + pos.z * Math.cos(rot);
+                if (z < -0.15) continue;
+                const px = cx + x * R * 1.04, py = cy + pos.y * R * 1.04;
+                noStroke();
+                fill(PAL.gold[0], PAL.gold[1], PAL.gold[2], 60);
+                circle(px, py, 12);
+                fill(PAL.cream[0], PAL.cream[1], PAL.cream[2], 230);
+                circle(px, py, 3.5);
+                // short trail along the arc
+                for (let s = 1; s <= 4; s++) {
+                    const q = slerpPoint(A, B, Math.max(0, k.t - s * 0.022));
+                    const qx = q.x * Math.cos(rot) + q.z * Math.sin(rot);
+                    if (-q.x * Math.sin(rot) + q.z * Math.cos(rot) < -0.15) continue;
+                    fill(PAL.goldHi[0], PAL.goldHi[1], PAL.goldHi[2], 120 / s);
+                    circle(cx + qx * R * 1.04, cy + q.y * R * 1.04, 2.4);
+                }
+            }
+            blendMode(BLEND);
+        }
+
+        function slerpPoint(A, B, tt) {
+            const dot = constrain(A.x * B.x + A.y * B.y + A.z * B.z, -1, 1);
+            const om = Math.acos(dot);
+            if (om < 1e-4) return { x: A.x, y: A.y, z: A.z };
+            const sa = Math.sin((1 - tt) * om) / Math.sin(om);
+            const sb = Math.sin(tt * om) / Math.sin(om);
+            return { x: A.x * sa + B.x * sb, y: A.y * sa + B.y * sb, z: A.z * sa + B.z * sb };
+        }
+
+        function drawTinyBolt(x, y, s, col, alpha) {
+            noStroke();
+            fill(col[0], col[1], col[2], alpha);
+            // a vector ⚡ — never a font glyph, so it renders in brand gold
+            beginShape();
+            vertex(x + 0.30 * s, y - 0.5 * s);
+            vertex(x - 0.22 * s, y + 0.08 * s);
+            vertex(x + 0.02 * s, y + 0.08 * s);
+            vertex(x - 0.30 * s, y + 0.5 * s);
+            vertex(x + 0.26 * s, y - 0.10 * s);
+            vertex(x + 0.02 * s, y - 0.10 * s);
+            endShape(CLOSE);
+        }
+
+        // ─── ∞ · HUB ─────────────────────────────────────────────────────────
+        function drawHub() {
+            const t = now();
+            if (needClear) { background(PAL.espresso); needClear = false; }
+            espressoFade(46);
+            blendMode(ADD);
+
+            const beat = Math.max(1, params.beat);
+            const phase = (t % beat) / beat;
+            const pulse = Math.pow(Math.sin(Math.PI * phase), 2);
+            // the 0.8-second warp that blooms toward white at every downbeat
+            const warp = phase < (0.8 / beat) ? 1 - phase / (0.8 / beat) : 0;
+
+            const cx = width / 2, cy = height / 2;
+            const ds = params.driftSpeed;
+
+            // Three-armed spiral galaxy with differential rotation
+            noStroke();
+            for (let i = 0; i < stars.length; i++) {
+                const s = stars[i];
+                const th = s.th0 + t * ds * (0.14 + 60 / (60 + s.r));
+                const x = cx + Math.cos(th) * s.r;
+                const y = cy + Math.sin(th) * s.r * 0.92;     // gentle galactic tilt
+                const tw = 0.55 + 0.45 * noise(s.tw, t * 0.8);
+                const a = (38 + 120 * tw) * (0.75 + 0.45 * pulse) + warp * 60;
+                fill(s.col[0], s.col[1], s.col[2], Math.min(a, 235));
+                circle(x, y, s.sz * (1 + 0.25 * pulse));
+            }
+
+            // Galactic core — layered additive discs, never shadowBlur
+            const coreR = 30 + 16 * pulse + warp * 60;
+            fill(PAL.goldDeep[0], PAL.goldDeep[1], PAL.goldDeep[2], 50);
+            circle(cx, cy, coreR * 4.4);
+            fill(PAL.gold[0], PAL.gold[1], PAL.gold[2], 80);
+            circle(cx, cy, coreR * 2.4);
+            fill(PAL.goldHi[0], PAL.goldHi[1], PAL.goldHi[2], 140);
+            circle(cx, cy, coreR * 1.3);
+            fill(PAL.cream[0], PAL.cream[1], PAL.cream[2], 170 + warp * 85);
+            circle(cx, cy, coreR * 0.7);
+
+            // Connection streams — 80 fine pulsing dots arcing between the eras
+            for (let s = 0; s < streamArcs.length; s++) {
+                const arc9 = streamArcs[s];
+                const a0 = arc9.a0 + t * 0.05 * ds;
+                const ex = cx + Math.cos(a0) * 520, ey = cy + Math.sin(a0) * 480;
+                const mx = (cx + ex) / 2 - Math.sin(a0) * arc9.bend;
+                const my = (cy + ey) / 2 + Math.cos(a0) * arc9.bend;
+                const col = s === 0 ? PAL.purple : (s === 1 ? PAL.cyan : PAL.goldHi);
+                for (let d = 0; d < arc9.dots; d++) {
+                    const u = d / (arc9.dots - 1);
+                    const px = (1 - u) * (1 - u) * cx + 2 * (1 - u) * u * mx + u * u * ex;
+                    const py = (1 - u) * (1 - u) * cy + 2 * (1 - u) * u * my + u * u * ey;
+                    const wave = Math.pow(Math.sin(Math.PI * ((u * 3 - t * ds * 0.8 / 3) % 1 + 1)), 6);
+                    fill(col[0], col[1], col[2], 22 + 150 * wave * (0.5 + 0.5 * pulse));
+                    circle(px, py, 1.6 + 2.4 * wave);
+                }
+            }
+
+            // Warp bloom to white
+            if (warp > 0) {
+                fill(PAL.cream[0], PAL.cream[1], PAL.cream[2], warp * warp * 26);
+                rect(0, 0, width, height);
+            }
+            blendMode(BLEND);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // UI CONTROL HANDLERS
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function updateParam(paramName, value) {
+            params[paramName] = parseFloat(value);
+            const disp = document.getElementById(paramName + '-value');
+            if (disp) disp.textContent = value;
+            // structural parameters rebuild the world; temporal ones flow live
+            if (paramName === 'particleCount' || paramName === 'glyphDensity') {
+                initializeSystem();
+            }
+        }
+
+        function setEra(e) {
+            params.era = e;
+            for (const id of ['3', '6', '9', 'inf']) {
+                document.getElementById('era-' + id).classList.toggle('active', id === e);
+            }
+            document.getElementById('era-caption').textContent = ERA_CAPTIONS[e];
+            initializeSystem();
+        }
+
+        function regenerate() {
+            initializeSystem();
+        }
+
+        function downloadArt() {
+            saveCanvas('era-currents-' + params.era + '-seed-' + params.seed, 'png');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════
+        // SEED CONTROL FUNCTIONS
+        // ═══════════════════════════════════════════════════════════════════════
+
+        function updateSeedDisplay() {
+            document.getElementById('seed-input').value = params.seed;
+        }
+
+        function updateSeed() {
+            const input = document.getElementById('seed-input');
+            const newSeed = parseInt(input.value);
+            if (newSeed && newSeed > 0) {
+                params.seed = newSeed;
+                initializeSystem();
+            } else {
+                updateSeedDisplay();
+            }
+        }
+
+        function previousSeed() {
+            params.seed = Math.max(1, params.seed - 1);
+            updateSeedDisplay();
+            initializeSystem();
+        }
+
+        function nextSeed() {
+            params.seed = params.seed + 1;
+            updateSeedDisplay();
+            initializeSystem();
+        }
+
+        function randomSeedAndUpdate() {
+            params.seed = Math.floor(Math.random() * 999999) + 1;
+            updateSeedDisplay();
+            initializeSystem();
+        }
+
+        function resetParameters() {
+            params = {...defaultParams};
+            for (const k of ['particleCount', 'driftSpeed', 'glyphDensity', 'beat']) {
+                document.getElementById(k).value = params[k];
+                document.getElementById(k + '-value').textContent = params[k];
+            }
+            updateSeedDisplay();
+            setEra(params.era);
+        }
+
+        // Initialize UI on load
+        window.addEventListener('load', function() {
+            updateSeedDisplay();
+        });
+    </script>
+</body>
+</html>
