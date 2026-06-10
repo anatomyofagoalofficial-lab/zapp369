@@ -687,6 +687,9 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .ca-a{font-family:var(--mono);font-size:.7rem;color:var(--gold);text-align:left;letter-spacing:.04em;word-break:break-all}
 .ca-i{font-size:.85rem;color:rgba(255,215,0,.35);flex-shrink:0}
 #ca-msg{font-family:var(--mono);font-size:.62rem;color:#B07A12;height:1.1rem;transition:opacity .3s;margin-bottom:1rem}
+.buy-new{font-size:.82rem;letter-spacing:.04em;color:rgba(245,230,200,.5);margin:0 auto 1.4rem;text-align:center}
+.buy-new a{color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(255,210,120,.35);padding-bottom:1px;transition:border-color .3s,color .3s}
+.buy-new a:hover{color:#FFE6A6;border-bottom-color:rgba(255,210,120,.8)}
 .buy-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
 .buy-lnks{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem}
 .bl{padding:.5rem 1.4rem;border-radius:100px;border:1px solid rgba(255,210,120,.24);color:rgba(255,226,150,.66);font-size:.67rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:all .3s}
