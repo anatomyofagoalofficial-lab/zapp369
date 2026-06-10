@@ -958,3 +958,10 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 
 .jup-box{max-width:420px;margin:0 auto 1.6rem;border-radius:16px;overflow:hidden}
 .jup-box:not(:empty){border:1px solid rgba(255,224,150,.3);box-shadow:0 22px 50px rgba(0,0,0,.4)}
+
+/* the lab's radiant core, behind the wordmark — the hub IS the centre of the galaxy */
+.sm-center::before{content:'';position:absolute;left:50%;top:42%;width:min(520px,80vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;pointer-events:none;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,244,200,.32) 0%,rgba(244,210,122,.2) 22%,rgba(224,169,60,.10) 45%,transparent 70%);
+  animation:coreBreath 9s ease-in-out infinite}
+@keyframes coreBreath{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.07)}}
+@media(prefers-reduced-motion:reduce){.sm-center::before{animation:none}}
