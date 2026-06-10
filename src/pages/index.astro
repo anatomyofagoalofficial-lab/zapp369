@@ -37,7 +37,9 @@ const icon: Record<number, string> = { 3: 'tower-tesla', 6: 'bolt-zapp', 9: '1f6
       {DIMENSIONS.map(d => (
         <a class={`dimension-card ${corner[d.number]}`} href={d.route} data-go={d.route} style={`--dc:${d.color}`}>
           <span class="dc-num" aria-hidden="true">{d.number}</span>
-          <img class="dc-icon" src={`/img/emoji/${icon[d.number]}.svg`} alt="" aria-hidden="true" width="40" height="40" loading="lazy" decoding="async" />
+          {d.number === 6
+            ? <span class="dc-icon dc-bolt" aria-hidden="true">⚡</span>
+            : <img class="dc-icon" src={`/img/emoji/${icon[d.number]}.svg`} alt="" aria-hidden="true" width="40" height="40" loading="lazy" decoding="async" />}
           <div class="dc-meta">{d.subtitle}</div>
           <div class="dc-title">{d.title}</div>
           <div class="dc-desc">{d.description}</div>
