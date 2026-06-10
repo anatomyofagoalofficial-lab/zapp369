@@ -19,6 +19,20 @@ const RUG = `https://rugcheck.xyz/tokens/${CA}`;
       <span class="ca-i">⎘</span>
     </div>
     {showMsg && <div id="ca-msg" style="opacity:0"></div>}
+    <div id="jup-terminal" class="jup-box rv d2" aria-label="Swap to ZAPP"></div>
+    <script is:inline define:vars={{ CA }}>
+      (function(){
+        var done=false;
+        function boot(){ if(done) return; done=true;
+          var sc=document.createElement('script'); sc.src='https://plugin.jup.ag/plugin-v1.js'; sc.async=true;
+          sc.onload=function(){ try{ window.Jupiter && window.Jupiter.init({ displayMode:'integrated', integratedTargetId:'jup-terminal', formProps:{ initialOutputMint: CA, swapMode:'ExactIn' } }); }catch(e){} };
+          document.head.appendChild(sc);
+        }
+        var el=document.getElementById('jup-terminal');
+        if('IntersectionObserver' in window && el){ new IntersectionObserver(function(es,o){ es.forEach(function(e){ if(e.isIntersecting){ boot(); o.disconnect(); } }); },{rootMargin:'400px'}).observe(el); }
+        else setTimeout(boot,4000);
+      })();
+    </script>
     <div class="buy-btns rv d2">
       <a href={PUMP} target="_blank" rel="noopener" class="bg">Buy on Pump.fun ⚡</a>
       <a href={PHANTOM} target="_blank" rel="noopener" class="bo">Phantom</a>
