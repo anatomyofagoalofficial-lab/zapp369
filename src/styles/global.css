@@ -912,3 +912,12 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 .pz-word,.past-h1,.f-h1,.buy-h{text-rendering:optimizeLegibility;font-feature-settings:'kern' 1,'liga' 1}
 /* world-clock cards tick alive: the time glows faintly on hover */
 .wc-c:hover .wc-time{color:#8A5A10;text-shadow:0 0 14px rgba(224,169,60,.35)}
+
+/* illustrations matched to their sections */
+.hof-fig{position:relative;max-width:430px;margin:0 auto 2.4rem;border-radius:14px;overflow:hidden;border:1px solid rgba(150,110,40,.35);box-shadow:0 26px 60px rgba(120,80,20,.22)}
+.hof-fig img{display:block;width:100%}
+.mf-grid{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:clamp(2rem,4vw,4rem);align-items:center;text-align:left;max-width:880px;margin:0 auto}
+.mf-grid .mf-lines p{margin-left:0}
+.mf-fig{margin:0;border-radius:14px;overflow:hidden;border:1px solid rgba(150,110,40,.3);box-shadow:0 24px 54px rgba(120,80,20,.2);transform:rotate(-1.2deg)}
+.mf-fig img{display:block;width:100%}
+@media(max-width:760px){.mf-grid{grid-template-columns:1fr;text-align:center}.mf-fig{max-width:300px;margin:0 auto}}

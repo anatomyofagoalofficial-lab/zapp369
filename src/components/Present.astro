@@ -45,6 +45,8 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
   <!-- ⚡ WHY ZAPP — manifesto -->
   <section class="manifesto">
     <h2 class="mf-title rv">Why <span class="mf-zap">⚡ZAPP</span>?</h2>
+    <div class="mf-grid">
+    <figure class="mf-fig rv"><img src={`${IMG}/zero-tax.jpg`} alt="Zero tax. No meter on free." loading="lazy" onerror="this.closest('.mf-fig').remove()"></figure>
     <div class="mf-lines">
       <p class="rv">Money is energy.</p>
       <p class="rv">Energy travels at the speed of light.</p>
@@ -56,6 +58,7 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
       <p class="rv">The code was always there, hidden in plain sight.</p>
       <p class="rv">Now it runs on Solana.</p>
     </div>
+    </div>
     <p class="mf-tag rv">One Frequency · One Signal · One World</p>
   </section>
   <div class="p-scenes">
@@ -64,7 +67,7 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
     <div class="p-row rv"><div class="p-img"><img src={`${IMG}/369-cards.jpg`} alt="Liquidity locked — protected by the 3·6·9 curve" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Curve · 3 · 6 · 9</p><h3 class="p-h3">Protected by<br>the <em>curve</em>.</h3><p class="p-p">The liquidity is locked. Nobody touches it. Not even us.</p></div></div>
   </div>
   <div class="calc-outer rv"><div class="calc-inner"><h3>⚡ Your ZAPP, measured</h3><p class="sub">Enter your holdings — see the live value</p><div class="calc-row"><input type="text" id="cin" placeholder="1,000,000" inputmode="numeric"><span class="unit">⚡ZAPP</span></div><div class="presets"><button data-sc="100000">100K</button><button data-sc="1000000">1M</button><button data-sc="10000000">10M</button><button data-sc="100000000">100M</button><button data-sc="1000000000">1B</button></div><div class="calc-out"><span class="co-l">Value at live price</span><span class="co-v" id="cout">—</span></div><p class="calc-note">Not financial advice. ZAPP can go to zero.</p></div></div>
-  <div class="hof rv"><div class="hof-head"><h2>Pump.fun Hall of Fame</h2><p>The six that made it out — from the same starting line</p></div><div class="hof-g"><div class="hc"><div class="rk">No.1</div><div class="nm">FARTCOIN</div><div class="mc">$2.15B</div><div class="dc">AI dreamed it. Colbert mentioned it.</div></div><div class="hc"><div class="rk">No.2</div><div class="nm">PNUT</div><div class="mc">$1.8B</div><div class="dc">A real squirrel. A real news cycle.</div></div><div class="hc"><div class="rk">No.3</div><div class="nm">GOAT</div><div class="mc">$1.3B</div><div class="dc">AI prophecy. Truth Terminal cult.</div></div><div class="hc"><div class="rk">No.4</div><div class="nm">CHILLGUY</div><div class="mc">$543M</div><div class="dc">TikTok generation. Pure vibe.</div></div><div class="hc"><div class="rk">No.5</div><div class="nm">MOTHER</div><div class="mc">$200M</div><div class="dc">Iggy Azalea launched it.</div></div><div class="hc zapp"><div class="rk">⚡ ZAPP</div><div class="nm" id="zv">Live</div><div class="mc">3 · 6 · 9 ∞</div><div class="dc">Tesla's frequency. Now on Solana.</div></div></div></div>
+  <div class="hof rv"><figure class="hof-fig rv"><img src={`${IMG}/hall-of-fame.jpg`} alt="The Pump.fun Hall of Fame" loading="lazy" onerror="this.closest('.hof-fig').remove()"><figcaption class="f-live">⚡ Live now: <span id="zv2">—</span> · the climb continues · 3 · 6 · 9 · ∞</figcaption></figure><div class="hof-head"><h2>Pump.fun Hall of Fame</h2><p>The six that made it out — from the same starting line</p></div><div class="hof-g"><div class="hc"><div class="rk">No.1</div><div class="nm">FARTCOIN</div><div class="mc">$2.15B</div><div class="dc">AI dreamed it. Colbert mentioned it.</div></div><div class="hc"><div class="rk">No.2</div><div class="nm">PNUT</div><div class="mc">$1.8B</div><div class="dc">A real squirrel. A real news cycle.</div></div><div class="hc"><div class="rk">No.3</div><div class="nm">GOAT</div><div class="mc">$1.3B</div><div class="dc">AI prophecy. Truth Terminal cult.</div></div><div class="hc"><div class="rk">No.4</div><div class="nm">CHILLGUY</div><div class="mc">$543M</div><div class="dc">TikTok generation. Pure vibe.</div></div><div class="hc"><div class="rk">No.5</div><div class="nm">MOTHER</div><div class="mc">$200M</div><div class="dc">Iggy Azalea launched it.</div></div><div class="hc zapp"><div class="rk">⚡ ZAPP</div><div class="nm" id="zv">Live</div><div class="mc">3 · 6 · 9 ∞</div><div class="dc">Tesla's frequency. Now on Solana.</div></div></div></div>
   <!-- ☀️ SUMMER · FREE-ENERGY SECTION inside Present -->
   <div style="background:linear-gradient(180deg,#5C3E1A 0%,#3E2A10 55%,#271A08 100%);position:relative;z-index:2;padding:5rem 2rem 6rem;text-align:center">
     <div style="max-width:700px;margin:0 auto">
