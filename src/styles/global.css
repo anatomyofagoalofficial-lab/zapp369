@@ -242,6 +242,11 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
   background-image:repeating-linear-gradient(0deg,rgba(190,150,80,.028) 0,rgba(190,150,80,.028) 1px,transparent 1px,transparent 7px),repeating-linear-gradient(90deg,rgba(190,150,80,.022) 0,rgba(190,150,80,.022) 1px,transparent 1px,transparent 7px);
   background-size:8px 8px}
 .past-hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+/* the golden tribute as the Past hero photo (the X profile shot) */
+.past-hero-photo{position:absolute;right:clamp(2rem,6vw,7rem);top:50%;transform:translateY(-50%) rotate(1.2deg);z-index:2;width:min(360px,38vw);margin:0;border-radius:18px;padding:10px;background:linear-gradient(160deg,rgba(255,224,150,.5),rgba(150,98,24,.22) 50%,rgba(255,224,150,.4));box-shadow:0 40px 110px rgba(0,0,0,.6),0 0 90px rgba(255,200,90,.22);animation:floaty 8s ease-in-out infinite}
+.past-hero-photo::after{content:'';position:absolute;inset:5px;border-radius:13px;border:1px solid rgba(255,236,180,.45);pointer-events:none}
+.past-hero-photo img{display:block;width:100%;border-radius:12px}
+@media(max-width:920px){.past-hero{flex-direction:column;justify-content:center;text-align:center;padding-top:6rem}.past-hero-photo{position:static;transform:none;width:min(300px,72vw);margin:2rem auto 0}}
 #past-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
 .past-hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(10,6,0,.88) 0%,rgba(10,6,0,.6) 34%,rgba(10,6,0,.12) 62%,transparent 100%)}
 .past-hero-text{position:relative;z-index:2;max-width:600px;padding:9rem 4rem 5rem 6vw;display:flex;flex-direction:column;justify-content:center}
