@@ -890,3 +890,25 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
 
 /* coded Tesla-coil discharge overlay (Past hero) */
 .tesla-arc{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;mix-blend-mode:screen;filter:contrast(1.08) saturate(1.1)}
+
+/* ── ⚡ craft refresh: the details that make it feel designed, not generated ── */
+/* gold selection — even highlighting text is on brand */
+::selection{background:rgba(224,169,60,.85);color:#1a1000}
+/* signature 3·6·9 divider: the ∞ mark grows two pulsing side nodes */
+.pz-inf{position:relative;display:inline-block}
+.pz-inf::before{content:'3';position:absolute;left:-3.2em;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.5em;color:rgba(176,122,18,.55)}
+.pz-inf::after{content:'9'!important;position:absolute;right:-3.2em;left:auto;top:50%;transform:translateY(-50%);width:auto;height:auto;background:none;margin:0;font-family:var(--mono);font-size:.5em;color:rgba(176,122,18,.55);display:inline}
+/* atmospheric depth on the light pages: a breath of warm shadow at the top edge */
+#dim-present::after,#dim-future .f-grad::after{content:'';position:fixed;left:0;right:0;top:0;height:18vh;pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(120,80,20,.10),transparent)}
+/* coherent press physics: everything clickable compresses the same way */
+.pz-buy:active,.pz-ghost:active,.bg:active,.bo:active,.bl:active,.ht-cta:active,.rf-gen:active,.rf-copy:active,.bd-buy:active,.dn-buy:active,.btn-past:active,.btn-future:active,.enter-cta:active{transform:scale(.97)!important;transition-duration:.08s}
+/* nav era pills: a gold underline that draws itself on hover */
+.dn-era button{position:relative}
+.dn-era button:not(.on)::after{content:'';position:absolute;left:50%;right:50%;bottom:2px;height:1px;background:#C8860A;transition:left .25s ease,right .25s ease}
+.dn-era button:not(.on):hover::after{left:18%;right:18%}
+/* manifesto opener gets a drop-cap moment — editorial, characterful */
+.mf-lines p:first-child{font-size:clamp(1.5rem,3vw,2.1rem);color:#241A06;font-weight:600}
+/* headline display: optical kerning + slight ink spread on the big serifs */
+.pz-word,.past-h1,.f-h1,.buy-h{text-rendering:optimizeLegibility;font-feature-settings:'kern' 1,'liga' 1}
+/* world-clock cards tick alive: the time glows faintly on hover */
+.wc-c:hover .wc-time{color:#8A5A10;text-shadow:0 0 14px rgba(224,169,60,.35)}
