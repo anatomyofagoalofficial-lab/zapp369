@@ -2,7 +2,6 @@
 import BuySection from './BuySection.astro';
 import TodoMeme from './TodoMeme.astro';
 import Referral from './Referral.astro';
-import PyramidHub from './PyramidHub.astro';
 const IMG = '/illustrations';
 const CITIES = [
   { name: 'New York', flag: '🇺🇸', tz: 'America/New_York' },
@@ -44,7 +43,36 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
     <TodoMeme />
   </div>
   <div class="vbar rv"><div class="vi"><span class="vd"></span>Mint Revoked</div><div class="vi"><span class="vd"></span>LP Burned</div><div class="vi"><span class="vd"></span>Freeze Revoked</div></div>
-  <PyramidHub />
+  <!-- ⚡ WHY ZAPP — manifesto -->
+  <section class="manifesto">
+    <h2 class="mf-title rv">Why <span class="mf-zap">⚡ZAPP</span>?</h2>
+    <div class="mf-lines">
+      <p class="rv">Money is energy.</p>
+      <p class="rv">Energy travels at the speed of light.</p>
+      <p class="rv">So why does it still take <em>days</em> to reach Africa, Asia, the Americas?</p>
+      <p class="rv">One idea: <em>free energy should mean free money</em>.</p>
+      <p class="rv">No banks. No borders.</p>
+      <p class="rv">Zapped instantly to anyone, anywhere on Earth.</p>
+      <p class="rv">Tesla understood this a century ago.</p>
+      <p class="rv">The code was always there — hidden in plain sight.</p>
+    </div>
+    <p class="mf-tag rv">One Frequency · One Signal · One World</p>
+  </section>
+  <!-- 🌍 WORLD CLOCK — the frequency reaches every time zone -->
+  <section class="worldclock rv">
+    <p class="wc-eyebrow">The signal reaches every time zone</p>
+    <h2 class="wc-title">⚡ One frequency. <em>One world.</em></h2>
+    <div class="wc-grid" id="wc-grid">
+      {CITIES.map(c => (
+        <div class="wc-c" data-tz={c.tz}>
+          <div class="wc-top"><span class="wc-flag">{c.flag}</span><span class="wc-city">{c.name}</span><span class="wc-ic" aria-hidden="true">☀️</span></div>
+          <div class="wc-time">--:--:--</div>
+          <div class="wc-day">—</div>
+        </div>
+      ))}
+    </div>
+    <p class="wc-note">⚡ Tesla's frequency reaches every time zone — at the speed of light.</p>
+  </section>
   <div class="p-scenes">
     <div class="p-row rv"><div class="p-img"><img src={`${IMG}/not-just-memecoin.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Difference</p><h3 class="p-h3">Not just <em>another memecoin</em>.</h3><p class="p-p">Doge had a meme. Pepe had a cult. ⚡ZAPP has 130 years of suppressed history and a frequency that was always meant to reach everyone.</p></div></div>
     <div class="p-row flip rv"><div class="p-img"><img src={`${IMG}/vault-v2.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">Trust On-Chain</p><h3 class="p-h3">Nobody touches<br>the <em>liquidity</em>.</h3><p class="p-p">LP permanently burned. Mint revoked. Freeze revoked. 0% tax. The vault is sealed — not even the founders can open it.</p></div></div>
@@ -78,37 +106,7 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
       </div>
     </div>
   </div>
-  <!-- ⚡ WHY ZAPP — manifesto -->
-  <section class="manifesto">
-    <h2 class="mf-title rv">Why <span class="mf-zap">⚡ZAPP</span>?</h2>
-    <div class="mf-lines">
-      <p class="rv">Money is energy.</p>
-      <p class="rv">Energy travels at the speed of light.</p>
-      <p class="rv">So why does it still take <em>days</em> to reach Africa, Asia, the Americas?</p>
-      <p class="rv">One idea: <em>free energy should mean free money</em>.</p>
-      <p class="rv">No banks. No borders.</p>
-      <p class="rv">Zapped instantly to anyone, anywhere on Earth.</p>
-      <p class="rv">Tesla understood this a century ago.</p>
-      <p class="rv">The code was always there — hidden in plain sight.</p>
-    </div>
-    <p class="mf-tag rv">One Frequency · One Signal · One World</p>
-  </section>
 
-  <!-- 🌍 WORLD CLOCK — the frequency reaches every time zone -->
-  <section class="worldclock rv">
-    <p class="wc-eyebrow">The signal reaches every time zone</p>
-    <h2 class="wc-title">⚡ One frequency. <em>One world.</em></h2>
-    <div class="wc-grid" id="wc-grid">
-      {CITIES.map(c => (
-        <div class="wc-c" data-tz={c.tz}>
-          <div class="wc-top"><span class="wc-flag">{c.flag}</span><span class="wc-city">{c.name}</span><span class="wc-ic" aria-hidden="true">☀️</span></div>
-          <div class="wc-time">--:--:--</div>
-          <div class="wc-day">—</div>
-        </div>
-      ))}
-    </div>
-    <p class="wc-note">⚡ Tesla's frequency reaches every time zone — at the speed of light.</p>
-  </section>
 
   <!-- 🛒 HOW TO BUY -->
   <section class="howto rv">

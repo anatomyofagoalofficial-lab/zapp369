@@ -351,8 +351,8 @@ function startPresent() {
   const GOLD = 0xB07A12, GOLD2 = 0xD79A1E, GREEN = 0x9A7A30, SKY = 0xD8B25A; // brand tonal golds
 
   // ── the 3·6·9 pyramid — a SOLID stepped Babylonian ziggurat (filled gold tiers, not a wireframe) ──
-  const pyr = new THREE.Group(); pyr.position.y = -0.8; scene.add(pyr);
-  const PH = 5.2, PB = 4.1;
+  const pyr = new THREE.Group(); pyr.position.y = -2.6; scene.add(pyr);   // low backdrop — never behind the hero text
+  const PH = 3.4, PB = 2.8;
   const apex = new THREE.Vector3(0, PH, 0);
   const base = [new THREE.Vector3(-PB, 0, -PB), new THREE.Vector3(PB, 0, -PB), new THREE.Vector3(PB, 0, PB), new THREE.Vector3(-PB, 0, PB)];
   const STEPS = 6, stepH = PH / STEPS;
@@ -373,8 +373,8 @@ function startPresent() {
   const cap = new THREE.Mesh(new THREE.SphereGeometry(.18, 16, 16), new THREE.MeshBasicMaterial({ color: 0xFFE08A })); cap.position.copy(apex); pyr.add(cap);
 
   // ── two slow sacred-geometry rings behind the pyramid ──
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(4.7, .016, 6, 90), new THREE.MeshBasicMaterial({ color: GOLD2, transparent: true, opacity: .32 })); ring.position.y = 1.2; ring.rotation.x = Math.PI / 2.2; scene.add(ring);
-  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(3.5, .011, 6, 70), new THREE.MeshBasicMaterial({ color: SKY, transparent: true, opacity: .28 })); ring2.position.y = 1.2; ring2.rotation.x = Math.PI / 2.5; scene.add(ring2);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(3.6, .016, 6, 90), new THREE.MeshBasicMaterial({ color: GOLD2, transparent: true, opacity: .32 })); ring.position.y = -1.1; ring.rotation.x = Math.PI / 2.2; scene.add(ring);
+  const ring2 = new THREE.Mesh(new THREE.TorusGeometry(2.7, .011, 6, 70), new THREE.MeshBasicMaterial({ color: SKY, transparent: true, opacity: .28 })); ring2.position.y = -1.1; ring2.rotation.x = Math.PI / 2.5; scene.add(ring2);
 
   // ── perspective tech grid floor ──
   const gridPts: THREE.Vector3[] = []; const GS = 9, GW = 12;
@@ -398,7 +398,7 @@ function startPresent() {
     const sp = dimScrollP;
     cam.position.x += ((mx * 2.2) - cam.position.x) * 0.04;
     cam.position.y += ((1.6 - my * 1.6 + sp * 2.2) - cam.position.y) * 0.04;
-    cam.lookAt(0, 1.1, 0);
+    cam.lookAt(0, -0.4, 0);
     renderer.render(scene, cam);
   })();
 }
