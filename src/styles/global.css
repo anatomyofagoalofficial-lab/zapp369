@@ -166,7 +166,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 #dim-nav.show{display:flex}
 #dim-nav.scrolled{background:rgba(0,0,0,.7);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.05)}
 /* light-page nav (Present / Future) — matches the warm page instead of a dark band */
-#dim-nav.dn-light.scrolled{background:rgba(255,250,234,.85);border-bottom-color:rgba(150,110,40,.16)}
+#dim-nav.dn-light.scrolled{background:rgba(255,250,234,.92);border-bottom-color:rgba(150,110,40,.16)}
 #dim-nav.dn-light .dn-logo{color:#241A06}
 #dim-nav.dn-light .dn-logo span{color:#C8860A}
 #dim-nav.dn-light .dn-link,#dim-nav.dn-light .dn-links a{color:rgba(58,44,18,.62)}
@@ -590,7 +590,7 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .future-hero-text{position:relative;z-index:2;max-width:600px;padding:0 4rem 0 6vw}
 .future-hero .f-tag{color:#F4D27A;border-color:rgba(244,210,122,.4)}
 .future-hero .f-h1{color:#F8EBD0;text-shadow:0 2px 30px rgba(0,0,0,.5)}
-.future-hero .f-lead{color:rgba(245,230,200,.78)}
+.future-hero .f-lead{color:rgba(245,230,200,.78);font-family:var(--serif);font-style:italic;font-size:1.12rem}
 /* ── FUTURE = holographic. Synthwave neon grid floor + scanlines + glow ── */
 .f-grid{position:absolute;left:-25%;right:-25%;bottom:0;height:62%;z-index:1;pointer-events:none;
   background-image:linear-gradient(rgba(176,122,18,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(224,169,60,.4) 1px,transparent 1px);

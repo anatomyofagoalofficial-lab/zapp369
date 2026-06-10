@@ -31,7 +31,7 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
       <a class="pz-ghost" href={TG} target="_blank" rel="noopener">Socials</a>
       <a class="pz-ghost" href="/whitepaper" target="_blank" rel="noopener">Whitepaper</a>
     </div>
-    <p class="pz-silence rv d3">— The Frequency They Tried To Silence —</p>
+    <p class="pz-silence rv d3">The Frequency They Tried To Silence</p>
     <button class="pz-ca rv d3" type="button" data-copy-ca><span class="pz-ca-l">Contract · Solana</span><span class="pz-ca-a">{short}</span><span class="pz-ca-c">Copy</span></button>
     <div id="ca-msg" class="pz-msg"></div>
     <div class="price-hud rv d4">
@@ -53,14 +53,15 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
       <p class="rv">No banks. No borders.</p>
       <p class="rv">Zapped instantly to anyone, anywhere on Earth.</p>
       <p class="rv">Tesla understood this a century ago.</p>
-      <p class="rv">The code was always there — hidden in plain sight.</p>
+      <p class="rv">The code was always there, hidden in plain sight.</p>
+      <p class="rv">Now it runs on Solana.</p>
     </div>
     <p class="mf-tag rv">One Frequency · One Signal · One World</p>
   </section>
   <div class="p-scenes">
     <div class="p-row rv"><div class="p-img"><img src={`${IMG}/not-just-memecoin.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Difference</p><h3 class="p-h3">Not just <em>another memecoin</em>.</h3><p class="p-p">Doge had a meme. Pepe had a cult. ⚡ZAPP has 130 years of suppressed history and a frequency that was always meant to reach everyone.</p></div></div>
-    <div class="p-row flip rv"><div class="p-img"><img src={`${IMG}/vault-v2.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">Trust On-Chain</p><h3 class="p-h3">Nobody touches<br>the <em>liquidity</em>.</h3><p class="p-p">LP permanently burned. Mint revoked. Freeze revoked. 0% tax. The vault is sealed — not even the founders can open it.</p></div></div>
-    <div class="p-row rv"><div class="p-img"><img src={`${IMG}/369-cards.jpg`} alt="Liquidity locked — protected by the 3·6·9 curve" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Curve · 3 · 6 · 9</p><h3 class="p-h3">Protected by<br>the <em>curve</em>.</h3><p class="p-p">Liquidity locked behind the 3·6·9 bonding curve. Nobody touches it — not even us. The geometry holds the line so the signal can't be pulled.</p></div></div>
+    <div class="p-row flip rv"><div class="p-img"><img src={`${IMG}/vault-v2.jpg`} alt="" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">Trust On-Chain</p><h3 class="p-h3">Nobody touches<br>the <em>liquidity</em>.</h3><p class="p-p">The liquidity is burned forever. No one can print more ZAPP. No one can freeze yours. Zero tax. The vault is sealed.</p></div></div>
+    <div class="p-row rv"><div class="p-img"><img src={`${IMG}/369-cards.jpg`} alt="Liquidity locked — protected by the 3·6·9 curve" onerror="this.parentElement.style.background='rgba(13,34,51,.3)'"></div><div><p class="p-kicker">The Curve · 3 · 6 · 9</p><h3 class="p-h3">Protected by<br>the <em>curve</em>.</h3><p class="p-p">The liquidity is locked. Nobody touches it. Not even us.</p></div></div>
   </div>
   <div class="calc-outer rv"><div class="calc-inner"><h3>⚡ Your ZAPP, measured</h3><p class="sub">Enter your holdings — see the live value</p><div class="calc-row"><input type="text" id="cin" placeholder="1,000,000" inputmode="numeric"><span class="unit">⚡ZAPP</span></div><div class="presets"><button data-sc="100000">100K</button><button data-sc="1000000">1M</button><button data-sc="10000000">10M</button><button data-sc="100000000">100M</button><button data-sc="1000000000">1B</button></div><div class="calc-out"><span class="co-l">Value at live price</span><span class="co-v" id="cout">—</span></div><p class="calc-note">Not financial advice. ZAPP can go to zero.</p></div></div>
   <div class="hof rv"><div class="hof-head"><h2>Pump.fun Hall of Fame</h2><p>The six that made it out — from the same starting line</p></div><div class="hof-g"><div class="hc"><div class="rk">No.1</div><div class="nm">FARTCOIN</div><div class="mc">$2.15B</div><div class="dc">AI dreamed it. Colbert mentioned it.</div></div><div class="hc"><div class="rk">No.2</div><div class="nm">PNUT</div><div class="mc">$1.8B</div><div class="dc">A real squirrel. A real news cycle.</div></div><div class="hc"><div class="rk">No.3</div><div class="nm">GOAT</div><div class="mc">$1.3B</div><div class="dc">AI prophecy. Truth Terminal cult.</div></div><div class="hc"><div class="rk">No.4</div><div class="nm">CHILLGUY</div><div class="mc">$543M</div><div class="dc">TikTok generation. Pure vibe.</div></div><div class="hc"><div class="rk">No.5</div><div class="nm">MOTHER</div><div class="mc">$200M</div><div class="dc">Iggy Azalea launched it.</div></div><div class="hc zapp"><div class="rk">⚡ ZAPP</div><div class="nm" id="zv">Live</div><div class="mc">3 · 6 · 9 ∞</div><div class="dc">Tesla's frequency. Now on Solana.</div></div></div></div>
@@ -94,15 +95,14 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
 
   <!-- 🛒 HOW TO BUY -->
   <section class="howto rv">
-    <p class="ht-eyebrow">From zero to ⚡ZAPP — four steps</p>
+    <p class="ht-eyebrow">From zero to ⚡ZAPP in three steps · 3 · 6 · 9</p>
     <h2 class="ht-title">How to <em>hold the frequency</em>.</h2>
     <div class="ht-steps">
-      <div class="ht-step"><span class="ht-n">1</span><div><h3>Get a Solana wallet</h3><p>Install <strong>Phantom</strong> (phantom.com) on your phone or browser — 60 seconds. Save your seed phrase. Never share it with anyone.</p></div></div>
-      <div class="ht-step"><span class="ht-n">2</span><div><h3>Fund it with SOL</h3><p>Buy SOL inside Phantom with a card, or send it from any exchange (Coinbase, Binance). A few dollars is enough to start.</p></div></div>
-      <div class="ht-step"><span class="ht-n">3</span><div><h3>Swap SOL for ⚡ZAPP</h3><p>Open <strong>Pump.fun</strong> or <strong>Jupiter</strong>, paste the contract address below, and swap. If it fails, raise slippage to ~5%.</p></div></div>
-      <div class="ht-step"><span class="ht-n">4</span><div><h3>Hold the frequency</h3><p>That's it — you're holding for Tesla now. Keep your keys, keep the faith. <strong>3 · 6 · 9 · ∞</strong></p></div></div>
+      <div class="ht-step"><span class="ht-n">3</span><div><h3>Get a Solana wallet</h3><p>Install <strong>Phantom</strong> on your phone or browser. Save your seed phrase. Never share it with anyone.</p></div></div>
+      <div class="ht-step"><span class="ht-n">6</span><div><h3>Fund it with SOL</h3><p>Buy SOL inside Phantom with a card. Or send it from any exchange. A few dollars is enough to start.</p></div></div>
+      <div class="ht-step"><span class="ht-n">9</span><div><h3>Swap and hold</h3><p>Open <strong>Pump.fun</strong> or <strong>Jupiter</strong> and paste the contract below. Swap, then hold the frequency. You are holding for Tesla now. <strong>3 · 6 · 9 · ∞</strong></p></div></div>
     </div>
-    <button class="ht-cta" data-scroll-buy>⚡ Get ⚡ZAPP — contract &amp; links below ↓</button>
+    <button class="ht-cta" data-scroll-buy>⚡ Get ⚡ZAPP. Contract and links below ↓</button>
   </section>
 
   <Referral />
@@ -120,16 +120,16 @@ const short = CA.slice(0, 4) + '…' + CA.slice(-4);
         </div>
       ))}
     </div>
-    <p class="wc-note">⚡ Tesla's frequency reaches every time zone — at the speed of light.</p>
+    <p class="wc-note">⚡ Tesla's frequency reaches every time zone, at the speed of light.</p>
   </section>
   <!-- 🕯️ THE REASON TO HOLD — like Hachiko at the station, we hold for the man who gave it all away -->
   <section class="hold-memorial">
     <div class="hm-inner">
-      <p class="hm-eyebrow rv">In His Memory · 1856 – 1943</p>
+      <p class="hm-eyebrow rv">In His Memory · 3 · 6 · 9</p>
       <h2 class="hm-h rv d1">We hold the line<br>for the man who <em>let go</em>.</h2>
-      <p class="hm-p rv d2">Tesla died alone in a New York hotel room — broke, feeding pigeons with the last coins in his pocket, still holding a frequency the world wasn't ready for.</p>
-      <p class="hm-p rv d2">Like the dog who waited at the station long after his master was gone, we hold. Not for the chart — for <em>him</em>.</p>
-      <p class="hm-line rv d3">Every hand that holds ⚡ZAPP keeps his idea alive: <em>free energy, free money</em> — given away so it could belong to everyone.</p>
+      <p class="hm-p rv d2">Tesla died alone in a New York hotel room. Broke, feeding pigeons with his last coins. Still holding a frequency the world was not ready for.</p>
+      <p class="hm-p rv d2">Like the dog who waited at the station long after his master was gone, we hold. Not for the chart. For <em>him</em>.</p>
+      <p class="hm-line rv d3">Every hand that holds ⚡ZAPP keeps his idea alive. <em>Free energy and free money</em>, given away so it could belong to everyone.</p>
       <p class="hm-sign rv d3">⚡ Hold his frequency · 3 · 6 · 9 · ∞</p>
       <button class="btn-hold rv d3" data-hub>↩ Back to the Hub</button>
     </div>
