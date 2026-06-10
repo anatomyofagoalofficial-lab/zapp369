@@ -243,13 +243,13 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
   background-size:8px 8px}
 .past-hero{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;overflow:hidden}
 /* the golden tribute as the Past hero photo (the X profile shot) */
-.past-hero-photo{position:absolute;right:clamp(1.2rem,3.5vw,4rem);top:54%;transform:translateY(-50%) rotate(1.2deg);z-index:2;width:min(300px,26vw);margin:0;border-radius:18px;padding:10px;background:linear-gradient(160deg,rgba(255,224,150,.5),rgba(150,98,24,.22) 50%,rgba(255,224,150,.4));box-shadow:0 40px 110px rgba(0,0,0,.6),0 0 90px rgba(255,200,90,.22);animation:floaty 8s ease-in-out infinite}
+.past-hero-photo{position:absolute;left:clamp(1.2rem,3.5vw,4rem);top:54%;transform:translateY(-50%) rotate(-1.2deg);z-index:2;width:min(300px,26vw);margin:0;border-radius:18px;padding:10px;background:linear-gradient(160deg,rgba(255,224,150,.5),rgba(150,98,24,.22) 50%,rgba(255,224,150,.4));box-shadow:0 40px 110px rgba(0,0,0,.6),0 0 90px rgba(255,200,90,.22);animation:floaty 8s ease-in-out infinite}
 .past-hero-photo::after{content:'';position:absolute;inset:5px;border-radius:13px;border:1px solid rgba(255,236,180,.45);pointer-events:none}
 .past-hero-photo img{display:block;width:100%;border-radius:12px}
 @media(max-width:920px){.past-hero{flex-direction:column;justify-content:center;text-align:center;padding-top:6rem}.past-hero-photo{position:static;transform:none;width:min(300px,72vw);margin:2rem auto 0}}
 #past-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
-.past-hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(10,6,0,.88) 0%,rgba(10,6,0,.6) 34%,rgba(10,6,0,.12) 62%,transparent 100%)}
-.past-hero-text{position:relative;z-index:2;max-width:600px;padding:9rem 4rem 5rem 6vw;display:flex;flex-direction:column;justify-content:center}
+.past-hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(270deg,rgba(10,6,0,.88) 0%,rgba(10,6,0,.6) 34%,rgba(10,6,0,.12) 62%,transparent 100%)}
+.past-hero-text{position:relative;z-index:2;max-width:600px;margin-left:auto;padding:9rem 6vw 5rem 4rem;display:flex;flex-direction:column;justify-content:center}
 .era-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:var(--copper);border:1px solid rgba(184,115,51,.3);padding:.28rem .85rem;border-radius:2px;margin-bottom:2rem}
 .era-tag::before{content:'';width:5px;height:5px;background:var(--copper);border-radius:50%}
 .past-h1{font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:600;line-height:.93;letter-spacing:-.02em;margin-bottom:1.6rem}

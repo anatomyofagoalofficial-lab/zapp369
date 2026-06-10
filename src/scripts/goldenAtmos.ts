@@ -20,7 +20,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
   addEventListener('resize', resize, { passive: true });
 
   // The light pours in from the upper-right — the same direction as the tribute artwork.
-  const src = () => ({ x: W * 0.82, y: -H * 0.16 });
+  const src = () => ({ x: W * 0.18, y: -H * 0.16 });
   const RAYS = 7;
 
   // floating motes of gold dust — fewer now (perf + less "dust")
@@ -48,7 +48,7 @@ export function initGoldenAtmos(canvas: HTMLCanvasElement) {
     ph: Math.random() * Math.PI * 2, r: 0.7 + Math.random() * 1.8,
   }));
   function towerGeom() {
-    const cx = W * 0.56;   // centre-right — leaves the right edge clear for the tribute photo
+    const cx = W * 0.44;   // centre-left of middle — photo lives left, text right
     const baseY = H * 0.985;
     const h = Math.min(H * 0.62, 540);
     const wBase = Math.min(W * 0.155, H * 0.145);
