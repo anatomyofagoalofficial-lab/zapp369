@@ -27,14 +27,14 @@ export function initMatrixRain(canvas: HTMLCanvasElement) {
     raf = requestAnimationFrame(frame);
     if (now - last < 45) return;            // ~22fps cap — cheap
     last = now;
-    ctx!.fillStyle = 'rgba(17,10,4,0.16)';   // fade the previous frame → trailing tails
+    ctx!.fillStyle = 'rgba(2,16,10,0.16)';   // fade the previous frame → trailing green tails
     ctx!.fillRect(0, 0, W, H);
     ctx!.font = `${FONT}px "JetBrains Mono", monospace`;
     for (let i = 0; i < cols; i++) {
       const ch = CHARS[(Math.random() * CHARS.length) | 0];
       const x = i * FONT, y = drops[i] * FONT;
-      ctx!.fillStyle = Math.random() < 0.07 ? 'rgba(255,248,220,0.95)'   // bright head
-        : (i % 7 === 0 ? 'rgba(244,210,122,0.6)' : 'rgba(200,134,10,0.5)'); // cyan + matrix-green columns
+      ctx!.fillStyle = Math.random() < 0.07 ? 'rgba(225,255,240,0.96)'   // bright mint head
+        : (i % 7 === 0 ? 'rgba(20,241,149,0.78)' : 'rgba(14,190,116,0.5)'); // Solana-green matrix columns
       ctx!.fillText(ch, x, y);
       drops[i] += speed[i];
       if (y > H && Math.random() > 0.975) drops[i] = Math.random() * -18;
