@@ -104,7 +104,7 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   let warpDim: (typeof DIMENSIONS)[number] | null = null;
   const flashEl = document.getElementById('warp-flash') as HTMLElement | null;
   // per-era warp colour: brown Past · sand Present · green Future (the light you dive through)
-  const WARP: Record<string, string> = { tower: '#7A4E0C', signal: '#D9BE83', network: '#1DB954' };
+  const WARP: Record<string, string> = { tower: '#7A4E0C', signal: '#D9BE83', network: '#46C84E' };
   document.addEventListener('click', e => {
     const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null;
     if (!t || flying) return;

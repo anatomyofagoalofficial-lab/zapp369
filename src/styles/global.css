@@ -962,62 +962,62 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
    dirt → sand → nature. The on-chain future: dark, living, Solana-green, code raining from nowhere. */
 #dim-future{background:#04120B;color:#CFF6E4}
 #dim-future .f-grad{background:
-  radial-gradient(ellipse 80% 65% at 15% 10%,rgba(29,185,84,.16),transparent 55%),
-  radial-gradient(ellipse 70% 55% at 85% 85%,rgba(29,185,84,.10),transparent 55%),
+  radial-gradient(ellipse 80% 65% at 15% 10%,rgba(70,200,78,.16),transparent 55%),
+  radial-gradient(ellipse 70% 55% at 85% 85%,rgba(70,200,78,.10),transparent 55%),
   radial-gradient(ellipse 60% 50% at 60% 30%,rgba(10,80,52,.42),transparent 50%),#04120B}
-#dim-future .f-grad::after{background:linear-gradient(180deg,rgba(29,185,84,.10),transparent)}
+#dim-future .f-grad::after{background:linear-gradient(180deg,rgba(70,200,78,.10),transparent)}
 #dim-future .future-hero{background:radial-gradient(ellipse 90% 80% at 62% 42%,#0a2418,#06160e 62%,#020a06)}
 #dim-future .future-hero::after{background:linear-gradient(90deg,rgba(2,12,8,.82),rgba(2,12,8,.35) 38%,transparent 66%),linear-gradient(0deg,#04120B 0%,transparent 16%)}
 /* perspective grid + matrix rain → green, and let the code fall harder (everything from nowhere) */
-#dim-future .f-grid{background-image:linear-gradient(rgba(29,185,84,.42) 1px,transparent 1px),linear-gradient(90deg,rgba(29,185,84,.3) 1px,transparent 1px)}
+#dim-future .f-grid{background-image:linear-gradient(rgba(70,200,78,.42) 1px,transparent 1px),linear-gradient(90deg,rgba(70,200,78,.3) 1px,transparent 1px)}
 #dim-future .matrix-rain{opacity:.72}
 /* type → light mint on dark, Solana-green accents */
 #dim-future .f-h1,#dim-future .future-hero .f-h1,#dim-future .f-h3,#dim-future .f-close h2{color:#EAFBF2}
-#dim-future .future-hero .f-h1{text-shadow:0 0 24px rgba(29,185,84,.42),0 0 60px rgba(29,185,84,.3),0 2px 30px rgba(0,0,0,.55)}
+#dim-future .future-hero .f-h1{text-shadow:0 0 24px rgba(70,200,78,.42),0 0 60px rgba(70,200,78,.3),0 2px 30px rgba(0,0,0,.55)}
 #dim-future .future-hero .f-lead,#dim-future .f-lead{color:rgba(207,246,228,.8)}
 #dim-future .f-p{color:rgba(207,246,228,.62)}
-#dim-future .f-kicker{color:#1DB954;opacity:.92}
-#dim-future .f-tag,#dim-future .future-hero .f-tag{color:#1DB954;border-color:rgba(29,185,84,.32)}
-#dim-future .f-tag::before{background:linear-gradient(135deg,#0C5E2A,#1DB954)}
-#dim-future .f-h1 em,#dim-future .f-h3 em,#dim-future .f-close h2 em{background:linear-gradient(135deg,#138A3E,#1DB954,#8FE9AE);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#dim-future .f-kicker{color:#46C84E;opacity:.92}
+#dim-future .f-tag,#dim-future .future-hero .f-tag{color:#46C84E;border-color:rgba(70,200,78,.32)}
+#dim-future .f-tag::before{background:linear-gradient(135deg,#1C5E20,#46C84E)}
+#dim-future .f-h1 em,#dim-future .f-h3 em,#dim-future .f-close h2 em{background:linear-gradient(135deg,#2E8C33,#46C84E,#A8EFA0);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 /* image frames → green tech */
-#dim-future .f-img{border-color:rgba(29,185,84,.32);box-shadow:0 24px 80px rgba(6,48,30,.5),0 0 46px rgba(29,185,84,.16),inset 0 0 0 1px rgba(29,185,84,.2)}
-#dim-future .f-img::after{background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(29,185,84,.07) 3px,transparent 4px),linear-gradient(125deg,rgba(29,185,84,.14),transparent 42%,rgba(29,185,84,.12))}
+#dim-future .f-img{border-color:rgba(70,200,78,.32);box-shadow:0 24px 80px rgba(6,48,30,.5),0 0 46px rgba(70,200,78,.16),inset 0 0 0 1px rgba(70,200,78,.2)}
+#dim-future .f-img::after{background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(70,200,78,.07) 3px,transparent 4px),linear-gradient(125deg,rgba(70,200,78,.14),transparent 42%,rgba(70,200,78,.12))}
 /* roadmap chips */
-#dim-future .rm-i{background:rgba(29,185,84,.04);border-color:rgba(29,185,84,.12)}
-#dim-future .rm-i:hover{background:rgba(29,185,84,.09);border-color:rgba(29,185,84,.28)}
+#dim-future .rm-i{background:rgba(70,200,78,.04);border-color:rgba(70,200,78,.12)}
+#dim-future .rm-i:hover{background:rgba(70,200,78,.09);border-color:rgba(70,200,78,.28)}
 #dim-future .rm-i p{color:rgba(207,246,228,.6)}
-#dim-future .rm-d{background:linear-gradient(135deg,#138A3E,#1DB954)}
+#dim-future .rm-d{background:linear-gradient(135deg,#2E8C33,#46C84E)}
 /* close band + buttons */
 #dim-future .f-close p{color:rgba(207,246,228,.5)}
-#dim-future .f-close .freq{color:rgba(29,185,84,.5)}
-#dim-future .btn-future{border-color:rgba(29,185,84,.42);color:#CFF6E4}
-#dim-future .btn-future:hover{background:rgba(29,185,84,.14);border-color:rgba(29,185,84,.7)}
+#dim-future .f-close .freq{color:rgba(70,200,78,.5)}
+#dim-future .btn-future{border-color:rgba(70,200,78,.42);color:#CFF6E4}
+#dim-future .btn-future:hover{background:rgba(70,200,78,.14);border-color:rgba(70,200,78,.7)}
 /* live chart frame + caption */
-#dim-future .chart-frame{border-color:rgba(29,185,84,.4);background:#04160E;box-shadow:0 30px 70px rgba(6,48,30,.4),inset 0 0 0 1px rgba(29,185,84,.1)}
-#dim-future .chart-cap{color:#8FE9AE;background:linear-gradient(90deg,#06180F,#0a2418,#06180F);border-top-color:rgba(29,185,84,.16)}
+#dim-future .chart-frame{border-color:rgba(70,200,78,.4);background:#04160E;box-shadow:0 30px 70px rgba(6,48,30,.4),inset 0 0 0 1px rgba(70,200,78,.1)}
+#dim-future .chart-cap{color:#A8EFA0;background:linear-gradient(90deg,#06180F,#0a2418,#06180F);border-top-color:rgba(70,200,78,.16)}
 /* "Your ZAPP, measured" calculator → dark green glass */
-#dim-future .calc-inner{background:rgba(6,26,17,.74);border-color:rgba(29,185,84,.26);box-shadow:0 22px 54px rgba(0,0,0,.45),0 0 40px rgba(29,185,84,.08)}
+#dim-future .calc-inner{background:rgba(6,26,17,.74);border-color:rgba(70,200,78,.26);box-shadow:0 22px 54px rgba(0,0,0,.45),0 0 40px rgba(70,200,78,.08)}
 #dim-future .calc-inner h3{color:#EAFBF2}
 #dim-future .calc-inner .sub{color:rgba(207,246,228,.6)}
-#dim-future .calc-row input{background:rgba(2,12,8,.6);border-color:rgba(29,185,84,.3);color:#EAFBF2}
-#dim-future .calc-row input:focus{border-color:rgba(29,185,84,.7)}
+#dim-future .calc-row input{background:rgba(2,12,8,.6);border-color:rgba(70,200,78,.3);color:#EAFBF2}
+#dim-future .calc-row input:focus{border-color:rgba(70,200,78,.7)}
 #dim-future .calc-row .unit{color:rgba(207,246,228,.5)}
-#dim-future .presets button{background:rgba(29,185,84,.05);border-color:rgba(29,185,84,.28);color:rgba(207,246,228,.85)}
-#dim-future .presets button:hover{border-color:#1DB954;color:#EAFBF2;background:rgba(29,185,84,.14)}
-#dim-future .calc-out{border-top-color:rgba(29,185,84,.2)}
+#dim-future .presets button{background:rgba(70,200,78,.05);border-color:rgba(70,200,78,.28);color:rgba(207,246,228,.85)}
+#dim-future .presets button:hover{border-color:#46C84E;color:#EAFBF2;background:rgba(70,200,78,.14)}
+#dim-future .calc-out{border-top-color:rgba(70,200,78,.2)}
 #dim-future .co-l{color:rgba(207,246,228,.55)}
-#dim-future .co-v{color:#1DB954}
+#dim-future .co-v{color:#46C84E}
 #dim-future .calc-note{color:rgba(207,246,228,.45)}
 /* Tesla quote → mint */
 #dim-future .past-tesla-q blockquote{color:#EAFBF2}
-#dim-future .past-tesla-q blockquote em{background:linear-gradient(135deg,#8FE9AE,#1DB954,#138A3E);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-#dim-future .past-tesla-q cite{color:rgba(29,185,84,.72)}
-#dim-future .tq-369{color:rgba(29,185,84,.5)}
+#dim-future .past-tesla-q blockquote em{background:linear-gradient(135deg,#A8EFA0,#46C84E,#2E8C33);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#dim-future .past-tesla-q cite{color:rgba(70,200,78,.72)}
+#dim-future .tq-369{color:rgba(70,200,78,.5)}
 /* live-chart heading ("The future, ticking") — was dark brown, unreadable on green */
-#dim-future .ht-eyebrow{color:#1DB954;opacity:.92}
+#dim-future .ht-eyebrow{color:#46C84E;opacity:.92}
 #dim-future .ht-title{color:#EAFBF2}
-#dim-future .ht-title em{color:#8FE9AE}
+#dim-future .ht-title em{color:#A8EFA0}
 
 #zchart{background:#150d03}
 .meme-kit{margin:0 auto 2rem;max-width:520px}
