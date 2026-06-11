@@ -34,7 +34,7 @@ export function initMatrixRain(canvas: HTMLCanvasElement) {
       const ch = CHARS[(Math.random() * CHARS.length) | 0];
       const x = i * FONT, y = drops[i] * FONT;
       ctx!.fillStyle = Math.random() < 0.07 ? 'rgba(225,255,240,0.96)'   // bright mint head
-        : (i % 7 === 0 ? 'rgba(20,241,149,0.78)' : 'rgba(14,190,116,0.5)'); // Solana-green matrix columns
+        : (i % 7 === 0 ? 'rgba(47,203,110,0.78)' : 'rgba(14,190,116,0.5)'); // Solana-green matrix columns
       ctx!.fillText(ch, x, y);
       drops[i] += speed[i];
       if (y > H && Math.random() > 0.975) drops[i] = Math.random() * -18;

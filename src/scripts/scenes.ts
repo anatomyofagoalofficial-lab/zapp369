@@ -428,12 +428,12 @@ function startFuture() {
   const earth = new THREE.Group(); scene.add(earth);
   const R = 6.2;
   earth.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 48, 32), new THREE.MeshBasicMaterial({ color: 0x070518 })));
-  earth.add(new THREE.Mesh(new THREE.SphereGeometry(R, 40, 28), new THREE.MeshBasicMaterial({ color: 0x8a6a1a, wireframe: true, transparent: true, opacity: 0.22 })));
-  const atmo = new THREE.Mesh(new THREE.SphereGeometry(R * 1.18, 36, 26), new THREE.MeshBasicMaterial({ color: 0xC8860A, transparent: true, opacity: 0.1, side: THREE.BackSide, blending: THREE.AdditiveBlending })); earth.add(atmo);
+  earth.add(new THREE.Mesh(new THREE.SphereGeometry(R, 40, 28), new THREE.MeshBasicMaterial({ color: 0x1B7A47, wireframe: true, transparent: true, opacity: 0.22 })));
+  const atmo = new THREE.Mesh(new THREE.SphereGeometry(R * 1.18, 36, 26), new THREE.MeshBasicMaterial({ color: 0x2FCB6E, transparent: true, opacity: 0.1, side: THREE.BackSide, blending: THREE.AdditiveBlending })); earth.add(atmo);
 
   // glowing surface dots (fibonacci sphere) — the "continents of light"
   const PN = 1600, pp = new Float32Array(PN * 3), pcc = new Float32Array(PN * 3);
-  const pal = [new THREE.Color(0xF4D27A), new THREE.Color(0xE0A93C), new THREE.Color(0xB87333), new THREE.Color(0xFFE6A6), new THREE.Color(0xC8860A)]; // brand golds
+  const pal = [new THREE.Color(0x6FE6A0), new THREE.Color(0x2FCB6E), new THREE.Color(0x16A35A), new THREE.Color(0xA6F0C8), new THREE.Color(0x12925A)]; // emerald greens — the living network
   const surf: THREE.Vector3[] = [];
   for (let i = 0; i < PN; i++) {
     const y = 1 - (i / (PN - 1)) * 2, rr = Math.sqrt(Math.max(0, 1 - y * y)), th = i * 2.399963;
@@ -449,9 +449,9 @@ function startFuture() {
   for (let i = 0; i < 16; i++) {
     const v = surf[(Math.random() * PN) | 0].clone().normalize(); towers.push(v);
     const base = v.clone().multiplyScalar(R), tip = v.clone().multiplyScalar(R + 0.95);
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.09, 0.95, 6), new THREE.MeshBasicMaterial({ color: 0xFFE6A6 }));
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.09, 0.95, 6), new THREE.MeshBasicMaterial({ color: 0xA6F0C8 }));
     m.position.copy(base.clone().add(tip).multiplyScalar(0.5)); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), v); earth.add(m);
-    const glow = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), new THREE.MeshBasicMaterial({ color: 0xFFD98A, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending })); glow.position.copy(tip); earth.add(glow);
+    const glow = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), new THREE.MeshBasicMaterial({ color: 0x8FF0BE, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending })); glow.position.copy(tip); earth.add(glow);
   }
 
   // energy arcs with travelling packets (wireless transmission across the globe)
@@ -460,7 +460,7 @@ function startFuture() {
   function makeArc(a: THREE.Vector3, b: THREE.Vector3) {
     const mid = a.clone().add(b).multiplyScalar(0.5).normalize().multiplyScalar(R * (1.28 + a.distanceTo(b) * 0.12));
     const cpts = new THREE.QuadraticBezierCurve3(a.clone().multiplyScalar(R * 1.01), mid, b.clone().multiplyScalar(R * 1.01)).getPoints(44);
-    earth.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(cpts), new THREE.LineBasicMaterial({ color: 0xE0B45C, transparent: true, opacity: 0.26, blending: THREE.AdditiveBlending })));
+    earth.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(cpts), new THREE.LineBasicMaterial({ color: 0x2FCB6E, transparent: true, opacity: 0.3, blending: THREE.AdditiveBlending })));
     const packet = new THREE.Mesh(new THREE.SphereGeometry(0.12, 8, 8), new THREE.MeshBasicMaterial({ color: 0xFFFFFF, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending })); earth.add(packet);
     arcs.push({ pts: cpts, packet, t: Math.random(), sp: 0.004 + Math.random() * 0.006 });
   }
@@ -470,7 +470,7 @@ function startFuture() {
   const SN = 900, sps = new Float32Array(SN * 3);
   for (let i = 0; i < SN; i++) { const v = new THREE.Vector3(Math.random() - .5, Math.random() - .5, Math.random() - .5).normalize().multiplyScalar(45 + Math.random() * 45); sps[i * 3] = v.x; sps[i * 3 + 1] = v.y; sps[i * 3 + 2] = v.z; }
   const sgg = new THREE.BufferGeometry(); sgg.setAttribute('position', new THREE.BufferAttribute(sps, 3));
-  scene.add(new THREE.Points(sgg, new THREE.PointsMaterial({ map: dotTexture(), color: 0xE8D9B0, size: 0.28, transparent: true, opacity: 0.75, depthWrite: false })));
+  scene.add(new THREE.Points(sgg, new THREE.PointsMaterial({ map: dotTexture(), color: 0xCFE8DA, size: 0.28, transparent: true, opacity: 0.7, depthWrite: false })));
 
   let mx = 0, my = 0;
   document.addEventListener('mousemove', e => { mx = (e.clientX / innerWidth - .5); my = (e.clientY / innerHeight - .5); }, { passive: true });

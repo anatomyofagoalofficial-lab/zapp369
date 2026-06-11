@@ -68,7 +68,7 @@ function boot() {
   const onScroll = () => {
     const y = window.scrollY;
     document.getElementById('dim-nav')?.classList.toggle('scrolled', y > 60);
-    if (name === 'future') navEl?.classList.toggle('dn-light', y > innerHeight * 0.7); // dark hero on top → light nav only on the light sections
+    // Future is now a fully dark green page → keep the dark nav throughout (no light flip)
     setDimScroll(y / Math.max(1, innerHeight * 0.9));
     if (presentCv) presentCv.style.opacity = String(Math.max(0.05, 0.3 - (y / innerHeight) * 0.45));
     const prog = document.getElementById('scroll-prog');
