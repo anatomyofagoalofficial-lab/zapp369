@@ -103,6 +103,8 @@ export function initStarMap(canvas: HTMLCanvasElement) {
   let flying = false, warpStart = -1, warpRoute = '', navigated = false;
   let warpDim: (typeof DIMENSIONS)[number] | null = null;
   const flashEl = document.getElementById('warp-flash') as HTMLElement | null;
+  // per-era warp colour: brown Past · sand Present · green Future (the light you dive through)
+  const WARP: Record<string, string> = { tower: '#7A4E0C', signal: '#D9BE83', network: '#14F195' };
   document.addEventListener('click', e => {
     const t = (e.target as HTMLElement).closest('[data-go]') as HTMLElement | null;
     if (!t || flying) return;
@@ -111,7 +113,11 @@ export function initStarMap(canvas: HTMLCanvasElement) {
     warpDim = DIMENSIONS.find(d => d.route === warpRoute) || null;
     flying = true;
     warpStart = clock.getElapsedTime();
-    if (flashEl && warpDim) flashEl.style.setProperty('--wc', warpDim.color);
+    if (flashEl && warpDim) {
+      const wc = WARP[warpDim.id] || warpDim.color;
+      flashEl.style.setProperty('--wc', wc);
+      try { sessionStorage.setItem('zapp-warp', wc); } catch {}   // the arrival page fades out FROM this colour
+    }
     document.getElementById('dimension-cards')?.classList.add('flying');
     (document.querySelector('.sm-center') as HTMLElement | null)?.style.setProperty('opacity', '0');
   });

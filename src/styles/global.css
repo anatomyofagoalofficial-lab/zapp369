@@ -762,9 +762,13 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 @keyframes vtOut{to{opacity:0;transform:scale(1.05);filter:brightness(1.55)}}
 @keyframes vtIn{from{opacity:0;transform:scale(1.02);filter:brightness(1.3)}}
 @media(prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
-/* teleport flash on the hub — a quick white bloom (only a whisper of the destination's colour) */
+/* teleport flash on the hub — blooms to the destination era's colour (brown / sand / green), never white */
 #warp-flash{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0;will-change:opacity;
-  background:radial-gradient(circle at 50% 50%,#fff 0%,#fff 44%,color-mix(in srgb,var(--wc,#F4D27A) 24%,#fff) 100%)}
+  background:radial-gradient(circle at 50% 50%,
+    color-mix(in srgb,var(--wc,#F4D27A) 88%,#fff) 0%,
+    var(--wc,#F4D27A) 30%,
+    color-mix(in srgb,var(--wc,#F4D27A) 60%,#050208) 64%,
+    #050208 100%)}
 
 /* floating Buy dock — always one tap from buying (dimension pages) */
 #buy-dock{position:fixed;left:50%;bottom:18px;transform:translate(-50%,160%);z-index:50;display:flex;gap:.4rem;align-items:center;padding:.4rem;border-radius:100px;background:rgba(20,12,4,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,210,120,.28);box-shadow:0 16px 40px rgba(0,0,0,.42);opacity:0;transition:transform .5s cubic-bezier(.16,1,.3,1),opacity .4s}
