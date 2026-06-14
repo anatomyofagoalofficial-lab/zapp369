@@ -7,6 +7,7 @@ import { initCursor } from './ui';
 import { initSound } from './sound';
 import { initTeslaArc } from './teslaArc';
 import { initMatrixRain } from './matrixRain';
+import { initFutureBg } from './futureBg';
 import { initGoldenAtmos } from './goldenAtmos';
 import { initReferral } from './referral';
 import { initZappChart } from './zappChart';
@@ -84,7 +85,10 @@ function boot() {
   } else if (name !== 'present') {
     startDimCanvas(name);   // Present is clean parchment — no 3D scene
   }
-  if (name === 'future') { const mr = document.getElementById('matrix-rain') as HTMLCanvasElement | null; if (mr) initMatrixRain(mr); }
+  if (name === 'future') {
+    const mr = document.getElementById('matrix-rain') as HTMLCanvasElement | null; if (mr) initMatrixRain(mr);
+    const fb = document.getElementById('future-bg') as HTMLCanvasElement | null; if (fb) initFutureBg(fb);
+  }
   initReveals(); initVideos(); setTimeout(buildParallax, 150);
   fetchData(); setInterval(fetchData, 60000);
   initWorldClock(); initReferral();

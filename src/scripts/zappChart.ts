@@ -38,7 +38,7 @@ export function initZappChart() {
 
     ctx.fillStyle = '#04160E'; ctx.fillRect(0, 0, W, H);
     // 3 horizontal gridlines with price labels (3·6·9 of the frame)
-    ctx.strokeStyle = 'rgba(94,155,130,.1)'; ctx.fillStyle = 'rgba(166,240,200,.6)';
+    ctx.strokeStyle = 'rgba(43,255,119,.1)'; ctx.fillStyle = 'rgba(166,240,200,.6)';
     ctx.font = '10px JetBrains Mono, monospace'; ctx.textAlign = 'left';
     [0.25, 0.5, 0.75].forEach(f => {
       const vy = PT + f * (H - PT - PB);
@@ -48,7 +48,7 @@ export function initZappChart() {
     });
     // golden area fill under the line
     const g = ctx.createLinearGradient(0, PT, 0, H - PB);
-    g.addColorStop(0, 'rgba(94,155,130,.32)'); g.addColorStop(1, 'rgba(94,155,130,0)');
+    g.addColorStop(0, 'rgba(43,255,119,.32)'); g.addColorStop(1, 'rgba(43,255,119,0)');
     ctx.beginPath(); ctx.moveTo(x(0), y(closes[0]));
     closes.forEach((v, i) => ctx.lineTo(x(i), y(v)));
     ctx.lineTo(x(closes.length - 1), H - PB); ctx.lineTo(x(0), H - PB); ctx.closePath();
@@ -56,16 +56,16 @@ export function initZappChart() {
     // the frequency line itself
     ctx.beginPath(); ctx.moveTo(x(0), y(closes[0]));
     closes.forEach((v, i) => ctx.lineTo(x(i), y(v)));
-    ctx.strokeStyle = '#5E9B82'; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+    ctx.strokeStyle = '#2BFF77'; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
     // live tip: pulsing gold node + last price
     const lx = x(closes.length - 1), ly = y(closes[closes.length - 1]);
-    ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fillStyle = '#A7CBB6'; ctx.fill();
+    ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fillStyle = '#C8FFDD'; ctx.fill();
     const last = closes[closes.length - 1], first = closes[0];
     const chg = ((last - first) / first) * 100;
     ctx.font = '700 13px JetBrains Mono, monospace'; ctx.textAlign = 'left';
-    ctx.fillStyle = '#A7CBB6';
+    ctx.fillStyle = '#C8FFDD';
     ctx.fillText('$' + (last < 0.001 ? last.toFixed(8) : last.toFixed(5)), PL + 2, PT - 8);
-    ctx.fillStyle = chg >= 0 ? '#5E9B82' : '#D98A3A';
+    ctx.fillStyle = chg >= 0 ? '#2BFF77' : '#D98A3A';
     ctx.fillText((chg >= 0 ? '+' : '') + chg.toFixed(1) + '% · 4d', PL + 124, PT - 8);
   }
 

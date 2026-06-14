@@ -962,62 +962,92 @@ body.scrollable::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg
    dirt → sand → nature. The on-chain future: dark, living, Solana-green, code raining from nowhere. */
 #dim-future{background:#04120B;color:#CFF6E4}
 #dim-future .f-grad{background:
-  radial-gradient(ellipse 80% 65% at 15% 10%,rgba(94,155,130,.16),transparent 55%),
-  radial-gradient(ellipse 70% 55% at 85% 85%,rgba(94,155,130,.10),transparent 55%),
+  radial-gradient(ellipse 80% 65% at 15% 10%,rgba(43,255,119,.16),transparent 55%),
+  radial-gradient(ellipse 70% 55% at 85% 85%,rgba(43,255,119,.10),transparent 55%),
   radial-gradient(ellipse 60% 50% at 60% 30%,rgba(10,80,52,.42),transparent 50%),#04120B}
-#dim-future .f-grad::after{background:linear-gradient(180deg,rgba(94,155,130,.10),transparent)}
+#dim-future .f-grad::after{background:linear-gradient(180deg,rgba(43,255,119,.10),transparent)}
 #dim-future .future-hero{background:radial-gradient(ellipse 90% 80% at 62% 42%,#0a2418,#06160e 62%,#020a06)}
 #dim-future .future-hero::after{background:linear-gradient(90deg,rgba(2,12,8,.82),rgba(2,12,8,.35) 38%,transparent 66%),linear-gradient(0deg,#04120B 0%,transparent 16%)}
 /* perspective grid + matrix rain → green, and let the code fall harder (everything from nowhere) */
-#dim-future .f-grid{background-image:linear-gradient(rgba(94,155,130,.42) 1px,transparent 1px),linear-gradient(90deg,rgba(94,155,130,.3) 1px,transparent 1px)}
+#dim-future .f-grid{background-image:linear-gradient(rgba(43,255,119,.42) 1px,transparent 1px),linear-gradient(90deg,rgba(43,255,119,.3) 1px,transparent 1px)}
 #dim-future .matrix-rain{opacity:.72}
 /* type → light mint on dark, Solana-green accents */
 #dim-future .f-h1,#dim-future .future-hero .f-h1,#dim-future .f-h3,#dim-future .f-close h2{color:#EAFBF2}
-#dim-future .future-hero .f-h1{text-shadow:0 0 24px rgba(94,155,130,.42),0 0 60px rgba(94,155,130,.3),0 2px 30px rgba(0,0,0,.55)}
+#dim-future .future-hero .f-h1{text-shadow:0 0 24px rgba(43,255,119,.42),0 0 60px rgba(43,255,119,.3),0 2px 30px rgba(0,0,0,.55)}
 #dim-future .future-hero .f-lead,#dim-future .f-lead{color:rgba(207,246,228,.8)}
 #dim-future .f-p{color:rgba(207,246,228,.62)}
-#dim-future .f-kicker{color:#5E9B82;opacity:.92}
-#dim-future .f-tag,#dim-future .future-hero .f-tag{color:#5E9B82;border-color:rgba(94,155,130,.32)}
-#dim-future .f-tag::before{background:linear-gradient(135deg,#284A3A,#5E9B82)}
-#dim-future .f-h1 em,#dim-future .f-h3 em,#dim-future .f-close h2 em{background:linear-gradient(135deg,#3E7058,#5E9B82,#A7CBB6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#dim-future .f-kicker{color:#2BFF77;opacity:.92}
+#dim-future .f-tag,#dim-future .future-hero .f-tag{color:#2BFF77;border-color:rgba(43,255,119,.32)}
+#dim-future .f-tag::before{background:linear-gradient(135deg,#0B8C3C,#2BFF77)}
+#dim-future .f-h1 em,#dim-future .f-h3 em,#dim-future .f-close h2 em{background:linear-gradient(135deg,#15C957,#2BFF77,#C8FFDD);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 /* image frames → green tech */
-#dim-future .f-img{border-color:rgba(94,155,130,.32);box-shadow:0 24px 80px rgba(6,48,30,.5),0 0 46px rgba(94,155,130,.16),inset 0 0 0 1px rgba(94,155,130,.2)}
-#dim-future .f-img::after{background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(94,155,130,.07) 3px,transparent 4px),linear-gradient(125deg,rgba(94,155,130,.14),transparent 42%,rgba(94,155,130,.12))}
+#dim-future .f-img{border-color:rgba(43,255,119,.32);box-shadow:0 24px 80px rgba(6,48,30,.5),0 0 46px rgba(43,255,119,.16),inset 0 0 0 1px rgba(43,255,119,.2)}
+#dim-future .f-img::after{background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(43,255,119,.07) 3px,transparent 4px),linear-gradient(125deg,rgba(43,255,119,.14),transparent 42%,rgba(43,255,119,.12))}
 /* roadmap chips */
-#dim-future .rm-i{background:rgba(94,155,130,.04);border-color:rgba(94,155,130,.12)}
-#dim-future .rm-i:hover{background:rgba(94,155,130,.09);border-color:rgba(94,155,130,.28)}
+#dim-future .rm-i{background:rgba(43,255,119,.04);border-color:rgba(43,255,119,.12)}
+#dim-future .rm-i:hover{background:rgba(43,255,119,.09);border-color:rgba(43,255,119,.28)}
 #dim-future .rm-i p{color:rgba(207,246,228,.6)}
-#dim-future .rm-d{background:linear-gradient(135deg,#3E7058,#5E9B82)}
+#dim-future .rm-d{background:linear-gradient(135deg,#15C957,#2BFF77)}
 /* close band + buttons */
 #dim-future .f-close p{color:rgba(207,246,228,.5)}
-#dim-future .f-close .freq{color:rgba(94,155,130,.5)}
-#dim-future .btn-future{border-color:rgba(94,155,130,.42);color:#CFF6E4}
-#dim-future .btn-future:hover{background:rgba(94,155,130,.14);border-color:rgba(94,155,130,.7)}
+#dim-future .f-close .freq{color:rgba(43,255,119,.5)}
+#dim-future .btn-future{border-color:rgba(43,255,119,.42);color:#CFF6E4}
+#dim-future .btn-future:hover{background:rgba(43,255,119,.14);border-color:rgba(43,255,119,.7)}
 /* live chart frame + caption */
-#dim-future .chart-frame{border-color:rgba(94,155,130,.4);background:#04160E;box-shadow:0 30px 70px rgba(6,48,30,.4),inset 0 0 0 1px rgba(94,155,130,.1)}
-#dim-future .chart-cap{color:#A7CBB6;background:linear-gradient(90deg,#06180F,#0a2418,#06180F);border-top-color:rgba(94,155,130,.16)}
+#dim-future .chart-frame{border-color:rgba(43,255,119,.4);background:#04160E;box-shadow:0 30px 70px rgba(6,48,30,.4),inset 0 0 0 1px rgba(43,255,119,.1)}
+#dim-future .chart-cap{color:#C8FFDD;background:linear-gradient(90deg,#06180F,#0a2418,#06180F);border-top-color:rgba(43,255,119,.16)}
 /* "Your ZAPP, measured" calculator → dark green glass */
-#dim-future .calc-inner{background:rgba(6,26,17,.74);border-color:rgba(94,155,130,.26);box-shadow:0 22px 54px rgba(0,0,0,.45),0 0 40px rgba(94,155,130,.08)}
+#dim-future .calc-inner{background:rgba(6,26,17,.74);border-color:rgba(43,255,119,.26);box-shadow:0 22px 54px rgba(0,0,0,.45),0 0 40px rgba(43,255,119,.08)}
 #dim-future .calc-inner h3{color:#EAFBF2}
 #dim-future .calc-inner .sub{color:rgba(207,246,228,.6)}
-#dim-future .calc-row input{background:rgba(2,12,8,.6);border-color:rgba(94,155,130,.3);color:#EAFBF2}
-#dim-future .calc-row input:focus{border-color:rgba(94,155,130,.7)}
+#dim-future .calc-row input{background:rgba(2,12,8,.6);border-color:rgba(43,255,119,.3);color:#EAFBF2}
+#dim-future .calc-row input:focus{border-color:rgba(43,255,119,.7)}
 #dim-future .calc-row .unit{color:rgba(207,246,228,.5)}
-#dim-future .presets button{background:rgba(94,155,130,.05);border-color:rgba(94,155,130,.28);color:rgba(207,246,228,.85)}
-#dim-future .presets button:hover{border-color:#5E9B82;color:#EAFBF2;background:rgba(94,155,130,.14)}
-#dim-future .calc-out{border-top-color:rgba(94,155,130,.2)}
+#dim-future .presets button{background:rgba(43,255,119,.05);border-color:rgba(43,255,119,.28);color:rgba(207,246,228,.85)}
+#dim-future .presets button:hover{border-color:#2BFF77;color:#EAFBF2;background:rgba(43,255,119,.14)}
+#dim-future .calc-out{border-top-color:rgba(43,255,119,.2)}
 #dim-future .co-l{color:rgba(207,246,228,.55)}
-#dim-future .co-v{color:#5E9B82}
+#dim-future .co-v{color:#2BFF77}
 #dim-future .calc-note{color:rgba(207,246,228,.45)}
 /* Tesla quote → mint */
 #dim-future .past-tesla-q blockquote{color:#EAFBF2}
-#dim-future .past-tesla-q blockquote em{background:linear-gradient(135deg,#A7CBB6,#5E9B82,#3E7058);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-#dim-future .past-tesla-q cite{color:rgba(94,155,130,.72)}
-#dim-future .tq-369{color:rgba(94,155,130,.5)}
+#dim-future .past-tesla-q blockquote em{background:linear-gradient(135deg,#C8FFDD,#2BFF77,#15C957);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+#dim-future .past-tesla-q cite{color:rgba(43,255,119,.72)}
+#dim-future .tq-369{color:rgba(43,255,119,.5)}
 /* live-chart heading ("The future, ticking") — was dark brown, unreadable on green */
-#dim-future .ht-eyebrow{color:#5E9B82;opacity:.92}
+#dim-future .ht-eyebrow{color:#2BFF77;opacity:.92}
 #dim-future .ht-title{color:#EAFBF2}
-#dim-future .ht-title em{color:#A7CBB6}
+#dim-future .ht-title em{color:#C8FFDD}
+
+/* ════ CYBERPUNK FUTURE — neon glow · circuit board · HUD · scanlines ════ */
+/* circuit-board substrate (fixed, behind content) */
+#dim-future::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:url('/img/circuit.svg');background-size:300px;opacity:.14;mix-blend-mode:screen;
+  -webkit-mask-image:radial-gradient(ellipse 120% 90% at 50% 30%,#000 35%,transparent 85%);mask-image:radial-gradient(ellipse 120% 90% at 50% 30%,#000 35%,transparent 85%)}
+/* faint CRT scanlines over everything */
+#dim-future::after{content:'';position:fixed;inset:0;z-index:9;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(0,0,0,.5) 3px,transparent 4px)}
+/* neon glow on the green type + tags */
+#dim-future .f-h1 em,#dim-future .f-h3 em,#dim-future .f-close h2 em{text-shadow:0 0 18px rgba(43,255,119,.55),0 0 42px rgba(43,255,119,.28)}
+#dim-future .future-hero .f-h1{text-shadow:0 0 26px rgba(43,255,119,.32),0 0 64px rgba(43,255,119,.2),0 2px 30px rgba(0,0,0,.6)}
+#dim-future .f-kicker{text-shadow:0 0 12px rgba(43,255,119,.6)}
+#dim-future .f-tag,#dim-future .future-hero .f-tag{text-shadow:0 0 10px rgba(43,255,119,.6);box-shadow:0 0 16px rgba(43,255,119,.22),inset 0 0 12px rgba(43,255,119,.08)}
+/* HUD frames — chamfered cyber corners + neon edge glow */
+#dim-future .chart-frame,#dim-future .calc-inner{box-shadow:0 0 0 1px rgba(43,255,119,.42),0 0 34px rgba(43,255,119,.16),0 30px 70px rgba(0,0,0,.5)}
+#dim-future .f-img{box-shadow:0 24px 80px rgba(0,0,0,.55),0 0 30px rgba(43,255,119,.2),inset 0 0 0 1px rgba(43,255,119,.28)}
+/* glowing CTA + nav buy on the future page */
+#dim-future .btn-future{text-shadow:0 0 10px rgba(43,255,119,.5);box-shadow:0 0 18px rgba(43,255,119,.2),inset 0 0 14px rgba(43,255,119,.06)}
+#dim-future .btn-future:hover{box-shadow:0 0 30px rgba(43,255,119,.4),inset 0 0 16px rgba(43,255,119,.12)}
+#dim-future .co-v{text-shadow:0 0 14px rgba(43,255,119,.55)}
+/* roadmap diamond markers glow */
+#dim-future .rm-d{box-shadow:0 0 12px rgba(43,255,119,.6)}
+@media(prefers-reduced-motion:reduce){#dim-future::after{opacity:.3}}
+/* futuristic substrate canvas (particles · objects · mathematics) */
+.f-bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.9}
+/* liquid-flowing gradient (drifts like the Solana hero) */
+#dim-future .f-grad{background-size:170% 170%;animation:fLiquid 26s ease-in-out infinite alternate}
+@keyframes fLiquid{0%{background-position:0% 0%}50%{background-position:100% 55%}100%{background-position:35% 100%}}
+@media(prefers-reduced-motion:reduce){#dim-future .f-grad{animation:none}.f-bg{opacity:.55}}
 
 #zchart{background:#150d03}
 .meme-kit{margin:0 auto 2rem;max-width:520px}
