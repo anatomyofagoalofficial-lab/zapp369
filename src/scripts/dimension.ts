@@ -26,7 +26,7 @@ function boot() {
   document.body.classList.add('scrollable');
   const navEl = document.getElementById('dim-nav');
   navEl?.classList.add('show');
-  if (name === 'present') navEl?.classList.add('dn-light'); // light from the very top
+  if (name === 'present' || name === 'past') navEl?.classList.add('dn-light'); // light parchment pages → light nav from the top
   document.querySelectorAll('.dn-era [data-era]').forEach(b => b.classList.toggle('on', b.getAttribute('data-era') === name));
 
   let lenis: Lenis | null = null;
