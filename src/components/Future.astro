@@ -11,6 +11,19 @@ const PUMP = `https://pump.fun/coin/${CA}`;
     <canvas id="matrix-rain" class="matrix-rain" aria-hidden="true"></canvas>
     <div class="f-grid" aria-hidden="true"></div>
     <div class="f-scan" aria-hidden="true"></div>
+    <svg class="hud-reticle" viewBox="0 0 120 120" aria-hidden="true">
+      <g fill="none" stroke="#2BFF77" stroke-linecap="round">
+        <circle cx="60" cy="60" r="54" stroke-opacity=".22"/>
+        <circle class="r-spin" cx="60" cy="60" r="46" stroke-dasharray="6 11" stroke-opacity=".6"/>
+        <circle cx="60" cy="60" r="34" stroke-opacity=".28"/>
+        <circle class="r-spin2" cx="60" cy="60" r="26" stroke-dasharray="2 7" stroke-opacity=".55"/>
+        <path d="M60 6 V22 M60 98 V114 M6 60 H22 M98 60 H114" stroke-opacity=".45"/>
+        <path d="M60 28 V34 M60 86 V92 M28 60 H34 M86 60 H92" stroke-opacity=".7"/>
+      </g>
+      <circle cx="60" cy="60" r="3" fill="#8FFFB4"/>
+      <text x="60" y="111" text-anchor="middle" class="hud-reticle-t">369 Hz · SYNC</text>
+    </svg>
+    <div class="hud-status" aria-hidden="true"><span>SYS::ONLINE</span><span>NODE_SYNC</span><span>FREQ 369Hz</span></div>
     <div class="future-hero-text">
       <div class="f-tag rv">9 · Future · The Network</div>
       <h1 class="f-h1 rv d1">Free energy<br>for <em>everyone</em>.</h1>
