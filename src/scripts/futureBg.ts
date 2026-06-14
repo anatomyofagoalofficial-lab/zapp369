@@ -15,6 +15,34 @@ export function initFutureBg(canvas: HTMLCanvasElement) {
   function resize() { W = innerWidth; H = innerHeight; canvas.width = W * dpr; canvas.height = H * dpr; ctx!.setTransform(dpr, 0, 0, dpr, 0, 0); }
   resize(); addEventListener('resize', resize, { passive: true });
   const reduce = prefersReducedMotion();
+  let mx = -1e4, my = -1e4;
+  if (!reduce && !MOBILE) addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+
+  // ── live oscilloscope: a 3·6·9 frequency wave tuned to the real ZAPP price ──
+  const scope = document.getElementById('hud-scope') as HTMLCanvasElement | null;
+  const sctx = scope?.getContext('2d') || null;
+  let sW = 0, sH = 0, phase = 0;
+  function resizeScope() { if (!scope || !sctx) return; const r = scope.getBoundingClientRect(); sW = r.width; sH = r.height; scope.width = sW * dpr; scope.height = sH * dpr; sctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  resizeScope(); addEventListener('resize', resizeScope, { passive: true });
+  function drawScope() {
+    if (!sctx || !sW) return;
+    sctx.clearRect(0, 0, sW, sH);
+    const mid = sH / 2;
+    const change = (window as any).zappChange || 0;
+    const amp = Math.min(sH * 0.42, sH * 0.14 + Math.abs(change) * 0.5);
+    const col = change >= 0 ? '43,255,119' : '255,86,86';
+    sctx.strokeStyle = 'rgba(43,255,119,.09)'; sctx.lineWidth = 1;
+    for (let gx = 0; gx < sW; gx += 16) { sctx.beginPath(); sctx.moveTo(gx, 0); sctx.lineTo(gx, sH); sctx.stroke(); }
+    sctx.beginPath(); sctx.moveTo(0, mid); sctx.lineTo(sW, mid); sctx.stroke();
+    sctx.beginPath();
+    for (let x = 0; x <= sW; x++) {
+      const u = x / sW * Math.PI * 2;
+      const y = mid - (Math.sin(u * 3 + phase) * 0.5 + Math.sin(u * 6 + phase * 1.3) * 0.3 + Math.sin(u * 9 + phase * 0.8) * 0.2) * amp;
+      x ? sctx.lineTo(x, y) : sctx.moveTo(x, y);
+    }
+    sctx.strokeStyle = `rgba(${col},.95)`; sctx.lineWidth = 1.8; sctx.shadowBlur = 8; sctx.shadowColor = `rgba(${col},.85)`; sctx.stroke(); sctx.shadowBlur = 0;
+    if (!reduce) phase += 0.05 + Math.min(0.13, Math.abs(change) * 0.0025);
+  }
 
   // ── nano particles → network nodes ──
   const NP = MOBILE ? 30 : 66;
@@ -51,8 +79,14 @@ export function initFutureBg(canvas: HTMLCanvasElement) {
       ctx!.stroke();
     }
 
-    // network: links + nodes
-    if (!reduce) for (const p of nodes) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }
+    // network: links + nodes (cursor pushes nearby nodes → reactive)
+    if (!reduce) for (const p of nodes) {
+      p.x += p.vx; p.y += p.vy;
+      const dx = p.x - mx, dy = p.y - my, d2 = dx * dx + dy * dy;
+      if (d2 < 16000) { const d = Math.sqrt(d2) || 1, f = (1 - d / 126) * 0.16; p.vx += (dx / d) * f; p.vy += (dy / d) * f; }
+      p.vx *= 0.99; p.vy *= 0.99;
+      if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1;
+    }
     for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
       const a = nodes[i], b = nodes[j], dx = a.x - b.x, dy = a.y - b.y, d2 = dx * dx + dy * dy;
       if (d2 < LINK * LINK) { const al = (1 - Math.sqrt(d2) / LINK) * 0.17; ctx!.strokeStyle = `rgba(${G},${al})`; ctx!.beginPath(); ctx!.moveTo(a.x, a.y); ctx!.lineTo(b.x, b.y); ctx!.stroke(); }
@@ -69,6 +103,8 @@ export function initFutureBg(canvas: HTMLCanvasElement) {
       ctx!.fillStyle = `rgba(${G},${a * 0.55})`;
       ctx!.fillText(g.txt, g.x, g.y);
     }
+
+    drawScope();
   }
   raf = requestAnimationFrame(frame);
 }
