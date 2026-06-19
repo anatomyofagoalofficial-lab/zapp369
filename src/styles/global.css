@@ -323,56 +323,6 @@ body.cur-hot #cur{background:radial-gradient(circle,#fff,#FFE9A8 60%,#E8C84A)}
 .past-h1 em{background:linear-gradient(100deg,#C8960A 0%,#FFE8A6 30%,#FFF7DC 50%,#FFE8A6 70%,#C8960A 100%);background-size:240% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:goldFoil 7s ease-in-out infinite}
 @media(prefers-reduced-motion:reduce){.past-h1 em{animation:none}}
 
-/* ════════ PAST = TESLA'S LEDGER (aged parchment · ink · vintage) ════════ */
-#dim-past{background:
-  radial-gradient(ellipse 55% 45% at 16% 14%,rgba(122,72,0,.10),transparent 60%),
-  radial-gradient(ellipse 48% 38% at 86% 84%,rgba(122,72,0,.12),transparent 60%),
-  radial-gradient(ellipse 130% 110% at 50% 45%,#F4ECD4 0%,#EBE1C4 58%,#DCCFAA 100%);color:#2E1C08}
-/* paper grain + aged vignette */
-#dim-past::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.3;mix-blend-mode:multiply;background:url('/img/paper.svg');background-size:240px}
-#dim-past::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 96% 96% at 50% 48%,transparent 52%,rgba(70,42,8,.26) 100%)}
-/* hide the dark 3D lab scene; lightning becomes faint ink on paper */
-#dim-past #past-canvas{display:none}
-#dim-past .past-storm{mix-blend-mode:multiply;opacity:.16}
-#dim-past .past-hero::after{background:linear-gradient(270deg,rgba(244,236,212,.55) 0%,rgba(244,236,212,.18) 36%,transparent 70%)}
-/* ink type */
-#dim-past .era-tag{color:#7A4800;border-color:rgba(122,72,0,.4)}
-#dim-past .era-tag::before{background:#7A4800}
-#dim-past .past-h1{color:#2E1C08}
-#dim-past .past-lead{color:rgba(46,28,8,.74)}
-#dim-past .past-h1 em,#dim-past .prom-h em,#dim-past .past-bridge h2 em,#dim-past .past-tesla-q blockquote em{background:linear-gradient(120deg,#9A5C0E,#C8860A,#7A4800);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-#dim-past .prom-eyebrow,#dim-past .grid-eyebrow{color:#7A4800;opacity:.85}
-#dim-past .prom-h{color:#2E1C08}
-#dim-past .prom-p{color:rgba(46,28,8,.68)}
-/* archive: photos mounted on paper with ink frames + tape */
-#dim-past .arch{background:#FBF4E0;border:1px solid rgba(122,72,0,.28);box-shadow:0 14px 30px rgba(70,42,8,.18),inset 0 0 0 1px rgba(255,255,255,.4)}
-#dim-past .arch img{filter:sepia(.55) contrast(1.02) brightness(.97)}
-#dim-past .arch figcaption{color:rgba(46,28,8,.62)}
-#dim-past .arch figcaption em{color:#7A4800}
-#dim-past .arch{position:relative}
-#dim-past .arch::before{content:'';position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(-3deg);width:66px;height:20px;background:rgba(206,168,96,.4);border:1px solid rgba(122,72,0,.14);z-index:3}
-/* prometheus + hero photo on paper */
-#dim-past .prom-img{border-color:rgba(122,72,0,.3);box-shadow:0 30px 70px rgba(70,42,8,.22)}
-#dim-past .prom-img img{filter:sepia(.4) contrast(1.02)}
-#dim-past .past-hero-photo{background:#FBF4E0;box-shadow:0 30px 70px rgba(70,42,8,.28)}
-#dim-past .past-hero-photo::after{border-color:rgba(122,72,0,.3)}
-#dim-past .past-hero-photo img{filter:sepia(.35)}
-/* bridge + quote */
-#dim-past .past-bridge h2{color:#2E1C08}
-#dim-past .past-bridge p{color:rgba(46,28,8,.55)}
-#dim-past .past-tesla-q blockquote{color:#2E1C08;text-shadow:none}
-#dim-past .past-tesla-q cite{color:#7A4800}
-#dim-past .past-tesla-q::before{background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(122,72,0,.08),transparent 70%)}
-/* buy section on Past → parchment vault, not dark */
-#dim-past .buy-section{background:radial-gradient(ellipse 72% 80% at 50% 22%,#EFE5C8 0%,#E2D6B4 75%)}
-#dim-past .buy-glow{background:radial-gradient(ellipse 60% 55% at 50% 40%,rgba(122,72,0,.06),transparent 65%)}
-#dim-past .buy-eyebrow{color:#7A4800;text-shadow:none}
-#dim-past .buy-h{color:#2E1C08}
-#dim-past .buy-h em{color:#9A5C0E}
-#dim-past .buy-sub,#dim-past .buy-new{color:rgba(46,28,8,.6)}
-#dim-past .buy-new a{color:#9A5C0E;border-bottom-color:rgba(122,72,0,.35)}
-/* content sits above the paper grain/vignette */
-#dim-past .past-hero,#dim-past .past-content,#dim-past .buy-section,#dim-past .past-tesla-q{position:relative;z-index:2}
 
 /* video frame (shared) */
 .vid-frame{position:relative;border-radius:14px;overflow:hidden;max-width:1100px;margin:0 auto 4rem;box-shadow:0 30px 90px rgba(0,0,0,.6)}
