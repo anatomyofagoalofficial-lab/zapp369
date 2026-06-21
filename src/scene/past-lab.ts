@@ -191,8 +191,9 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const g = new THREE.Group();
     const frame = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 5.0), new THREE.MeshStandardMaterial({ color: 0x2a1c0e, roughness: 0.85, metalness: 0.15 }));
     const tex = texLoader.load(url);
-    const pic = new THREE.Mesh(new THREE.PlaneGeometry(6, 4.4), new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: 0x808080, emissiveIntensity: 0.4, roughness: 0.9 }));
-    pic.position.z = 0.06; g.add(frame); g.add(pic);
+    const pic = new THREE.Mesh(new THREE.PlaneGeometry(6, 4.4), new THREE.MeshBasicMaterial({ map: tex, depthTest: false, depthWrite: false }));
+    pic.position.z = 0.06; pic.layers.set(1); pic.renderOrder = 10;   // layer 1 = drawn in full colour on top of the B&W world
+    g.add(frame); g.add(pic);
     g.position.set(side * 15.6, 3.4, z); g.rotation.y = side < 0 ? Math.PI / 2 : -Math.PI / 2; scene.add(g);
   }
   wallPhoto('/illustrations/tesla-lab-1899.jpg', -14, -1);
@@ -421,6 +422,12 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     if (labUi) labUi.style.opacity = String(1 - THREE.MathUtils.smoothstep(t, 0.68, 0.78));
 
     composer.render();
+    // draw the framed pictures again in their REAL colour, on top of the black-and-white world
+    renderer.autoClear = false;
+    camera.layers.set(1);
+    renderer.render(scene, camera);
+    camera.layers.set(0);
+    renderer.autoClear = true;
   }
   frame();
 }
