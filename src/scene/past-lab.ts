@@ -75,16 +75,20 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
 
   // ---- warm rafter lights ----
   const amber: THREE.PointLight[] = [];
+  const shadeMat = new THREE.MeshStandardMaterial({ color: 0x140d06, roughness: 1, side: THREE.DoubleSide });
   for (let i = 0; i < 5; i++) {
     const z = 2 - i * 16;
     const L = new THREE.PointLight(0xffb050, 2.4, 46, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
-    sprite(goldGlow, 7, 0, 9, z, scene);
+    // a hanging work-lamp so the light reads as a real source, not a floating orb
+    const shade = new THREE.Mesh(new THREE.ConeGeometry(1.25, 1.1, 16, 1, true), shadeMat);
+    shade.position.set(0, 10.1, z); scene.add(shade);
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.32, 12, 12), new THREE.MeshBasicMaterial({ color: 0xffe6a8 }));
+    bulb.position.set(0, 9.2, z); scene.add(bulb);
+    sprite(goldGlow, 4, 0, 9.1, z, scene);   // a tight halo, not a sun
   }
-  scene.add(new THREE.AmbientLight(0x4a3826, 1.85));
+  scene.add(new THREE.AmbientLight(0x4a3826, 1.95));
   // a soft warm fill that rides with the camera so the room always feels lit and welcoming
-  const camFill = new THREE.PointLight(0xffc878, 1.5, 42, 2); scene.add(camFill);
-  // a gentle warm glow set deeper in the room — draws the eye inward without blowing out
-  sprite(goldGlow, 11, 0, 3, -20, scene);
+  const camFill = new THREE.PointLight(0xffc878, 1.6, 42, 2); scene.add(camFill);
 
   // ---- workbenches + period clutter ----
   function bench(z: number, side: number): void {
