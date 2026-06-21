@@ -189,12 +189,12 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const texLoader = new THREE.TextureLoader();
   function wallPhoto(url: string, z: number, side: number): void {
     const g = new THREE.Group();
-    const frame = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 5.0), new THREE.MeshStandardMaterial({ color: 0x2a1c0e, roughness: 0.85, metalness: 0.15 }));
+    const frame = new THREE.Mesh(new THREE.PlaneGeometry(9.8, 7.2), new THREE.MeshStandardMaterial({ color: 0x2a1c0e, roughness: 0.85, metalness: 0.15 }));
     const tex = texLoader.load(url);
-    const pic = new THREE.Mesh(new THREE.PlaneGeometry(6, 4.4), new THREE.MeshBasicMaterial({ map: tex, depthTest: false, depthWrite: false }));
-    pic.position.z = 0.06; pic.layers.set(1); pic.renderOrder = 10;   // layer 1 = drawn in full colour on top of the B&W world
+    const pic = new THREE.Mesh(new THREE.PlaneGeometry(9, 6.4), new THREE.MeshBasicMaterial({ map: tex }));
+    pic.position.z = 0.06; pic.layers.enable(1);   // also on layer 1 → tagged as "keep real colour" for the mask
     g.add(frame); g.add(pic);
-    g.position.set(side * 15.6, 3.4, z); g.rotation.y = side < 0 ? Math.PI / 2 : -Math.PI / 2; scene.add(g);
+    g.position.set(side * 15.6, 4.2, z); g.rotation.y = side < 0 ? Math.PI / 2 : -Math.PI / 2; scene.add(g);
   }
   wallPhoto('/illustrations/tesla-lab-1899.jpg', -14, -1);
   wallPhoto('/illustrations/world-system.jpg', -52, -1);
@@ -347,28 +347,36 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   readScroll();
 
   // ---- render plumbing (UnrealBloom for the electric glow) ----
+  // colour-mask plumbing: photos render white (depth-correct), everything else black,
+  // so the grayscale pass can keep ONLY the framed pictures in their real colour.
+  const maskRT = new THREE.WebGLRenderTarget(innerWidth, innerHeight);
+  const blackMat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  const whiteMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.5, 0.6, 0.3);
   composer.addPass(bloom);
   // 1910 film grade: grayscale inside the lab, warming to sepia as you step outside
   const monoPass = new ShaderPass({
-    uniforms: { tDiffuse: { value: null }, uSepia: { value: 0.1 } },
+    uniforms: { tDiffuse: { value: null }, uSepia: { value: 0.1 }, uMask: { value: maskRT.texture } },
     vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
     fragmentShader:
-      'uniform sampler2D tDiffuse; uniform float uSepia; varying vec2 vUv;' +
+      'uniform sampler2D tDiffuse; uniform sampler2D uMask; uniform float uSepia; varying vec2 vUv;' +
       'void main(){ vec4 c = texture2D(tDiffuse, vUv);' +
       ' float l = dot(c.rgb, vec3(0.299,0.587,0.114));' +
       ' float e = l * 2.1; l = e / (e + 0.8);' +   // filmic tonemap: lifts mid-tones, compresses highlights so it never blows out to white
       ' vec3 gray = vec3(l);' +
       ' vec3 sepia = vec3(min(1.0,l*1.14), l*0.93, l*0.70);' +
-      ' gl_FragColor = vec4(mix(gray, sepia, uSepia), c.a); }',
+      ' vec3 bw = mix(gray, sepia, uSepia);' +
+      ' float m = texture2D(uMask, vUv).r;' +    // 1 on the framed pictures → keep their real colour
+      ' gl_FragColor = vec4(mix(bw, c.rgb, m), c.a); }',
   });
   composer.addPass(monoPass);
 
   function size(): void {
     const w = innerWidth, h = innerHeight;
-    renderer.setSize(w, h); composer.setSize(w, h);
+    renderer.setSize(w, h); composer.setSize(w, h); maskRT.setSize(w, h);
     camera.aspect = w / h; camera.updateProjectionMatrix();
   }
   size(); addEventListener('resize', size);
@@ -421,13 +429,15 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     // fade the floating story caption out as the arrival/close section scrolls in, so they don't overlap
     if (labUi) labUi.style.opacity = String(1 - THREE.MathUtils.smoothstep(t, 0.68, 0.78));
 
+    // 1) render the colour mask — framed pictures white (depth-correct), everything else black
+    renderer.setRenderTarget(maskRT);
+    renderer.setClearColor(0x000000, 1); renderer.clear();
+    scene.overrideMaterial = blackMat; camera.layers.enableAll(); renderer.render(scene, camera);
+    scene.overrideMaterial = whiteMat; camera.layers.set(1); renderer.render(scene, camera);
+    scene.overrideMaterial = null; camera.layers.set(0);
+    renderer.setRenderTarget(null); renderer.setClearColor(0x050208, 1);
+    // 2) render the world in black-and-white, keeping the masked pictures in their real colour
     composer.render();
-    // draw the framed pictures again in their REAL colour, on top of the black-and-white world
-    renderer.autoClear = false;
-    camera.layers.set(1);
-    renderer.render(scene, camera);
-    camera.layers.set(0);
-    renderer.autoClear = true;
   }
   frame();
 }
