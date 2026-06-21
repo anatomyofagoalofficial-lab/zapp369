@@ -220,6 +220,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const chapterEl = document.getElementById('lab-chapter');
   const lineEl = document.getElementById('lab-line');
   const hintEl = document.getElementById('lab-hint');
+  const labUi = document.querySelector('.lab-ui') as HTMLElement | null;
   const beats = [
     { p: 0.00, c: 'Colorado Springs · 1899', l: 'Step inside the <em>laboratory</em>.' },
     { p: 0.26, c: 'The Experiment', l: 'He pulled <em>lightning</em> from the empty air.' },
@@ -293,6 +294,8 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
 
     for (let i = beats.length - 1; i >= 0; i--) { if (t >= beats[i].p) { setBeat(i); break; } }
     if (hintEl) hintEl.style.opacity = t > 0.04 ? '0' : '0.7';
+    // fade the floating story caption out as the arrival/close section scrolls in, so they don't overlap
+    if (labUi) labUi.style.opacity = String(1 - THREE.MathUtils.smoothstep(t, 0.86, 0.96));
 
     composer.render();
   }
