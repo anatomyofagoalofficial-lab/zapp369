@@ -80,11 +80,11 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const L = new THREE.PointLight(0xffb050, 2.4, 46, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
     sprite(goldGlow, 7, 0, 9, z, scene);
   }
-  scene.add(new THREE.AmbientLight(0x4e3c28, 2.2));
+  scene.add(new THREE.AmbientLight(0x4a3826, 1.85));
   // a soft warm fill that rides with the camera so the room always feels lit and welcoming
-  const camFill = new THREE.PointLight(0xffc878, 2.2, 50, 2); scene.add(camFill);
-  // a warm golden haze glowing deeper in the room — draws the eye inward, an open-door feeling
-  sprite(goldGlow, 26, 0, 4, -10, scene);
+  const camFill = new THREE.PointLight(0xffc878, 1.5, 42, 2); scene.add(camFill);
+  // a gentle warm glow set deeper in the room — draws the eye inward without blowing out
+  sprite(goldGlow, 11, 0, 3, -20, scene);
 
   // ---- workbenches + period clutter ----
   function bench(z: number, side: number): void {
@@ -250,7 +250,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   // ---- render plumbing (UnrealBloom for the electric glow) ----
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.95, 0.6, 0.0);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.8, 0.6, 0.16);
   composer.addPass(bloom);
 
   function size(): void {
@@ -275,7 +275,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     camFill.position.set(camera.position.x, camera.position.y + 1.5, cz - 7);
 
     if (!reduced) {
-      for (let i = 0; i < amber.length; i++) amber[i].intensity = 2.7 + Math.sin(time * 7 + i * 1.7) * 0.5 + Math.random() * 0.25;
+      for (let i = 0; i < amber.length; i++) amber[i].intensity = 2.3 + Math.sin(time * 7 + i * 1.7) * 0.4 + Math.random() * 0.2;
       for (let i = 0; i < coils.length; i++) coils[i].orb.scale.setScalar(3.2 * (1.4 + Math.sin(time * 5 + i) * 0.5 + Math.random() * 0.4));
       if (Math.random() < 0.7) {
         updateArc(arcs[0], coils[0].top, coils[1].top);
