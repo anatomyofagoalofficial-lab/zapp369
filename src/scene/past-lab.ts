@@ -94,7 +94,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const shadeMat = new THREE.MeshStandardMaterial({ color: 0x140d06, roughness: 1, side: THREE.DoubleSide });
   for (let i = 0; i < 5; i++) {
     const z = 2 - i * 16;
-    const L = new THREE.PointLight(0xffb050, 2.4, 46, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
+    const L = new THREE.PointLight(0xffc070, 3.1, 66, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
     // a hanging work-lamp so the light reads as a real source, not a floating orb
     const shade = new THREE.Mesh(new THREE.ConeGeometry(1.25, 1.1, 16, 1, true), shadeMat);
     shade.position.set(0, 10.1, z); scene.add(shade);
@@ -102,9 +102,9 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     bulb.position.set(0, 9.2, z); scene.add(bulb);
     sprite(goldGlow, 4, 0, 9.1, z, scene);   // a tight halo, not a sun
   }
-  scene.add(new THREE.AmbientLight(0x4a3826, 1.95));
-  // a soft warm fill that rides with the camera so the room always feels lit and welcoming
-  const camFill = new THREE.PointLight(0xffc878, 1.6, 42, 2); scene.add(camFill);
+  scene.add(new THREE.AmbientLight(0x5a4632, 2.9));
+  // a soft warm fill that rides with the camera so the room is always clearly lit
+  const camFill = new THREE.PointLight(0xffd28a, 2.6, 62, 2); scene.add(camFill);
 
   // ---- workbenches + period clutter ----
   function bench(z: number, side: number): void {
@@ -252,11 +252,11 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const cv = document.createElement('canvas'); cv.width = 16; cv.height = 256;
     const cx = cv.getContext('2d')!;
     const g = cx.createLinearGradient(0, 0, 0, 256);
-    g.addColorStop(0.00, '#05060f');  // zenith
-    g.addColorStop(0.42, '#0b1533');
-    g.addColorStop(0.52, '#21345f');  // horizon glow band
-    g.addColorStop(0.60, '#0b1224');
-    g.addColorStop(1.00, '#03040c');
+    g.addColorStop(0.00, '#070810');  // zenith
+    g.addColorStop(0.40, '#0c1226');
+    g.addColorStop(0.52, '#141d33');  // soft horizon band (no hard cut)
+    g.addColorStop(0.64, '#0a0f1c');
+    g.addColorStop(1.00, '#06070e');
     cx.fillStyle = g; cx.fillRect(0, 0, 16, 256);
     const tex = new THREE.CanvasTexture(cv);
     const dome = new THREE.Mesh(new THREE.SphereGeometry(440, 32, 24),
@@ -352,6 +352,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
       'uniform sampler2D tDiffuse; uniform float uSepia; varying vec2 vUv;' +
       'void main(){ vec4 c = texture2D(tDiffuse, vUv);' +
       ' float l = dot(c.rgb, vec3(0.299,0.587,0.114));' +
+      ' l = 1.0 - exp(-l * 2.6);' +   // exposure lift so the lab reads like a well-lit photograph
       ' vec3 gray = vec3(l);' +
       ' vec3 sepia = vec3(min(1.0,l*1.14), l*0.93, l*0.70);' +
       ' gl_FragColor = vec4(mix(gray, sepia, uSepia), c.a); }',
@@ -380,7 +381,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     camFill.position.set(camera.position.x, camera.position.y + 1.5, cz - 7);
 
     if (!reduced) {
-      for (let i = 0; i < amber.length; i++) amber[i].intensity = 2.3 + Math.sin(time * 7 + i * 1.7) * 0.4 + Math.random() * 0.2;
+      for (let i = 0; i < amber.length; i++) amber[i].intensity = 3.2 + Math.sin(time * 7 + i * 1.7) * 0.45 + Math.random() * 0.2;
       for (let i = 0; i < coils.length; i++) coils[i].orb.scale.setScalar(3.2 * (1.4 + Math.sin(time * 5 + i) * 0.5 + Math.random() * 0.4));
       if (Math.random() < 0.6) {
         updateArc(arcs[0], coils[0].top, coils[1].top);
