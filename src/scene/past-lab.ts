@@ -80,7 +80,9 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const L = new THREE.PointLight(0xffb050, 2.4, 46, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
     sprite(goldGlow, 7, 0, 9, z, scene);
   }
-  scene.add(new THREE.AmbientLight(0x29211a, 1.1));
+  scene.add(new THREE.AmbientLight(0x3a2e22, 1.7));
+  // a soft warm fill that rides with the camera so the entrance never reads as a black void
+  const camFill = new THREE.PointLight(0xffc070, 1.2, 34, 2); scene.add(camFill);
 
   // ---- workbenches + period clutter ----
   function bench(z: number, side: number): void {
@@ -196,7 +198,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     new THREE.MeshStandardMaterial({ color: 0x6a4a22, metalness: 1, roughness: 0.3, emissive: 0x2a1a08, emissiveIntensity: 0.6 }));
   dome.position.y = H; tower.add(dome);
   const domeGlow = sprite(goldGlow, 18, 0, H, 0, tower);
-  scene.add(Object.assign(new THREE.DirectionalLight(0xaecbe6, 1.4), { position: new THREE.Vector3(-30, 50, -100) }));
+  const moon = new THREE.DirectionalLight(0xaecbe6, 1.4); moon.position.set(-30, 50, -100); scene.add(moon);
   const towerGlow = new THREE.PointLight(PAST_GLOW, 0, 90, 2); towerGlow.position.set(0, H - 6, TOWER_Z); scene.add(towerGlow);
   (function stars(): void {
     const N = 1300, pos = new Float32Array(N * 3);
@@ -211,7 +213,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const boltBase = new THREE.Vector3(0, H - 6, TOWER_Z), boltTop = new THREE.Vector3(0, H + 40, TOWER_Z);
 
   // ============ JOURNEY (scroll → forward travel into −Z) ============
-  const camStart = new THREE.Vector3(0, 1.5, 16);
+  const camStart = new THREE.Vector3(0, 1.5, 11);
   const camEnd = new THREE.Vector3(0, 2, -96);
   let t = 0, target = 0;
 
@@ -267,6 +269,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const sway = reduced ? 0 : Math.sin(time * 0.3) * 0.6 + Math.sin(t * Math.PI) * 1.4 * Math.sin(time * 0.2);
     camera.position.set(sway, THREE.MathUtils.lerp(camStart.y, camEnd.y, t) + (reduced ? 0 : Math.sin(time * 0.8) * 0.12), cz);
     camera.lookAt((reduced ? 0 : Math.sin(time * 0.18) * 1.2), 2.4, cz - 30);
+    camFill.position.set(camera.position.x, camera.position.y + 1.5, cz - 7);
 
     if (!reduced) {
       for (let i = 0; i < amber.length; i++) amber[i].intensity = 2.0 + Math.sin(time * 7 + i * 1.7) * 0.5 + Math.random() * 0.25;
