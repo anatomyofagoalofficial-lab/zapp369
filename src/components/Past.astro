@@ -74,14 +74,15 @@
 
   /* arrival / homage close */
   #dim-past .lab-close{
-    position:relative; z-index:2; min-height:100vh; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; text-align:center; gap:1.4rem; padding:12vh 28px;
-    background:linear-gradient(to bottom, transparent, rgba(5,2,8,.6) 30%, var(--ink) 70%);
+    position:relative; z-index:2; min-height:118vh; display:flex; flex-direction:column;
+    align-items:center; justify-content:flex-end; text-align:center; gap:1.1rem; padding:34vh 28px 9vh;
+    /* keep the upper area clear so the Tower (rendered behind) is fully visible; scrim only behind the text */
+    background:linear-gradient(to bottom, transparent 0%, transparent 44%, rgba(5,2,8,.4) 66%, rgba(5,2,8,.9) 100%);
   }
   #dim-past .lc-seq{ font-family:var(--mono); letter-spacing:.5em; color:var(--glow); font-size:.8rem; }
   #dim-past .lc-head{
-    font-size:clamp(2.4rem,7vw,5rem); line-height:1.02; font-weight:600; letter-spacing:-.01em;
-    text-shadow:0 0 40px rgba(244,210,122,.18);
+    font-size:clamp(1.9rem,5.2vw,3.7rem); line-height:1.05; font-weight:600; letter-spacing:-.01em;
+    text-shadow:0 0 40px rgba(244,210,122,.2), 0 2px 22px rgba(0,0,0,.85);
   }
   #dim-past .lc-head em{ font-style:italic; color:var(--glow); }
   #dim-past .lc-sub{
