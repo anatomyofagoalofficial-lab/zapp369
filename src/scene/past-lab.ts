@@ -30,7 +30,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x050208);
-  scene.fog = new THREE.FogExp2(0x070310, 0.0102);
+  scene.fog = new THREE.FogExp2(0x0d0905, 0.008);
 
   const camera = new THREE.PerspectiveCamera(62, innerWidth / innerHeight, 0.1, 600);
 
@@ -80,9 +80,11 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const L = new THREE.PointLight(0xffb050, 2.4, 46, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
     sprite(goldGlow, 7, 0, 9, z, scene);
   }
-  scene.add(new THREE.AmbientLight(0x3a2e22, 1.7));
-  // a soft warm fill that rides with the camera so the entrance never reads as a black void
-  const camFill = new THREE.PointLight(0xffc070, 1.2, 34, 2); scene.add(camFill);
+  scene.add(new THREE.AmbientLight(0x4e3c28, 2.2));
+  // a soft warm fill that rides with the camera so the room always feels lit and welcoming
+  const camFill = new THREE.PointLight(0xffc878, 2.2, 50, 2); scene.add(camFill);
+  // a warm golden haze glowing deeper in the room — draws the eye inward, an open-door feeling
+  sprite(goldGlow, 26, 0, 4, -10, scene);
 
   // ---- workbenches + period clutter ----
   function bench(z: number, side: number): void {
@@ -213,7 +215,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const boltBase = new THREE.Vector3(0, H - 6, TOWER_Z), boltTop = new THREE.Vector3(0, H + 40, TOWER_Z);
 
   // ============ JOURNEY (scroll → forward travel into −Z) ============
-  const camStart = new THREE.Vector3(0, 1.5, 11);
+  const camStart = new THREE.Vector3(0, 2, 6);
   const camEnd = new THREE.Vector3(0, 2, -96);
   let t = 0, target = 0;
 
@@ -273,7 +275,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     camFill.position.set(camera.position.x, camera.position.y + 1.5, cz - 7);
 
     if (!reduced) {
-      for (let i = 0; i < amber.length; i++) amber[i].intensity = 2.0 + Math.sin(time * 7 + i * 1.7) * 0.5 + Math.random() * 0.25;
+      for (let i = 0; i < amber.length; i++) amber[i].intensity = 2.7 + Math.sin(time * 7 + i * 1.7) * 0.5 + Math.random() * 0.25;
       for (let i = 0; i < coils.length; i++) coils[i].orb.scale.setScalar(3.2 * (1.4 + Math.sin(time * 5 + i) * 0.5 + Math.random() * 0.4));
       if (Math.random() < 0.7) {
         updateArc(arcs[0], coils[0].top, coils[1].top);
