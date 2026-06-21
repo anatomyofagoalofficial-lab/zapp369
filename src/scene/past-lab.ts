@@ -58,8 +58,8 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const x = cv.getContext('2d')!; const ph = h / planks;
     for (let i = 0; i < planks; i++) {
       const s = 30 + Math.floor(Math.random() * 36);
-      x.fillStyle = `rgb(${96 + s},${64 + s * 0.7},${36 + s * 0.5})`; x.fillRect(0, i * ph, w, ph - 1);
-      x.strokeStyle = 'rgba(40,24,10,0.32)'; x.lineWidth = 1;
+      x.fillStyle = `rgb(${150 + s},${112 + s * 0.7},${72 + s * 0.5})`; x.fillRect(0, i * ph, w, ph - 1);
+      x.strokeStyle = 'rgba(60,38,18,0.28)'; x.lineWidth = 1;
       for (let k = 0; k < 5; k++) { const yy = i * ph + Math.random() * ph; x.beginPath(); x.moveTo(0, yy);
         x.bezierCurveTo(w * 0.35, yy + (Math.random() - 0.5) * 4, w * 0.7, yy + (Math.random() - 0.5) * 4, w, yy); x.stroke(); }
       x.fillStyle = 'rgba(18,11,5,0.85)'; x.fillRect(0, i * ph + ph - 2, w, 2);
@@ -94,7 +94,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const shadeMat = new THREE.MeshStandardMaterial({ color: 0x140d06, roughness: 1, side: THREE.DoubleSide });
   for (let i = 0; i < 5; i++) {
     const z = 2 - i * 16;
-    const L = new THREE.PointLight(0xffc070, 3.1, 66, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
+    const L = new THREE.PointLight(0xffd080, 4.0, 84, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
     // a hanging work-lamp so the light reads as a real source, not a floating orb
     const shade = new THREE.Mesh(new THREE.ConeGeometry(1.25, 1.1, 16, 1, true), shadeMat);
     shade.position.set(0, 10.1, z); scene.add(shade);
@@ -102,9 +102,10 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     bulb.position.set(0, 9.2, z); scene.add(bulb);
     sprite(goldGlow, 4, 0, 9.1, z, scene);   // a tight halo, not a sun
   }
-  scene.add(new THREE.AmbientLight(0x5a4632, 2.9));
+  scene.add(new THREE.AmbientLight(0x6a5440, 4.3));
+  scene.add(new THREE.HemisphereLight(0xfff0d8, 0x6a5238, 2.3));   // broad overall fill so the whole room reads
   // a soft warm fill that rides with the camera so the room is always clearly lit
-  const camFill = new THREE.PointLight(0xffd28a, 2.6, 62, 2); scene.add(camFill);
+  const camFill = new THREE.PointLight(0xffd28a, 3.3, 70, 2); scene.add(camFill);
 
   // ---- workbenches + period clutter ----
   function bench(z: number, side: number): void {
@@ -198,6 +199,8 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   wallPhoto('/illustrations/world-system.jpg', -52, -1);
   wallPhoto('/illustrations/wardenclyffe.jpg', -24, 1);
   wallPhoto('/illustrations/tesla-tower-news.jpg', -46, 1);
+  wallPhoto('/illustrations/tribute.jpg', -66, 1);    // the ZAPP figure looking up at the tower
+  wallPhoto('/illustrations/torch-v2.jpg', -70, -1);  // the ZAPP torch (Prometheus / fire-bringer)
 
   // ---- chalkboard : 3 · 6 · 9 ----
   (function chalkboard(): void {
@@ -247,6 +250,9 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), new THREE.MeshStandardMaterial({ color: 0x0c1320, roughness: 1, metalness: 0 }));
   ground.rotation.x = -Math.PI / 2; tower.add(ground);
 
+  // everything sky-related lives in one group we can hide while indoors
+  const sky = new THREE.Group(); scene.add(sky);
+
   // ---- the night SKY: a gradient dome + moon so the exterior reads as OUTSIDE, not a void ----
   (function nightSky(): void {
     const cv = document.createElement('canvas'); cv.width = 16; cv.height = 256;
@@ -261,13 +267,13 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const tex = new THREE.CanvasTexture(cv);
     const dome = new THREE.Mesh(new THREE.SphereGeometry(440, 32, 24),
       new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false, depthWrite: false }));
-    dome.position.set(0, 0, TOWER_Z + 20); scene.add(dome);
+    dome.position.set(0, 0, TOWER_Z + 20); sky.add(dome);
     // the moon (disc + soft halo), high over the horizon
     const moon = new THREE.Mesh(new THREE.CircleGeometry(9, 40),
       new THREE.MeshBasicMaterial({ color: 0xeaf0fc, fog: false }));
-    moon.position.set(-155, 115, TOWER_Z - 130); moon.lookAt(0, 30, TOWER_Z); scene.add(moon);
+    moon.position.set(-155, 115, TOWER_Z - 130); moon.lookAt(0, 30, TOWER_Z); sky.add(moon);
     const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: blueGlow, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, fog: false, opacity: 0.9 }));
-    halo.scale.set(80, 80, 1); halo.position.set(-155, 115, TOWER_Z - 128); scene.add(halo);
+    halo.scale.set(80, 80, 1); halo.position.set(-155, 115, TOWER_Z - 128); sky.add(halo);
   })();
   const latMat = new THREE.LineBasicMaterial({ color: 0x9fb6c9, transparent: true, opacity: 0.8 });
   const H = 42, RINGS = 11, SIDES = 8;
@@ -302,7 +308,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
       pos[i * 3] = Math.sin(ph) * Math.cos(th) * r; pos[i * 3 + 1] = Math.cos(ph) * r * 0.9 + 8; pos[i * 3 + 2] = TOWER_Z + Math.sin(ph) * Math.sin(th) * r;
     }
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xdce6f5, size: 1.05, transparent: true, opacity: 0.9, fog: false, depthWrite: false })));
+    sky.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xdce6f5, size: 1.05, transparent: true, opacity: 0.9, fog: false, depthWrite: false })));
   })();
   const bolt = makeArc(0xeaf4ff); bolt.line.visible = false;
   const boltBase = new THREE.Vector3(0, H - 6, TOWER_Z), boltTop = new THREE.Vector3(0, H + 40, TOWER_Z);
@@ -352,7 +358,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
       'uniform sampler2D tDiffuse; uniform float uSepia; varying vec2 vUv;' +
       'void main(){ vec4 c = texture2D(tDiffuse, vUv);' +
       ' float l = dot(c.rgb, vec3(0.299,0.587,0.114));' +
-      ' l = 1.0 - exp(-l * 2.6);' +   // exposure lift so the lab reads like a well-lit photograph
+      ' l = 1.0 - exp(-l * 5.2);' +   // strong exposure lift so the lab reads like a well-lit photograph
       ' vec3 gray = vec3(l);' +
       ' vec3 sepia = vec3(min(1.0,l*1.14), l*0.93, l*0.70);' +
       ' gl_FragColor = vec4(mix(gray, sepia, uSepia), c.a); }',
@@ -381,7 +387,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     camFill.position.set(camera.position.x, camera.position.y + 1.5, cz - 7);
 
     if (!reduced) {
-      for (let i = 0; i < amber.length; i++) amber[i].intensity = 3.2 + Math.sin(time * 7 + i * 1.7) * 0.45 + Math.random() * 0.2;
+      for (let i = 0; i < amber.length; i++) amber[i].intensity = 4.2 + Math.sin(time * 7 + i * 1.7) * 0.45 + Math.random() * 0.2;
       for (let i = 0; i < coils.length; i++) coils[i].orb.scale.setScalar(3.2 * (1.4 + Math.sin(time * 5 + i) * 0.5 + Math.random() * 0.4));
       if (Math.random() < 0.6) {
         updateArc(arcs[0], coils[0].top, coils[1].top);
@@ -400,6 +406,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const ext = THREE.MathUtils.smoothstep(t, 0.7, 1);
     // black-and-white inside the lab, warming into a sepia "splash of brown" once outside
     monoPass.uniforms.uSepia.value = 0.1 + THREE.MathUtils.smoothstep(t, 0.6, 0.82) * 0.72;
+    sky.visible = t > 0.55;   // hide the night sky + stars while you're inside the lab
     towerGlow.intensity = ext * 3.2;
     domeGlow.scale.setScalar(18 + ext * 16 + (reduced ? 0 : Math.sin(time * 4) * ext * 4));
     if (!reduced) tower.rotation.y = Math.sin(time * 0.05) * 0.04;
