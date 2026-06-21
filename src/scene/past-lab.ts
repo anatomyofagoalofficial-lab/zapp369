@@ -94,7 +94,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const shadeMat = new THREE.MeshStandardMaterial({ color: 0x140d06, roughness: 1, side: THREE.DoubleSide });
   for (let i = 0; i < 5; i++) {
     const z = 2 - i * 16;
-    const L = new THREE.PointLight(0xffd080, 4.0, 84, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
+    const L = new THREE.PointLight(0xffd080, 3.2, 74, 2); L.position.set(0, 9, z); scene.add(L); amber.push(L);
     // a hanging work-lamp so the light reads as a real source, not a floating orb
     const shade = new THREE.Mesh(new THREE.ConeGeometry(1.25, 1.1, 16, 1, true), shadeMat);
     shade.position.set(0, 10.1, z); scene.add(shade);
@@ -102,10 +102,10 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     bulb.position.set(0, 9.2, z); scene.add(bulb);
     sprite(goldGlow, 4, 0, 9.1, z, scene);   // a tight halo, not a sun
   }
-  scene.add(new THREE.AmbientLight(0x6a5440, 4.3));
-  scene.add(new THREE.HemisphereLight(0xfff0d8, 0x6a5238, 2.3));   // broad overall fill so the whole room reads
+  scene.add(new THREE.AmbientLight(0x6a5440, 2.9));
+  scene.add(new THREE.HemisphereLight(0xfff0d8, 0x6a5238, 1.3));   // broad overall fill so the whole room reads
   // a soft warm fill that rides with the camera so the room is always clearly lit
-  const camFill = new THREE.PointLight(0xffd28a, 3.3, 70, 2); scene.add(camFill);
+  const camFill = new THREE.PointLight(0xffd28a, 2.5, 66, 2); scene.add(camFill);
 
   // ---- workbenches + period clutter ----
   function bench(z: number, side: number): void {
@@ -348,7 +348,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   // ---- render plumbing (UnrealBloom for the electric glow) ----
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.8, 0.6, 0.16);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.5, 0.6, 0.3);
   composer.addPass(bloom);
   // 1910 film grade: grayscale inside the lab, warming to sepia as you step outside
   const monoPass = new ShaderPass({
@@ -358,7 +358,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
       'uniform sampler2D tDiffuse; uniform float uSepia; varying vec2 vUv;' +
       'void main(){ vec4 c = texture2D(tDiffuse, vUv);' +
       ' float l = dot(c.rgb, vec3(0.299,0.587,0.114));' +
-      ' l = 1.0 - exp(-l * 5.2);' +   // strong exposure lift so the lab reads like a well-lit photograph
+      ' float e = l * 2.1; l = e / (e + 0.8);' +   // filmic tonemap: lifts mid-tones, compresses highlights so it never blows out to white
       ' vec3 gray = vec3(l);' +
       ' vec3 sepia = vec3(min(1.0,l*1.14), l*0.93, l*0.70);' +
       ' gl_FragColor = vec4(mix(gray, sepia, uSepia), c.a); }',
