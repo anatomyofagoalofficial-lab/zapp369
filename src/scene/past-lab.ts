@@ -229,10 +229,9 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const labUi = document.querySelector('.lab-ui') as HTMLElement | null;
   const beats = [
     { p: 0.00, c: 'Colorado Springs · 1899', l: 'Step inside the <em>laboratory</em>.' },
-    { p: 0.26, c: 'The Experiment', l: 'He pulled <em>lightning</em> from the empty air.' },
-    { p: 0.52, c: '3 · 6 · 9', l: 'Energy, frequency, vibration —<br>the keys he left behind.' },
-    { p: 0.78, c: 'Wardenclyffe · 1901', l: 'The tower built to wire the<br><em>whole world</em> for free.' },
-    { p: 0.95, c: 'They buried the tower', l: 'Never the <em>frequency</em>.' },
+    { p: 0.24, c: 'The Experiment', l: 'He pulled <em>lightning</em> from the empty air.' },
+    { p: 0.46, c: '3 · 6 · 9', l: 'Energy, frequency, vibration —<br>the keys he left behind.' },
+    { p: 0.62, c: 'Wardenclyffe · 1901', l: 'The tower built to wire the<br><em>whole world</em> for free.' },
   ];
   let curBeat = -1;
   function setBeat(i: number): void {
@@ -301,7 +300,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     for (let i = beats.length - 1; i >= 0; i--) { if (t >= beats[i].p) { setBeat(i); break; } }
     if (hintEl) hintEl.style.opacity = t > 0.04 ? '0' : '0.7';
     // fade the floating story caption out as the arrival/close section scrolls in, so they don't overlap
-    if (labUi) labUi.style.opacity = String(1 - THREE.MathUtils.smoothstep(t, 0.86, 0.96));
+    if (labUi) labUi.style.opacity = String(1 - THREE.MathUtils.smoothstep(t, 0.68, 0.78));
 
     composer.render();
   }
