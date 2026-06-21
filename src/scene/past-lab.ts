@@ -12,6 +12,7 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { prefersReducedMotion } from '../scripts/constants';
 
 const PAST_GLOW = 0xF4D27A;   // canonical "past" era colour
@@ -51,9 +52,24 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     sp.scale.set(size, size, 1); sp.position.set(x, y, z); parent.add(sp); return sp;
   }
 
-  // ---- lab shell ----
-  const woodMat = new THREE.MeshStandardMaterial({ color: 0x2a1d10, roughness: 0.95, metalness: 0.05 });
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0x150d08, roughness: 1, metalness: 0, side: THREE.DoubleSide });
+  // ---- lab shell : wooden-plank barn (Colorado Springs) ----
+  function plankTex(planks: number): THREE.CanvasTexture {
+    const w = 256, h = 256, cv = document.createElement('canvas'); cv.width = w; cv.height = h;
+    const x = cv.getContext('2d')!; const ph = h / planks;
+    for (let i = 0; i < planks; i++) {
+      const s = 30 + Math.floor(Math.random() * 36);
+      x.fillStyle = `rgb(${96 + s},${64 + s * 0.7},${36 + s * 0.5})`; x.fillRect(0, i * ph, w, ph - 1);
+      x.strokeStyle = 'rgba(40,24,10,0.32)'; x.lineWidth = 1;
+      for (let k = 0; k < 5; k++) { const yy = i * ph + Math.random() * ph; x.beginPath(); x.moveTo(0, yy);
+        x.bezierCurveTo(w * 0.35, yy + (Math.random() - 0.5) * 4, w * 0.7, yy + (Math.random() - 0.5) * 4, w, yy); x.stroke(); }
+      x.fillStyle = 'rgba(18,11,5,0.85)'; x.fillRect(0, i * ph + ph - 2, w, 2);
+    }
+    const t = new THREE.CanvasTexture(cv); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+  }
+  const floorWood = plankTex(7); floorWood.repeat.set(7, 12);
+  const wallWood = plankTex(9); wallWood.repeat.set(7, 3);
+  const woodMat = new THREE.MeshStandardMaterial({ map: floorWood, roughness: 0.95, metalness: 0.05 });
+  const wallMat = new THREE.MeshStandardMaterial({ map: wallWood, roughness: 1, metalness: 0, side: THREE.DoubleSide });
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(46, 120), woodMat);
   floor.rotation.x = -Math.PI / 2; floor.position.set(0, -6, LAB_END / 2 + 6); scene.add(floor);
   const ceil = new THREE.Mesh(new THREE.PlaneGeometry(46, 120), wallMat);
@@ -132,7 +148,56 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     g.position.set(x, 0, z); g.scale.setScalar(scale); scene.add(g);
     coils.push({ top: new THREE.Vector3(x, 3 * scale, z), orb });
   }
-  teslaCoil(-6, -22, 1); teslaCoil(6, -40, 1.05); teslaCoil(0, -62, 1.2);
+  teslaCoil(-7, -22, 0.85); teslaCoil(7, -34, 0.9);
+
+  // ---- the Magnifying Transmitter — the Colorado Springs centrepiece ----
+  let mtTop = new THREE.Vector3(0, 9, -58);
+  (function magnifyingTransmitter(): void {
+    const X = 0, Z = -58;
+    const prim = new THREE.Mesh(new THREE.CylinderGeometry(4.3, 4.7, 2.4, 30, 1, true),
+      new THREE.MeshStandardMaterial({ color: 0x7a4a1c, metalness: 0.6, roughness: 0.5, side: THREE.DoubleSide, emissive: 0x180c03, emissiveIntensity: 0.4 }));
+    prim.position.set(X, -3.8, Z); scene.add(prim);
+    const sec = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.35, 9, 24),
+      new THREE.MeshStandardMaterial({ color: 0x8a5a22, metalness: 0.8, roughness: 0.4, emissive: 0x2a1605, emissiveIntensity: 0.5 }));
+    sec.position.set(X, 1.6, Z); scene.add(sec);
+    const ringMat = new THREE.MeshStandardMaterial({ color: 0xc97b2a, metalness: 1, roughness: 0.3 });
+    for (let i = 0; i < 12; i++) { const r = new THREE.Mesh(new THREE.TorusGeometry(1.25, 0.06, 6, 24), ringMat); r.position.set(X, -2.6 + i * 0.74, Z); r.rotation.x = Math.PI / 2; scene.add(r); }
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(2.3, 30, 22),
+      new THREE.MeshStandardMaterial({ color: 0xb9c2cc, metalness: 1, roughness: 0.18, emissive: 0x223044, emissiveIntensity: 0.5 }));
+    ball.position.set(X, 7.4, Z); scene.add(ball);
+    mtTop = new THREE.Vector3(X, 9.4, Z);
+    sprite(blueGlow, 10, X, 7.4, Z, scene);
+    // the circular cage of vertical posts (the secondary "fence")
+    const cageMat = new THREE.MeshStandardMaterial({ color: 0x5a3c1e, roughness: 0.9, metalness: 0.1 });
+    const CR = 7.5, posts = 30;
+    for (let i = 0; i < posts; i++) { const a = i / posts * Math.PI * 2;
+      const p = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 6.2, 6), cageMat);
+      p.position.set(X + Math.cos(a) * CR, -2.9, Z + Math.sin(a) * CR); scene.add(p); }
+    for (const yy of [-6, 0.2]) { const ring = new THREE.Mesh(new THREE.TorusGeometry(CR, 0.11, 6, 44), cageMat); ring.position.set(X, yy, Z); ring.rotation.x = Math.PI / 2; scene.add(ring); }
+  })();
+  // wooden tripods scattered around the floor
+  function tripod(x: number, z: number): void {
+    const m = new THREE.MeshStandardMaterial({ color: 0x4a3018, roughness: 0.95 });
+    for (let i = 0; i < 3; i++) { const a = i / 3 * Math.PI * 2;
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 7, 6), m);
+      leg.position.set(x + Math.cos(a) * 1.1, -2.6, z + Math.sin(a) * 1.1); leg.rotation.z = Math.cos(a) * 0.26; leg.rotation.x = Math.sin(a) * 0.26; scene.add(leg); }
+  }
+  tripod(-11, -48); tripod(11, -52);
+
+  // ---- framed archive photographs on the plank walls ----
+  const texLoader = new THREE.TextureLoader();
+  function wallPhoto(url: string, z: number, side: number): void {
+    const g = new THREE.Group();
+    const frame = new THREE.Mesh(new THREE.PlaneGeometry(6.6, 5.0), new THREE.MeshStandardMaterial({ color: 0x2a1c0e, roughness: 0.85, metalness: 0.15 }));
+    const tex = texLoader.load(url);
+    const pic = new THREE.Mesh(new THREE.PlaneGeometry(6, 4.4), new THREE.MeshStandardMaterial({ map: tex, emissiveMap: tex, emissive: 0x808080, emissiveIntensity: 0.4, roughness: 0.9 }));
+    pic.position.z = 0.06; g.add(frame); g.add(pic);
+    g.position.set(side * 15.6, 3.4, z); g.rotation.y = side < 0 ? Math.PI / 2 : -Math.PI / 2; scene.add(g);
+  }
+  wallPhoto('/illustrations/tesla-lab-1899.jpg', -14, -1);
+  wallPhoto('/illustrations/world-system.jpg', -52, -1);
+  wallPhoto('/illustrations/wardenclyffe.jpg', -24, 1);
+  wallPhoto('/illustrations/tesla-tower-news.jpg', -46, 1);
 
   // ---- chalkboard : 3 · 6 · 9 ----
   (function chalkboard(): void {
@@ -167,6 +232,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     arc.attr.needsUpdate = true;
   }
   const arcs: Arc[] = [makeArc(0xcfe8ff), makeArc(0xcfe8ff), makeArc(0xcfe8ff)];
+  const mtArcs: Arc[] = [makeArc(0xeaf4ff), makeArc(0xeaf4ff), makeArc(0xeaf4ff), makeArc(0xeaf4ff), makeArc(0xeaf4ff), makeArc(0xeaf4ff)];
 
   // ---- dust motes ----
   (function dust(): void {
@@ -178,8 +244,31 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
 
   // ============ EXTERIOR : WARDENCLYFFE TOWER ============
   const tower = new THREE.Group(); tower.position.set(0, -6, TOWER_Z); scene.add(tower);
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({ color: 0x0a0d14, roughness: 1 }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), new THREE.MeshStandardMaterial({ color: 0x0c1320, roughness: 1, metalness: 0 }));
   ground.rotation.x = -Math.PI / 2; tower.add(ground);
+
+  // ---- the night SKY: a gradient dome + moon so the exterior reads as OUTSIDE, not a void ----
+  (function nightSky(): void {
+    const cv = document.createElement('canvas'); cv.width = 16; cv.height = 256;
+    const cx = cv.getContext('2d')!;
+    const g = cx.createLinearGradient(0, 0, 0, 256);
+    g.addColorStop(0.00, '#05060f');  // zenith
+    g.addColorStop(0.42, '#0b1533');
+    g.addColorStop(0.52, '#21345f');  // horizon glow band
+    g.addColorStop(0.60, '#0b1224');
+    g.addColorStop(1.00, '#03040c');
+    cx.fillStyle = g; cx.fillRect(0, 0, 16, 256);
+    const tex = new THREE.CanvasTexture(cv);
+    const dome = new THREE.Mesh(new THREE.SphereGeometry(440, 32, 24),
+      new THREE.MeshBasicMaterial({ map: tex, side: THREE.BackSide, fog: false, depthWrite: false }));
+    dome.position.set(0, 0, TOWER_Z + 20); scene.add(dome);
+    // the moon (disc + soft halo), high over the horizon
+    const moon = new THREE.Mesh(new THREE.CircleGeometry(9, 40),
+      new THREE.MeshBasicMaterial({ color: 0xeaf0fc, fog: false }));
+    moon.position.set(-155, 115, TOWER_Z - 130); moon.lookAt(0, 30, TOWER_Z); scene.add(moon);
+    const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: blueGlow, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, fog: false, opacity: 0.9 }));
+    halo.scale.set(80, 80, 1); halo.position.set(-155, 115, TOWER_Z - 128); scene.add(halo);
+  })();
   const latMat = new THREE.LineBasicMaterial({ color: 0x9fb6c9, transparent: true, opacity: 0.8 });
   const H = 42, RINGS = 11, SIDES = 8;
   const ringPts = (y: number, r: number): THREE.Vector3[] => {
@@ -207,13 +296,13 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   const moon = new THREE.DirectionalLight(0xaecbe6, 1.4); moon.position.set(-30, 50, -100); scene.add(moon);
   const towerGlow = new THREE.PointLight(PAST_GLOW, 0, 90, 2); towerGlow.position.set(0, H - 6, TOWER_Z); scene.add(towerGlow);
   (function stars(): void {
-    const N = 1300, pos = new Float32Array(N * 3);
+    const N = 2200, pos = new Float32Array(N * 3);
     for (let i = 0; i < N; i++) {
-      const r = 200 + Math.random() * 180, th = Math.random() * Math.PI * 2, ph = Math.random() * Math.PI * 0.5;
-      pos[i * 3] = Math.sin(ph) * Math.cos(th) * r; pos[i * 3 + 1] = Math.cos(ph) * r * 0.8; pos[i * 3 + 2] = TOWER_Z + Math.sin(ph) * Math.sin(th) * r;
+      const r = 380 + Math.random() * 40, th = Math.random() * Math.PI * 2, ph = Math.acos(Math.random()); // upper hemisphere
+      pos[i * 3] = Math.sin(ph) * Math.cos(th) * r; pos[i * 3 + 1] = Math.cos(ph) * r * 0.9 + 8; pos[i * 3 + 2] = TOWER_Z + Math.sin(ph) * Math.sin(th) * r;
     }
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xcdd9e8, size: 0.7, transparent: true, opacity: 0.8 })));
+    scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xdce6f5, size: 1.05, transparent: true, opacity: 0.9, fog: false, depthWrite: false })));
   })();
   const bolt = makeArc(0xeaf4ff); bolt.line.visible = false;
   const boltBase = new THREE.Vector3(0, H - 6, TOWER_Z), boltTop = new THREE.Vector3(0, H + 40, TOWER_Z);
@@ -255,6 +344,19 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.8, 0.6, 0.16);
   composer.addPass(bloom);
+  // 1910 film grade: grayscale inside the lab, warming to sepia as you step outside
+  const monoPass = new ShaderPass({
+    uniforms: { tDiffuse: { value: null }, uSepia: { value: 0.1 } },
+    vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+    fragmentShader:
+      'uniform sampler2D tDiffuse; uniform float uSepia; varying vec2 vUv;' +
+      'void main(){ vec4 c = texture2D(tDiffuse, vUv);' +
+      ' float l = dot(c.rgb, vec3(0.299,0.587,0.114));' +
+      ' vec3 gray = vec3(l);' +
+      ' vec3 sepia = vec3(min(1.0,l*1.14), l*0.93, l*0.70);' +
+      ' gl_FragColor = vec4(mix(gray, sepia, uSepia), c.a); }',
+  });
+  composer.addPass(monoPass);
 
   function size(): void {
     const w = innerWidth, h = innerHeight;
@@ -280,15 +382,23 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     if (!reduced) {
       for (let i = 0; i < amber.length; i++) amber[i].intensity = 2.3 + Math.sin(time * 7 + i * 1.7) * 0.4 + Math.random() * 0.2;
       for (let i = 0; i < coils.length; i++) coils[i].orb.scale.setScalar(3.2 * (1.4 + Math.sin(time * 5 + i) * 0.5 + Math.random() * 0.4));
-      if (Math.random() < 0.7) {
+      if (Math.random() < 0.6) {
         updateArc(arcs[0], coils[0].top, coils[1].top);
-        updateArc(arcs[1], coils[1].top, coils[2].top);
-        updateArc(arcs[2], coils[2].top, new THREE.Vector3(coils[2].top.x + (Math.random() - 0.5) * 6, coils[2].top.y + 3, coils[2].top.z));
+        updateArc(arcs[1], coils[0].top, new THREE.Vector3(coils[0].top.x + (Math.random() - 0.5) * 5, coils[0].top.y + 2.5, coils[0].top.z));
+        updateArc(arcs[2], coils[1].top, new THREE.Vector3(coils[1].top.x + (Math.random() - 0.5) * 5, coils[1].top.y + 2.5, coils[1].top.z));
         for (const a of arcs) a.line.visible = true;
       } else for (const a of arcs) a.line.visible = false;
+      // the magnifying transmitter — long branching discharge spreading outward
+      if (Math.random() < 0.88) {
+        for (let k = 0; k < mtArcs.length; k++) { const ang = Math.random() * Math.PI * 2, len = 7 + Math.random() * 11;
+          updateArc(mtArcs[k], mtTop, new THREE.Vector3(mtTop.x + Math.cos(ang) * len, mtTop.y + (Math.random() - 0.35) * 7, mtTop.z + Math.sin(ang) * len));
+          mtArcs[k].line.visible = true; }
+      } else for (const a of mtArcs) a.line.visible = false;
     }
 
     const ext = THREE.MathUtils.smoothstep(t, 0.7, 1);
+    // black-and-white inside the lab, warming into a sepia "splash of brown" once outside
+    monoPass.uniforms.uSepia.value = 0.1 + THREE.MathUtils.smoothstep(t, 0.6, 0.82) * 0.72;
     towerGlow.intensity = ext * 3.2;
     domeGlow.scale.setScalar(18 + ext * 16 + (reduced ? 0 : Math.sin(time * 4) * ext * 4));
     if (!reduced) tower.rotation.y = Math.sin(time * 0.05) * 0.04;
