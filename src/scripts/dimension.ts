@@ -9,6 +9,7 @@ import { initTeslaArc } from './teslaArc';
 import { initMatrixRain } from './matrixRain';
 import { initFutureBg } from './futureBg';
 import { initGoldenAtmos } from './goldenAtmos';
+import { initPastLab } from '../scene/past-lab';
 import { initReferral } from './referral';
 import { initZappChart } from './zappChart';
 
@@ -26,7 +27,7 @@ function boot() {
   document.body.classList.add('scrollable');
   const navEl = document.getElementById('dim-nav');
   navEl?.classList.add('show');
-  if (name === 'present' || name === 'past') navEl?.classList.add('dn-light'); // light parchment pages → light nav from the top
+  if (name === 'present') navEl?.classList.add('dn-light'); // light parchment page → light nav (past is now a dark immersive scene)
   document.querySelectorAll('.dn-era [data-era]').forEach(b => b.classList.toggle('on', b.getAttribute('data-era') === name));
 
   let lenis: Lenis | null = null;
@@ -79,9 +80,9 @@ function boot() {
   if (lenis) lenis.on('scroll', onScroll);
 
   if (name === 'past') {
-    // Past = one luminous golden canvas (god-rays + a living Wardenclyffe tower).
-    // (The separate teslaArc canvas was redundant with the tower's own discharge — dropped for perf.)
-    const ga = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (ga) initGoldenAtmos(ga);
+    // Past = "Enter the Laboratory" — an immersive walk-in WebGL scene. Scroll flies the
+    // camera forward into Tesla's 1899 lab and out through the doorway to the Wardenclyffe Tower.
+    const ga = document.getElementById('past-canvas') as HTMLCanvasElement | null; if (ga) initPastLab(ga);
   } else if (name !== 'present') {
     startDimCanvas(name);   // Present is clean parchment — no 3D scene
   }
@@ -99,6 +100,7 @@ function boot() {
 // ── floating Buy dock: always one tap from buying, smart-routed ──
 function injectBuyDock() {
   if (document.getElementById('buy-dock')) return;
+  if (document.getElementById('dim-past')) return; // Past stays a pure Tesla homage — no token dock
   const hasBuy = !!document.getElementById('buy-section');
   const hasHow = !!document.querySelector('.howto');
   const touch = matchMedia('(pointer: coarse)').matches;
