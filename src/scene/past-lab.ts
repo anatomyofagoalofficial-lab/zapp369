@@ -373,6 +373,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
       ' gl_FragColor = vec4(mix(bw, c.rgb, m), c.a); }',
   });
   composer.addPass(monoPass);
+  monoPass.uniforms.uMask.value = maskRT.texture;   // bind the LIVE mask texture (ShaderPass clones uniforms)
 
   function size(): void {
     const w = innerWidth, h = innerHeight;
@@ -415,6 +416,7 @@ export function initPastLab(canvas: HTMLCanvasElement): void {
     const ext = THREE.MathUtils.smoothstep(t, 0.7, 1);
     // black-and-white inside the lab, warming into a sepia "splash of brown" once outside
     monoPass.uniforms.uSepia.value = 0.1 + THREE.MathUtils.smoothstep(t, 0.6, 0.82) * 0.72;
+    monoPass.uniforms.uMask.value = maskRT.texture;
     sky.visible = t > 0.55;   // hide the night sky + stars while you're inside the lab
     towerGlow.intensity = ext * 3.2;
     domeGlow.scale.setScalar(18 + ext * 16 + (reduced ? 0 : Math.sin(time * 4) * ext * 4));
