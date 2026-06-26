@@ -197,6 +197,18 @@
   .shot{box-shadow:0 18px 54px rgba(0,0,0,.6),0 0 0 1px rgba(244,210,122,.12)}
   .stat .n{text-shadow:0 0 22px rgba(244,210,122,.22)}
   @media(max-width:560px){.wrap{padding:0 18px}.band{padding:6vh 0 3vh}h2.t{font-size:clamp(1.7rem,7vw,2.3rem)}.lead{font-size:1.04rem}.stat .n{font-size:1.2rem}.figrow,.figrow.rev{gap:16px}}
+
+  /* ===== section dot-nav + chart reveal + coin glow ===== */
+  .dotnav{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;gap:13px}
+  .dotnav a{width:9px;height:9px;border-radius:50%;background:rgba(244,210,122,.28);position:relative;transition:background .3s,transform .3s,box-shadow .3s}
+  .dotnav a:hover,.dotnav a.on{background:var(--gold);transform:scale(1.35);box-shadow:0 0 12px rgba(244,210,122,.7)}
+  .dotnav a::after{content:attr(data-label);position:absolute;right:20px;top:50%;transform:translateY(-50%);white-space:nowrap;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em;color:var(--cream);background:rgba(8,5,12,.85);border:1px solid var(--line);padding:4px 9px;border-radius:7px;opacity:0;pointer-events:none;transition:opacity .25s}
+  .dotnav a:hover::after{opacity:1}
+  @media(max-width:900px){.dotnav{display:none}}
+  .band svg rect{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(.05);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+  .band.in svg rect{transform:scaleY(1)}
+  @media (prefers-reduced-motion: reduce){.band svg rect{transform:none;transition:none}}
+  .coinwrap::before{content:"";position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(72vw,580px);height:min(72vw,580px);background:radial-gradient(circle,rgba(120,180,255,.12),rgba(244,210,122,.05) 42%,transparent 64%);z-index:0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -207,6 +219,15 @@
   <button data-lang="en" class="on">EN</button>
   <button data-lang="ro">RO</button>
 </div>
+<nav class="dotnav" aria-label="sections">
+  <a href="#idea" data-label="The idea"></a>
+  <a href="#flywheel" data-label="The flywheel"></a>
+  <a href="#tokenomics" data-label="Tokenomics"></a>
+  <a href="#floor" data-label="Floor Engine"></a>
+  <a href="#money" data-label="The money"></a>
+  <a href="#roadmap" data-label="Roadmap"></a>
+  <a href="#safe" data-label="Safe & together"></a>
+</nav>
 
 <!-- VIDEO HERO -->
 <section class="vhero starhero">
@@ -839,6 +860,14 @@ addEventListener('scroll',function(){var h=document.documentElement;var s=h.scro
   function apply(lang){ var d=DICT[lang]||DICT.en; document.querySelectorAll('[data-i18n]').forEach(function(el){ var v=d[el.getAttribute('data-i18n')]; if(v!=null)el.textContent=v; }); document.querySelectorAll('.langbar button').forEach(function(b){ b.classList.toggle('on',b.getAttribute('data-lang')===lang); }); document.documentElement.lang=lang; try{localStorage.setItem('zapp_lang',lang);}catch(e){} }
   document.querySelectorAll('.langbar button').forEach(function(b){ b.addEventListener('click',function(){ apply(b.getAttribute('data-lang')); }); });
   var saved; try{saved=localStorage.getItem('zapp_lang');}catch(e){} if(saved&&saved!=='en'&&DICT[saved]) apply(saved);
+})();
+/* ===== section dot-nav active state ===== */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.dotnav a'));
+  if(!links.length) return;
+  var map={}; links.forEach(function(a){ map[a.getAttribute('href').slice(1)]=a; });
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ links.forEach(function(l){l.classList.remove('on');}); var a=map[e.target.id]; if(a)a.classList.add('on'); } }); },{rootMargin:'-45% 0px -45% 0px'});
+  Object.keys(map).forEach(function(id){ var el=document.getElementById(id); if(el)io.observe(el); });
 })();
 </script>
 </body>
