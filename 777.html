@@ -38,8 +38,8 @@
   .days{font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;opacity:.9}
   .days b{color:var(--gold);font-weight:700}
   /* 3D coin */
-  .coinbox{position:relative;height:400px;margin:1rem 0 .5rem}
-  #coin{position:absolute;inset:0}
+  .coinbox{position:relative;height:340px;width:100%;max-width:340px;margin:1rem auto .5rem;overflow:hidden}
+  #coin{position:absolute;inset:0;width:100%;height:100%;display:block}
   .tag{font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,5.6vw,2.2rem);color:var(--cream);margin:.6rem 0 0}
   .tag b{color:var(--gold);font-style:normal}
   .sub{color:#cfc5a5;max-width:580px;margin:1rem auto 0;font-size:1.15rem;text-wrap:balance}
@@ -108,7 +108,7 @@
   .ca .cac{font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
   @media(max-width:560px){
     .wrap{padding:4vh 16px 22vh}
-    .coinbox{height:300px}
+    .coinbox{height:270px;max-width:270px}
     .badge{font-size:.6rem;letter-spacing:.16em;padding:9px 15px}
     .days{font-size:.55rem;letter-spacing:.18em}
     .sub{font-size:1.06rem}
@@ -550,7 +550,7 @@
 (function(){
   if(!window.THREE){return;}
   var cv=document.getElementById('coin');
-  var w=cv.clientWidth, h=cv.clientHeight;
+  var w=Math.max(1,cv.clientWidth||340), h=Math.max(1,cv.clientHeight||340);
   var renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(w,h,false);
   var scene=new THREE.Scene();
@@ -590,7 +590,7 @@
   cv.addEventListener('pointerdown',function(e){downX=e.clientX; cv.style.cursor='grabbing';});
   addEventListener('pointerup',function(){downX=null; cv.style.cursor='grab';});
   addEventListener('pointermove',function(e){ if(downX!=null){ pivot.rotation.y += (e.clientX-downX)*0.008; downX=e.clientX; }});
-  function resize(){ w=cv.clientWidth; h=cv.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  function resize(){ w=Math.max(1,cv.clientWidth); h=Math.max(1,cv.clientHeight); renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
   addEventListener('resize',resize);
   var t0=performance.now();
   function loop(t){
