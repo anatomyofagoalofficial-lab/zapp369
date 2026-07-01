@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>⚡ZAPP UP · 7 of 7 · One Dollar, One Day, One World</title>
 <meta property="og:title" content="⚡ZAPP UP · 7 of 7">
 <meta property="og:description" content="On the 7th of July, the whole world puts $1 into ⚡ZAPP. One dollar. One day. One world.">
@@ -18,7 +18,8 @@
     --safe-b:env(safe-area-inset-bottom,0px)}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html{scroll-behavior:smooth}
-  body{margin:0;background:#040107;color:var(--cream);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:center}
+  body{margin:0;background:#040107;color:var(--cream);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:center;touch-action:manipulation}
+  button,a{touch-action:manipulation}
   .cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;background:
     radial-gradient(1000px 760px at 50% -8%,rgba(244,210,122,.18),transparent 60%),
     radial-gradient(740px 760px at 86% 28%,rgba(150,110,255,.12),transparent 62%),
@@ -38,8 +39,8 @@
   .days{font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;opacity:.9}
   .days b{color:var(--gold);font-weight:700}
   /* 3D coin */
-  .coinbox{position:relative;height:340px;width:100%;max-width:340px;margin:1rem auto .5rem;overflow:hidden}
-  #coin{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .coinbox{position:relative;height:400px;margin:1rem 0 .5rem}
+  #coin{position:absolute;inset:0}
   .tag{font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,5.6vw,2.2rem);color:var(--cream);margin:.6rem 0 0}
   .tag b{color:var(--gold);font-style:normal}
   .sub{color:#cfc5a5;max-width:580px;margin:1rem auto 0;font-size:1.15rem;text-wrap:balance}
@@ -95,7 +96,7 @@
   .rainfab{position:fixed;left:50%;bottom:calc(18px + var(--safe-b));transform:translateX(-50%);z-index:55;
     display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:40px;cursor:pointer;user-select:none;-webkit-user-select:none;
     font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold-br);
-    background:rgba(14,9,20,.82);border:1px solid rgba(244,210,122,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    background:rgba(14,9,20,.92);border:1px solid rgba(244,210,122,.55);
     box-shadow:0 0 26px rgba(244,210,122,.28),inset 0 0 22px rgba(244,210,122,.07);
     transition:transform .15s ease,box-shadow .3s ease;animation:rainglow 3s ease-in-out infinite;white-space:nowrap}
   .rainfab:active{transform:translateX(-50%) scale(.93)}
@@ -108,7 +109,7 @@
   .ca .cac{font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
   @media(max-width:560px){
     .wrap{padding:4vh 16px 22vh}
-    .coinbox{height:270px;max-width:270px}
+    .coinbox{height:300px}
     .badge{font-size:.6rem;letter-spacing:.16em;padding:9px 15px}
     .days{font-size:.55rem;letter-spacing:.18em}
     .sub{font-size:1.06rem}
@@ -133,6 +134,14 @@
     .step{padding:12px}
     .st{padding:16px 8px}
   }
+  /* the dream — floating door, top right */
+  .dream{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:60;text-decoration:none;
+    display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:40px;white-space:nowrap;
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold-br);
+    background:rgba(14,9,20,.92);border:1px solid rgba(244,210,122,.5);
+    box-shadow:0 0 20px rgba(244,210,122,.25);transition:transform .15s ease}
+  .dream:active{transform:scale(.92)}
+  @media(max-width:560px){.dream{font-size:.56rem;padding:9px 13px;right:10px}}
   /* language bar — 9 flags */
   .langs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:0 0 1.6rem}
   .langs button{background:rgba(20,14,28,.55);border:1px solid rgba(244,210,122,.2);border-radius:999px;padding:6px 10px;font-size:1.05rem;line-height:1;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s}
@@ -144,10 +153,11 @@
   html[dir=rtl] .step,html[dir=rtl] .lk{direction:rtl}
   /* rising sun · Japan */
   #coin{z-index:1}
-  .rays{position:absolute;left:50%;top:50%;width:780px;height:780px;max-width:150vw;max-height:150vw;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.18;
+  .rays{position:absolute;left:50%;top:50%;width:780px;height:780px;max-width:135vw;max-height:135vw;border-radius:50%;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.16;
     background:repeating-conic-gradient(from 0deg, rgba(244,210,122,.85) 0deg 2.6deg, transparent 2.6deg 15deg);
-    -webkit-mask-image:radial-gradient(circle,#000 24%,rgba(0,0,0,.5) 42%,transparent 60%);mask-image:radial-gradient(circle,#000 24%,rgba(0,0,0,.5) 42%,transparent 60%);
+    -webkit-mask-image:radial-gradient(circle,#000 16%,rgba(0,0,0,.35) 34%,transparent 50%);mask-image:radial-gradient(circle,#000 16%,rgba(0,0,0,.35) 34%,transparent 50%);
     animation:rayspin 90s linear infinite}
+  @media(max-width:560px){.rays{width:420px;height:420px;max-width:115vw;max-height:115vw;opacity:.14}}
   @keyframes rayspin{to{transform:translate(-50%,-50%) rotate(360deg)}}
   .kata{font-family:var(--mono);letter-spacing:.55em;color:var(--gold);opacity:.85;font-size:.95rem;margin-top:.7rem;text-shadow:0 0 18px rgba(244,210,122,.4)}
   @media(prefers-reduced-motion:reduce){.rays{animation:none}.rainfab{animation:none}}
@@ -158,6 +168,7 @@
 <div class="cosmos"></div>
 <canvas id="rain"></canvas>
 <button class="rainfab" id="rainbtn" aria-label="Make it rain ZAPP coins">🌧 Make it Rain ⚡</button>
+<a class="dream" href="https://zapp369.energy" target="_blank" rel="noopener">✨ The Dream</a>
 
 <div class="wrap">
   <div class="langs" id="langs">
@@ -454,9 +465,11 @@
   function aim(x,y){ tx=Math.max(-1,Math.min(1,(x/innerWidth-.5)*2)); ty=Math.max(-1,Math.min(1,(y/innerHeight-.5)*2)); }
   addEventListener('pointermove',function(e){aim(e.clientX,e.clientY);},{passive:true});
   addEventListener('touchmove',function(e){var t=e.touches[0]; if(t)aim(t.clientX,t.clientY);},{passive:true});
-  /* phone tilt (Android auto; iOS asks on first touch) */
-  function tilt(e){ if(e.gamma==null)return;
-    tx=Math.max(-1,Math.min(1,e.gamma/28)); ty=Math.max(-1,Math.min(1,(e.beta-45)/28)); }
+  /* phone tilt (Android auto; iOS asks on first touch) — calibrates to how YOU hold the phone */
+  var g0=null,b0=null;
+  function tilt(e){ if(e.gamma==null||e.beta==null)return;
+    if(g0===null){g0=e.gamma;b0=e.beta;}
+    tx=Math.max(-1,Math.min(1,(e.gamma-g0)/24)); ty=Math.max(-1,Math.min(1,(e.beta-b0)/24)); }
   if(window.DeviceOrientationEvent){
     if(typeof DeviceOrientationEvent.requestPermission==='function'){
       var ask=function(){ DeviceOrientationEvent.requestPermission().then(function(r){ if(r==='granted')addEventListener('deviceorientation',tilt); }).catch(function(){});
@@ -550,11 +563,14 @@
 (function(){
   if(!window.THREE){return;}
   var cv=document.getElementById('coin');
-  var w=Math.max(1,cv.clientWidth||340), h=Math.max(1,cv.clientHeight||340);
-  var renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(w,h,false);
+  var w=cv.clientWidth, h=cv.clientHeight;
+  var small=Math.min(screen.width,screen.height)<600;
+  var renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:!small});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,small?1.5:2)); renderer.setSize(w,h,false);
   var scene=new THREE.Scene();
-  var camera=new THREE.PerspectiveCamera(38,w/h,0.1,100); camera.position.set(0,0,9);
+  var camera=new THREE.PerspectiveCamera(38,w/h,0.1,100);
+  function camZ(){return cv.clientWidth<480?11.5:9;} /* a touch smaller on phones */
+  camera.position.set(0,0,camZ());
   function faceTex(){
     var c=document.createElement('canvas'); c.width=c.height=512; var x=c.getContext('2d');
     var g=x.createRadialGradient(256,256,40,256,256,256);
@@ -590,7 +606,7 @@
   cv.addEventListener('pointerdown',function(e){downX=e.clientX; cv.style.cursor='grabbing';});
   addEventListener('pointerup',function(){downX=null; cv.style.cursor='grab';});
   addEventListener('pointermove',function(e){ if(downX!=null){ pivot.rotation.y += (e.clientX-downX)*0.008; downX=e.clientX; }});
-  function resize(){ w=Math.max(1,cv.clientWidth); h=Math.max(1,cv.clientHeight); renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  function resize(){ w=cv.clientWidth; h=cv.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.position.z=camZ(); camera.updateProjectionMatrix(); }
   addEventListener('resize',resize);
   var t0=performance.now();
   function loop(t){
@@ -600,9 +616,9 @@
     pivot.position.y = Math.sin(t*0.0009)*0.18;
     pivot.rotation.x = Math.sin(t*0.0005)*0.07;
     spark.rotation.y += dt*0.05;
-    if(window.ZPAR){ /* the coin leans toward your touch */
-      camera.position.x += (window.ZPAR.x()*1.1 - camera.position.x)*0.08;
-      camera.position.y += (-window.ZPAR.y()*0.7 - camera.position.y)*0.08;
+    if(window.ZPAR){ /* the coin leans gently toward your touch — always stays centered */
+      camera.position.x += (window.ZPAR.x()*0.4 - camera.position.x)*0.08;
+      camera.position.y += (-window.ZPAR.y()*0.25 - camera.position.y)*0.08;
       camera.lookAt(0,0,0);
     }
     renderer.render(scene,camera);
