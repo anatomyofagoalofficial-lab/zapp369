@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>⚡ZAPP UP · 7 of 7 · One Dollar, One Day, One World</title>
+<meta property="og:title" content="⚡ZAPP UP · 7 of 7">
+<meta property="og:description" content="On the 7th of July, the whole world puts $1 into ⚡ZAPP. One dollar. One day. One world.">
+<meta name="theme-color" content="#040107">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='86'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,900;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  :root{--gold:#F4D27A;--gold2:#E9B949;--gold-deep:#9c7415;--gold-br:#FFEDC2;--cream:#f6efe0;--muted:#bdb293;
+    --display:"Fraunces",Georgia,serif;--mono:"JetBrains Mono",monospace;--sans:"Manrope",system-ui,sans-serif;
+    --safe-b:env(safe-area-inset-bottom,0px)}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#040107;color:var(--cream);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:center}
+  .cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+    radial-gradient(1000px 760px at 50% -8%,rgba(244,210,122,.18),transparent 60%),
+    radial-gradient(740px 760px at 86% 28%,rgba(150,110,255,.12),transparent 62%),
+    radial-gradient(720px 720px at 10% 88%,rgba(90,160,255,.10),transparent 60%)}
+  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+  #rain{position:fixed;inset:0;z-index:40;pointer-events:none}
+  .wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:6vh 22px 14vh}
+  .bolt{font-size:46px;filter:drop-shadow(0 0 30px rgba(244,210,122,.7));animation:pulse 3s ease-in-out infinite}
+  @keyframes pulse{0%,100%{filter:drop-shadow(0 0 22px rgba(244,210,122,.5))}50%{filter:drop-shadow(0 0 46px rgba(244,210,122,.95))}}
+  h1{font-family:var(--display);font-weight:900;font-size:clamp(3.2rem,16vw,6.4rem);margin:.1rem 0 0;line-height:.9;letter-spacing:.02em;
+    background:linear-gradient(180deg,var(--gold-br),var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(244,210,122,.45))}
+  .up{display:inline-block;animation:rise 2.4s ease-in-out infinite}
+  @keyframes rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  /* date badge */
+  .badge{display:inline-block;margin:1.2rem 0 0;padding:10px 22px;border:1px solid rgba(244,210,122,.4);border-radius:999px;
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);background:rgba(244,210,122,.05);box-shadow:0 0 30px rgba(244,210,122,.12)}
+  .days{font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-top:.8rem;opacity:.9}
+  .days b{color:var(--gold);font-weight:700}
+  /* 3D coin */
+  .coinbox{position:relative;height:400px;margin:1rem 0 .5rem}
+  #coin{position:absolute;inset:0}
+  .tag{font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,5.6vw,2.2rem);color:var(--cream);margin:.6rem 0 0}
+  .tag b{color:var(--gold);font-style:normal}
+  .sub{color:#cfc5a5;max-width:580px;margin:1rem auto 0;font-size:1.15rem;text-wrap:balance}
+  /* balanced line-wrapping so every language breaks evenly, no lonely words */
+  h1,h2,.tag,.big-line,.cdlabel,.disc,.slog .s,.st .l,.days{text-wrap:balance}
+  .step p{text-wrap:pretty}
+  .seq{font-family:var(--mono);letter-spacing:.5em;color:var(--gold);font-size:.8rem;margin-top:1.4rem;opacity:.85}
+  /* countdown */
+  .cdlabel{font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-top:3rem}
+  .cd{display:flex;gap:12px;justify-content:center;margin:1rem 0;flex-wrap:wrap}
+  .cd .u{background:rgba(30,22,12,.5);border:1px solid rgba(244,210,122,.28);border-radius:16px;padding:16px 12px;min-width:74px;box-shadow:inset 0 0 40px rgba(244,210,122,.05)}
+  .cd .n{font-family:var(--display);font-weight:900;font-size:clamp(1.7rem,7vw,2.7rem);color:var(--gold-br);line-height:1}
+  .cd .l{font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+  /* sections */
+  .band{margin:7vh 0}
+  .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+  h2{font-family:var(--display);font-weight:600;font-size:clamp(1.7rem,6vw,2.5rem);margin:.3rem 0 .6rem}
+  .big-line{font-family:var(--display);font-style:italic;font-size:clamp(1.35rem,5vw,1.9rem);color:var(--gold-br);line-height:1.35;margin:1rem auto;max-width:560px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:1.6rem auto;max-width:600px}
+  @media(max-width:560px){.stats{grid-template-columns:1fr}}
+  .st{background:rgba(30,22,12,.45);border:1px solid rgba(244,210,122,.2);border-radius:16px;padding:20px 12px;display:flex;flex-direction:column;justify-content:center}
+  .st .n{font-family:var(--display);font-weight:900;font-size:clamp(1.3rem,5vw,1.8rem);color:var(--gold);white-space:nowrap}
+  .st .l{font-family:var(--mono);font-size:.66rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+  .steps{display:grid;gap:12px;max-width:540px;margin:1.4rem auto;text-align:left}
+  .step{display:flex;gap:16px;align-items:center;background:rgba(20,14,28,.5);border:1px solid rgba(244,210,122,.18);border-radius:16px;padding:16px 18px}
+  .step .sn{font-family:var(--display);font-weight:900;font-size:1.8rem;color:var(--gold);min-width:34px;text-align:center}
+  .step p{margin:0;font-size:1.1rem;color:#efe7d4}
+  /* links grid — 3 × 3, like 3 · 6 · 9 */
+  .links{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:760px;margin:1.4rem auto}
+  @media(max-width:720px){.links{grid-template-columns:repeat(2,1fr);max-width:600px}.links .lk:nth-child(9){grid-column:1/-1}}
+  @media(max-width:560px){.links{grid-template-columns:1fr}}
+  .lk{display:flex;align-items:center;gap:12px;text-decoration:none;padding:15px 16px;border-radius:16px;border:1px solid rgba(244,210,122,.22);
+    background:rgba(20,14,28,.55);transition:transform .2s,border-color .2s,box-shadow .2s;min-height:64px}
+  .lk:hover{transform:translateY(-3px);border-color:rgba(244,210,122,.5);box-shadow:0 14px 36px rgba(244,210,122,.12)}
+  .lk:active{transform:scale(.98)}
+  .lk .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:900;font-size:1.1rem;
+    color:#1a1206;background:linear-gradient(180deg,var(--gold-br),var(--gold-deep));flex:0 0 auto}
+  .lk .tx{text-align:left}
+  .lk .tx{display:flex;flex-direction:column}
+  .lk .tt{display:block;font-weight:700;color:var(--cream);font-size:1.02rem;line-height:1.2;white-space:nowrap}
+  .lk .ds{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase;margin-top:5px}
+  .lk.primary{border-color:transparent;background:linear-gradient(180deg,rgba(244,210,122,.18),rgba(244,210,122,.05));box-shadow:0 0 30px rgba(244,210,122,.15)}
+  .lk.primary .tt{color:var(--gold-br)}
+  /* slogans */
+  .slog{background:rgba(30,22,12,.4);border:1px solid rgba(244,210,122,.2);border-radius:18px;padding:22px;margin:1.4rem auto;max-width:600px}
+  .slog .s{font-family:var(--display);font-size:1.3rem;color:var(--gold-br);margin:.4rem 0;font-style:italic}
+  .tags{font-family:var(--mono);color:var(--gold);letter-spacing:.04em;font-size:.95rem;margin-top:1rem}
+  .copy{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);border:1px solid rgba(244,210,122,.3);border-radius:30px;padding:11px 20px;background:transparent;cursor:pointer;margin-top:1.1rem}
+  .copy:active{color:var(--gold)}
+  .spine{font-family:var(--mono);letter-spacing:.5em;color:var(--gold);opacity:.55;font-size:.72rem;margin:3vh 0}
+  .disc{font-family:var(--mono);font-size:.76rem;color:#988d72;max-width:600px;margin:4vh auto 0;line-height:1.85}
+  /* make it rain — always visible, centered at the bottom */
+  .rainfab{position:fixed;left:50%;bottom:calc(18px + var(--safe-b));transform:translateX(-50%);z-index:55;
+    display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:40px;cursor:pointer;user-select:none;-webkit-user-select:none;
+    font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gold-br);
+    background:rgba(14,9,20,.82);border:1px solid rgba(244,210,122,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    box-shadow:0 0 26px rgba(244,210,122,.28),inset 0 0 22px rgba(244,210,122,.07);
+    transition:transform .15s ease,box-shadow .3s ease;animation:rainglow 3s ease-in-out infinite;white-space:nowrap}
+  .rainfab:active{transform:translateX(-50%) scale(.93)}
+  .rainfab.pouring{color:#1a1206;background:linear-gradient(180deg,var(--gold-br),var(--gold-deep));box-shadow:0 0 46px rgba(244,210,122,.7)}
+  @keyframes rainglow{0%,100%{box-shadow:0 0 18px rgba(244,210,122,.22),inset 0 0 22px rgba(244,210,122,.06)}50%{box-shadow:0 0 40px rgba(244,210,122,.5),inset 0 0 22px rgba(244,210,122,.12)}}
+  .ca{display:inline-flex;align-items:center;gap:12px;margin:0 auto 10px;padding:12px 20px;border-radius:30px;border:1px solid rgba(244,210,122,.3);
+    background:rgba(20,14,28,.55);cursor:pointer;font-family:var(--mono);max-width:100%}
+  .ca .cak{color:var(--gold);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase}
+  .ca .cav{font-size:.82rem;color:var(--gold-br)}
+  .ca .cac{font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+  @media(max-width:560px){
+    .wrap{padding:4vh 16px 22vh}
+    .coinbox{height:300px}
+    .badge{font-size:.6rem;letter-spacing:.16em;padding:9px 15px}
+    .days{font-size:.55rem;letter-spacing:.18em}
+    .sub{font-size:1.06rem}
+    .cd{gap:8px;flex-wrap:nowrap}.cd .u{min-width:0;flex:1;max-width:86px;padding:13px 6px;border-radius:13px}
+    .cd .l{font-size:.5rem;letter-spacing:.1em}
+    .lk{padding:14px 16px;min-height:60px}
+    .steps{gap:10px}
+    .step{padding:13px 14px;gap:11px}
+    .step .sn{font-size:1.5rem;min-width:26px}
+    .step p{font-size:1rem;line-height:1.55}
+    .slog{padding:18px 15px}.slog .s{font-size:1.12rem}
+    .tags{font-size:.8rem}
+    .ca{gap:9px;padding:11px 16px}.ca .cav{font-size:.7rem}.ca .cak{font-size:.52rem}
+    .rainfab{font-size:.64rem;padding:12px 20px;bottom:calc(14px + var(--safe-b))}
+    .bolt{font-size:38px}
+    .band{margin:6vh 0}
+  }
+  @media(max-width:380px){
+    .wrap{padding-left:12px;padding-right:12px}
+    .cd .u{padding:11px 4px}
+    .rainfab{font-size:.6rem;padding:11px 16px}
+    .step{padding:12px}
+    .st{padding:16px 8px}
+  }
+  /* language bar — 9 flags */
+  .langs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:0 0 1.6rem}
+  .langs button{background:rgba(20,14,28,.55);border:1px solid rgba(244,210,122,.2);border-radius:999px;padding:6px 10px;font-size:1.05rem;line-height:1;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s}
+  .langs button:active{transform:scale(.9)}
+  .langs button.on{border-color:rgba(244,210,122,.75);background:rgba(244,210,122,.12);box-shadow:0 0 16px rgba(244,210,122,.35)}
+  @media(max-width:560px){.langs{gap:5px}.langs button{padding:5px 8px;font-size:.95rem}}
+  /* RTL (Arabic) */
+  html[dir=rtl] .steps,html[dir=rtl] .lk .tx{text-align:right}
+  html[dir=rtl] .step,html[dir=rtl] .lk{direction:rtl}
+  /* rising sun · Japan */
+  #coin{z-index:1}
+  .rays{position:absolute;left:50%;top:50%;width:780px;height:780px;max-width:150vw;max-height:150vw;transform:translate(-50%,-50%);z-index:0;pointer-events:none;opacity:.18;
+    background:repeating-conic-gradient(from 0deg, rgba(244,210,122,.85) 0deg 2.6deg, transparent 2.6deg 15deg);
+    -webkit-mask-image:radial-gradient(circle,#000 24%,rgba(0,0,0,.5) 42%,transparent 60%);mask-image:radial-gradient(circle,#000 24%,rgba(0,0,0,.5) 42%,transparent 60%);
+    animation:rayspin 90s linear infinite}
+  @keyframes rayspin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  .kata{font-family:var(--mono);letter-spacing:.55em;color:var(--gold);opacity:.85;font-size:.95rem;margin-top:.7rem;text-shadow:0 0 18px rgba(244,210,122,.4)}
+  @media(prefers-reduced-motion:reduce){.rays{animation:none}.rainfab{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="cosmos"></div>
+<canvas id="rain"></canvas>
+<button class="rainfab" id="rainbtn" aria-label="Make it rain ZAPP coins">🌧 Make it Rain ⚡</button>
+
+<div class="wrap">
+  <div class="langs" id="langs">
+    <button data-lang="en" title="English">🇺🇸</button>
+    <button data-lang="pt" title="Português">🇧🇷</button>
+    <button data-lang="es" title="Español">🇪🇸</button>
+    <button data-lang="fr" title="Français">🇫🇷</button>
+    <button data-lang="it" title="Italiano">🇮🇹</button>
+    <button data-lang="ro" title="Română">🇷🇴</button>
+    <button data-lang="ar" title="العربية">🇸🇦</button>
+    <button data-lang="zh" title="中文">🇨🇳</button>
+    <button data-lang="de" title="Deutsch">🇩🇪</button>
+  </div>
+  <div class="bolt">⚡</div>
+  <h1>ZAPP <span class="up">UP</span></h1>
+  <div class="kata">ザップ</div>
+  <div class="badge">07 · 07 · 2026 · the global day</div>
+  <div class="days" id="days"></div>
+
+  <div class="coinbox"><div class="rays"></div><canvas id="coin"></canvas></div>
+
+  <div class="tag">One dollar. One day. <b>One world.</b></div>
+  <p class="sub">On the 7th of July, everyone, everywhere, puts just one dollar into ⚡ZAPP. From the city to the mountain. From the radio to the screen in your hand. Together, on one frequency, we rise.</p>
+  <div class="seq">∞ · 3 · 6 · 9 · ∞</div>
+
+  <div class="cdlabel">The signal goes up in</div>
+  <div class="cd" id="cd">
+    <div class="u"><div class="n" id="d">00</div><div class="l">days</div></div>
+    <div class="u"><div class="n" id="h">00</div><div class="l">hours</div></div>
+    <div class="u"><div class="n" id="m">00</div><div class="l">min</div></div>
+    <div class="u"><div class="n" id="s">00</div><div class="l">sec</div></div>
+  </div>
+
+  <div class="band">
+    <div class="k">The movement</div>
+    <h2>One small spark, eight billion strong</h2>
+    <p class="big-line">Alone, a dollar is a whisper. Eight billion of them, on the same day, is a sound the whole planet feels.</p>
+    <div class="stats">
+      <div class="st"><div class="n">1 person</div><div class="l">one dollar, one spark</div></div>
+      <div class="st"><div class="n">1 million</div><div class="l">one million dollars, in a day</div></div>
+      <div class="st"><div class="n">8 billion</div><div class="l">the whole world, one frequency</div></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="k">How to join</div>
+    <h2>Three steps. Three · Six · Nine.</h2>
+    <div class="steps">
+      <div class="step"><div class="sn">3</div><p>Get a Solana wallet on your phone, like Phantom. Free, two minutes.</p></div>
+      <div class="step"><div class="sn">6</div><p>On the 7th of July, put in one dollar of ⚡ZAPP. Only what makes you smile, nothing more.</p></div>
+      <div class="step"><div class="sn">9</div><p>Post it. Tell one friend. Light the next spark. The signal spreads.</p></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="k">Get ⚡ZAPP · all the doors</div>
+    <h2>Buy, track, follow</h2>
+    <button class="ca" onclick="navigator.clipboard&&navigator.clipboard.writeText('Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump').then(()=>{this.querySelector('.cac').textContent=(window.ZT||{copied:'✓ copied'}).copied})"><span class="cak">Contract</span><span class="cav">Ab16ce5…CpumP</span><span class="cac">tap to copy</span></button>
+    <div class="links">
+      <a class="lk primary" href="https://phantom.com/tokens/solana/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump?referralId=k31pepyasnt" target="_blank" rel="noopener"><span class="ic">👻</span><span class="tx"><span class="tt">Buy on Phantom</span><span class="ds">easiest, in your wallet</span></span></a>
+      <a class="lk primary" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener"><span class="ic">🪐</span><span class="tx"><span class="tt">Buy on Jupiter</span><span class="ds">best price on Solana</span></span></a>
+      <a class="lk primary" href="https://pump.fun/coin/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener"><span class="ic">💊</span><span class="tx"><span class="tt">Buy on pump.fun</span><span class="ds">where ⚡ZAPP was born</span></span></a>
+      <a class="lk" href="https://portfolio.metamask.io/" target="_blank" rel="noopener"><span class="ic">🦊</span><span class="tx"><span class="tt">Buy on MetaMask</span><span class="ds">Solana via Snaps</span></span></a>
+      <a class="lk" href="https://www.dextools.io/app/token/zapp" target="_blank" rel="noopener"><span class="ic">🛠️</span><span class="tx"><span class="tt">DexTools</span><span class="ds">live chart</span></span></a>
+      <a class="lk" href="https://dexscreener.com/solana/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener"><span class="ic">📊</span><span class="tx"><span class="tt">DexScreener</span><span class="ds">the chart, again</span></span></a>
+      <a class="lk" href="https://x.com/ZAPPonSOL" target="_blank" rel="noopener"><span class="ic">𝕏</span><span class="tx"><span class="tt">Follow on X</span><span class="ds">x.com/ZAPPonSOL</span></span></a>
+      <a class="lk" href="https://t.me/ZAPP369" target="_blank" rel="noopener"><span class="ic">✈</span><span class="tx"><span class="tt">Join Telegram</span><span class="ds">t.me/ZAPP369</span></span></a>
+      <a class="lk" href="https://www.instagram.com/zapp369.energy/" target="_blank" rel="noopener"><span class="ic">📸</span><span class="tx"><span class="tt">Instagram</span><span class="ds">@zapp369.energy</span></span></a>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="k">Carry the signal</div>
+    <h2>Say it everywhere</h2>
+    <div class="slog">
+      <div class="s">"On 7.7, the whole world puts one dollar on the same frequency."</div>
+      <div class="s">"⚡ZAPP is UP"</div>
+      <div class="s">"Free Energy = Free Money ∞"</div>
+      <div class="tags">#ZAPPUP &nbsp; #7of7 &nbsp; #369 &nbsp; #FreeEnergyFreeMoney</div>
+      <button class="copy" onclick="navigator.clipboard&&navigator.clipboard.writeText('On 7.7 the whole world puts $1 into ⚡ZAPP. One dollar. One day. One world.\n⚡ZAPP is UP\nFree Energy = Free Money ∞\n#ZAPPUP #7of7 #369').then(()=>{this.textContent=(window.ZT||{copied:'✓ copied'}).copied})">Tap to copy the message</button>
+    </div>
+  </div>
+
+  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡</div>
+  <p class="disc">A movement of belief and unity, not a promise of profit. Take part only if you want to, and only with an amount you are happy to give. This is not financial advice, and nothing here promises that any token will rise in value. ⚡ZAPP is a community on Solana. Free Energy = Free Money ∞</p>
+</div>
+
+<script>
+/* countdown to 7 July 2026 · 23:23 local time */
+(function(){
+  var target=new Date(2026,6,7,23,23,0).getTime();
+  var d=document.getElementById('d'),h=document.getElementById('h'),m=document.getElementById('m'),s=document.getElementById('s');
+  function pad(n){return (n<10?'0':'')+n;}
+  function tick(){var diff=Math.max(0,target-Date.now()),sec=Math.floor(diff/1000);
+    d.textContent=pad(Math.floor(sec/86400));h.textContent=pad(Math.floor(sec/3600)%24);m.textContent=pad(Math.floor(sec/60)%60);s.textContent=pad(sec%60);}
+  tick(); setInterval(tick,1000);
+})();
+/* ===== 9 LANGUAGES · english is home, the rest are doors ===== */
+(function(){
+  var DAY=Math.max(1,Math.floor((Date.now()-new Date(2026,4,1).getTime())/86400000)+1);
+  var I={
+  en:{tag:'One dollar. One day. <b>One world.</b>',
+    sub:'On the 7th of July, everyone, everywhere, puts just one dollar into ⚡ZAPP. Everyone has at least one dollar. The smallest coin, the biggest signal. Together, on one frequency, we rise.',
+    day:'Day <b>{d}</b> of the journey · lit on 01 · 05 · 2026',
+    cdl:'The signal goes up in',cd:['days','hours','min','sec'],
+    k:['The movement','How to join','Get ⚡ZAPP · all the doors','Carry the signal'],
+    h2:['One small spark, eight billion strong','Three steps. Three · Six · Nine.','Buy, track, follow','Say it everywhere'],
+    big:'Alone, a dollar is a whisper. Eight billion of them, on the same day, is a sound the whole planet feels.',
+    stn:['1 person','1 million','8 billion'],
+    stl:['one dollar, one spark','one million dollars, in a day','the whole world, one frequency'],
+    steps:['Get a Solana wallet on your phone, like Phantom. Free, two minutes.','On the 7th of July, put in one dollar of ⚡ZAPP. Only what makes you smile, nothing more.','Post it. Tell one friend. Light the next spark. The signal spreads.'],
+    contract:'Contract',tap:'tap to copy',copied:'✓ copied',
+    tt:['Buy on Phantom','Buy on Jupiter','Buy on pump.fun','Buy on MetaMask','DexTools','DexScreener','Follow on X','Join Telegram','Instagram'],
+    ds:['easiest, in your wallet','best price on Solana','where ⚡ZAPP was born','Solana via Snaps','live chart','the chart, again','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'"On 7.7, the whole world puts one dollar on the same frequency."',
+    copybtn:'Tap to copy the message',
+    disc:'A movement of belief and unity, not a promise of profit. Take part only if you want to, and only with an amount you are happy to give. This is not financial advice, and nothing here promises that any token will rise in value. ⚡ZAPP is a community on Solana. Free Energy = Free Money ∞',
+    rain:'🌧 Make it Rain ⚡'},
+  pt:{tag:'Um dólar. Um dia. <b>Um mundo.</b>',
+    sub:'No dia 7 de julho, todos, em todos os lugares, colocam apenas um dólar em ⚡ZAPP. Todo mundo tem pelo menos uns poucos reais. A menor moeda, o maior sinal. Juntos, na mesma frequência, nós subimos.',
+    day:'Dia <b>{d}</b> da jornada · aceso em 01 · 05 · 2026',
+    cdl:'O sinal sobe em',cd:['dias','horas','min','seg'],
+    k:['O movimento','Como participar','Pegue ⚡ZAPP · todas as portas','Carregue o sinal'],
+    h2:['Uma pequena faísca, a força de oito bilhões','Três passos. Três · Seis · Nove.','Compre, acompanhe, siga','Diga em todo lugar'],
+    big:'Sozinho, um dólar é um sussurro. Oito bilhões deles, no mesmo dia, é um som que o planeta inteiro sente.',
+    stn:['1 pessoa','1 milhão','8 bilhões'],
+    stl:['um dólar, uma faísca','um milhão de dólares, em um dia','o mundo inteiro, uma frequência'],
+    steps:['Baixe uma carteira Solana no seu celular, como a Phantom. Grátis, dois minutos.','No dia 7 de julho, coloque um dólar em ⚡ZAPP. Só o que te faz sorrir, nada mais.','Poste. Conte a um amigo. Acenda a próxima faísca. O sinal se espalha.'],
+    contract:'Contrato',tap:'toque para copiar',copied:'✓ copiado',
+    tt:['Comprar na Phantom','Comprar na Jupiter','Comprar na pump.fun','Comprar na MetaMask','DexTools','DexScreener','Siga no X','Entre no Telegram','Instagram'],
+    ds:['mais fácil, na sua carteira','melhor preço na Solana','onde ⚡ZAPP nasceu','Solana via Snaps','gráfico ao vivo','o gráfico, de novo','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'"Em 7.7, o mundo inteiro coloca um dólar na mesma frequência."',
+    copybtn:'Toque para copiar a mensagem',
+    disc:'Um movimento de crença e união, não uma promessa de lucro. Participe apenas se quiser, e apenas com um valor que você fique feliz em dar. Isto não é aconselhamento financeiro, e nada aqui promete que qualquer token vai subir de valor. ⚡ZAPP é uma comunidade na Solana. Free Energy = Free Money ∞',
+    rain:'🌧 Faça Chover ⚡'},
+  es:{tag:'Un dólar. Un día. <b>Un mundo.</b>',
+    sub:'El 7 de julio, todos, en todas partes, ponen solo un dólar en ⚡ZAPP. Todos tienen al menos un euro. La moneda más pequeña, la señal más grande. Juntos, en una misma frecuencia, subimos.',
+    day:'Día <b>{d}</b> del viaje · encendido el 01 · 05 · 2026',
+    cdl:'La señal sube en',cd:['días','horas','min','seg'],
+    k:['El movimiento','Cómo unirte','Consigue ⚡ZAPP · todas las puertas','Lleva la señal'],
+    h2:['Una pequeña chispa, la fuerza de ocho mil millones','Tres pasos. Tres · Seis · Nueve.','Compra, sigue, comparte','Dilo en todas partes'],
+    big:'Solo, un dólar es un susurro. Ocho mil millones, el mismo día, es un sonido que siente todo el planeta.',
+    stn:['1 persona','1 millón','8 mil millones'],
+    stl:['un dólar, una chispa','un millón de dólares, en un día','el mundo entero, una frecuencia'],
+    steps:['Consigue una billetera Solana en tu teléfono, como Phantom. Gratis, dos minutos.','El 7 de julio, pon un dólar en ⚡ZAPP. Solo lo que te haga sonreír, nada más.','Publícalo. Cuéntale a un amigo. Enciende la próxima chispa. La señal se propaga.'],
+    contract:'Contrato',tap:'toca para copiar',copied:'✓ copiado',
+    tt:['Comprar en Phantom','Comprar en Jupiter','Comprar en pump.fun','Comprar en MetaMask','DexTools','DexScreener','Síguenos en X','Únete al Telegram','Instagram'],
+    ds:['lo más fácil, en tu billetera','mejor precio en Solana','donde nació ⚡ZAPP','Solana vía Snaps','gráfico en vivo','el gráfico, otra vez','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'"El 7.7, el mundo entero pone un dólar en la misma frecuencia."',
+    copybtn:'Toca para copiar el mensaje',
+    disc:'Un movimiento de fe y unidad, no una promesa de ganancias. Participa solo si quieres, y solo con una cantidad que te haga feliz dar. Esto no es asesoramiento financiero, y nada aquí promete que ningún token suba de valor. ⚡ZAPP es una comunidad en Solana. Free Energy = Free Money ∞',
+    rain:'🌧 Haz que Llueva ⚡'},
+  fr:{tag:'Un dollar. Un jour. <b>Un monde.</b>',
+    sub:"Le 7 juillet, tout le monde, partout, met juste un dollar dans ⚡ZAPP. Tout le monde a au moins un euro. La plus petite pièce, le plus grand signal. Ensemble, sur une même fréquence, on s'élève.",
+    day:'Jour <b>{d}</b> du voyage · allumé le 01 · 05 · 2026',
+    cdl:'Le signal monte dans',cd:['jours','heures','min','sec'],
+    k:['Le mouvement','Comment participer','Obtiens ⚡ZAPP · toutes les portes','Porte le signal'],
+    h2:['Une petite étincelle, la force de huit milliards','Trois étapes. Trois · Six · Neuf.','Achète, suis, partage','Dis-le partout'],
+    big:'Seul, un dollar est un murmure. Huit milliards, le même jour, c\'est un son que toute la planète ressent.',
+    stn:['1 personne','1 million','8 milliards'],
+    stl:['un dollar, une étincelle','un million de dollars, en un jour','le monde entier, une fréquence'],
+    steps:['Installe un portefeuille Solana sur ton téléphone, comme Phantom. Gratuit, deux minutes.','Le 7 juillet, mets un dollar dans ⚡ZAPP. Seulement ce qui te fait sourire, rien de plus.','Publie-le. Dis-le à un ami. Allume la prochaine étincelle. Le signal se propage.'],
+    contract:'Contrat',tap:'touche pour copier',copied:'✓ copié',
+    tt:['Acheter sur Phantom','Acheter sur Jupiter','Acheter sur pump.fun','Acheter sur MetaMask','DexTools','DexScreener','Suis-nous sur X','Rejoins le Telegram','Instagram'],
+    ds:['le plus simple, dans ton portefeuille','meilleur prix sur Solana','là où ⚡ZAPP est né','Solana via Snaps','graphique en direct','le graphique, encore','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'« Le 7.7, le monde entier met un dollar sur la même fréquence. »',
+    copybtn:'Touche pour copier le message',
+    disc:"Un mouvement de conviction et d'unité, pas une promesse de profit. Participe seulement si tu le veux, et seulement avec un montant que tu es heureux de donner. Ceci n'est pas un conseil financier, et rien ici ne promet qu'un token prendra de la valeur. ⚡ZAPP est une communauté sur Solana. Free Energy = Free Money ∞",
+    rain:'🌧 Fais Pleuvoir ⚡'},
+  it:{tag:'Un dollaro. Un giorno. <b>Un mondo.</b>',
+    sub:'Il 7 luglio, tutti, ovunque, mettono solo un dollaro in ⚡ZAPP. Tutti hanno almeno un euro. La moneta più piccola, il segnale più grande. Insieme, sulla stessa frequenza, ci alziamo.',
+    day:'Giorno <b>{d}</b> del viaggio · acceso il 01 · 05 · 2026',
+    cdl:'Il segnale sale tra',cd:['giorni','ore','min','sec'],
+    k:['Il movimento','Come partecipare','Prendi ⚡ZAPP · tutte le porte','Porta il segnale'],
+    h2:['Una piccola scintilla, la forza di otto miliardi','Tre passi. Tre · Sei · Nove.','Compra, segui, condividi','Dillo ovunque'],
+    big:'Da solo, un dollaro è un sussurro. Otto miliardi, lo stesso giorno, è un suono che tutto il pianeta sente.',
+    stn:['1 persona','1 milione','8 miliardi'],
+    stl:['un dollaro, una scintilla','un milione di dollari, in un giorno','il mondo intero, una frequenza'],
+    steps:['Scarica un wallet Solana sul telefono, come Phantom. Gratis, due minuti.','Il 7 luglio, metti un dollaro in ⚡ZAPP. Solo ciò che ti fa sorridere, niente di più.','Pubblicalo. Dillo a un amico. Accendi la prossima scintilla. Il segnale si diffonde.'],
+    contract:'Contratto',tap:'tocca per copiare',copied:'✓ copiato',
+    tt:['Compra su Phantom','Compra su Jupiter','Compra su pump.fun','Compra su MetaMask','DexTools','DexScreener','Seguici su X','Unisciti a Telegram','Instagram'],
+    ds:['il più facile, nel tuo wallet','miglior prezzo su Solana','dove è nato ⚡ZAPP','Solana via Snaps','grafico live','il grafico, di nuovo','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'"Il 7.7, il mondo intero mette un dollaro sulla stessa frequenza."',
+    copybtn:'Tocca per copiare il messaggio',
+    disc:'Un movimento di fede e unità, non una promessa di profitto. Partecipa solo se vuoi, e solo con una cifra che sei felice di dare. Questo non è un consiglio finanziario, e nulla qui promette che un token salirà di valore. ⚡ZAPP è una comunità su Solana. Free Energy = Free Money ∞',
+    rain:'🌧 Fai Piovere ⚡'},
+  ro:{tag:'Un dolar. O zi. <b>O singură lume.</b>',
+    sub:'Pe 7 iulie, oameni de peste tot pun doar un dolar în ⚡ZAPP. Toată lumea are măcar un dolar, un euro ori cinci lei. Cea mai mică monedă, cel mai puternic semnal. Împreună, pe aceeași frecvență, ne ridicăm.',
+    day:'Ziua <b>{d}</b> din călătorie · scânteia s-a aprins pe 01 · 05 · 2026',
+    cdl:'Semnalul se ridică în',cd:['zile','ore','min','sec'],
+    k:['Mișcarea','Cum participi','Ia-ți ⚡ZAPP · toate porțile','Du semnalul mai departe'],
+    h2:['O scânteie mică, puterea a opt miliarde','Trei pași. Trei · Șase · Nouă.','Cumpără, urmărește, alătură-te','Spune-o peste tot'],
+    big:'Singur, un dolar e doar o șoaptă. Opt miliarde, în aceeași zi, sunt un sunet pe care îl simte întreaga planetă.',
+    stn:['1 om','1 milion','8 miliarde'],
+    stl:['un dolar, o scânteie','un milion de dolari, într-o singură zi','întreaga lume, o singură frecvență'],
+    steps:['Instalează-ți un portofel Solana pe telefon, de exemplu Phantom. E gratuit și durează două minute.','Pe 7 iulie, pune un dolar în ⚡ZAPP. Doar atât cât te face să zâmbești, nimic mai mult.','Postează. Spune-i unui prieten. Aprinde următoarea scânteie. Semnalul se răspândește.'],
+    contract:'Contract',tap:'atinge ca să copiezi',copied:'✓ copiat',
+    tt:['Cumpără pe Phantom','Cumpără pe Jupiter','Cumpără pe pump.fun','Cumpără pe MetaMask','DexTools','DexScreener','Urmărește-ne pe X','Intră pe Telegram','Instagram'],
+    ds:['cel mai simplu, direct din portofel','cel mai bun preț pe Solana','locul unde s-a născut ⚡ZAPP','Solana prin Snaps','grafic în timp real','graficul, încă o dată','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'„Pe 7.7, întreaga lume pune un dolar pe aceeași frecvență."',
+    copybtn:'Atinge ca să copiezi mesajul',
+    disc:'O mișcare de credință și unitate, nu o promisiune de câștig. Participă doar dacă vrei, și doar cu o sumă pe care o dai cu drag. Acesta nu este un sfat financiar, iar nimic de aici nu promite că vreun token va crește în valoare. ⚡ZAPP este o comunitate pe Solana. Free Energy = Free Money ∞',
+    rain:'🌧 Fă să Plouă ⚡'},
+  ar:{tag:'دولار واحد. يوم واحد. <b>عالم واحد.</b>',
+    sub:'في السابع من يوليو، الجميع، في كل مكان، يضعون دولارًا واحدًا فقط في ⚡ZAPP. الجميع يملك دولارًا واحدًا على الأقل. أصغر عملة، أكبر إشارة. معًا، على تردد واحد، نرتفع.',
+    day:'اليوم <b>{d}</b> من الرحلة · أُشعلت في 01 · 05 · 2026',
+    cdl:'الإشارة ترتفع خلال',cd:['أيام','ساعات','دقائق','ثوانٍ'],
+    k:['الحركة','كيف تنضم','احصل على ⚡ZAPP · كل الأبواب','احمل الإشارة'],
+    h2:['شرارة صغيرة، بقوة ثمانية مليارات','ثلاث خطوات. ثلاثة · ستة · تسعة.','اشترِ، تابع، شارك','قلها في كل مكان'],
+    big:'وحده، الدولار همسة. ثمانية مليارات منه، في يوم واحد، صوت يشعر به الكوكب كله.',
+    stn:['شخص واحد','مليون','8 مليارات'],
+    stl:['دولار واحد، شرارة واحدة','مليون دولار، في يوم واحد','العالم كله، تردد واحد'],
+    steps:['حمّل محفظة سولانا على هاتفك، مثل Phantom. مجانًا، دقيقتان.','في 7 يوليو، ضع دولارًا واحدًا في ⚡ZAPP. فقط ما يجعلك تبتسم، لا أكثر.','انشرها. أخبر صديقًا. أشعل الشرارة التالية. الإشارة تنتشر.'],
+    contract:'العقد',tap:'اضغط للنسخ',copied:'✓ تم النسخ',
+    tt:['اشترِ عبر Phantom','اشترِ عبر Jupiter','اشترِ عبر pump.fun','اشترِ عبر MetaMask','DexTools','DexScreener','تابعنا على X','انضم إلى تيليجرام','Instagram'],
+    ds:['الأسهل، في محفظتك','أفضل سعر على سولانا','حيث وُلد ⚡ZAPP','سولانا عبر Snaps','الرسم البياني المباشر','الرسم البياني، مجددًا','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'"في 7.7، يضع العالم كله دولارًا واحدًا على التردد نفسه."',
+    copybtn:'اضغط لنسخ الرسالة',
+    disc:'حركة إيمان ووحدة، وليست وعدًا بالربح. شارك فقط إذا أردت، وفقط بمبلغ يسعدك تقديمه. هذه ليست نصيحة مالية، ولا شيء هنا يعد بارتفاع قيمة أي عملة. ⚡ZAPP مجتمع على سولانا. Free Energy = Free Money ∞',
+    rain:'🌧 أمطرها ⚡'},
+  zh:{tag:'一美元。一天。<b>一个世界。</b>',
+    sub:'7月7日，世界各地的每个人，只需向 ⚡ZAPP 投入一美元。每个人至少都有一美元。最小的硬币，最大的信号。同一频率，我们一起升起。',
+    day:'旅程第 <b>{d}</b> 天 · 点燃于 2026 · 05 · 01',
+    cdl:'信号升起倒计时',cd:['天','时','分','秒'],
+    k:['这场运动','如何加入','获取 ⚡ZAPP · 所有入口','传递信号'],
+    h2:['一颗小火花，八十亿之力','三步。三 · 六 · 九。','购买、追踪、关注','到处去说'],
+    big:'一美元独自是耳语。八十亿美元在同一天，是整个星球都能感受到的声音。',
+    stn:['1 个人','100 万','80 亿'],
+    stl:['一美元，一颗火花','一天之内，一百万美元','全世界，同一频率'],
+    steps:['在手机上安装 Solana 钱包，比如 Phantom。免费，两分钟。','7月7日，向 ⚡ZAPP 投入一美元。只投让你微笑的数目，仅此而已。','发出来。告诉一个朋友。点燃下一颗火花。信号会传开。'],
+    contract:'合约',tap:'点按复制',copied:'✓ 已复制',
+    tt:['在 Phantom 购买','在 Jupiter 购买','在 pump.fun 购买','在 MetaMask 购买','DexTools','DexScreener','在 X 上关注','加入 Telegram','Instagram'],
+    ds:['最简单，就在你的钱包里','Solana 上的最优价格','⚡ZAPP 诞生的地方','通过 Snaps 使用 Solana','实时行情','行情，再看一眼','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'"7.7那天，全世界把一美元放在同一个频率上。"',
+    copybtn:'点按复制这段话',
+    disc:'这是一场信念与团结的运动，不是盈利的承诺。仅在你愿意时参与，只投入让你开心的金额。这不是财务建议，这里没有任何内容承诺任何代币会升值。⚡ZAPP 是 Solana 上的一个社区。Free Energy = Free Money ∞',
+    rain:'🌧 下金币雨 ⚡'},
+  de:{tag:'Ein Dollar. Ein Tag. <b>Eine Welt.</b>',
+    sub:'Am 7. Juli steckt jeder, überall, nur einen Dollar in ⚡ZAPP. Jeder hat mindestens einen Euro. Die kleinste Münze, das größte Signal. Gemeinsam, auf einer Frequenz, steigen wir auf.',
+    day:'Tag <b>{d}</b> der Reise · entzündet am 01 · 05 · 2026',
+    cdl:'Das Signal steigt in',cd:['Tage','Std','Min','Sek'],
+    k:['Die Bewegung','So machst du mit','Hol dir ⚡ZAPP · alle Türen','Trag das Signal'],
+    h2:['Ein kleiner Funke, acht Milliarden stark','Drei Schritte. Drei · Sechs · Neun.','Kaufen, beobachten, folgen','Sag es überall'],
+    big:'Allein ist ein Dollar ein Flüstern. Acht Milliarden davon, am selben Tag, sind ein Klang, den der ganze Planet spürt.',
+    stn:['1 Mensch','1 Million','8 Milliarden'],
+    stl:['ein Dollar, ein Funke','eine Million Dollar, an einem Tag','die ganze Welt, eine Frequenz'],
+    steps:['Hol dir eine Solana-Wallet aufs Handy, z. B. Phantom. Kostenlos, zwei Minuten.','Am 7. Juli steckst du einen Dollar in ⚡ZAPP. Nur so viel, wie dich lächeln lässt, nicht mehr.','Poste es. Sag es einem Freund. Zünde den nächsten Funken. Das Signal breitet sich aus.'],
+    contract:'Contract',tap:'zum Kopieren tippen',copied:'✓ kopiert',
+    tt:['Auf Phantom kaufen','Auf Jupiter kaufen','Auf pump.fun kaufen','Auf MetaMask kaufen','DexTools','DexScreener','Folge uns auf X','Tritt Telegram bei','Instagram'],
+    ds:['am einfachsten, in deiner Wallet','bester Preis auf Solana','wo ⚡ZAPP geboren wurde','Solana via Snaps','Live-Chart','der Chart, nochmal','x.com/ZAPPonSOL','t.me/ZAPP369','@zapp369.energy'],
+    slog1:'„Am 7.7. legt die ganze Welt einen Dollar auf dieselbe Frequenz."',
+    copybtn:'Tippen, um die Nachricht zu kopieren',
+    disc:'Eine Bewegung aus Überzeugung und Einheit, kein Gewinnversprechen. Mach nur mit, wenn du willst, und nur mit einem Betrag, den du gerne gibst. Dies ist keine Finanzberatung, und nichts hier verspricht, dass irgendein Token im Wert steigt. ⚡ZAPP ist eine Community auf Solana. Free Energy = Free Money ∞',
+    rain:'🌧 Lass es Regnen ⚡'}
+  };
+  function q(s){return document.querySelectorAll(s);}
+  function setLang(l){
+    var t=I[l]||I.en; window.ZT=t;
+    document.documentElement.lang=l;
+    document.documentElement.dir=(l==='ar')?'rtl':'ltr';
+    document.querySelector('.tag').innerHTML=t.tag;
+    document.querySelector('.sub').textContent=t.sub;
+    document.getElementById('days').innerHTML=t.day.replace('{d}',DAY);
+    document.querySelector('.cdlabel').textContent=t.cdl;
+    var cdl=q('.cd .l'); for(var i=0;i<4;i++)cdl[i].textContent=t.cd[i];
+    var ks=q('.k'), hs=q('.wrap h2');
+    for(i=0;i<4;i++){ if(ks[i])ks[i].textContent=t.k[i]; if(hs[i])hs[i].textContent=t.h2[i]; }
+    document.querySelector('.big-line').textContent=t.big;
+    var sn=q('.st .n'), sl=q('.st .l');
+    for(i=0;i<3;i++){ sn[i].textContent=t.stn[i]; sl[i].textContent=t.stl[i]; }
+    var sp=q('.step p'); for(i=0;i<3;i++)sp[i].textContent=t.steps[i];
+    document.querySelector('.ca .cak').textContent=t.contract;
+    document.querySelector('.ca .cac').textContent=t.tap;
+    var tt=q('.lk .tt'), ds=q('.lk .ds');
+    for(i=0;i<9;i++){ if(tt[i])tt[i].textContent=t.tt[i]; if(ds[i])ds[i].textContent=t.ds[i]; }
+    document.querySelector('.slog .s').textContent=t.slog1;
+    document.querySelector('.copy').textContent=t.copybtn;
+    document.querySelector('.disc').textContent=t.disc;
+    document.getElementById('rainbtn').textContent=t.rain;
+    q('#langs button').forEach(function(b){b.classList.toggle('on',b.dataset.lang===l);});
+    try{localStorage.setItem('zapp-lang',l);}catch(e){}
+  }
+  q('#langs button').forEach(function(b){ b.addEventListener('click',function(){setLang(b.dataset.lang);}); });
+  var saved=null; try{saved=localStorage.getItem('zapp-lang');}catch(e){}
+  setLang(saved&&I[saved]?saved:'en');
+})();
+/* ===== LIVING PAGE — touch / tilt parallax, the whole cosmos follows you ===== */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var tx=0,ty=0,cx=0,cy=0;
+  var stars=document.getElementById('stars'), cos=document.querySelector('.cosmos');
+  if(stars){stars.style.willChange='transform';}
+  if(cos){cos.style.willChange='transform';}
+  function aim(x,y){ tx=Math.max(-1,Math.min(1,(x/innerWidth-.5)*2)); ty=Math.max(-1,Math.min(1,(y/innerHeight-.5)*2)); }
+  addEventListener('pointermove',function(e){aim(e.clientX,e.clientY);},{passive:true});
+  addEventListener('touchmove',function(e){var t=e.touches[0]; if(t)aim(t.clientX,t.clientY);},{passive:true});
+  /* phone tilt (Android auto; iOS asks on first touch) */
+  function tilt(e){ if(e.gamma==null)return;
+    tx=Math.max(-1,Math.min(1,e.gamma/28)); ty=Math.max(-1,Math.min(1,(e.beta-45)/28)); }
+  if(window.DeviceOrientationEvent){
+    if(typeof DeviceOrientationEvent.requestPermission==='function'){
+      var ask=function(){ DeviceOrientationEvent.requestPermission().then(function(r){ if(r==='granted')addEventListener('deviceorientation',tilt); }).catch(function(){});
+        removeEventListener('touchend',ask); };
+      addEventListener('touchend',ask,{passive:true});
+    } else { addEventListener('deviceorientation',tilt); }
+  }
+  function loop(){
+    cx+=(tx-cx)*.055; cy+=(ty-cy)*.055;
+    if(stars)stars.style.transform='scale(1.06) translate3d('+(cx*-16)+'px,'+(cy*-11)+'px,0)';
+    if(cos)cos.style.transform='scale(1.09) translate3d('+(cx*-30)+'px,'+(cy*-20)+'px,0)';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+  window.ZPAR={x:function(){return cx},y:function(){return cy}};
+})();
+/* starfield */
+(function(){
+  var c=document.getElementById('stars'); if(!c)return; var x=c.getContext('2d'),W,H,st=[];
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  function rs(){W=c.width=innerWidth;H=c.height=innerHeight;} rs(); addEventListener('resize',rs);
+  var N=Math.min(170,Math.floor(innerWidth/7));
+  for(var i=0;i<N;i++)st.push({x:Math.random(),y:Math.random(),r:Math.random()*1.3+.2,tw:Math.random()*6.28,g:Math.random()<.45});
+  function loop(t){x.clearRect(0,0,W,H);for(var i=0;i<st.length;i++){var p=st[i];var a=.3+.7*Math.sin(t*.001+p.tw);
+    x.beginPath();x.arc(p.x*W,p.y*H,p.r,0,6.283);x.fillStyle=p.g?'rgba(244,210,122,'+a.toFixed(2)+')':'rgba(255,250,235,'+a.toFixed(2)+')';x.fill();}requestAnimationFrame(loop);}
+  requestAnimationFrame(loop);
+})();
+/* ===== MAKE IT RAIN — ⚡ZAPP coins fall from the sky (fast path) ===== */
+(function(){
+  var btn=document.getElementById('rainbtn'), cv=document.getElementById('rain');
+  if(!btn||!cv) return;
+  var x=cv.getContext('2d'), W, H, drops=[], raf=null, last=0;
+  var small=Math.min(screen.width,screen.height)<600;
+  var dpr=small?1:Math.min(window.devicePixelRatio||1,1.5); /* low-res canvas = fast */
+  function rs(){W=innerWidth;H=innerHeight;cv.width=Math.floor(W*dpr);cv.height=Math.floor(H*dpr);x.setTransform(dpr,0,0,dpr,0,0);}
+  rs(); addEventListener('resize',rs);
+  /* pre-render a mini ⚡ZAPP coin sprite WITH the glow baked in (no per-frame shadowBlur) */
+  var PAD=14, R=48, S=(R+PAD)*2, C=S/2;
+  var sp=document.createElement('canvas'); sp.width=sp.height=S;
+  var sx=sp.getContext('2d');
+  sx.shadowColor='rgba(244,210,122,.55)'; sx.shadowBlur=PAD;
+  var g=sx.createRadialGradient(C,C,8,C,C,R);
+  g.addColorStop(0,'#fff0c4'); g.addColorStop(.5,'#E9B949'); g.addColorStop(1,'#7a5a12');
+  sx.fillStyle=g; sx.beginPath(); sx.arc(C,C,R-2,0,7); sx.fill();
+  sx.shadowBlur=0;
+  sx.strokeStyle='rgba(60,40,5,.55)'; sx.lineWidth=4; sx.beginPath(); sx.arc(C,C,R-9,0,7); sx.stroke();
+  sx.save(); sx.translate(C,C); sx.scale(.5,.5);
+  var pts=[[-12,-66],[26,-66],[2,-10],[34,-10],[-26,66],[-6,6],[-38,6]];
+  sx.beginPath(); sx.moveTo(pts[0][0],pts[0][1]); for(var i=1;i<pts.length;i++)sx.lineTo(pts[i][0],pts[i][1]); sx.closePath();
+  sx.fillStyle='#1c1206'; sx.fill(); sx.restore();
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var MAX=small?48:90; /* hard cap so taps never stack into a lag storm */
+  function burst(){
+    var n=reduced?18:(small?36:Math.min(80,Math.max(40,Math.floor(W/12))));
+    n=Math.min(n,MAX-drops.length);
+    for(var i=0;i<n;i++){
+      drops.push({
+        x:Math.random()*W,
+        y:-40-Math.random()*H*1.1,
+        sz:13+Math.random()*Math.min(30,W*.05),
+        v:180+Math.random()*300,
+        r:Math.random()*6.28, vr:(Math.random()-.5)*4,
+        ph:Math.random()*6.28, fs:2+Math.random()*4
+      });
+    }
+    if(!raf){ last=performance.now(); raf=requestAnimationFrame(loop); }
+  }
+  function loop(t){
+    var dt=Math.min((t-last)/1000,.05); last=t;
+    x.clearRect(0,0,W,H);
+    for(var i=drops.length-1;i>=0;i--){
+      var p=drops[i];
+      p.y+=p.v*dt; p.r+=p.vr*dt; p.x+=Math.sin(t*.0016+p.ph)*.7;
+      if(p.y-p.sz>H+24){ drops.splice(i,1); continue; }
+      var flip=Math.max(.22,Math.abs(Math.cos(t*.001*p.fs+p.ph)));
+      var cos=Math.cos(p.r), sin=Math.sin(p.r), s=p.sz/(R*2);
+      /* setTransform is cheaper than save/translate/rotate/scale/restore */
+      x.setTransform(dpr*cos*s, dpr*sin*s, -dpr*sin*flip*s, dpr*cos*flip*s, dpr*p.x, dpr*p.y);
+      x.drawImage(sp,-C,-C);
+    }
+    x.setTransform(dpr,0,0,dpr,0,0);
+    if(drops.length){ raf=requestAnimationFrame(loop); }
+    else{ raf=null; x.clearRect(0,0,W,H); btn.classList.remove('pouring'); }
+  }
+  btn.addEventListener('click',function(){
+    burst(); btn.classList.add('pouring');
+    if(navigator.vibrate) navigator.vibrate(35);
+  });
+})();
+/* ===== 3D ⚡ZAPP COIN — clean, like the master plan ===== */
+(function(){
+  if(!window.THREE){return;}
+  var cv=document.getElementById('coin');
+  var w=cv.clientWidth, h=cv.clientHeight;
+  var renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(w,h,false);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(38,w/h,0.1,100); camera.position.set(0,0,9);
+  function faceTex(){
+    var c=document.createElement('canvas'); c.width=c.height=512; var x=c.getContext('2d');
+    var g=x.createRadialGradient(256,256,40,256,256,256);
+    g.addColorStop(0,'#fff0c4'); g.addColorStop(.45,'#E9B949'); g.addColorStop(1,'#7a5a12');
+    x.fillStyle=g; x.beginPath(); x.arc(256,256,256,0,7); x.fill();
+    x.strokeStyle='rgba(60,40,5,.55)'; x.lineWidth=10; x.beginPath(); x.arc(256,256,210,0,7); x.stroke();
+    x.save(); x.translate(256,250); x.scale(2.0,2.0);
+    var pts=[[-12,-66],[26,-66],[2,-10],[34,-10],[-26,66],[-6,6],[-38,6]];
+    x.beginPath(); x.moveTo(pts[0][0],pts[0][1]); for(var i=1;i<pts.length;i++)x.lineTo(pts[i][0],pts[i][1]); x.closePath();
+    x.fillStyle='#1c1206'; x.shadowColor='rgba(0,0,0,.4)'; x.shadowBlur=8; x.fill(); x.restore();
+    x.fillStyle='#2a1c06'; x.textAlign='center'; x.font='700 60px Georgia,serif';
+    x.fillText('ZAPP', 256, 150);
+    x.font='600 30px monospace'; x.fillText('3 · 6 · 9', 256, 392);
+    var t=new THREE.CanvasTexture(c); t.anisotropy=8; return t;
+  }
+  var face=faceTex();
+  var side=new THREE.MeshStandardMaterial({color:0xC8901f,metalness:1,roughness:.34,emissive:0x130c00,emissiveIntensity:.5});
+  var faceMat=new THREE.MeshStandardMaterial({map:face,metalness:.9,roughness:.32,emissive:0x130c00,emissiveIntensity:.4});
+  var coin=new THREE.Mesh(new THREE.CylinderGeometry(2.6,2.6,0.34,96), [side,faceMat,faceMat]);
+  coin.rotation.x=Math.PI/2;
+  var pivot=new THREE.Group(); pivot.add(coin); scene.add(pivot);
+  scene.add(new THREE.AmbientLight(0x5a4520,1.4));
+  var p1=new THREE.PointLight(0xffe6a8,1.5,40); p1.position.set(6,7,9); scene.add(p1);
+  var p2=new THREE.PointLight(0xfff4d8,1.0,40); p2.position.set(-8,-4,6); scene.add(p2);
+  var dir=new THREE.DirectionalLight(0xffffff,.6); dir.position.set(0,3,8); scene.add(dir);
+  var N=260, geo=new THREE.BufferGeometry(), pos=new Float32Array(N*3);
+  for(var i=0;i<N;i++){ pos[i*3]=(Math.random()-.5)*22; pos[i*3+1]=(Math.random()-.5)*14; pos[i*3+2]=(Math.random()-.5)*10-2; }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  var spark=new THREE.Points(geo,new THREE.PointsMaterial({color:0xF4D27A,size:.05,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false}));
+  scene.add(spark);
+  var downX=null;
+  cv.style.touchAction='pan-y'; cv.style.cursor='grab';
+  cv.addEventListener('pointerdown',function(e){downX=e.clientX; cv.style.cursor='grabbing';});
+  addEventListener('pointerup',function(){downX=null; cv.style.cursor='grab';});
+  addEventListener('pointermove',function(e){ if(downX!=null){ pivot.rotation.y += (e.clientX-downX)*0.008; downX=e.clientX; }});
+  function resize(){ w=cv.clientWidth; h=cv.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+  addEventListener('resize',resize);
+  var t0=performance.now();
+  function loop(t){
+    var dt=Math.min((t-t0)/1000,0.05); t0=t;
+    pivot.rotation.y += dt*0.45;
+    coin.rotation.z = Math.sin(t*0.0006)*0.12;
+    pivot.position.y = Math.sin(t*0.0009)*0.18;
+    pivot.rotation.x = Math.sin(t*0.0005)*0.07;
+    spark.rotation.y += dt*0.05;
+    if(window.ZPAR){ /* the coin leans toward your touch */
+      camera.position.x += (window.ZPAR.x()*1.1 - camera.position.x)*0.08;
+      camera.position.y += (-window.ZPAR.y()*0.7 - camera.position.y)*0.08;
+      camera.lookAt(0,0,0);
+    }
+    renderer.render(scene,camera);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
