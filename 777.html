@@ -124,7 +124,8 @@
     .ca{gap:9px;padding:11px 16px}.ca .cav{font-size:.7rem}.ca .cak{font-size:.52rem}
     .rainfab{font-size:.64rem;padding:12px 20px;bottom:calc(14px + var(--safe-b))}
     .bolt{font-size:38px;animation:none;filter:drop-shadow(0 0 22px rgba(244,210,122,.6))}
-    h1{filter:none;text-shadow:0 0 30px rgba(244,210,122,.35)}
+    h1{filter:none;font-size:clamp(2.4rem,13vw,4rem)}
+    .up{animation:none} /* iOS: animating a child of gradient-clipped text makes it invisible */
     .band{margin:6vh 0}
   }
   @media(max-width:380px){
@@ -147,7 +148,7 @@
   .langs button{background:rgba(20,14,28,.55);border:1px solid rgba(244,210,122,.2);border-radius:999px;padding:6px 10px;font-size:1.05rem;line-height:1;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s}
   .langs button:active{transform:scale(.9)}
   .langs button.on{border-color:rgba(244,210,122,.75);background:rgba(244,210,122,.12);box-shadow:0 0 16px rgba(244,210,122,.35)}
-  @media(max-width:560px){.langs{gap:5px}.langs button{padding:5px 8px;font-size:.95rem}}
+  @media(max-width:560px){.langs{gap:5px;margin-top:52px}.langs button{padding:5px 8px;font-size:.95rem}}
   /* RTL (Arabic) */
   html[dir=rtl] .steps,html[dir=rtl] .lk .tx{text-align:right}
   html[dir=rtl] .step,html[dir=rtl] .lk{direction:rtl}
@@ -254,7 +255,7 @@
     </div>
   </div>
 
-  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡</div>
+  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡ <span style="opacity:.45;font-size:.6em">v9</span></div>
   <p class="disc">A movement of belief and unity, not a promise of profit. Take part only if you want to, and only with an amount you are happy to give. This is not financial advice, and nothing here promises that any token will rise in value. ⚡ZAPP is a community on Solana. Free Energy = Free Money ∞</p>
 </div>
 
@@ -586,10 +587,11 @@
     addEventListener('pointermove',function(e){ if(downX!=null){ extra+=(e.clientX-downX)*0.012; downX=e.clientX; }},{passive:true});
     function loop(t){
       var dt=Math.min((t-t0)/1000,.05); t0=t; th+=dt*1.3;
+      if(cv.clientWidth!==w||cv.clientHeight!==h) rs(); /* self-heal if layout shifted after init */
       x.clearRect(0,0,w,h);
       var px=w/2+(window.ZPAR?window.ZPAR.x()*10:0);
       var py=h/2+Math.sin(t*.0009)*10;
-      var D=Math.min(w,h)*.78;
+      var D=Math.min(w,h)*.72;
       var sx=Math.cos(th+extra), ax=Math.max(.09,Math.abs(sx));
       x.save(); x.translate(px,py); x.rotate(Math.sin(t*.0006)*.1);
       x.fillStyle='#a87c1e'; /* the golden edge as it turns */
