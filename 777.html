@@ -44,9 +44,8 @@
   .tag{font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,5.6vw,2.2rem);color:var(--cream);margin:.6rem 0 0}
   .tag b{color:var(--gold);font-style:normal}
   .sub{color:#cfc5a5;max-width:580px;margin:1rem auto 0;font-size:1.15rem;text-wrap:balance}
-  /* balanced line-wrapping so every language breaks evenly, no lonely words */
-  h1,h2,.tag,.big-line,.cdlabel,.disc,.slog .s,.st .l,.days{text-wrap:balance}
-  .step p{text-wrap:pretty}
+  /* balanced line-wrapping — only on short, plain elements (keeps iOS Safari stable) */
+  h2,.tag,.big-line{text-wrap:balance}
   .seq{font-family:var(--mono);letter-spacing:.5em;color:var(--gold);font-size:.8rem;margin-top:1.4rem;opacity:.85}
   /* countdown */
   .cdlabel{font-family:var(--mono);font-size:.66rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);opacity:.85;margin-top:3rem}
@@ -124,7 +123,8 @@
     .tags{font-size:.8rem}
     .ca{gap:9px;padding:11px 16px}.ca .cav{font-size:.7rem}.ca .cak{font-size:.52rem}
     .rainfab{font-size:.64rem;padding:12px 20px;bottom:calc(14px + var(--safe-b))}
-    .bolt{font-size:38px}
+    .bolt{font-size:38px;animation:none;filter:drop-shadow(0 0 22px rgba(244,210,122,.6))}
+    h1{filter:none;text-shadow:0 0 30px rgba(244,210,122,.35)}
     .band{margin:6vh 0}
   }
   @media(max-width:380px){
@@ -458,30 +458,19 @@
 /* ===== LIVING PAGE — touch / tilt parallax, the whole cosmos follows you ===== */
 (function(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var small=Math.min(screen.width,screen.height)<600;
   var tx=0,ty=0,cx=0,cy=0;
   var stars=document.getElementById('stars'), cos=document.querySelector('.cosmos');
-  if(stars){stars.style.willChange='transform';}
-  if(cos){cos.style.willChange='transform';}
   function aim(x,y){ tx=Math.max(-1,Math.min(1,(x/innerWidth-.5)*2)); ty=Math.max(-1,Math.min(1,(y/innerHeight-.5)*2)); }
   addEventListener('pointermove',function(e){aim(e.clientX,e.clientY);},{passive:true});
   addEventListener('touchmove',function(e){var t=e.touches[0]; if(t)aim(t.clientX,t.clientY);},{passive:true});
-  /* phone tilt (Android auto; iOS asks on first touch) — calibrates to how YOU hold the phone */
-  var g0=null,b0=null;
-  function tilt(e){ if(e.gamma==null||e.beta==null)return;
-    if(g0===null){g0=e.gamma;b0=e.beta;}
-    tx=Math.max(-1,Math.min(1,(e.gamma-g0)/24)); ty=Math.max(-1,Math.min(1,(e.beta-b0)/24)); }
-  if(window.DeviceOrientationEvent){
-    if(typeof DeviceOrientationEvent.requestPermission==='function'){
-      var ask=function(){ DeviceOrientationEvent.requestPermission().then(function(r){ if(r==='granted')addEventListener('deviceorientation',tilt); }).catch(function(){});
-        removeEventListener('touchend',ask); };
-      addEventListener('touchend',ask,{passive:true});
-    } else { addEventListener('deviceorientation',tilt); }
-  }
   function loop(){
-    if(Math.abs(tx-cx)>.0006||Math.abs(ty-cy)>.0006){ /* only touch the GPU when something actually moves */
+    if(Math.abs(tx-cx)>.0006||Math.abs(ty-cy)>.0006){
       cx+=(tx-cx)*.055; cy+=(ty-cy)*.055;
-      if(stars)stars.style.transform='scale(1.06) translate3d('+(cx*-16)+'px,'+(cy*-11)+'px,0)';
-      if(cos)cos.style.transform='scale(1.09) translate3d('+(cx*-30)+'px,'+(cy*-20)+'px,0)';
+      if(!small){ /* full-screen layer parallax: desktop only — phones keep the coin lean, GPU stays cool */
+        if(stars)stars.style.transform='scale(1.06) translate3d('+(cx*-16)+'px,'+(cy*-11)+'px,0)';
+        if(cos)cos.style.transform='scale(1.09) translate3d('+(cx*-30)+'px,'+(cy*-20)+'px,0)';
+      }
     }
     requestAnimationFrame(loop);
   }
