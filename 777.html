@@ -20,12 +20,12 @@
   html{scroll-behavior:smooth}
   body{margin:0;background:#040107;color:var(--cream);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-align:center;touch-action:manipulation}
   button,a{touch-action:manipulation}
-  .cosmos{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  .cosmos{position:fixed;left:0;top:0;right:0;bottom:0;z-index:0;pointer-events:none;background:
     radial-gradient(1000px 760px at 50% -8%,rgba(244,210,122,.18),transparent 60%),
     radial-gradient(740px 760px at 86% 28%,rgba(150,110,255,.12),transparent 62%),
     radial-gradient(720px 720px at 10% 88%,rgba(90,160,255,.10),transparent 60%)}
-  #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-  #rain{position:fixed;inset:0;z-index:40;pointer-events:none}
+  #stars{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:0;pointer-events:none}
+  #rain{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:40;pointer-events:none}
   .wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:6vh 22px 14vh}
   .bolt{font-size:46px;filter:drop-shadow(0 0 30px rgba(244,210,122,.7));animation:pulse 3s ease-in-out infinite}
   @keyframes pulse{0%,100%{filter:drop-shadow(0 0 22px rgba(244,210,122,.5))}50%{filter:drop-shadow(0 0 46px rgba(244,210,122,.95))}}
@@ -40,7 +40,7 @@
   .days b{color:var(--gold);font-weight:700}
   /* 3D coin */
   .coinbox{position:relative;height:400px;margin:1rem 0 .5rem}
-  #coin{position:absolute;inset:0}
+  #coin{position:absolute;left:0;top:0;width:100%;height:100%;max-width:100%;max-height:100%}
   .tag{font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,5.6vw,2.2rem);color:var(--cream);margin:.6rem 0 0}
   .tag b{color:var(--gold);font-style:normal}
   .sub{color:#cfc5a5;max-width:580px;margin:1rem auto 0;font-size:1.15rem;text-wrap:balance}
@@ -255,7 +255,7 @@
     </div>
   </div>
 
-  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡ <span style="opacity:.45;font-size:.6em">v9</span></div>
+  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡ <span style="opacity:.45;font-size:.6em">v11</span></div>
   <p class="disc">A movement of belief and unity, not a promise of profit. Take part only if you want to, and only with an amount you are happy to give. This is not financial advice, and nothing here promises that any token will rise in value. ⚡ZAPP is a community on Solana. Free Energy = Free Money ∞</p>
 </div>
 
@@ -563,8 +563,13 @@
   /* --- 2D coin: same gold, same spin, zero WebGL, cannot crash a phone --- */
   function coin2D(){
     var x=cv.getContext('2d'); if(!x) return;
-    var w,h,dpr=Math.min(devicePixelRatio||1,2);
-    function rs(){w=cv.clientWidth;h=cv.clientHeight;cv.width=Math.floor(w*dpr);cv.height=Math.floor(h*dpr);x.setTransform(dpr,0,0,dpr,0,0);}
+    var box=cv.parentNode, w, h, dpr=Math.min(devicePixelRatio||1,2);
+    function rs(){
+      w=box.clientWidth; h=box.clientHeight; /* measure the BOX, never the canvas — no feedback loop, ever */
+      cv.style.width=w+'px'; cv.style.height=h+'px';
+      cv.width=Math.floor(w*dpr); cv.height=Math.floor(h*dpr);
+      x.setTransform(dpr,0,0,dpr,0,0);
+    }
     rs(); addEventListener('resize',rs);
     var S=560,C2=S/2,R=230;
     var sp=document.createElement('canvas'); sp.width=sp.height=S;
@@ -587,7 +592,7 @@
     addEventListener('pointermove',function(e){ if(downX!=null){ extra+=(e.clientX-downX)*0.012; downX=e.clientX; }},{passive:true});
     function loop(t){
       var dt=Math.min((t-t0)/1000,.05); t0=t; th+=dt*1.3;
-      if(cv.clientWidth!==w||cv.clientHeight!==h) rs(); /* self-heal if layout shifted after init */
+      if(box.clientWidth!==w||box.clientHeight!==h) rs(); /* self-heal if layout shifted after init */
       x.clearRect(0,0,w,h);
       var px=w/2+(window.ZPAR?window.ZPAR.x()*10:0);
       var py=h/2+Math.sin(t*.0009)*10;
@@ -607,7 +612,8 @@
   if(small || !window.THREE){ coin2D(); return; }
 
   /* --- desktop: full 3D --- */
-  var w=cv.clientWidth, h=cv.clientHeight;
+  var box3=cv.parentNode;
+  var w=box3.clientWidth, h=box3.clientHeight;
   var renderer;
   try{ renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true,powerPreference:'low-power'}); }
   catch(e){ coin2D(); return; }
@@ -653,7 +659,7 @@
   cv.addEventListener('pointerdown',function(e){downX=e.clientX; cv.style.cursor='grabbing';});
   addEventListener('pointerup',function(){downX=null; cv.style.cursor='grab';});
   addEventListener('pointermove',function(e){ if(downX!=null){ pivot.rotation.y += (e.clientX-downX)*0.008; downX=e.clientX; }});
-  function resize(){ w=cv.clientWidth; h=cv.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.position.z=camZ(); camera.updateProjectionMatrix(); }
+  function resize(){ w=box3.clientWidth; h=box3.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.position.z=camZ(); camera.updateProjectionMatrix(); }
   addEventListener('resize',resize);
   var t0=performance.now();
   function loop(t){
