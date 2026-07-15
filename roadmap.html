@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ZAPP · The Master Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#040107; --ink2:#0a0511; --gold:#F4D27A; --gold2:#E9B949; --gold-deep:#9c7415;
+    --gold-bright:#FFE9B0; --cream:#f4ecd9; --muted:#a99e86;
+    --line:rgba(244,210,122,.16); --line2:rgba(244,210,122,.34);
+    --green:#5fd3a0; --blue:#7ab8ff; --pink:#ffa6c0; --violet:#c4a2ff;
+    --display:"Fraunces",Georgia,serif; --mono:"JetBrains Mono",monospace; --sans:"Manrope",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#000;color:var(--cream);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  #prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;background:linear-gradient(90deg,var(--gold-deep),var(--gold-bright));box-shadow:0 0 12px rgba(244,210,122,.7)}
+  .stage{position:relative;background:var(--ink)}
+  .glow{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(900px 600px at 50% 0%,rgba(244,210,122,.10),transparent 62%),radial-gradient(700px 600px at 90% 40%,rgba(184,144,47,.08),transparent 60%),radial-gradient(640px 560px at 6% 86%,rgba(244,210,122,.06),transparent 60%)}
+  .wrap{position:relative;z-index:3;max-width:1000px;margin:0 auto;padding:0 26px}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.07}
+  p{color:#e9dfc9}
+  .muted{color:var(--muted)} .small{font-size:.86rem} .mono{font-family:var(--mono)}
+  a{color:var(--gold);text-decoration:none}
+  .zapp{font-family:var(--display);font-weight:900;background:linear-gradient(180deg,var(--gold-bright),var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 20px rgba(244,210,122,.4))}
+
+  /* VIDEO HERO */
+  .vhero{position:relative;height:100vh;min-height:560px;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+  .vhero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.9}
+  .vhero .scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(closest-side at 50% 50%,transparent 30%,rgba(0,0,0,.55) 100%),linear-gradient(to bottom,rgba(0,0,0,.3),transparent 30%,transparent 60%,rgba(4,1,7,.96))}
+  .vhero .vc{position:relative;z-index:2;text-align:center;padding:0 24px}
+  .vhero .tag{font-family:var(--display);font-style:italic;font-size:clamp(1.4rem,4vw,2.6rem);color:var(--cream);text-shadow:0 2px 30px rgba(0,0,0,.8)}
+  .vhero .tag em{color:var(--gold)}
+  .vhero .seq{font-family:var(--mono);letter-spacing:.5em;color:var(--gold);font-size:clamp(.7rem,1.8vw,1rem);margin-top:1.2rem}
+  .scrollhint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;font-family:var(--mono);font-size:.6rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);animation:pulse 2.6s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+  /* 3D COIN */
+  .coinwrap{position:relative;height:78vh;min-height:520px;display:flex;align-items:center;justify-content:center;text-align:center}
+  #coin{position:absolute;left:0;top:0;width:100%;height:100%;max-width:100%;max-height:100%;z-index:1}
+  .coinwrap .ct{position:relative;z-index:2;pointer-events:none;padding:0 24px}
+  .coinwrap h2{font-size:clamp(2.2rem,6vw,4rem);margin:0}
+  .coinwrap p{color:var(--muted);max-width:460px;margin:.6rem auto 0}
+  .coinwrap .at-top{position:absolute;top:8vh;left:0;right:0}
+  .coinwrap .at-bot{position:absolute;bottom:8vh;left:0;right:0}
+
+  .band{position:relative;z-index:3;padding:7vh 0 4vh}
+  .sn{font-family:var(--mono);font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+  h2.t{font-size:clamp(1.9rem,5vw,3rem);margin:.14em 0 .4em}
+  h3.e{color:var(--gold);font-family:var(--display);font-size:1.35rem;margin:1.1em 0 .35em}
+  .lead{font-size:1.12rem;color:#efe6d1}
+  .card{background:rgba(20,14,28,.55);border:1px solid var(--line);border-radius:18px;padding:22px 24px;margin:14px 0;backdrop-filter:blur(7px)}
+  .quote{font-family:var(--display);font-style:italic;font-size:1.3rem;color:var(--gold-bright);border-left:3px solid var(--gold);padding-left:18px;margin:16px 0;line-height:1.4}
+  .grid{display:grid;gap:16px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g4{grid-template-columns:1fr 1fr}
+  @media(max-width:760px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .figrow{display:grid;grid-template-columns:.86fr 1.14fr;gap:26px;align-items:center;margin:18px 0}
+  .figrow.rev{grid-template-columns:1.14fr .86fr}
+  @media(max-width:760px){.figrow,.figrow.rev{grid-template-columns:1fr}}
+  .shot{width:100%;border-radius:16px;border:1px solid var(--line2);box-shadow:0 18px 54px rgba(0,0,0,.6);display:block}
+  .callout{border-left:3px solid var(--gold);background:rgba(244,210,122,.06);padding:15px 19px;border-radius:0 12px 12px 0;margin:16px 0}
+  .callout.green{border-color:var(--green);background:rgba(95,211,160,.07)}
+  .callout.blue{border-color:var(--blue);background:rgba(122,184,255,.07)}
+  .callout.pink{border-color:var(--pink);background:rgba(255,166,192,.07)}
+  .callout b{color:#fff}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.92rem}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--mono);color:var(--gold);font-size:.62rem;text-transform:uppercase;letter-spacing:.1em}
+  .eq{background:linear-gradient(180deg,rgba(30,22,12,.7),rgba(10,5,16,.7));border:1px solid var(--line2);border-radius:12px;padding:14px 17px;margin:12px 0;font-family:var(--mono);font-size:.92rem;color:var(--gold-bright);overflow-x:auto;text-align:center}
+  ul.plain{list-style:none;padding:0;margin:8px 0}
+  ul.plain li{padding:9px 0 9px 28px;position:relative;border-bottom:1px solid var(--line)}
+  ul.plain li:before{content:"⚡";position:absolute;left:0;top:9px;font-size:.82rem}
+  ul.check li:before{content:"✓";color:var(--green)}
+  .found{border:1px solid var(--line);border-radius:16px;padding:20px;background:rgba(20,14,28,.5)}
+  .found .g{font-family:var(--display);font-weight:900;font-size:1.7rem;color:var(--gold)}
+  .found .y{font-family:var(--mono);font-size:.58rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  .found h4{font-size:1.12rem;margin:.25em 0 .1em;color:var(--gold-bright)}
+  .found p{font-size:.85rem;margin:.3em 0 0;color:#ddd3bc}
+  .found .q{margin-top:.6em;font-size:.78rem;color:var(--gold);font-style:italic;font-family:var(--display)}
+  .layer{display:flex;gap:16px;align-items:flex-start;border:1px solid var(--line);border-radius:16px;padding:17px 19px;margin:11px 0;background:rgba(20,14,28,.5)}
+  .layer .ln{font-family:var(--display);font-weight:900;font-size:2.1rem;width:44px;text-align:center;flex:0 0 auto}
+  .ly1 .ln{color:var(--gold)}.ly2 .ln{color:var(--green)}.ly3 .ln{color:var(--blue)}
+  .stat{background:rgba(30,22,12,.5);border:1px solid var(--line);border-radius:13px;padding:14px;text-align:center}
+  .stat .n{font-family:var(--display);font-size:1.45rem;font-weight:700;color:var(--gold)}
+  .stat .l{font-family:var(--mono);font-size:.56rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+  .spine{text-align:center;font-family:var(--mono);letter-spacing:.5em;color:var(--gold);opacity:.5;font-size:.7rem;margin:14px 0}
+  .path{border-radius:16px;padding:20px;border:1px solid var(--line2);background:rgba(20,14,28,.5)}
+  .path.a{border-color:rgba(95,211,160,.34)}.path.b{border-color:rgba(244,210,122,.42)}
+  .foot{position:relative;z-index:3;max-width:1000px;margin:24px auto 0;padding:24px 26px 64px;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}
+
+  /* ===== POLISH PASS · alive and refined ===== */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .card{transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+  .card:hover{transform:translateY(-3px);border-color:var(--line2);box-shadow:0 16px 44px rgba(0,0,0,.5),0 0 34px rgba(244,210,122,.07)}
+  .stat{transition:transform .3s ease,border-color .3s ease}
+  .stat:hover{transform:translateY(-2px);border-color:var(--line2)}
+  h2.t{text-shadow:0 0 30px rgba(244,210,122,.16)}
+  h2.t .em,.zapp{will-change:filter}
+  .zapp{animation:zglow 4.5s ease-in-out infinite}
+  @keyframes zglow{0%,100%{filter:drop-shadow(0 0 20px rgba(244,210,122,.4))}50%{filter:drop-shadow(0 0 36px rgba(244,210,122,.62))}}
+  .shot{transition:transform .5s ease,box-shadow .5s ease}
+  .figrow:hover .shot,.figrow.rev:hover .shot{transform:scale(1.012);box-shadow:0 22px 60px rgba(0,0,0,.65),0 0 40px rgba(244,210,122,.08)}
+  .spine{transition:opacity .6s ease}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;transition:none}.zapp{animation:none}}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- VIDEO HERO -->
+<section class="vhero">
+  <video src="./zapp-assets/zapp-intro.mp4" poster="./zapp-assets/zapp-poster.jpg" autoplay muted loop playsinline></video>
+  <div class="scrim"></div>
+  <div class="vc">
+    <div class="tag">Free Energy = <em>Free Money</em> ∞</div>
+    <div class="seq">∞ · 3 · 6 · 9 · ∞</div>
+  </div>
+  <div class="scrollhint">scroll · enter the current</div>
+</section>
+
+<div class="stage">
+<div class="glow"></div>
+
+<!-- 3D COIN -->
+<section class="coinwrap">
+  <canvas id="coin"></canvas>
+  <div class="ct at-top">
+    <h2 class="zapp">⚡ZAPP</h2>
+    <p>The master plan. Spin the coin. Then read how it really works.</p>
+  </div>
+  <div class="ct at-bot">
+    <p class="mono" style="letter-spacing:.3em;color:var(--gold);font-size:.7rem">TESLA'S REVOLUTION · ON SOLANA</p>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- EVIDENCE -->
+  <section class="band" id="evidence">
+    <div class="sn">The evidence · why now</div>
+    <h2 class="t">The world is ready. <span style="color:var(--gold)">The proof is everywhere.</span></h2>
+    <p class="lead">This is not a dream about the future. The need is real, the technology already works, and the money is already moving. Here are the numbers.</p>
+    <div class="grid g4" style="margin:14px 0">
+      <div class="stat"><div class="n"><span class="count" data-to="1.3" data-dec="1" data-suf="B">1.3B</span></div><div class="l">adults still have no bank</div></div>
+      <div class="stat"><div class="n"><span class="count" data-pre="$" data-to="760" data-suf="M+">$760M+</span></div><div class="l">aid already sent on a blockchain</div></div>
+      <div class="stat"><div class="n"><span class="count" data-to="6" data-suf="M">6M</span></div><div class="l">people already helped on chain</div></div>
+      <div class="stat"><div class="n"><span class="count" data-pre="$" data-to="16" data-suf="T">$16T</span></div><div class="l">assets on chain by 2030</div></div>
+    </div>
+    <div class="grid g2">
+      <div class="card" style="margin:0"><h3 class="e" style="margin-top:0">The wall of money coming on chain</h3><svg viewBox="0 0 320 188" style="width:100%;height:auto;display:block;margin:6px 0" preserveAspectRatio="xMidYMid meet" role="img" aria-label="RWA market forecast"><g stroke="rgba(244,210,122,.1)"><line x1="20" y1="40" x2="305" y2="40"/><line x1="20" y1="95" x2="305" y2="95"/><line x1="20" y1="150" x2="305" y2="150"/></g><rect x="34" y="146" width="46" height="4" rx="2" fill="#5a4520"/><rect x="104" y="86" width="46" height="64" rx="3" fill="#C8901f"/><rect x="174" y="74" width="46" height="76" rx="3" fill="#E9B949"/><rect x="244" y="30" width="46" height="120" rx="3" fill="#F4D27A"/><g fill="#FFE9B0" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle"><text x="57" y="139">$0.02T</text><text x="127" y="78">$16T</text><text x="197" y="66">$19T</text><text x="267" y="22">$30T</text></g><g fill="#a99e86" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle"><text x="57" y="167">Now</text><text x="127" y="167">2030</text><text x="197" y="167">2033</text><text x="267" y="167">2034</text></g></svg><p class="small muted" style="margin:.4em 0 0">Real world assets moving onto blockchains, in trillions of dollars. Estimates from BCG, BCG with Ripple, and Standard Chartered.</p></div>
+      <div class="card" style="margin:0"><h3 class="e" style="margin-top:0">Our floor, growing on real revenue</h3><svg viewBox="0 0 320 185" style="width:100%;height:auto;display:block;margin:6px 0" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Floor rising from zero"><defs><linearGradient id="gA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(244,210,122,.42)"/><stop offset="1" stop-color="rgba(244,210,122,0)"/></linearGradient></defs><g stroke="rgba(244,210,122,.1)"><line x1="20" y1="40" x2="300" y2="40"/><line x1="20" y1="95" x2="300" y2="95"/><line x1="20" y1="150" x2="300" y2="150"/></g><path d="M30 150 L110 122 L190 93 L270 30 L270 150 Z" fill="url(#gA)"/><path d="M30 150 L110 122 L190 93 L270 30" fill="none" stroke="#F4D27A" stroke-width="2.6"/><g fill="#F4D27A"><circle cx="30" cy="150" r="3.4"/><circle cx="110" cy="122" r="3.4"/><circle cx="190" cy="93" r="3.4"/><circle cx="270" cy="30" r="3.4"/></g><g fill="#a99e86" font-family="JetBrains Mono,monospace" font-size="9.5" text-anchor="middle"><text x="30" y="170">Today</text><text x="110" y="170">M6</text><text x="190" y="170">M12</text><text x="270" y="170">M24</text></g></svg><p class="small muted" style="margin:.4em 0 0">The value behind one ⚡ZAPP from the model in Section 06. Illustrative, starting from an empty treasury, at $3,000 a month of real sales.</p></div>
+    </div>
+    <div class="callout green"><b>It already works.</b> The United Nations World Food Programme has delivered more than $760 million in food and cash to over six million people through a blockchain, across more than 40 million transactions, while saving millions in bank fees. Cardano's identity work reached millions, including students across Ethiopia. ⚡ZAPP joins a road that is already proven.</div>
+    <p class="small muted">Sources, Global Findex 2025 (World Bank), Building Blocks (UN World Food Programme), tokenisation estimates (BCG, BCG and Ripple, Standard Chartered).</p>
+  </section>
+  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡</div>
+
+  <!-- 01 VISION -->
+  <section class="band">
+    <div class="sn">Section 01</div>
+    <h2 class="t">The vision, and why it is real</h2>
+    <p class="lead">⚡ZAPP is a community brand with a token at its heart. People arrive for the meme and the mascot. Underneath sits a real machine that turns honest revenue into real value, pays the people who build, and helps families who need it.</p>
+    <p>This is not a guess. It grew out of a 2023 bachelor thesis, Digital Currencies, The New Wealth of International Organizations, which argued that the true purpose of crypto is not to mint overnight millionaires but to modernise money and to help people. That paper studied agencies putting aid and identity on a blockchain for refugees, Cardano staking rewards donated to help people, and stablecoins reaching people in crisis. ⚡ZAPP is that thesis given a heartbeat, a mascot, and a community.</p>
+    <div class="quote">We never sell the price. We build real value behind every coin, in plain sight, and we let people decide.</div>
+  </section>
+  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡</div>
+
+  <!-- 02 FOUNDATIONS -->
+  <section class="band">
+    <div class="sn">Section 02 · the white papers</div>
+    <h2 class="t">The foundations we stand on</h2>
+    <p class="lead">⚡ZAPP is built on the ideas that already changed the world. Each white paper hands us a real piece of the machine.</p>
+    <div class="grid g4" style="margin-top:10px">
+      <div class="found"><div class="g">₿</div><div class="y">Bitcoin · Nakamoto · 2008</div><h4>Trust you can verify</h4><p>A purely peer to peer cash that moves without a bank in the middle, on a record that cannot be changed.</p><div class="q">Our public treasury and on chain burns are this idea in action.</div></div>
+      <div class="found"><div class="g">◎</div><div class="y">Solana · Yakovenko</div><h4>Speed that frees us</h4><p>Proof of History keeps verifiable time and reaches up to 710,000 transactions a second at almost no fee.</p><div class="q">This is what makes the daily dollar and constant transparent buybacks possible.</div></div>
+      <div class="found"><div class="g">₳</div><div class="y">Cardano · Ouroboros</div><h4>Identity and real help</h4><p>The first peer reviewed proof of stake, and a digital identity used to bring verifiable identity and aid to refugees.</p><div class="q">It shows how identity on chain unlocks real help for the forgotten.</div></div>
+      <div class="found"><div class="g">◆</div><div class="y">RWA · T-RIZE</div><h4>The legal blueprint</h4><p>Real assets put on chain with real compliance, identity checks, and a foundation that keeps the utility token separate from securities.</p><div class="q">We follow that discipline with our MiCA paper and our foundation.</div></div>
+    </div>
+    <div class="callout">And the spirit comes from two more. Nikola Tesla, who tried to give the world free energy, and old wisdom about value that lasts. Bitcoin gives proof, Solana gives speed, Cardano gives identity and a way to help, the tokenisation world gives the legal path, and Tesla gives the soul.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 03 LAYERS -->
+  <section class="band">
+    <div class="sn">Section 03</div>
+    <h2 class="t">The three layers</h2>
+    <p class="lead">One thing the world sees, and two things that make it real. The crowd only looks at the top. The engine and the mission carry the weight underneath.</p>
+    <div class="layer ly1"><div class="ln">1</div><div><h4 style="margin:0;font-size:1.3rem">The Surface</h4><p style="margin:.2em 0 0">⚡ZAPP, the mascot, the merch, the community. Fun, loud, and the doorway.</p></div></div>
+    <div class="layer ly2"><div class="ln">2</div><div><h4 style="margin:0;font-size:1.3rem">The Engine</h4><p style="margin:.2em 0 0">A public treasury, buyback, burn and locked liquidity, and a rising floor that compounds on real money.</p></div></div>
+    <div class="layer ly3"><div class="ln">3</div><div><h4 style="margin:0;font-size:1.3rem">The Mission</h4><p style="margin:.2em 0 0">Free energy and real help, verifiable on chain. The reason it all exists.</p></div></div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 04 SURFACE -->
+  <section class="band">
+    <div class="sn">Section 04</div>
+    <h2 class="t">The surface, brand and merch</h2>
+    <p class="lead">The merch is not decoration. It is the fuel intake of the whole engine.</p>
+    <p>⚡ZAPP already has what most projects beg for, a character people love, a symbol everyone knows, and a story rooted in a real hero. The product line is ready, a nine-piece collection tuned to the 3 · 6 · 9 frequency, from the tee and hoodie to the sneakers, the cap, the lighter, the drinks and the art print. Every sale is real money that does not depend on anyone selling a token, and that money fills the pot.</p>
+    <div class="callout green"><b>The difference.</b> Most tokens have one source of money, people buying the token. ⚡ZAPP has a second engine the chart cannot touch, real products people pay real money for. That is the difference between a moment and a movement.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 05 TREASURY -->
+  <section class="band">
+    <div class="sn">Section 05</div>
+    <h2 class="t">The treasury, our endowment</h2>
+    <div class="figrow">
+      <img class="shot" src="./zapp-assets/vault.jpg" alt="The treasury">
+      <div>
+        <p class="lead">The treasury is the pot. Not a slush fund, not a trading account. An endowment, built to outlive every hype cycle.</p>
+        <ul class="plain">
+          <li>Held in a multisig, so no single person can move it alone.</li>
+          <li>A public address, so anyone can watch every coin in and out, live.</li>
+          <li>Mostly Solana with a stable buffer, steady and ready.</li>
+          <li>Staked to earn a little while it waits.</li>
+          <li>Run by a written, public policy.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout blue"><b>Honest about the weather.</b> Because the treasury holds Solana, the floor rises when Solana rises and softens when it falls. Real exposure, both directions. Not only up. Backed, and honest.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 06 FLOOR ENGINE -->
+  <section class="band">
+    <div class="sn">Section 06 · the heart</div>
+    <h2 class="t">The Floor Engine</h2>
+    <p class="lead">Exactly how real money lifts the value behind every coin. Simple arithmetic, and anyone can audit it.</p>
+    <div class="eq">value behind one coin = treasury value ÷ number of coins</div>
+    <p>Two honest ways to push it up, both paid by real money in. Grow the pot, so the top number rises. Or buy coins back and remove them, so the bottom number falls. No trick anywhere.</p>
+    <p class="small muted">Illustrative, and honest about where we start. One billion coins, and an empty treasury, no fund and no backer. About $3,000 a month of real revenue from merch and community is split 40 percent to the pot, 30 percent to buy coins back and remove them, 20 percent to rewards, 10 percent to the cause and costs, plus a small staking return on whatever the pot holds.</p>
+    <table>
+      <tr><th>Month</th><th>Treasury</th><th>Coins left</th><th>Value behind one coin</th><th>The story</th></tr>
+      <tr><td>Today</td><td>$0</td><td>1,000,000,000</td><td class="mono">$0.0000000</td><td>we start at zero</td></tr>
+      <tr><td>6</td><td>~$7,300</td><td>~989,000,000</td><td class="mono">$0.0000074</td><td style="color:var(--green)">the floor is real</td></tr>
+      <tr><td>12</td><td>~$14,900</td><td>~978,000,000</td><td class="mono">$0.0000152</td><td style="color:var(--green)">it keeps rising</td></tr>
+      <tr><td>24</td><td>~$30,800</td><td>~957,000,000</td><td class="mono">$0.0000322</td><td style="color:var(--green)">built from sales alone</td></tr>
+    </table>
+    <div class="callout green"><b>What it shows.</b> We start with nothing in the pot, and we need no money from anyone. Real sales alone, a dollar at a time, build a real and growing floor under every coin, with zero speculation. We grow the floor. We never promise the price.</div>
+    <div class="callout"><b>And the founder.</b> The founder's own stake is small, under ten percent of all the coins, and even that can be locked on public vesting for everyone to see. The floor is built for the community, not for an insider.</div>
+
+    <h3 class="e">The three ways it always goes up</h3>
+    <div class="grid g3">
+      <div class="card" style="margin:0"><h4 style="color:var(--gold);font-family:var(--display);font-size:1.05rem;margin:.1em 0 .4em">1 · Treasury grows</h4><svg viewBox="0 0 320 185" style="width:100%;height:auto;display:block;margin:4px 0" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Treasury grows"><defs><linearGradient id="gD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(244,210,122,.42)"/><stop offset="1" stop-color="rgba(244,210,122,0)"/></linearGradient></defs><g stroke="rgba(244,210,122,.1)"><line x1="20" y1="40" x2="300" y2="40"/><line x1="20" y1="95" x2="300" y2="95"/><line x1="20" y1="150" x2="300" y2="150"/></g><path d="M30 150 L110 122 L190 92 L270 30 L270 150 Z" fill="url(#gD)"/><path d="M30 150 L110 122 L190 92 L270 30" fill="none" stroke="#F4D27A" stroke-width="2.6"/><g fill="#F4D27A"><circle cx="30" cy="150" r="3.4"/><circle cx="110" cy="122" r="3.4"/><circle cx="190" cy="92" r="3.4"/><circle cx="270" cy="30" r="3.4"/></g><g fill="#a99e86" font-family="JetBrains Mono,monospace" font-size="9.5" text-anchor="middle"><text x="30" y="170">Today</text><text x="110" y="170">M6</text><text x="190" y="170">M12</text><text x="270" y="170">M24</text></g></svg><p class="small muted" style="margin:.4em 0 0">real sales fill the pot</p></div>
+      <div class="card" style="margin:0"><h4 style="color:var(--gold);font-family:var(--display);font-size:1.05rem;margin:.1em 0 .4em">2 · Supply shrinks</h4><svg viewBox="0 0 320 185" style="width:100%;height:auto;display:block;margin:4px 0" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Supply shrinks"><g stroke="rgba(244,210,122,.1)"><line x1="20" y1="40" x2="300" y2="40"/><line x1="20" y1="95" x2="300" y2="95"/><line x1="20" y1="150" x2="300" y2="150"/></g><path d="M30 30 L110 61 L190 91 L270 150" fill="none" stroke="#ff9a8b" stroke-width="2.6"/><g fill="#ff9a8b"><circle cx="30" cy="30" r="3.4"/><circle cx="110" cy="61" r="3.4"/><circle cx="190" cy="91" r="3.4"/><circle cx="270" cy="150" r="3.4"/></g><g fill="#a99e86" font-family="JetBrains Mono,monospace" font-size="9.5" text-anchor="middle"><text x="30" y="170">Today</text><text x="110" y="170">M6</text><text x="190" y="170">M12</text><text x="270" y="170">M24</text></g></svg><p class="small muted" style="margin:.4em 0 0">burns remove coins forever</p></div>
+      <div class="card" style="margin:0"><h4 style="color:var(--gold);font-family:var(--display);font-size:1.05rem;margin:.1em 0 .4em">3 · Floor rises</h4><svg viewBox="0 0 320 185" style="width:100%;height:auto;display:block;margin:4px 0" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Floor rises"><defs><linearGradient id="gC" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(244,210,122,.42)"/><stop offset="1" stop-color="rgba(244,210,122,0)"/></linearGradient></defs><g stroke="rgba(244,210,122,.1)"><line x1="20" y1="40" x2="300" y2="40"/><line x1="20" y1="95" x2="300" y2="95"/><line x1="20" y1="150" x2="300" y2="150"/></g><path d="M30 150 L110 122 L190 93 L270 30 L270 150 Z" fill="url(#gC)"/><path d="M30 150 L110 122 L190 93 L270 30" fill="none" stroke="#F4D27A" stroke-width="2.6"/><g fill="#F4D27A"><circle cx="30" cy="150" r="3.4"/><circle cx="110" cy="122" r="3.4"/><circle cx="190" cy="93" r="3.4"/><circle cx="270" cy="30" r="3.4"/></g><g fill="#a99e86" font-family="JetBrains Mono,monospace" font-size="9.5" text-anchor="middle"><text x="30" y="170">Today</text><text x="110" y="170">M6</text><text x="190" y="170">M12</text><text x="270" y="170">M24</text></g></svg><p class="small muted" style="margin:.4em 0 0">value behind each coin</p></div>
+    </div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- THE MONEY -->
+  <section class="band">
+    <div class="sn">The money · made and shared</div>
+    <h2 class="t">Where the money comes from</h2>
+    <p class="lead">Let us be plain, because this is the part that matters. ⚡ZAPP has 0% tax, so the token takes nothing from the people who trade it. The money is real, and it comes from real things people choose to buy and support.</p>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card" style="margin:0"><h3 class="e" style="margin-top:0">Merch, the main engine</h3><p>Nine pieces, from apparel to the lighter to the drinks. Real profit on every sale, money the chart cannot touch.</p></div>
+      <div class="card" style="margin:0"><h3 class="e" style="margin-top:0">Sponsors and partners</h3><p>Brands and corporate sponsors who fund the social impact. Their money, our reach, real causes.</p></div>
+      <div class="card" style="margin:0"><h3 class="e" style="margin-top:0">Donations, grants, yield</h3><p>Voluntary community gifts, Solana ecosystem grants, and a little staking return on the treasury at rest.</p></div>
+    </div>
+    <h3 class="e">The merch engine, in real numbers</h3>
+    <p class="small muted">The 3 · 6 · 9 collection, nine pieces. Illustrative margins, your real prices replace these.</p>
+    <table>
+      <tr><th>Product</th><th>Price</th><th>Cost</th><th>Profit each</th></tr>
+      <tr><td>⚡ZAPP Tee</td><td>$35</td><td>~$12</td><td class="mono" style="color:var(--gold)">~$23</td></tr>
+      <tr><td>⚡ZAPP Hoodie</td><td>$60</td><td>~$25</td><td class="mono" style="color:var(--gold)">~$35</td></tr>
+      <tr><td>⚡ZAPP Sneakers</td><td>$120</td><td>~$55</td><td class="mono" style="color:var(--gold)">~$65</td></tr>
+      <tr><td>⚡ZAPP Cap</td><td>$28</td><td>~$10</td><td class="mono" style="color:var(--gold)">~$18</td></tr>
+      <tr><td>⚡ZAPP Lighter</td><td>$15</td><td>~$5</td><td class="mono" style="color:var(--gold)">~$10</td></tr>
+      <tr><td>⚡ZAPP Energy, four pack</td><td>$18</td><td>~$9</td><td class="mono" style="color:var(--gold)">~$9</td></tr>
+      <tr><td>⚡ZAPP Cola, four pack</td><td>$16</td><td>~$8</td><td class="mono" style="color:var(--gold)">~$8</td></tr>
+      <tr><td>⚡ZAPP Mug</td><td>$20</td><td>~$7</td><td class="mono" style="color:var(--gold)">~$13</td></tr>
+      <tr><td>⚡ZAPP Art Print</td><td>$25</td><td>~$8</td><td class="mono" style="color:var(--gold)">~$17</td></tr>
+    </table>
+    <div class="callout green"><b>Do the math.</b> Around 130 tees a month is roughly $3,000 of real profit, the exact fuel the Floor Engine runs on. Add the sneakers, the lighters and the drinks, and the engine spins faster.</div>
+    <h3 class="e">Where every dollar of profit goes</h3>
+    <div class="grid g4">
+      <div class="stat"><div class="n">40%</div><div class="l">grows the treasury, lifts the floor</div></div>
+      <div class="stat"><div class="n">30%</div><div class="l">buyback and burn, lifts the floor</div></div>
+      <div class="stat"><div class="n">20%</div><div class="l">pays the people, team and contributors</div></div>
+      <div class="stat"><div class="n">10%</div><div class="l">the cause, and running costs</div></div>
+    </div>
+    <div class="callout green"><b>And every piece does good.</b> This is not only cost and profit. A part of every sale funds the cause, real food and real energy for people who need it. The same honest math that lifts the floor also lifts a family. Calm, kind, and smart. Everyone wins. That is the whole point, to do something good for this world, together.</div>
+    <div class="callout"><b>And yes, you get paid.</b> Two honest ways. A fair wage from the business for the real work you do, that is honest labor. And your founder stake, under ten percent, grows in value as the floor rises, held for the long run and never dumped on the community.</div>
+    <div class="callout pink"><b>The honest truth, today.</b> Right now the revenue is zero, because the store is not live yet. That is the single most important first move. The day the ⚡ZAPP store opens, the money engine starts, and everything in this plan begins to compound.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 07 SUMS TO 2 -->
+  <section class="band">
+    <div class="sn">Section 07 · the proof</div>
+    <h2 class="t">Why it sums to two</h2>
+    <p class="lead">The honest engine is the safe one, and a simple piece of maths proves it.</p>
+    <div class="eq">1 + 1/2 + 1/4 + 1/8 + … = 2</div>
+    <p>Add a half, then a quarter, then an eighth, forever, and it never explodes. It settles, on exactly two. Infinite in steps, finite in result. Our engine works the same way. Recycle a share of the value each cycle and the long run effect is one divided by one minus that share. Recycle half, and it is exactly two. The engine roughly doubles real value, then holds, strong and steady.</p>
+    <div class="eq">long run effect = 1 ÷ (1 − recycled share)   ·   recycle 1/2 → ×2</div>
+    <div class="callout pink"><b>The quiet truth.</b> The series settles only because the recycled share is less than one. The part that is not recycled, the share that pays the workers and helps families, is exactly what keeps it from blowing up. Pay the people and the maths stays beautiful. Promise the moon and it never settles, which is the old trap in a suit.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 08 DOUBLE BURN -->
+  <section class="band">
+    <div class="sn">Section 08</div>
+    <h2 class="t">The double burn</h2>
+    <p class="lead">Each cycle the buyback buys ⚡ZAPP on the open market. Then each coin goes down one of two drains, and the community chooses the mix.</p>
+    <div class="grid g2">
+      <div class="card" style="border-color:rgba(244,210,122,.4);margin:0"><h3 class="e" style="margin-top:0">🔥 Burn to null</h3><p class="small">Sent where no one can ever spend it, gone forever. Fewer coins, so the floor rises. Fully on chain.</p></div>
+      <div class="card" style="border-color:rgba(122,184,255,.4);margin:0"><h3 class="e" style="margin-top:0;color:var(--blue)">🔒 Lock into liquidity</h3><p class="small">Paired into the pool and time locked. The market gets deeper and steadier, and it can never be pulled.</p></div>
+    </div>
+    <div class="callout green"><b>Why two and not one.</b> The burn lifts the floor. The locked liquidity makes the market strong so the price can hold near that floor. Backed and stable at once.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 09 REWARDS -->
+  <section class="band">
+    <div class="sn">Section 09</div>
+    <h2 class="t">The reward engine</h2>
+    <div class="figrow rev">
+      <div>
+        <p class="lead">The rule, in five words. The more you give, the more you receive.</p>
+        <p>You earn by giving value, never by depositing money. Create, build, serve, spread, and lift others, and you earn. The people who show up are the people who win.</p>
+      </div>
+      <img class="shot" src="./zapp-assets/torch.jpg" alt="Carry the torch">
+    </div>
+    <div class="grid g3">
+      <div class="card" style="margin:0"><h4 style="margin:.1em 0;color:var(--gold-bright)">A reputation you earn</h4><p class="small">Earned only by real contribution, carried with you, impossible to buy or fake.</p></div>
+      <div class="card" style="margin:0"><h4 style="margin:.1em 0;color:var(--gold-bright)">Seasons</h4><p class="small">About six week cycles with a clear, known reward pool. No surprise inflation.</p></div>
+      <div class="card" style="margin:0"><h4 style="margin:.1em 0;color:var(--gold-bright)">The give to receive bonus</h4><p class="small">Your reward rises when you lift others. Generosity pays the most.</p></div>
+    </div>
+    <div class="callout"><b>The line that keeps it clean.</b> Reward people for what they do, never for how much they lock up and hold. The first builds a community. We always choose the first.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 10 BABYLON -->
+  <section class="band">
+    <div class="sn">Section 10</div>
+    <h2 class="t">The five laws of Babylon</h2>
+    <p class="lead">The oldest money wisdom there is, the opposite of getting rich quick. Keep a part, set it to work, take wise counsel, build what you understand, chase no impossible return.</p>
+    <div class="grid g2">
+      <div class="card" style="margin:0"><h4 style="margin:.1em 0;color:var(--gold)">I · The reserve</h4><p class="small">Keep a part of all we earn, set it to work, never spend it on a whim.</p></div>
+      <div class="card" style="margin:0"><h4 style="margin:.1em 0;color:var(--gold)">II · Honest labor</h4><p class="small">Reward the makers and helpers. Coin earned by effort stays.</p></div>
+      <div class="card" style="margin:0"><h4 style="margin:.1em 0;color:var(--gold)">III · The maker's trade</h4><p class="small">Build what we understand. Real things the world rewards.</p></div>
+      <div class="card" style="margin:0"><h4 style="margin:.1em 0;color:var(--gold)">IV · Wise counsel</h4><p class="small">Seek those wise in the law before we act.</p></div>
+    </div>
+    <div class="callout pink" style="margin-top:14px"><b>V · Against the trickster.</b> Promise no one riches. We give only from the harvest, never from the seed, so the helping never ends and the tree is never cut down.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 11 DAILY SPARK -->
+  <section class="band">
+    <div class="sn">Section 11</div>
+    <h2 class="t">The daily spark</h2>
+    <div class="figrow">
+      <img class="shot" src="./zapp-assets/hall.jpg" alt="The community">
+      <div>
+        <p class="lead">One dollar a day into ⚡ZAPP, only if you want to, and only ever an amount you are happy with.</p>
+        <p>Small and steady, together, every day. A habit of belief, not an investment plan, and no promise of profit. Spend only what you would not miss.</p>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:8px">
+      <div class="stat"><div class="n">1 person</div><div class="l">a daily habit</div></div>
+      <div class="stat"><div class="n">1,000 people</div><div class="l">$1,000 a day</div></div>
+      <div class="stat"><div class="n">1,000,000 people</div><div class="l">$1,000,000 a day, by choice</div></div>
+    </div>
+    <div class="callout green"><b>This is what a community looks like.</b> Optional, transparent, powered by people who choose to show up. And a part of that spirit funds the pot and the cause, so the daily spark builds the floor and the help at once.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 12 LEGAL -->
+  <section class="band">
+    <div class="sn">Section 12</div>
+    <h2 class="t">Built legal, everywhere</h2>
+    <div class="figrow rev">
+      <div>
+        <p class="lead">Doing the right thing and following the rules are the same thing here. ⚡ZAPP is designed to be compliant from day one.</p>
+        <p>A clear utility and community token. An honest paper for the EU under MiCA. A real foundation that holds the treasury, the brand and the mission. Books that stay open. Identity checks and any licence only if we ever touch cash rails.</p>
+      </div>
+      <img class="shot" src="./zapp-assets/tribute.jpg" alt="The foundation">
+    </div>
+    <div class="callout">We start lean and add structure only when the project grows into it. Every entity is real, with real people. We sequence it all with proper legal and tax advice, country by country.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 13 MISSION -->
+  <section class="band">
+    <div class="sn">Section 13 · the reason</div>
+    <h2 class="t">The mission, real help</h2>
+    <div class="figrow">
+      <img class="shot" src="./zapp-assets/world-system.jpg" alt="Help reaching people">
+      <div>
+        <p class="lead">Tesla wanted to give the world free energy. We carry that forward in a way already proven to work.</p>
+        <p>Give a person a verifiable digital identity, and you open the door to real help, food, energy, a way to be counted. Agencies have already done exactly this on chain for refugees. As the pot grows, ⚡ZAPP funds the same, food and basics first, then identity and aid given in the open.</p>
+        <div class="quote">Help you can prove, not just promise.</div>
+      </div>
+    </div>
+    <div class="callout blue"><b>Partners and rails.</b> Great reach comes from great partners. Solana gives us speed. For moving value across borders to where help is needed, we look to networks built for cross border settlement such as Ripple and XRP. The goal is simple, every dollar of help arrives fast, cheap, and visible, anywhere on Earth. This is the work that makes even institutions want to work with us.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 14 ROAD -->
+  <section class="band">
+    <div class="sn">Section 14</div>
+    <h2 class="t">The road to the world</h2>
+    <p class="lead">The goal is not one exchange. It is the whole planet. Every serious venue looks for the same healthy signs, so we build the file once and it opens every door.</p>
+    <ul class="plain check">
+      <li>Widen ownership and lock the team on public vesting.</li>
+      <li>Earn Jupiter verification through a healthy, organic community.</li>
+      <li>Get listed on CoinGecko and CoinMarketCap.</li>
+      <li>Publish the MiCA paper, which opens the EU.</li>
+      <li>Reach mid sized exchanges with real volume.</li>
+      <li>Then the global stage, Revolut, Coinbase and Kraken class.</li>
+    </ul>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 15 TWO PATHS -->
+  <section class="band">
+    <div class="sn">Section 15</div>
+    <h2 class="t">Two paths, one engine</h2>
+    <div class="grid g2" style="margin-top:8px">
+      <div class="path a"><div class="mono small" style="color:var(--muted)">Option A</div><h3 class="e" style="margin-top:.1em;color:var(--green)">The Steady Current</h3><p class="small">The patient build. Foundation and hub. Merch and community as the main fuel. Steady buyback and double burn. Win by still being here in three years, with a real cause.</p></div>
+      <div class="path b"><div class="mono small" style="color:var(--muted)">Option B</div><h3 class="e" style="margin-top:.1em">The Surge</h3><p class="small">The ambitious build. Add the EU arm and the MiCA paper. Merch plus partnerships plus a real product. Toward Revolut and Coinbase class. Win by reaching the whole planet.</p></div>
+    </div>
+    <div class="callout"><b>Both share one spine.</b> The same pot, the same floor, the same mission. We start on A and step up to B when the community and the revenue are ready.</div>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 16 FIRST MOVES -->
+  <section class="band">
+    <div class="sn">Section 16</div>
+    <h2 class="t">The first moves</h2>
+    <ul class="plain">
+      <li>Publish the friendly paper and pin it everywhere.</li>
+      <li>Lock the team coins on public vesting and welcome new holders.</li>
+      <li>Stand up the multisig pot and the public dashboard.</li>
+      <li>Launch the Shopify store with the first designs.</li>
+      <li>Open the foundation and take proper legal advice.</li>
+      <li>Choose the first cause and fund it in the open, from the harvest.</li>
+      <li>Apply for CoinGecko, CoinMarketCap, and earn Jupiter verification.</li>
+    </ul>
+  </section>
+  <div class="spine">3 · 6 · 9 · ∞</div>
+
+  <!-- 17 KPIs -->
+  <section class="band">
+    <div class="sn">Section 17</div>
+    <h2 class="t">What we measure</h2>
+    <p class="lead">Nine numbers we celebrate. Price is not the headline. Price is a result of the rest being healthy.</p>
+    <div class="grid g3" style="margin-top:8px">
+      <div class="stat"><div class="n">Holders</div><div class="l">a growing family</div></div>
+      <div class="stat"><div class="n">Top wallets</div><div class="l">spread wider over time</div></div>
+      <div class="stat"><div class="n">Treasury</div><div class="l">live value, public</div></div>
+      <div class="stat"><div class="n">Floor</div><div class="l">value behind each coin</div></div>
+      <div class="stat"><div class="n">Burned</div><div class="l">coins removed</div></div>
+      <div class="stat"><div class="n">Givers</div><div class="l">active contributors</div></div>
+      <div class="stat"><div class="n">Revenue</div><div class="l">real value in</div></div>
+      <div class="stat"><div class="n">Cause funded</div><div class="l">help delivered</div></div>
+      <div class="stat"><div class="n">Energy</div><div class="l">the mission, in real units</div></div>
+    </div>
+  </section>
+  <div class="spine">⚡ 3 · 6 · 9 · ∞ ⚡</div>
+
+  <!-- 18 CREED -->
+  <section class="band" style="text-align:center;padding-bottom:7vh">
+    <div class="sn">Section 18</div>
+    <h2 class="t">The creed</h2>
+    <p class="lead" style="max-width:560px;margin:.4em auto 0">Stay honest when no one is watching. Protect the people who trust you. Add value before you take any. Reward the builders, not the hoarders. Keep the books open, always.</p>
+    <p class="quote" style="display:inline-block;text-align:left;margin-top:1.4rem">A meme people love. A pot everyone can see. Builders who get paid. A coin that grows stronger. Families who get helped. Round and round, in the open, forever. Free Energy = Free Money ∞</p>
+  </section>
+</div>
+
+<div class="foot">
+  <p><b>A note for everyone.</b> This is the master plan for what ⚡ZAPP is building. It is not financial, investment, legal or tax advice, and nothing here is a promise that any token will rise in value. The figures are illustrative examples of how the math behaves under the inputs shown. Any number about past performance is history, not a prediction. The foundation works with qualified advisors in each country as it grows. ⚡ZAPP · The Master Plan · 3 · 6 · 9 · ∞ · 2026.</p>
+</div>
+</div>
+
+<script>
+/* progress bar */
+addEventListener('scroll',function(){var h=document.documentElement;var s=h.scrollTop/(h.scrollHeight-h.clientHeight);document.getElementById('prog').style.width=(s*100)+'%';},{passive:true});
+
+/* ===== CHARTS + COUNTERS ===== */
+(function(){
+  if(window.Chart){
+    Chart.defaults.color='#a99e86'; Chart.defaults.font.family='Manrope, sans-serif';
+    var gold='#F4D27A';
+    var r=document.getElementById('rwaChart');
+    if(r) new Chart(r,{type:'bar',data:{labels:[['Now'],['2030','BCG'],['2033','BCG + Ripple'],['2034','S. Chartered']],datasets:[{data:[0.02,16,19,30],backgroundColor:['#5a4520','#C8901f','#E9B949','#F4D27A'],borderRadius:7}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return '$'+c.parsed.y+' trillion on chain';}}}},scales:{y:{grid:{color:'rgba(244,210,122,.1)'},ticks:{callback:function(v){return '$'+v+'T';}}},x:{grid:{display:false}}}}});
+    var f=document.getElementById('floorChart');
+    if(f) new Chart(f,{type:'line',data:{labels:['Today','Month 6','Month 12','Month 24'],datasets:[{data:[0,0.0000074,0.0000152,0.0000322],borderColor:gold,backgroundColor:'rgba(244,210,122,.16)',fill:true,tension:.35,pointBackgroundColor:gold,pointRadius:4,borderWidth:2.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return 'value behind one coin  $'+c.parsed.y.toFixed(7);}}}},scales:{y:{grid:{color:'rgba(244,210,122,.1)'},ticks:{callback:function(v){return '$'+v.toFixed(7);}}},x:{grid:{display:false}}}}});
+    var tc=document.getElementById('treasuryChart');
+    if(tc) new Chart(tc,{type:'line',data:{labels:['Today','6','12','24'],datasets:[{data:[0,7300,14900,30800],borderColor:gold,backgroundColor:'rgba(244,210,122,.16)',fill:true,tension:.35,pointBackgroundColor:gold,pointRadius:3,borderWidth:2.2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return '$'+c.parsed.y.toLocaleString();}}}},scales:{y:{grid:{color:'rgba(244,210,122,.1)'},ticks:{callback:function(v){return '$'+(v/1000)+'k';}}},x:{grid:{display:false}}}}});
+    var sc=document.getElementById('supplyChart');
+    if(sc) new Chart(sc,{type:'line',data:{labels:['Today','6','12','24'],datasets:[{data:[1000,989,978,957],borderColor:'#ff9a8b',backgroundColor:'rgba(255,154,139,.14)',fill:true,tension:.35,pointBackgroundColor:'#ff9a8b',pointRadius:3,borderWidth:2.2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.parsed.y+'M coins';}}}},scales:{y:{grid:{color:'rgba(244,210,122,.1)'},ticks:{callback:function(v){return v+'M';}}},x:{grid:{display:false}}}}});
+    var f2=document.getElementById('floorChart2');
+    if(f2) new Chart(f2,{type:'line',data:{labels:['Today','6','12','24'],datasets:[{data:[0,0.0000074,0.0000152,0.0000322],borderColor:gold,backgroundColor:'rgba(244,210,122,.16)',fill:true,tension:.35,pointBackgroundColor:gold,pointRadius:3,borderWidth:2.2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return '$'+c.parsed.y.toFixed(7);}}}},scales:{y:{grid:{color:'rgba(244,210,122,.1)'},ticks:{callback:function(v){return '$'+v.toFixed(7);}}},x:{grid:{display:false}}}}});
+  }
+  function run(el){
+    var to=parseFloat(el.dataset.to), dec=parseInt(el.dataset.dec||'0'), pre=el.dataset.pre||'', suf=el.dataset.suf||'', t0=null, dur=1500;
+    function step(ts){ if(!t0)t0=ts; var p=Math.min((ts-t0)/dur,1), e=1-Math.pow(1-p,3); el.textContent=pre+(to*e).toFixed(dec)+suf; if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run(e.target);io.unobserve(e.target);}})},{threshold:.5});
+  document.querySelectorAll('.count').forEach(function(el){el.textContent=(el.dataset.pre||'')+'0'+(el.dataset.suf||''); io.observe(el);});
+})();
+
+/* ===== 3D ⚡ZAPP COIN — crash proof, never disappears ===== */
+(function(){
+  if(!window.THREE){return;}
+  var cv=document.getElementById('coin'); if(!cv) return;
+  var box=cv.parentNode; /* measure the wrapper, never the canvas — no feedback loop */
+  var small=Math.min(screen.width,screen.height)<600;
+  var w=box.clientWidth, h=box.clientHeight;
+  var renderer;
+  try{ renderer=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:!small,powerPreference:'low-power'}); }
+  catch(e){ return; } /* no WebGL: page lives on without the coin */
+  renderer.setPixelRatio(Math.min(devicePixelRatio,small?1.25:2)); renderer.setSize(w,h,false);
+  /* survive iOS memory pressure — recover instead of vanishing */
+  cv.addEventListener('webglcontextlost',function(e){e.preventDefault();},false);
+  cv.addEventListener('webglcontextrestored',function(){ try{resize();}catch(e){} },false);
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(38,w/h,0.1,100);
+  function camZ(){return cv.clientWidth<480?13:10.5;} /* farther = smaller coin, extra on phones */
+  camera.position.set(0,0,camZ());
+
+  // face texture (gold coin face with bolt + ZAPP + 369)
+  function faceTex(){
+    var c=document.createElement('canvas'); c.width=c.height=512; var x=c.getContext('2d');
+    var g=x.createRadialGradient(256,256,40,256,256,256);
+    g.addColorStop(0,'#fff0c4'); g.addColorStop(.45,'#E9B949'); g.addColorStop(1,'#7a5a12');
+    x.fillStyle=g; x.beginPath(); x.arc(256,256,256,0,7); x.fill();
+    // inner ring
+    x.strokeStyle='rgba(60,40,5,.55)'; x.lineWidth=10; x.beginPath(); x.arc(256,256,210,0,7); x.stroke();
+    // bolt
+    x.save(); x.translate(256,250); x.scale(2.0,2.0);
+    var pts=[[-12,-66],[26,-66],[2,-10],[34,-10],[-26,66],[-6,6],[-38,6]];
+    x.beginPath(); x.moveTo(pts[0][0],pts[0][1]); for(var i=1;i<pts.length;i++)x.lineTo(pts[i][0],pts[i][1]); x.closePath();
+    x.fillStyle='#1c1206'; x.shadowColor='rgba(0,0,0,.4)'; x.shadowBlur=8; x.fill(); x.restore();
+    // text
+    x.fillStyle='#2a1c06'; x.textAlign='center'; x.font='700 60px Georgia,serif';
+    x.fillText('ZAPP', 256, 150);
+    x.font='600 30px monospace'; x.fillText('3 · 6 · 9', 256, 392);
+    var t=new THREE.CanvasTexture(c); t.anisotropy=8; return t;
+  }
+  var face=faceTex();
+  var side=new THREE.MeshStandardMaterial({color:0xC8901f,metalness:1,roughness:.34,emissive:0x130c00,emissiveIntensity:.5});
+  var faceMat=new THREE.MeshStandardMaterial({map:face,metalness:.9,roughness:.32,emissive:0x130c00,emissiveIntensity:.4});
+  var coin=new THREE.Mesh(new THREE.CylinderGeometry(2.6,2.6,0.34,96), [side,faceMat,faceMat]);
+  coin.rotation.x=Math.PI/2; // face the camera
+  var pivot=new THREE.Group(); pivot.add(coin); scene.add(pivot);
+
+  // lights
+  scene.add(new THREE.AmbientLight(0x5a4520,1.4));
+  var p1=new THREE.PointLight(0xffe6a8,1.5,40); p1.position.set(6,7,9); scene.add(p1);
+  var p2=new THREE.PointLight(0xfff4d8,1.0,40); p2.position.set(-8,-4,6); scene.add(p2);
+  var dir=new THREE.DirectionalLight(0xffffff,.6); dir.position.set(0,3,8); scene.add(dir);
+
+  // gold sparks
+  var N=small?110:260, geo=new THREE.BufferGeometry(), pos=new Float32Array(N*3);
+  for(var i=0;i<N;i++){ pos[i*3]=(Math.random()-.5)*22; pos[i*3+1]=(Math.random()-.5)*14; pos[i*3+2]=(Math.random()-.5)*10-2; }
+  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  var spark=new THREE.Points(geo,new THREE.PointsMaterial({color:0xF4D27A,size:.05,transparent:true,opacity:.7,blending:THREE.AdditiveBlending,depthWrite:false}));
+  scene.add(spark);
+
+  var downX=null;
+  cv.style.touchAction='pan-y'; cv.style.cursor='grab';
+  cv.addEventListener('pointerdown',function(e){downX=e.clientX; cv.style.cursor='grabbing';});
+  addEventListener('pointerup',function(){downX=null; cv.style.cursor='grab';});
+  addEventListener('pointermove',function(e){ if(downX!=null){ pivot.rotation.y += (e.clientX-downX)*0.008; downX=e.clientX; }});
+
+  function resize(){ w=box.clientWidth; h=box.clientHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.position.z=camZ(); camera.updateProjectionMatrix(); }
+  addEventListener('resize',resize);
+
+  var t0=performance.now();
+  function loop(t){
+    var dt=Math.min((t-t0)/1000,0.05); t0=t;
+    if(box.clientWidth!==w||box.clientHeight!==h) resize(); /* self-heal if layout shifted */
+    pivot.rotation.y += dt*0.45;
+    coin.rotation.z = Math.sin(t*0.0006)*0.12;
+    pivot.position.y = Math.sin(t*0.0009)*0.18;
+    pivot.rotation.x = Math.sin(t*0.0005)*0.07;
+    spark.rotation.y += dt*0.05;
+    renderer.render(scene,camera);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+<script>
+/* ===== scroll reveal ===== */
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els=document.querySelectorAll('.band');
+  els.forEach(function(el){el.classList.add('reveal');});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>
+</body>
+</html>
