@@ -113,10 +113,8 @@
 <body>
 <div id="prog"></div>
 
-<!-- VIDEO HERO -->
+<!-- BLACK INTRO -->
 <section class="vhero">
-  <video src="./zapp-assets/zapp-intro.mp4" poster="./zapp-assets/zapp-poster.jpg" autoplay muted loop playsinline></video>
-  <div class="scrim"></div>
   <div class="vc">
     <div class="tag">Free Energy = <em>Free Money</em> ∞</div>
     <div class="seq">∞ · 3 · 6 · 9 · ∞</div>
@@ -526,7 +524,7 @@ addEventListener('scroll',function(){var h=document.documentElement;var s=h.scro
   cv.addEventListener('webglcontextrestored',function(){ try{resize();}catch(e){} },false);
   var scene=new THREE.Scene();
   var camera=new THREE.PerspectiveCamera(38,w/h,0.1,100);
-  function camZ(){return cv.clientWidth<480?13:10.5;} /* farther = smaller coin, extra on phones */
+  function camZ(){return cv.clientWidth<480?16.5:13;} /* farther = smaller coin, extra on phones */
   camera.position.set(0,0,camZ());
 
   // face texture (gold coin face with bolt + ZAPP + 369)
