@@ -1,10 +1,4 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/whitepaper",
-      "destination": "/ZAPP_Whitepaper_369.pdf"
-    }
-  ]
+  "trailingSlash": false
 }
