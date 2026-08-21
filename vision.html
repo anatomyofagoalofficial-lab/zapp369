@@ -487,6 +487,32 @@ a{text-decoration:none;color:inherit}
 @media (max-width:380px){
   .mnav a{font-size:calc(11 * var(--m));padding:0 calc(9 * var(--m))}
 }
+
+/* ── MOBILE: grow the hero into the empty left column ── */
+@media (max-aspect-ratio:11/10){
+  .headline{font-size:calc(47 * var(--m));line-height:calc(53 * var(--m));
+    max-width:calc(262 * var(--m))}
+  .sub{max-width:calc(250 * var(--m));font-size:calc(17 * var(--m));
+    line-height:calc(24 * var(--m));margin-top:calc(20 * var(--m))}
+  .actions{gap:calc(13 * var(--m));margin-top:calc(30 * var(--m))}
+  .pill-cta,.ghost{width:calc(214 * var(--m));height:calc(54 * var(--m));
+    font-size:calc(17 * var(--m))}
+  .buymenu{min-width:calc(214 * var(--m))}
+  .buymenu a{font-size:calc(15.5 * var(--m))}
+  .hero{margin-bottom:calc(30 * var(--m))}
+}
+
+/* ── MOBILE: pills share the logo row, burger retires ── */
+@media (max-aspect-ratio:11/10){
+  .burger{display:none}
+  .mnav{top:calc(24 * var(--m));left:calc(84 * var(--m));right:0;
+    -webkit-mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 30px),transparent 100%);
+    mask-image:linear-gradient(to right,#000 0,#000 calc(100% - 30px),transparent 100%)}
+  .mnav ul{padding:0 calc(14 * var(--m)) 0 0;gap:calc(5 * var(--m));
+    height:calc(46 * var(--m));align-items:center}
+  /* the freed row goes back to the hero */
+  .stage{padding-top:calc(96 * var(--m))}
+}
 </style>
 </head>
 <body>
@@ -509,7 +535,6 @@ a{text-decoration:none;color:inherit}
     </a>
 
     <nav class="links" aria-label="Primary">
-      <a href="https://zapp369.energy/roadmap">Roadmap</a>
       <a href="/tokenomics">Tokenomics</a>
       <a href="https://zapp369.energy/">⚡ZAPP</a>
       <a href="https://zapp369.energy/news">News</a>
@@ -533,8 +558,7 @@ a{text-decoration:none;color:inherit}
 
   <nav class="mnav" aria-label="Sections">
     <ul>
-      <li><a href="https://zapp369.energy/roadmap">Roadmap</a></li>
-      <li><a href="/tokenomics">Tokenomics</a></li>
+        <li><a href="/tokenomics">Tokenomics</a></li>
       <li><a href="https://zapp369.energy/">⚡ZAPP</a></li>
       <li><a href="https://zapp369.energy/news">News</a></li>
       <li><a href="/deck">Deck</a></li>
@@ -546,8 +570,7 @@ a{text-decoration:none;color:inherit}
     <div class="menu-inner">
       <p class="menu-eyebrow">Menu</p>
       <ul class="menu-list">
-        <li><a href="https://zapp369.energy/roadmap">Roadmap</a></li>
-        <li><a href="/tokenomics">Tokenomics</a></li>
+            <li><a href="/tokenomics">Tokenomics</a></li>
         <li><a href="https://zapp369.energy/">⚡ZAPP</a></li>
         <li><a href="https://zapp369.energy/news">News</a></li>
         <li><a href="/deck">Deck</a></li>
@@ -555,7 +578,7 @@ a{text-decoration:none;color:inherit}
               </ul>
       <div class="menu-foot">
         <a class="pill" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump"><span>Buy ⚡ZAPP</span></a>
-        <a class="ghost" href="https://zapp369.energy/roadmap">The Master Plan</a>
+        <a class="ghost" href="https://zapp369.energy/roadmap">The Roadmap</a>
       </div>
     </div>
   </nav>
@@ -575,7 +598,7 @@ a{text-decoration:none;color:inherit}
           <a role="menuitem" href="https://dexscreener.com/solana/gnnkakwk2pxb4ekcshro2xspjpde6b1pzxbk2h6pqpgx" target="_blank" rel="noopener">DexScreener</a>
         </div>
       </div>
-      <a class="ghost" href="https://zapp369.energy/roadmap">Master Plan<i>&#8594;</i></a>
+      <a class="ghost" href="https://zapp369.energy/roadmap">Roadmap<i>&#8594;</i></a>
       <a class="ghost wp" href="/deck">White Paper<i>&#8594;</i></a>
     </div>
   </main>
