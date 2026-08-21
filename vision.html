@@ -254,6 +254,42 @@ a{text-decoration:none;color:inherit}
 .tag.soon{background:rgba(251,244,226,.07);color:var(--muted)}
 .note{margin-top:clamp(24px,3vh,38px);font-size:15.5px;line-height:1.65;color:var(--muted);
   border-left:2px solid rgba(200,150,10,.45);padding-left:16px;max-width:80ch}
+/* ── CLOSING CTA BAND ────────────────────────────── */
+.cta-band{background:var(--stage);text-align:center;
+  padding:clamp(52px,7vh,88px) 22px clamp(6px,1.5vh,18px)}
+.cta-band .k{font-size:clamp(12px,1.1vw,13.5px);letter-spacing:.19em;text-transform:uppercase;
+  color:var(--pill);font-weight:700;margin-bottom:clamp(12px,1.6vh,18px)}
+.cta-band .t{font-size:clamp(20px,2.4vw,29px);color:var(--ink);line-height:1.3;
+  margin-bottom:clamp(20px,2.8vh,30px)}
+.cta-row{display:flex;gap:clamp(12px,1.4vw,18px);justify-content:center;flex-wrap:wrap}
+.cbtn{position:relative;overflow:hidden;isolation:isolate;
+  display:inline-flex;align-items:center;justify-content:center;
+  height:clamp(50px,5.6vh,58px);padding:0 clamp(24px,2.4vw,34px);border-radius:999px;
+  font-size:clamp(15px,1.35vw,17px);font-weight:600;white-space:nowrap;
+  transition:transform .34s cubic-bezier(.22,1,.36,1),box-shadow .34s ease,
+    background .34s ease,border-color .34s ease,color .34s ease}
+.cbtn::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(112deg,transparent 32%,rgba(255,255,255,.22) 46%,
+    rgba(255,255,255,.48) 50%,rgba(255,255,255,.22) 54%,transparent 68%);
+  transform:translateX(-135%);transition:transform .9s cubic-bezier(.22,1,.36,1)}
+.cbtn:hover::after,.cbtn:focus-visible::after{transform:translateX(135%)}
+.cbtn i{font-style:normal;display:inline-block;margin-left:10px;opacity:.55;
+  transition:transform .34s cubic-bezier(.22,1,.36,1),opacity .34s ease}
+.cbtn:hover i{opacity:1;transform:translateX(4px)}
+.cbtn:active{transform:translateY(-1px)}
+.cbtn.pri{background:var(--pill);color:#0B0805;
+  box-shadow:0 8px 24px rgba(0,0,0,.38),0 0 0 1px rgba(255,225,140,.28) inset}
+.cbtn.pri:hover,.cbtn.pri:focus-visible{transform:translateY(-3px);
+  box-shadow:0 14px 34px rgba(0,0,0,.5),0 0 32px rgba(233,183,42,.42)}
+.cbtn.sec{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.05);color:#fff;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.cbtn.sec:hover,.cbtn.sec:focus-visible{transform:translateY(-3px);color:#FFF3D0;
+  border-color:rgba(233,183,42,.85);background:rgba(233,183,42,.15);
+  box-shadow:0 14px 34px rgba(0,0,0,.48),0 0 30px rgba(233,183,42,.30),
+    inset 0 0 20px rgba(255,220,120,.14)}
+.cta-band .fine{font-size:13px;color:#6B5E48;margin-top:clamp(16px,2vh,22px)}
+@media (max-width:520px){ .cta-row{flex-direction:column;align-items:stretch} }
 .foot{background:var(--stage);text-align:center;padding:clamp(44px,6vh,72px) 22px clamp(30px,4vh,44px);
   border-top:1px solid rgba(200,150,10,.10)}
 .foot .big{font-size:clamp(22px,3vw,34px);color:var(--ink);margin-bottom:10px}
@@ -624,6 +660,17 @@ a{text-decoration:none;color:inherit}
       ones on this road.<br><br>
       <span style="color:#6B5E48">Sources · World Bank Global Findex 2025 · UN WFP Building Blocks · BCG and Standard Chartered · Spain PNIEC</span></p>
   </div>
+</section>
+
+<!-- ══ CLOSING CTA ════════════════════════════════════ -->
+<section class="cta-band">
+  <p class="k">Two doors</p>
+  <p class="t">The tower, and the shop that helps pay for it.</p>
+  <div class="cta-row">
+    <a class="cbtn pri" href="https://zapp369.energy" target="_blank" rel="noopener">Visit zapp369.energy<i>&#8594;</i></a>
+    <a class="cbtn sec" href="https://zapp369.com" target="_blank" rel="noopener">⚡ZAPP Shop<i>&#8594;</i></a>
+  </div>
+  <p class="fine">zapp369.energy is the project. zapp369.com is the store, and every sale feeds the treasury.</p>
 </section>
 
 <footer class="foot">
