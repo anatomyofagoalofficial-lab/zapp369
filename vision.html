@@ -329,11 +329,12 @@ a{text-decoration:none;color:inherit}
       linear-gradient(to right, rgba(6,4,2,.86), rgba(6,4,2,.66) 42%, rgba(6,4,2,.20) 78%, rgba(6,4,2,.10)),
       linear-gradient(to bottom, rgba(6,4,2,.72), rgba(6,4,2,.34) 24%, rgba(6,4,2,.34) 56%,
         rgba(6,4,2,.80) 82%, rgba(6,4,2,.97) 94%, var(--stage));}
-  .stage{display:flex;flex-direction:column;justify-content:flex-end;
-    padding:0 calc(26 * var(--m)) calc(34 * var(--m))}
-  .brand{position:absolute;left:calc(26 * var(--m));top:calc(26 * var(--m));
-    width:calc(27 * var(--m));height:calc(42 * var(--m))}
-  .hero{position:relative;inset:auto;margin-bottom:calc(40 * var(--m))}
+  .stage{display:flex;flex-direction:column;justify-content:flex-start;
+    padding:calc(142 * var(--m)) calc(26 * var(--m)) calc(30 * var(--m))}
+  .brand{position:absolute;left:calc(26 * var(--m));top:calc(24 * var(--m));
+    width:calc(46 * var(--m));height:calc(46 * var(--m))}
+  .hero{position:relative;inset:auto;margin-bottom:calc(30 * var(--m))}
+  .logos{margin-top:auto}
   .headline{position:relative;left:0;top:0;white-space:normal;
     font-size:calc(46 * var(--m));line-height:calc(53 * var(--m))}
   .headline span{display:inline}
@@ -447,6 +448,45 @@ a{text-decoration:none;color:inherit}
   .mnav a{height:36px;font-size:13.5px;padding:0 14px}
   .stage.is-open .mnav{opacity:0;pointer-events:none}
 }
+
+/* ── MOBILE: keep the doorway visible, stack the trio ── */
+@media (max-aspect-ratio:11/10){
+  /* push the doorway to the right so the copy has a clear left column */
+  .plate-video{object-position:31% center}
+  .plate::after{
+    background:
+      linear-gradient(to right, rgba(6,4,2,.92), rgba(6,4,2,.78) 46%, rgba(6,4,2,.22) 82%, rgba(6,4,2,.10)),
+      linear-gradient(to bottom, rgba(6,4,2,.74), rgba(6,4,2,.30) 26%, rgba(6,4,2,.30) 58%,
+        rgba(6,4,2,.78) 84%, rgba(6,4,2,.96) 95%, var(--stage));}
+  /* copy stays in the left column */
+  .headline{font-size:calc(41 * var(--m));line-height:calc(47 * var(--m));
+    max-width:calc(248 * var(--m))}
+  .sub{max-width:calc(238 * var(--m));font-size:calc(15.5 * var(--m));
+    line-height:calc(22 * var(--m))}
+  /* three buttons, one under the other, equal width */
+  .actions{grid-template-columns:auto;justify-items:start;
+    gap:calc(10 * var(--m));margin-top:calc(24 * var(--m))}
+  .actions > .buywrap-cta,.ghost.wp{grid-column:auto;justify-self:start}
+  .pill-cta,.ghost{width:calc(194 * var(--m));padding:0;
+    height:calc(48 * var(--m));font-size:calc(15.5 * var(--m))}
+  .buymenu{min-width:calc(194 * var(--m))}
+  /* everything else moves up into the space instead of hugging the bottom */
+  .hero{margin-bottom:calc(26 * var(--m))}
+  .logos{margin-top:auto}
+  .herofine{margin-top:calc(16 * var(--m))}
+}
+.headline .inf{font-style:normal;color:var(--pill);opacity:.72;
+  font-size:.62em;vertical-align:.22em;margin-left:.16em;letter-spacing:0}
+
+/* ── MOBILE: fit the whole pill row on screen ─────── */
+@media (max-aspect-ratio:11/10){
+  .mnav ul{padding:9px calc(16 * var(--m));gap:calc(5 * var(--m))}
+  .mnav a{height:calc(33 * var(--m));padding:0 calc(11 * var(--m));
+    font-size:calc(11.8 * var(--m));letter-spacing:.005em}
+}
+@media (max-width:380px){
+  .mnav a{font-size:calc(11 * var(--m));padding:0 calc(9 * var(--m))}
+}
 </style>
 </head>
 <body>
@@ -521,7 +561,7 @@ a{text-decoration:none;color:inherit}
   </nav>
 
   <main class="hero">
-    <h1 class="headline"><span>Free Energy</span> <span>= <em>Free Money</em></span></h1>
+    <h1 class="headline"><span>Free Energy</span> <span>= <em>Free Money</em><i class="inf">&#8734;</i></span></h1>
     <p class="sub">
       <span>A community, a token, and a plan</span>
       <span>to finish what Tesla started.</span>
