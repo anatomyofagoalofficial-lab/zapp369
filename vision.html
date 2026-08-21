@@ -404,6 +404,46 @@ a{text-decoration:none;color:inherit}
   .ghost:active,.cbtn:active{transform:scale(.97)}
   .box:hover{border-color:rgba(200,150,10,.16)}
 }
+
+/* ── SCROLL CUE + MOBILE NAV STRIP ───────────────── */
+.scrollcue{display:none}
+.mnav{display:none}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(4px);opacity:1}}
+@media (max-aspect-ratio:11/10){
+  .scrollcue{display:flex;flex-direction:column;align-items:center;gap:calc(7 * var(--m));
+    margin-top:calc(24 * var(--m));color:var(--strip);text-decoration:none;
+    font-size:calc(11 * var(--m));letter-spacing:.24em;text-transform:uppercase;font-weight:700}
+  .scrollcue svg{width:calc(21 * var(--m));height:calc(13 * var(--m));display:block}
+  .mnav{display:block;position:sticky;top:0;z-index:6;
+    background:rgba(6,4,2,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    border-top:1px solid rgba(200,150,10,.16);border-bottom:1px solid rgba(200,150,10,.16);
+    overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .mnav::-webkit-scrollbar{display:none}
+  .mnav ul{display:flex;gap:8px;list-style:none;padding:11px 16px;width:max-content}
+  .mnav a{display:inline-flex;align-items:center;height:40px;padding:0 16px;border-radius:999px;
+    font-size:14px;font-weight:600;color:var(--nav);white-space:nowrap;text-decoration:none;
+    border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);
+    transition:background .25s ease,color .25s ease,border-color .25s ease}
+  .mnav a:active{background:rgba(233,183,42,.20);color:#FFF3D0;border-color:rgba(233,183,42,.65)}
+  .sec{scroll-margin-top:64px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .scrollcue svg{animation:bob 1.9s ease-in-out infinite}
+}
+
+.herofine{position:absolute;left:50%;transform:translateX(calc(-50% + 20 * var(--u)));
+  top:calc(1024 * var(--u));width:calc(921 * var(--u));text-align:center;
+  font-size:calc(11.5 * var(--u));line-height:1.5;color:#6B5E48}
+.herofine a{color:#8C7F68;text-decoration:underline;text-underline-offset:2px}
+.herofine a:hover{color:var(--pill)}
+@media (max-aspect-ratio:11/10){
+  .herofine{position:relative;left:0;top:auto;transform:none;width:100%;
+    margin-top:calc(18 * var(--m));font-size:calc(11.5 * var(--m))}
+  .mnav{margin-bottom:calc(20 * var(--m));border-radius:999px;position:relative;
+    border:1px solid rgba(200,150,10,.18);background:rgba(6,4,2,.55)}
+  .mnav ul{padding:8px 10px}
+  .mnav a{height:36px;font-size:13.5px;padding:0 14px}
+}
 </style>
 </head>
 <body>
@@ -427,8 +467,8 @@ a{text-decoration:none;color:inherit}
 
     <nav class="links" aria-label="Primary">
       <a href="https://zapp369.energy/roadmap">Roadmap</a>
-      <a href="#tokenomics">Tokenomics</a>
-      <a href="#platform">⚡ZAPP</a>
+      <a href="/tokenomics">Tokenomics</a>
+      <a href="/zapp">⚡ZAPP</a>
       <a href="https://zapp369.energy/news">News</a>
       <a href="/deck">Deck</a>
       <a href="https://zapp369.energy">Website</a>
@@ -453,8 +493,8 @@ a{text-decoration:none;color:inherit}
       <p class="menu-eyebrow">Menu</p>
       <ul class="menu-list">
         <li><a href="https://zapp369.energy/roadmap">Roadmap</a></li>
-        <li><a href="#tokenomics">Tokenomics</a></li>
-        <li><a href="#platform">⚡ZAPP</a></li>
+        <li><a href="/tokenomics">Tokenomics</a></li>
+        <li><a href="/zapp">⚡ZAPP</a></li>
         <li><a href="https://zapp369.energy/news">News</a></li>
         <li><a href="/deck">Deck</a></li>
         <li><a href="https://zapp369.energy">Website</a></li>
@@ -486,6 +526,19 @@ a{text-decoration:none;color:inherit}
       <a class="ghost wp" href="/deck">White Paper<i>&#8594;</i></a>
     </div>
   </main>
+
+  <nav class="mnav" aria-label="Sections">
+    <ul>
+      <li><a href="https://zapp369.energy/roadmap">Roadmap</a></li>
+      <li><a href="/tokenomics">Tokenomics</a></li>
+      <li><a href="/zapp">⚡ZAPP</a></li>
+      <li><a href="https://zapp369.energy/news">News</a></li>
+      <li><a href="/deck">Deck</a></li>
+      <li><a href="https://zapp369.energy/">Website</a></li>
+      <li><a href="https://zapp369.com">Shop</a></li>
+    </ul>
+  </nav>
+  
 
   <div class="logos" aria-label="Where you can find ⚡ZAPP">
     <a class="lg lg0" href="https://www.instagram.com/zapp369.energy/" target="_blank" rel="noopener">
@@ -530,217 +583,15 @@ a{text-decoration:none;color:inherit}
       </svg><b>X</b>
     </a>
   </div>
+  <p class="herofine">Meme coin and community brand, for entertainment only. Nothing here is financial advice
+    or an offer. <a href="/tokenomics">Full disclaimer</a></p>
+
+
 
 </div>
 
-<!-- ══ 01 · THE NUMBERS ═══════════════════════════════ -->
-<section class="sec" id="numbers">
-  <div class="sec-in">
-    <p class="eyebrow">Where we stand · August 2026</p>
-    <h2>Everything that is already real</h2>
-    <p class="lead">Three and a half months from launch, with no fund, no backer and no paid promotion.
-       Every number below can be checked by a stranger in under a minute.</p>
-
-    <div class="grid g4">
-      <div class="box"><div class="n">$0.000110</div><div class="l">price today</div></div>
-      <div class="box"><div class="n">$110K</div><div class="l">market cap</div></div>
-      <div class="box"><div class="n">$27.2K</div><div class="l">liquidity, burned</div></div>
-      <div class="box"><div class="n">0%</div><div class="l">buy and sell tax</div></div>
-    </div>
-    <div class="grid g4">
-      <div class="box"><div class="n">3.69M</div><div class="l">⚡ZAPP in the treasury, and adding up</div></div>
-      <div class="box"><div class="n">1M+</div><div class="l">views on TikTok</div></div>
-      <div class="box"><div class="n">198</div><div class="l">commands in our own Telegram bot</div></div>
-      <div class="box"><div class="n">673</div><div class="l">holders</div></div>
-    </div>
-
-    <p class="note"><strong style="color:var(--ink)">Honest about the stage.</strong>
-      A small cap in its first months, and it has taken real damage. The chart is a long way down from its high
-      and we are not going to dress that up. What we point at instead is the last 24 hours — 22 buys against 14 sells,
-      and the most recent 6 hours all buys and no sells. Liquidity is burned so it can never be pulled, tax is zero,
-      and the contract is public. You do not have to trust us on any of it.</p>
-  </div>
-</section>
 
 
-<!-- ══ TOKENOMICS ═════════════════════════════════════ -->
-<section class="sec" id="tokenomics">
-  <div class="sec-in">
-    <p class="eyebrow">Tokenomics</p>
-    <h2>No tax. No unlocks. Nothing hidden.</h2>
-    <p class="lead">The contract takes nothing and the liquidity cannot be pulled. Everything below is on chain
-       and checkable in under a minute, without asking us for permission.</p>
-
-    <div class="grid g4">
-      <div class="box"><div class="n">999.83M</div><div class="l">total supply</div></div>
-      <div class="box"><div class="n">31.44%</div><div class="l">of supply locked in Jupiter Lockers</div></div>
-      <div class="box"><div class="n">0%</div><div class="l">buy tax and sell tax</div></div>
-      <div class="box"><div class="n">673</div><div class="l">holders</div></div>
-    </div>
-    <div class="grid g4">
-      <div class="box"><div class="n">100%</div><div class="l">of LP locked, it cannot be pulled</div></div>
-      <div class="box"><div class="n">Revoked</div><div class="l">mint <em style="font-style:normal;color:var(--muted)">and</em> freeze authority</div></div>
-      <div class="box"><div class="n">0</div><div class="l">risks flagged by RugCheck</div></div>
-      <div class="box"><div class="n">3.69M</div><div class="l">⚡ZAPP held in the treasury</div></div>
-    </div>
-
-    <div class="grid g3">
-      <div class="box"><h3>Nearly a third of supply is locked</h3>
-        <p>314M ⚡ZAPP, <strong style="color:var(--ink)">31.44% of total supply</strong>, sits in four Jupiter Lockers —
-           96M, 94M, 78M and 46M. Locked supply cannot be sold into the market, which is the single most common way
-           small tokens get destroyed. Every locker address is public and clickable on RugCheck.</p></div>
-      <div class="box"><h3>The pool cannot be pulled</h3>
-        <p>100% of the LP tokens are locked. A rug pull works by withdrawing the liquidity pool and leaving holders
-           with something they cannot sell. That exit does not exist here, and it is not a promise we are making —
-           it is a fact you can verify on chain in about thirty seconds.</p></div>
-      <div class="box"><h3>Nobody can print more</h3>
-        <p>Mint authority is revoked, so no new ⚡ZAPP can ever be created. Freeze authority is revoked too, so no
-           wallet can be frozen out of its own tokens. RugCheck returns a score of 1, their best result, with
-           <strong style="color:var(--ink)">no risks found</strong>.</p></div>
-    </div>
-
-    <h2 style="font-size:clamp(20px,2.2vw,28px);margin-top:clamp(34px,4.5vh,56px)">Where every euro of profit goes</h2>
-    <div class="grid g4">
-      <div class="box"><div class="n">40%</div><div class="l">grows the treasury, lifting the floor under every coin</div></div>
-      <div class="box"><div class="n">30%</div><div class="l">buys ⚡ZAPP back and burns it, shrinking supply</div></div>
-      <div class="box"><div class="n">20%</div><div class="l">pays the people who build, in real wages</div></div>
-      <div class="box"><div class="n">10%</div><div class="l">the cause, and running costs</div></div>
-    </div>
-
-    <div class="grid g3">
-      <div class="box"><h3>The floor engine</h3>
-        <p>Value behind one coin equals treasury value divided by number of coins. Two honest ways to push it up,
-           both paid by real money in. Grow the pot so the top number rises, or buy coins back and remove them so
-           the bottom number falls. Simple arithmetic, and anyone can audit it.</p></div>
-      <div class="box"><h3>The double burn</h3>
-        <p>Bought coins go down one of two drains. Burned to null, gone forever, so the floor rises. Or locked into
-           liquidity, so the market gets deeper and can never be pulled. The community chooses the mix.</p></div>
-      <div class="box"><h3>Why it does not explode</h3>
-        <p>1 + ½ + ¼ + ⅛ … = 2. Recycle a share each cycle and it settles rather than running away. The part that is
-           not recycled, paying people and funding the cause, is exactly what keeps the maths honest.</p></div>
-    </div>
-
-    <p class="note"><strong style="color:var(--ink)">Independently checked, not self reported.</strong>
-      RugCheck rates ⚡ZAPP <strong style="color:var(--ink)">GOOD with a score of 1</strong>, their strongest result, and
-      returns <strong style="color:var(--ink)">no risks found</strong>. LP 100% locked, 31.44% of supply locked, mint and
-      freeze authority both revoked, not rugged, 673 holders. None of that is our claim. Read it yourself at
-      <a href="https://rugcheck.xyz/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" style="color:var(--pill)">rugcheck.xyz</a>.</p>
-
-    <p class="note"><strong style="color:var(--ink)">What we will never do.</strong>
-      We do not promise a return, a price, or a date on which anyone gets rich. We grow the floor and we publish the
-      number either way, including the months it does not move. Reward people for what they build, never for how much
-      they hold.</p>
-  </div>
-</section>
-
-<!-- ══ 02 · THE PLATFORM ══════════════════════════════ -->
-<section class="sec" id="platform">
-  <div class="sec-in">
-    <p class="eyebrow">What is already live</p>
-    <h2>This is not a token with a website</h2>
-    <p class="lead">Most projects ship a chart and a Telegram group. ⚡ZAPP is a working product,
-       and almost all of it was built by one person in three and a half months.</p>
-
-    <div class="grid g3">
-      <div class="box"><span class="tag live">Live</span><h3>Meme Lab</h3>
-        <p>Mint Tesla grade memes from the archive or your own image. The culture engine, and the reason people stay.</p></div>
-      <div class="box"><span class="tag live">Live</span><h3>The Academy</h3>
-        <p>Crypto lessons, Solana basics and financial education, written plain. Teaching, not shilling.</p></div>
-      <div class="box"><span class="tag live">Live</span><h3>Earn + Burn</h3>
-        <p>Refer and earn, and watch the buyback and the double burn happen live, in public.</p></div>
-      <div class="box"><span class="tag live">Live</span><h3>⚡ZAPP Jobs</h3>
-        <p>Builders, curators and ambassadors, paid from the honest engine. Twenty percent of every euro of profit.</p></div>
-      <div class="box"><span class="tag live">Live</span><h3>Wallet &amp; Game</h3>
-        <p>Hold and move ⚡ZAPP, Ledger compatible because it is Solana. Plus the arcade layer most people walk in through.</p></div>
-      <div class="box"><span class="tag live">Live</span><h3>Dispatches</h3>
-        <p>News from the tower, dated and archived. Every update on the record, including the ones that did not go our way.</p></div>
-      <div class="box"><span class="tag soon">Next</span><h3>⚡ZAPP AI Agents</h3>
-        <p>Hire an agent to do your work — research, content, moderation, admin. Paid in ⚡ZAPP, so the token becomes the
-           unit of account for real work. Humans and agents on the same board as ⚡ZAPP Jobs, paid from the same engine.</p></div>
-      <div class="box"><span class="tag soon">Next</span><h3>Locking &amp; Staking</h3>
-        <p>Lock ⚡ZAPP into the tower and the vault deepens. Designed and waiting on the legal review, because this is
-           exactly the kind of feature that needs a lawyer looking at it first.</p></div>
-      <div class="box"><span class="tag soon">Next</span><h3>The ⚡ZAPP App</h3>
-        <p>The whole tower in your pocket, heading to the App Store. The moment a community stops living inside
-           someone else's feed and starts living somewhere it owns.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ 03 · THE DESTINATION ═══════════════════════════ -->
-<section class="sec" id="mission">
-  <div class="sec-in">
-    <p class="eyebrow">The destination</p>
-    <h2>Where this actually goes</h2>
-    <p class="lead">Tesla's Wardenclyffe tower was meant to give the world free energy. He ran out of money and it was
-       torn down. That is the unfinished business ⚡ZAPP exists to pick up — and free energy here is not a slogan,
-       it is a physical thing we intend to build with sunlight and wind.</p>
-
-    <div class="grid g3">
-      <div class="box"><h3>Communities that make their own power</h3>
-        <p>Ecovillages running on sun and wind, generating more than they consume. Panels, turbines, storage,
-           and a community that owns the lot.</p></div>
-      <div class="box"><h3>Funded by a treasury anyone can watch</h3>
-        <p>Every euro in and every euro out, on chain and public. No committee, no closed books, no trust required.</p></div>
-      <div class="box"><h3>Proven before it is scaled</h3>
-        <p>One site first, fully documented and audited in the open. If it works it repeats. If it does not,
-           everyone sees exactly why.</p></div>
-    </div>
-
-    <div class="grid g4">
-      <div class="box"><div class="n">1.3B</div><div class="l">adults still have no bank</div></div>
-      <div class="box"><div class="n">$760M+</div><div class="l">aid already sent on a blockchain</div></div>
-      <div class="box"><div class="n">6M</div><div class="l">people already helped on chain</div></div>
-      <div class="box"><div class="n">$16T</div><div class="l">assets on chain by 2030</div></div>
-    </div>
-
-    <p class="note"><strong style="color:var(--ink)">Why now.</strong>
-      None of this needed inventing. Spain plans to pass 76 GW of solar by 2030 and already has roughly 31 GW of wind,
-      giving it some of the cheapest power in Europe, and off grid solar and wind hybrid systems are projected to fall
-      another 30 to 55 percent in cost by 2030. On the money side the UN World Food Programme has already moved over
-      $760 million to more than six million people across 40 million blockchain transactions. We are not the first
-      ones on this road.<br><br>
-      <span style="color:#6B5E48">Sources · World Bank Global Findex 2025 · UN WFP Building Blocks · BCG and Standard Chartered · Spain PNIEC</span></p>
-  </div>
-</section>
-
-<!-- ══ CLOSING CTA ════════════════════════════════════ -->
-<section class="cta-band">
-  <p class="k">Two doors</p>
-  <p class="t">The tower, and the shop that helps pay for it.</p>
-  <div class="cta-row">
-    <a class="cbtn pri" href="https://zapp369.energy" target="_blank" rel="noopener">Visit zapp369.energy<i>&#8594;</i></a>
-    <a class="cbtn sec" href="https://zapp369.com" target="_blank" rel="noopener">⚡ZAPP Shop<i>&#8594;</i></a>
-  </div>
-  <p class="fine">zapp369.energy is the project. zapp369.com is the store, and every sale feeds the treasury.</p>
-</section>
-
-<footer class="foot">
-  <p class="big">Free Energy = Free Money &nbsp;∞</p>
-  <p style="color:var(--pill);font-size:15px">∞ · 3 · 6 · 9 · ∞</p>
-  <p class="lnk">
-    <a href="https://zapp369.energy">zapp369.energy</a> &nbsp;·&nbsp;
-    <a href="https://zapp369.energy/roadmap">The Master Plan</a> &nbsp;·&nbsp;
-    <a href="https://t.me/ZAPP369">Telegram</a> &nbsp;·&nbsp;
-    <a href="https://x.com/ZAPPonSOL">X</a> &nbsp;·&nbsp;
-    <a href="https://discord.com/invite/ZJexVs3HaJ">Discord</a> &nbsp;·&nbsp;
-    <a href="https://www.instagram.com/zapp369.energy/">Instagram</a> &nbsp;·&nbsp;
-    <a href="https://www.tiktok.com/@zapp369.energy">TikTok</a>
-  </p>
-  <p class="lnk" style="margin-top:8px">
-    <a href="https://www.coingecko.com/en/coins/zapp">CoinGecko</a> &nbsp;·&nbsp;
-    <a href="https://dexscreener.com/solana/gnnkakwk2pxb4ekcshro2xspjpde6b1pzxbk2h6pqpgx">DexScreener</a> &nbsp;·&nbsp;
-    <a href="https://www.dextools.io/app/token/zapp">DexTools</a> &nbsp;·&nbsp;
-    <a href="https://www.geckoterminal.com/solana/pools/GnnKAkwk2pxb4eKCsHRo2xSpJPDe6b1PzXbk2H6pqpGx">GeckoTerminal</a> &nbsp;·&nbsp;
-    <a href="https://rugcheck.xyz/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump">RugCheck</a> &nbsp;·&nbsp;
-    <a href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump">Jupiter</a>
-  </p>
-  <p class="lnk" style="font-family:'Courier New',monospace;font-size:11.5px;margin-top:12px">
-    Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump</p>
-  <p class="disc">⚡ZAPP is a community brand and a meme coin, for entertainment purposes only. Nothing on this page is
-    financial, investment, legal or tax advice, an offer of any security, or a solicitation to buy anything, and nothing
-    here is a promise that any token will rise in value. Any figure about past performance is history, not a prediction.</p>
-</footer>
 
 <script>
 (function(){
