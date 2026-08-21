@@ -439,10 +439,13 @@ a{text-decoration:none;color:inherit}
 @media (max-aspect-ratio:11/10){
   .herofine{position:relative;left:0;top:auto;transform:none;width:100%;
     margin-top:calc(18 * var(--m));font-size:calc(11.5 * var(--m))}
-  .mnav{margin-bottom:calc(20 * var(--m));border-radius:999px;position:relative;
-    border:1px solid rgba(200,150,10,.18);background:rgba(6,4,2,.55)}
-  .mnav ul{padding:8px 10px}
+  .mnav{position:absolute;left:0;right:0;top:calc(76 * var(--m));z-index:7;
+    border:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0,#000 14px,#000 calc(100% - 14px),transparent 100%)}
+  .mnav ul{padding:9px calc(26 * var(--m))}
   .mnav a{height:36px;font-size:13.5px;padding:0 14px}
+  .stage.is-open .mnav{opacity:0;pointer-events:none}
 }
 </style>
 </head>
@@ -488,6 +491,17 @@ a{text-decoration:none;color:inherit}
     </button>
   </header>
 
+  <nav class="mnav" aria-label="Sections">
+    <ul>
+      <li><a href="https://zapp369.energy/roadmap">Roadmap</a></li>
+      <li><a href="/tokenomics">Tokenomics</a></li>
+      <li><a href="https://zapp369.energy/">⚡ZAPP</a></li>
+      <li><a href="https://zapp369.energy/news">News</a></li>
+      <li><a href="/deck">Deck</a></li>
+      <li><a href="https://zapp369.com/">Store</a></li>
+          </ul>
+  </nav>
+
   <nav class="menu" id="menu" aria-hidden="true">
     <div class="menu-inner">
       <p class="menu-eyebrow">Menu</p>
@@ -526,16 +540,6 @@ a{text-decoration:none;color:inherit}
     </div>
   </main>
 
-  <nav class="mnav" aria-label="Sections">
-    <ul>
-      <li><a href="https://zapp369.energy/roadmap">Roadmap</a></li>
-      <li><a href="/tokenomics">Tokenomics</a></li>
-      <li><a href="https://zapp369.energy/">⚡ZAPP</a></li>
-      <li><a href="https://zapp369.energy/news">News</a></li>
-      <li><a href="/deck">Deck</a></li>
-      <li><a href="https://zapp369.com/">Store</a></li>
-          </ul>
-  </nav>
   
 
   <div class="logos" aria-label="Where you can find ⚡ZAPP">
