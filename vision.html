@@ -516,6 +516,24 @@ a{text-decoration:none;color:inherit}
   /* the freed row goes back to the hero */
   .stage{padding-top:calc(130 * var(--m))}
 }
+
+/* ── LANGUAGE SWITCH (top right corner) ─────────── */
+.langbtn{position:absolute;right:calc(20 * var(--u));top:calc(27 * var(--u));z-index:9;
+  width:calc(49 * var(--u));height:calc(49 * var(--u));border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:calc(15 * var(--u));font-weight:700;letter-spacing:.06em;color:var(--ink);text-decoration:none;
+  border:1px solid rgba(255,255,255,.30);background:rgba(255,255,255,.055);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  transition:background .25s ease,border-color .25s ease,color .25s ease,transform .25s cubic-bezier(.22,1,.36,1)}
+.langbtn:hover{background:rgba(255,255,255,.10);border-color:rgba(232,163,23,.9);color:#FFF3D0;
+  transform:translateY(calc(-1 * var(--u)))}
+.langbtn:focus-visible{outline:2px solid var(--pill);outline-offset:2px}
+@media (max-aspect-ratio:11/10){
+  .langbtn{right:calc(14 * var(--m));top:calc(24 * var(--m));width:calc(46 * var(--m));height:calc(46 * var(--m));
+    font-size:calc(14 * var(--m))}
+  .mnav{right:calc(66 * var(--m)) !important}
+  html[lang="es"] .headline{font-size:calc(41 * var(--m));line-height:calc(48 * var(--m));max-width:calc(300 * var(--m))}
+}
 </style>
 
 <!-- link preview card -->
@@ -561,18 +579,20 @@ a{text-decoration:none;color:inherit}
 
     <nav class="links" aria-label="Primary">
       <a href="/tokenomics">Tokenomics</a>
-      <a href="https://zapp369.com/">Store</a>
-      <a href="https://zapp369.energy/news">News</a>
+      <a href="https://zapp369.com/" data-i18n="store">Store</a>
+      <a href="https://zapp369.energy/news" data-i18n="news">News</a>
     </nav>
 
     <div class="buywrap buywrap-nav">
-      <button class="pill pill-nav" id="buyNav" aria-haspopup="true" aria-expanded="false"><span>Buy ⚡ZAPP</span></button>
+      <button class="pill pill-nav" id="buyNav" aria-haspopup="true" aria-expanded="false"><span data-i18n="buy">Buy ⚡ZAPP</span></button>
       <div class="buymenu" id="buyMenuNav" role="menu">
         <a role="menuitem" href="https://phantom.com/tokens/solana/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump?referralId=k31pepyasnt" target="_blank" rel="noopener">Phantom</a>
         <a role="menuitem" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">Jupiter</a>
-        <a role="menuitem" href="#" onclick="return false;" style="opacity:.55;cursor:default;" aria-disabled="true">Ledger · coming soon</a>
+        <a role="menuitem" href="#" onclick="return false;" style="opacity:.55;cursor:default;" aria-disabled="true" data-i18n="ledger">Ledger · coming soon</a>
       </div>
     </div>
+
+    <a class="langbtn" href="?lang=es" data-langlink lang="es" hreflang="es" aria-label="Español" title="Español">ES</a>
 
     <button class="burger" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
       <i></i><i></i>
@@ -582,49 +602,49 @@ a{text-decoration:none;color:inherit}
   <nav class="mnav" aria-label="Sections">
     <ul>
     <li><a href="/tokenomics">Tokenomics</a></li>
-    <li><a href="https://zapp369.com/">Store</a></li>
-    <li><a href="https://zapp369.energy/news">News</a></li>
+    <li><a href="https://zapp369.com/" data-i18n="store">Store</a></li>
+    <li><a href="https://zapp369.energy/news" data-i18n="news">News</a></li>
   </ul>
   </nav>
 
   <nav class="menu" id="menu" aria-hidden="true">
     <div class="menu-inner">
-      <p class="menu-eyebrow">Menu</p>
+      <p class="menu-eyebrow" data-i18n="menu">Menu</p>
       <ul class="menu-list">
     <li><a href="/tokenomics">Tokenomics</a></li>
-    <li><a href="https://zapp369.com/">Store</a></li>
-    <li><a href="https://zapp369.energy/news">News</a></li>
+    <li><a href="https://zapp369.com/" data-i18n="store">Store</a></li>
+    <li><a href="https://zapp369.energy/news" data-i18n="news">News</a></li>
   </ul>
       <div class="menu-foot">
-        <a class="pill" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump"><span>Buy ⚡ZAPP</span></a>
-        <a class="ghost" href="https://zapp369.energy/roadmap">The Roadmap</a>
+        <a class="pill" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump"><span data-i18n="buy">Buy ⚡ZAPP</span></a>
+        <a class="ghost" href="https://zapp369.energy/roadmap" data-i18n="theRoadmap">The Roadmap</a>
       </div>
     </div>
   </nav>
 
   <main class="hero">
-    <h1 class="headline"><span>Free Energy</span> <span>= <em>Free Money</em><i class="inf">&#8734;</i></span></h1>
+    <h1 class="headline" data-i18n-html="headline"><span>Free Energy</span> <span>= <em>Free Money</em><i class="inf">&#8734;</i></span></h1>
     <p class="sub">
-      <span>A community, a token, and a plan</span>
-      <span>to finish what Tesla started.</span>
+      <span data-i18n="sub1">A community, a token, and a plan</span>
+      <span data-i18n="sub2">to finish what Tesla started.</span>
     </p>
     <div class="actions">
       <div class="buywrap buywrap-cta">
-        <button class="pill pill-cta" id="buyCta" aria-haspopup="true" aria-expanded="false"><span>Buy ⚡ZAPP</span></button>
+        <button class="pill pill-cta" id="buyCta" aria-haspopup="true" aria-expanded="false"><span data-i18n="buy">Buy ⚡ZAPP</span></button>
         <div class="buymenu" id="buyMenuCta" role="menu">
           <a role="menuitem" href="https://phantom.com/tokens/solana/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump?referralId=k31pepyasnt" target="_blank" rel="noopener">Phantom</a>
           <a role="menuitem" href="https://jup.ag/tokens/Ab16ce5SDbibTbXevxHLpqUnUvu9tNkkpaJcSDvCpump" target="_blank" rel="noopener">Jupiter</a>
-          <a role="menuitem" href="#" onclick="return false;" style="opacity:.55;cursor:default;" aria-disabled="true">Ledger · coming soon</a>
+          <a role="menuitem" href="#" onclick="return false;" style="opacity:.55;cursor:default;" aria-disabled="true" data-i18n="ledger">Ledger · coming soon</a>
         </div>
       </div>
-      <a class="ghost" href="https://zapp369.energy/roadmap">Roadmap<i>&#8594;</i></a>
-      <a class="ghost wp" href="/ZAPP_Whitepaper_369.pdf" target="_blank" rel="noopener">White Paper<i>&#8594;</i></a>
+      <a class="ghost" href="https://zapp369.energy/roadmap"><span data-i18n="roadmap">Roadmap</span><i>&#8594;</i></a>
+      <a class="ghost wp" href="/ZAPP_Whitepaper_369.pdf" target="_blank" rel="noopener"><span data-i18n="whitepaper">White Paper</span><i>&#8594;</i></a>
     </div>
   </main>
 
   
 
-  <div class="logos" aria-label="Where you can find ⚡ZAPP">
+  <div class="logos" aria-label="Where you can find ⚡ZAPP" data-i18n-aria="logos">
     <a class="lg lg0" href="https://www.instagram.com/zapp369.energy/" target="_blank" rel="noopener">
       <svg viewBox="0 0 28 28" fill="none" aria-hidden="true">
         <rect x="1.6" y="1.6" width="24.8" height="24.8" rx="7.2" stroke="currentColor" stroke-width="3"/>
@@ -667,8 +687,8 @@ a{text-decoration:none;color:inherit}
       </svg><b>TikTok</b>
     </a>
   </div>
-  <p class="herofine">Meme coin and community brand, for entertainment only. Nothing here is financial advice
-    or an offer. <a href="/tokenomics">Full disclaimer</a></p>
+  <p class="herofine"><span data-i18n="fine">Meme coin and community brand, for entertainment only. Nothing here is financial advice
+    or an offer.</span> <a href="/tokenomics" data-i18n="disclaimer">Full disclaimer</a></p>
 
 
 
@@ -679,6 +699,63 @@ a{text-decoration:none;color:inherit}
 
 <script>
 (function(){
+  /* ── EN / ES ─────────────────────────────────── */
+  var I18N={
+    en:{title:'\u26A1ZAPP \u2014 Free Energy = Free Money',
+        desc:'A community, a token, and a plan to finish what Tesla started. Free Energy = Free Money. On Solana.',
+        store:'Store',news:'News',buy:'Buy \u26A1ZAPP',ledger:'Ledger \u00B7 coming soon',menu:'Menu',
+        theRoadmap:'The Roadmap',roadmap:'Roadmap',whitepaper:'White Paper',
+        headline:'<span>Free Energy</span> <span>= <em>Free Money</em><i class="inf">&#8734;</i></span>',
+        sub1:'A community, a token, and a plan',sub2:'to finish what Tesla started.',
+        fine:'Meme coin and community brand, for entertainment only. Nothing here is financial advice or an offer.',
+        disclaimer:'Full disclaimer',logos:'Where you can find \u26A1ZAPP',open:'Open menu',close:'Close menu',
+        other:'es',otherLabel:'Espa\u00F1ol'},
+    es:{title:'\u26A1ZAPP \u00B7 Energ\u00EDa Libre = Dinero Libre',
+        desc:'Una comunidad, un token y un plan para terminar lo que Tesla empez\u00F3. Energ\u00EDa Libre = Dinero Libre. En Solana.',
+        store:'Tienda',news:'Noticias',buy:'Comprar \u26A1ZAPP',ledger:'Ledger \u00B7 pr\u00F3ximamente',menu:'Men\u00FA',
+        theRoadmap:'La hoja de ruta',roadmap:'Hoja de ruta',whitepaper:'Whitepaper',
+        headline:'<span>Energ\u00EDa Libre</span> <span>= <em>Dinero Libre</em><i class="inf">&#8734;</i></span>',
+        sub1:'Una comunidad, un token y un plan',sub2:'para terminar lo que Tesla empez\u00F3.',
+        fine:'Meme coin y marca de comunidad, solo para entretenimiento. Nada de lo que ves aqu\u00ED es asesoramiento financiero ni una oferta.',
+        disclaimer:'Aviso legal completo',logos:'D\u00F3nde encontrar \u26A1ZAPP',open:'Abrir men\u00FA',close:'Cerrar men\u00FA',
+        other:'en',otherLabel:'English'}
+  };
+  var LANG='en';
+  function T(k){ return (I18N[LANG]&&I18N[LANG][k])||I18N.en[k]; }
+  function pick(){
+    var q=(location.search.match(/[?&]lang=(en|es)\b/)||[])[1];
+    if(q) return q;
+    try{ var s=localStorage.getItem('zapp_lang'); if(s==='en'||s==='es') return s; }catch(e){}
+    var n=(navigator.languages&&navigator.languages[0])||navigator.language||'en';
+    return /^es\b/i.test(n)?'es':'en';
+  }
+  function apply(lang){
+    LANG=I18N[lang]?lang:'en';
+    var d=I18N[LANG];
+    document.documentElement.lang=LANG;
+    document.title=d.title;
+    var md=document.querySelector('meta[name="description"]'); if(md) md.setAttribute('content',d.desc);
+    document.querySelectorAll('[data-i18n]').forEach(function(el){ var k=el.getAttribute('data-i18n'); if(d[k]!=null) el.textContent=d[k]; });
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el){ var k=el.getAttribute('data-i18n-html'); if(d[k]!=null) el.innerHTML=d[k]; });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function(el){ var k=el.getAttribute('data-i18n-aria'); if(d[k]!=null) el.setAttribute('aria-label',d[k]); });
+    document.querySelectorAll('[data-langlink]').forEach(function(a){
+      a.textContent=d.other.toUpperCase(); a.setAttribute('lang',d.other); a.setAttribute('href','?lang='+d.other);
+      a.setAttribute('hreflang',d.other); a.setAttribute('aria-label',d.otherLabel); a.setAttribute('title',d.otherLabel);
+    });
+    var b=document.getElementById('burger');
+    if(b) b.setAttribute('aria-label', b.getAttribute('aria-expanded')==='true'?d.close:d.open);
+  }
+  apply(pick());
+  document.querySelectorAll('[data-langlink]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var next=I18N[LANG].other;
+      try{ localStorage.setItem('zapp_lang',next); }catch(err){}
+      try{ var u=new URL(location.href); u.searchParams.set('lang',next); history.replaceState(null,'',u.toString()); }catch(err){}
+      apply(next);
+    });
+  });
+
   var stage=document.getElementById('stage'),
       burger=document.getElementById('burger'),
       menu=document.getElementById('menu');
@@ -686,7 +763,7 @@ a{text-decoration:none;color:inherit}
   function set(open){
     stage.classList.toggle('is-open',open);
     burger.setAttribute('aria-expanded',open?'true':'false');
-    burger.setAttribute('aria-label',open?'Close menu':'Open menu');
+    burger.setAttribute('aria-label',open?T('close'):T('open'));
     menu.setAttribute('aria-hidden',open?'false':'true');
   }
   burger.addEventListener('click',function(){ set(!stage.classList.contains('is-open')); });
