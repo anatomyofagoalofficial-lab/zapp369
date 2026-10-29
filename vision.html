@@ -723,11 +723,10 @@ a{text-decoration:none;color:inherit}
   var LANG='en';
   function T(k){ return (I18N[LANG]&&I18N[LANG][k])||I18N.en[k]; }
   function pick(){
+    /* English is the default for everyone. Spanish only with ?lang=es (the ES button sets it). */
+    try{ localStorage.removeItem('zapp_lang'); }catch(e){}
     var q=(location.search.match(/[?&]lang=(en|es)\b/)||[])[1];
-    if(q) return q;
-    try{ var s=localStorage.getItem('zapp_lang'); if(s==='en'||s==='es') return s; }catch(e){}
-    var n=(navigator.languages&&navigator.languages[0])||navigator.language||'en';
-    return /^es\b/i.test(n)?'es':'en';
+    return q==='es'?'es':'en';
   }
   function apply(lang){
     LANG=I18N[lang]?lang:'en';
@@ -750,8 +749,7 @@ a{text-decoration:none;color:inherit}
     a.addEventListener('click',function(e){
       e.preventDefault();
       var next=I18N[LANG].other;
-      try{ localStorage.setItem('zapp_lang',next); }catch(err){}
-      try{ var u=new URL(location.href); u.searchParams.set('lang',next); history.replaceState(null,'',u.toString()); }catch(err){}
+      try{ var u=new URL(location.href); if(next==='es'){ u.searchParams.set('lang','es'); } else { u.searchParams.delete('lang'); } history.replaceState(null,'',u.toString()); }catch(err){}
       apply(next);
     });
   });
