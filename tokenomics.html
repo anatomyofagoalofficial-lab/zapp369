@@ -175,7 +175,7 @@ footer .disc{font-size:.72rem;max-width:760px;margin:16px auto 0;line-height:1.6
     <div class="stat"><div class="n" id="sPrice">$0.00012</div><div class="l">price</div></div>
     <div class="stat"><div class="n" id="sMcap">$118K</div><div class="l">market cap</div></div>
     <div class="stat"><div class="n" id="sLiq">$32K</div><div class="l">liquidity</div></div>
-    <div class="stat"><div class="n" id="sHold">632</div><div class="l">holders</div></div>
+    <div class="stat"><div class="n" id="sHold">420</div><div class="l">holders</div></div>
     <div class="stat"><div class="n" id="sVol">$557</div><div class="l">24h volume</div></div>
     <div class="stat"><div class="n">999.8M</div><div class="l">total supply</div></div>
   </div>
@@ -408,7 +408,7 @@ footer .disc{font-size:.72rem;max-width:760px;margin:16px auto 0;line-height:1.6
     }catch(e){}
     try{
       const r=await fetch('https://api.rugcheck.xyz/v1/tokens/'+CA+'/report').then(r=>r.json());
-      if(r.totalHolders)countTo(document.getElementById('sHold'),r.totalHolders,v=>Math.round(v).toLocaleString('en'),1400);
+      // holders: fixed to the Solscan count (RugCheck also counts empty wallets)
       const risks=(r.risks||[]).length,score=r.score_normalised??r.score;
       if(score!=null)document.getElementById('cScore').textContent=(risks===0?'GOOD, score of '+score+', their strongest result. No risks found.':'Score of '+score+', '+risks+' item'+(risks>1?'s':'')+' flagged. Read the full report below.');
       document.getElementById('cRug').textContent=r.rugged?'Flagged by RugCheck. Read the report.':'Not rugged.';
